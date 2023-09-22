@@ -13,6 +13,7 @@ import DocumentsRoutes from "./features/documents/documents-routes";
 function App() {
   const { publish } = useAppCominicator();
   const HomePage = lazy(() => import("./common/components/home.page"));
+  const GeneralConfigurationPage = lazy(() => import("./features/general-configuration/pages/general-configuration.page"));
 
   // Effect que comunica la aplicacion actual
   useEffect(() => {
@@ -35,6 +36,7 @@ function App() {
                 path={"/gestion-documental/documentos/*"}
                 element={<DocumentsRoutes />}
               />
+              <Route path={"/gestion-documental/administracion/configuracion-general"} element={<GeneralConfigurationPage />} />;
             </Routes>
           </Suspense>
         </Router>

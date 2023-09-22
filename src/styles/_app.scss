@@ -68,4 +68,65 @@ div[id="single-spa-application:@sapiencia/document-management"] {
   &.gap-25 {
     gap: 25px;
   }
+
+  &.gap-33 {
+    gap: 33.3px;
+  }
+}
+
+.general-configuration-page{
+  font-size: 'Rubik';
+  .color-black {
+    color: black;
+  }
+
+  .space-between {
+    justify-content: space-between;
+  }
+
+  .d-flex {
+    display: flex;
+  }
+
+  .w-100 {
+    width: 100%;
+  }
+
+  .save-button { 
+    padding: 12px 16px 12px 16px;
+    border: none;
+    border-radius: 100px;
+    width: 162px;
+    height: 41px;
+  }
+
+  .cancel-button { 
+    padding: 12px 16px 12px 16px;
+    color: black;
+    border: 1px solid black;
+    border-radius: 100px;
+    background-color: transparent;
+    width: 121p;
+    height: 41px;
+    
+    
+  }
+
+  .cursor-pointer { 
+    cursor: pointer;
+  }
+
+  .save-button-active {
+    background-color: #533893;
+    color: white;
+  }
+
+  .save-button-disabled {
+    background-color: #E2E2E2;
+    color: black;
+  }
+}
+
+.text-black {
+  text-align: center;
 }
