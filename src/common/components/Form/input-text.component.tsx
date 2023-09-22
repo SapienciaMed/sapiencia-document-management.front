@@ -3,9 +3,9 @@ import { EDirection } from "../../constants/input.enum";
 import { LabelComponent } from "./label.component";
 
 import { Control, Controller } from "react-hook-form";
-import { InputNumber } from "primereact/inputnumber";
+import { InputText } from "primereact/inputtext";
 
-interface IInputnumber<T> {
+interface IInputText<T> {
 	idInput: string;
 	control: Control<any>;
 	className?: string;
@@ -17,18 +17,15 @@ interface IInputnumber<T> {
 	errors?: any;
 	disabled?: boolean;
 	fieldArray?: boolean;
-	mode?: "decimal" | "currency";
-	minFractionDigits?: number;
-	maxFractionDigits?: number;
 	prefix?: string;
 	suffix?: string;
-	currency?: string;
 	locale?: string;
 	min?: number;
 	max?: number;
 	useGrouping?: boolean;
 	optionsRegister?: {};
 	shouldUnregister?: boolean;
+	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 function LabelElement({ label, idInput, classNameLabel }): React.JSX.Element {
@@ -42,11 +39,11 @@ function LabelElement({ label, idInput, classNameLabel }): React.JSX.Element {
 	);
 }
 
-export function InputNumberComponent({
+export function InputTextComponent({
 	idInput,
 	control,
 	className = "select-basic",
-	placeholder = "0",
+	placeholder = "",
 	label,
 	classNameLabel = "text-main",
 	direction = EDirection.column,
@@ -54,19 +51,13 @@ export function InputNumberComponent({
 	errors = {},
 	disabled,
 	fieldArray,
-	mode,
-	minFractionDigits,
-	maxFractionDigits,
 	prefix,
-	suffix,
-	currency,
-	locale,
 	min,
 	max,
-	useGrouping = true,
 	optionsRegister,
 	shouldUnregister,
-}: IInputnumber<any>): React.JSX.Element {
+	onBlur,
+}: IInputText<any>): React.JSX.Element {
 	const messageError = () => {
 		const keysError = idInput.split(".");
 		let errs = errors;
@@ -102,26 +93,21 @@ export function InputNumberComponent({
 					rules={optionsRegister}
 					shouldUnregister={shouldUnregister}
 					render={({ field }) => (
-						<InputNumber
+						<InputText
 							id={field.name}
-							onChange={(e) => field.onChange(e.value)}
-							onBlur={(e) => field.onBlur()}
+							onChange={(e) => field.onChange(e.target.value)}
+							onBlur={onBlur}
 							placeholder={placeholder}
 							value={field.value}
-							className={`${className} ${
-								messageError() ? "p-invalid" : ""
-							}`}
+							className={
+								messageError()
+									? `${className} error`
+									: className
+							}
 							disabled={disabled}
-							mode={mode}
-							minFractionDigits={minFractionDigits}
-							maxFractionDigits={maxFractionDigits}
 							prefix={prefix}
-							suffix={suffix}
-							currency={currency}
-							locale={locale}
 							min={min}
 							max={max}
-							useGrouping={useGrouping}
 						/>
 					)}
 				/>

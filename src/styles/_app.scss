@@ -1,4 +1,5 @@
-
+@import "./styles.scss";
+@import "./mixins.scss";
 // :root {
 //   --color-black: #0b060e;
 //   --color-gray: #535353;
@@ -11,122 +12,120 @@
 // }
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: "RubikMedium", sans-serif;
-  // font-size: 16px;
+	padding: 0;
+	margin: 0;
+	font-family: "RubikMedium", sans-serif;
+	// font-size: 16px;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
-  .link {
-    color: var(--color-theme-1) !important;
-    text-decoration: underline !important;
-  }
+	color: inherit;
+	text-decoration: none;
+	.link {
+		color: var(--color-theme-1) !important;
+		text-decoration: underline !important;
+	}
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 hr {
-  margin-top: 8px;
-  margin-bottom: 8px;
+	margin-top: 8px;
+	margin-bottom: 8px;
 
-  position: relative;
-  color: var(--color-theme-1);
+	position: relative;
+	color: var(--color-theme-1);
 }
 
 .text-center {
-  text-align: center;
+	text-align: center;
 }
 
 .bold {
-  font-weight: bold;
+	font-weight: bold;
 }
 
 .weight-900 {
-  font-weight: 900;
+	font-weight: 900;
 }
 
 .not-margin-padding {
-  padding: 0;
-  margin: 0;
+	padding: 0;
+	margin: 0;
 }
 
 .pointer {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 div[id="single-spa-application:@sapiencia/document-management"] {
-  height: 100%;
+	height: 100%;
 }
 .grid {
-  display: grid;
+	display: grid;
 
-  &.gap-25 {
-    gap: 25px;
-  }
+	&.gap-25 {
+		gap: 25px;
+	}
 
-  &.gap-33 {
-    gap: 33.3px;
-  }
+	&.gap-33 {
+		gap: 33.3px;
+	}
 }
 
-.general-configuration-page{
-  font-size: 'Rubik';
-  .color-black {
-    color: black;
-  }
+.general-configuration-page {
+	font-size: "Rubik";
+	.color-black {
+		color: black;
+	}
 
-  .space-between {
-    justify-content: space-between;
-  }
+	.space-between {
+		justify-content: space-between;
+	}
 
-  .d-flex {
-    display: flex;
-  }
+	.d-flex {
+		display: flex;
+	}
 
-  .w-100 {
-    width: 100%;
-  }
+	.w-100 {
+		width: 100%;
+	}
 
-  .save-button { 
-    padding: 12px 16px 12px 16px;
-    border: none;
-    border-radius: 100px;
-    width: 162px;
-    height: 41px;
-  }
+	.save-button {
+		padding: 12px 16px 12px 16px;
+		border: none;
+		border-radius: 100px;
+		width: 162px;
+		height: 41px;
+	}
 
-  .cancel-button { 
-    padding: 12px 16px 12px 16px;
-    color: black;
-    border: 1px solid black;
-    border-radius: 100px;
-    background-color: transparent;
-    width: 121p;
-    height: 41px;
-    
-    
-  }
+	.cancel-button {
+		padding: 12px 16px 12px 16px;
+		color: black;
+		border: 1px solid black;
+		border-radius: 100px;
+		background-color: transparent;
+		width: 121p;
+		height: 41px;
+	}
 
-  .cursor-pointer { 
-    cursor: pointer;
-  }
+	.cursor-pointer {
+		cursor: pointer;
+	}
 
-  .save-button-active {
-    background-color: #533893;
-    color: white;
-  }
+	.save-button-active {
+		background-color: #533893;
+		color: white;
+	}
 
-  .save-button-disabled {
-    background-color: #E2E2E2;
-    color: black;
-  }
+	.save-button-disabled {
+		background-color: #e2e2e2;
+		color: black;
+	}
 }
 
 .text-black {
-  text-align: center;
+	text-align: center;
 }
