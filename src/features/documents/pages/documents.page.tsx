@@ -1,7 +1,7 @@
 import React from "react";
 
 const DocumentsPage = () => {
-  return <>Page</>;
+	return <>Hola</>;
 };
 
 export default React.memo(DocumentsPage);
