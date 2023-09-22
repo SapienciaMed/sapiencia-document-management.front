@@ -1,5 +1,5 @@
 import React, { Children, useState } from "react";
-import styles from "./radicado.module.scss";
+import styles from "./document-received.module.scss";
 import {
 	FormComponent,
 	InputComponent,

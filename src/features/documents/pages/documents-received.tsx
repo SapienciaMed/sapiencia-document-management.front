@@ -2,13 +2,13 @@ import { useRef } from "react";
 import { ButtonComponent } from "../../../common/components/Form";
 import AccordionsComponent from "../../../common/components/accordions.component";
 import { IAccordionTemplate } from "../../../common/interfaces/accordions.interfaces";
-import RadicadoDetails from "../components/radicado/radicado-details";
-import SenderData from "../components/radicado/sender-data";
-import BasicDocumentInformation from "../components/radicado/basic-document-information";
-import RecipientData from "../components/radicado/recipient-data";
-import AddRecipient from "../components/radicado/add-recipient";
-import Subject from "../components/radicado/subject";
-import OptionalFields from "../components/radicado/optional-fields";
+import RadicadoDetails from "../components/document-received/radicado-details";
+import SenderData from "../components/document-received/sender-data";
+import BasicDocumentInformation from "../components/document-received/basic-document-information";
+import RecipientData from "../components/document-received/recipient-data";
+import AddRecipient from "../components/document-received/add-recipient";
+import Subject from "../components/document-received/subject";
+import OptionalFields from "../components/document-received/optional-fields";
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const accordionsData: IAccordionTemplate[] = [

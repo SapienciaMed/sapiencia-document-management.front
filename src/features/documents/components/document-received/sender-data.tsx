@@ -1,27 +1,27 @@
 import React from "react";
-import styles from "./radicado.module.scss";
+import styles from "./document-received.module.scss";
 import {
 	FormComponent,
 	InputComponent,
 } from "../../../../common/components/Form";
+import { HiOutlineSearch } from "react-icons/hi";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
-import { HiOutlineSearch } from "react-icons/hi";
 
-const RecipientData = () => {
+const SenderData = () => {
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 
 	const schema = yup.object({
-		dirigido_a: yup.string().max(12).required(),
-		nombres_apellidos_destinatario: yup.string(),
-		pais_destinatario: yup.string(),
-		departamento_destinatario: yup.string(),
-		municipio_destinatario: yup.string(),
+		enviado_por: yup.string().max(12),
+		nombres_apellidos: yup.string(),
+		pais: yup.string(),
+		departamento: yup.string(),
+		municipio: yup.string(),
 	});
 
 	const {
@@ -30,29 +30,27 @@ const RecipientData = () => {
 		setValue,
 		getValues,
 		formState: { errors },
-	} = useForm<IRecipientDataForm>({
+	} = useForm<ISenderDataForm>({
 		resolver: yupResolver(schema),
 		mode: "all",
 	});
 
 	const onBlurData = () => {
-		const idNumber = getValues("dirigido_a");
+		const idNumber = getValues("enviado_por");
 		console.log("idNumber", idNumber);
 
 		if (idNumber) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
+				console.log("data", message);
 				if (data !== null) {
 					console.log("data x", message);
 					setValue(
-						"nombres_apellidos_destinatario",
+						"nombres_apellidos",
 						data.usr_nombre + " " + data.usr_apellidos
 					);
-					setValue("pais_destinatario", data.usr_pais);
-					setValue(
-						"departamento_destinatario",
-						data.usr_departamento
-					);
-					setValue("municipio_destinatario", data.usr_municipio);
+					setValue("pais", data.usr_pais);
+					setValue("departamento", data.usr_departamento);
+					setValue("municipio", data.usr_municipio);
 				} else {
 					console.log(message.error);
 				}
@@ -61,10 +59,11 @@ const RecipientData = () => {
 	};
 
 	const checkIdInDB = async (idNumber: string) => {
-		const endpoint: string = `/recipient-information/${idNumber}`;
+		const endpoint: string = `/sender-information/${idNumber}`;
 		const data = await get(`${endpoint}`);
 		return data;
 	};
+
 	return (
 		<FormComponent action={null}>
 			<div className="card-table">
@@ -74,15 +73,15 @@ const RecipientData = () => {
 					<div className={styles["search-input"]}>
 						<div className={styles["search-input-enviado"]}>
 							<InputTextComponent
-								idInput="dirigido_a"
+								idInput="enviado_por"
 								control={control}
-								label="Dirigido a"
+								label="Enviado por"
 								className="input-basic"
-								classNameLabel="text-black bold text-required"
+								classNameLabel="text-black bold"
 								errors={errors}
 								disabled={false}
 								onBlur={onBlurData}
-								min={12}
+								max={12}
 							/>
 						</div>
 						<div className={styles["icon-search"]}>
@@ -90,12 +89,12 @@ const RecipientData = () => {
 						</div>
 					</div>
 					<Controller
-						name="nombres_apellidos_destinatario"
+						name="nombres_apellidos"
 						control={control}
 						render={({ field }) => (
 							<InputComponent
-								id="nombres_apellidos_destinatario"
-								idInput="nombres_apellidos_destinatario"
+								id="nombres_apellidos"
+								idInput="nombres_apellidos"
 								value={`${field.value || ""}`}
 								label="Nombres y apellidos"
 								className="input-basic"
@@ -113,12 +112,12 @@ const RecipientData = () => {
 					className={`${styles["document-container"]} ${styles["document-container--col4"]}`}
 				>
 					<Controller
-						name="pais_destinatario"
+						name="pais"
 						control={control}
 						render={({ field }) => (
 							<InputComponent
-								id="pais_destinatario"
-								idInput="pais_destinatario"
+								id="pais"
+								idInput="pais"
 								value={`${field.value || ""}`}
 								label="Pais"
 								className="input-basic"
@@ -131,13 +130,14 @@ const RecipientData = () => {
 							/>
 						)}
 					/>
+
 					<Controller
-						name="departamento_destinatario"
+						name="departamento"
 						control={control}
 						render={({ field }) => (
 							<InputComponent
-								id="departamento_destinatario"
-								idInput="departamento_destinatario"
+								id="departamento"
+								idInput="departamento"
 								value={`${field.value || ""}`}
 								label="Departamento"
 								className="input-basic"
@@ -151,12 +151,12 @@ const RecipientData = () => {
 						)}
 					/>
 					<Controller
-						name="municipio_destinatario"
+						name="municipio"
 						control={control}
 						render={({ field }) => (
 							<InputComponent
-								id="municipio_destinatario"
-								idInput="municipio_destinatario"
+								id="municipio"
+								idInput="municipio"
 								value={`${field.value || ""}`}
 								label="Municipio"
 								className="input-basic"
@@ -175,4 +175,4 @@ const RecipientData = () => {
 	);
 };
 
-export default RecipientData;
+export default SenderData;

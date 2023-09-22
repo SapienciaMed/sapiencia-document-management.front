@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./radicado.module.scss";
+import styles from "./document-received.module.scss";
 import {
 	ButtonComponent,
 	FormComponent,

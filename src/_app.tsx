@@ -43,7 +43,9 @@ function App() {
 								element={<DocumentsRoutes />}
 							/>
 							<Route
-								path={"/gestion-documental/radicado"}
+								path={
+									"/gestion-documental/radicacion/documento-recibido"
+								}
 								element={<DocumentsReceived />}
 							/>
 						</Routes>
