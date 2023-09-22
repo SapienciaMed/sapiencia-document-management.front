@@ -20,7 +20,6 @@ export default React.memo(() => {
     const setDefaultData = () => {
         GetConfigurationById().then((response => {
             if (response.operation.code === EResponseCodes.OK) {
-                console.log(response.data);
               setData(response.data);
               onChange(response.data);
             }
@@ -35,8 +34,8 @@ export default React.memo(() => {
             setData(newData);
             await generalConfigurationValidator.validate(newData);
         } catch (err) {
-            console.log(err);
             setDisabled(true);
+            console.log(err);
         }
     }
 

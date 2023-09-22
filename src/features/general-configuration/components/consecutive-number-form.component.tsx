@@ -37,7 +37,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 classNameLabel="text-black big text-required"
                 direction={EDirection.column}
                 errors={errors}
-                onChange={(e) => onChange({ ...data, anexo: Number(e.target.value) })}
+                onChange={(e) => onChange({ ...data, anexo: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
             />
         </div>
         <div style={{ padding: '0 50px' }}>
@@ -51,7 +51,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, letter: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, letter: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
           />
         </div>
 
@@ -66,7 +66,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, expedient: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, expedient: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
           />
         </div>
       </div>
@@ -82,7 +82,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 classNameLabel="text-black big text-required"
                 direction={EDirection.column}
                 errors={errors}
-                onChange={(e) => onChange({ ...data, external: Number(e.target.value) })}
+                onChange={(e) => onChange({ ...data, external: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
             />
         </div>
         <div style={{ padding: '0 50px' }}>
@@ -96,7 +96,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, internal: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, internal: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
           />
         </div>
 
@@ -111,7 +111,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, radiable_number: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, radiable_number: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
           />
         </div>
       </div>
@@ -127,7 +127,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 classNameLabel="text-black big text-required"
                 direction={EDirection.column}
                 errors={errors}
-                onChange={(e) => onChange({ ...data, filed_number_exped: Number(e.target.value) })}
+                onChange={(e) => onChange({ ...data, filed_number_exped: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
              />
         </div>
         <div style={{ padding: '0 50px' }}>
@@ -141,7 +141,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, received: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, received: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
           />
         </div>
 
@@ -156,7 +156,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, series: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, series: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
           />
         </div>
       </div>
@@ -172,7 +172,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 classNameLabel="text-black big text-required"
                 direction={EDirection.column}
                 errors={errors}
-                onChange={(e) => onChange({ ...data, inventory_record: Number(e.target.value) })}
+                onChange={(e) => onChange({ ...data, inventory_record: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
              />
         </div>
         <div style={{ paddingLeft: 50 }}>
@@ -186,7 +186,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               classNameLabel="text-black big text-required"
               direction={EDirection.column}
               errors={errors}
-              onChange={(e) => onChange({ ...data, inventory_record_detail: Number(e.target.value) })}
+              onChange={(e) => onChange({ ...data, inventory_record_detail: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
            />
         </div>
       </div>
