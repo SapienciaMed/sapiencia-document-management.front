@@ -61,7 +61,7 @@ export default React.memo(() => {
     <div className="w-100 general-configuration-page ">
         <div className="spc-common-table expansible card-table" style={{ margin: 20 }}>
             <div className="spc-common-table expansible card-table" >
-                <h2 className="text-black biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik' }}>Configuración General</h2>
+                <h2 className="biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik', color: 'black' }}>Configuración General</h2>
                 <AccordionsComponent
                     data={[
                         { id: 1, name: "ALARMAS", content: (<></>), disabled: true },
