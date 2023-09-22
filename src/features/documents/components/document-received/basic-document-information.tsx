@@ -22,12 +22,18 @@ const BasicDocumentInformation = () => {
 
 	const schema = yup
 		.object({
-			codigo_asunto: yup.number().positive().integer().required(),
+			codigo_asunto: yup
+				.number()
+				.typeError("Debe ser un número")
+				.positive("No debe ser negativo")
+				.integer("debe ser un número entero")
+				.required("Código Requerido")
+				.max(10, "Máximo 10 dígitos"),
 			nombre_asunto: yup.string().required(),
 			tiempo_respuesta: yup.string().required(),
 			unidad: yup.string().required(),
-			tipo: yup.string().required(),
-			prioridad: yup.string().required(),
+			tipo: yup.string().required("Tipo requerido"),
+			prioridad: yup.string().required("Prioridad requerida"),
 		})
 		.required();
 

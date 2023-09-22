@@ -17,7 +17,7 @@ const RecipientData = () => {
 	const { get } = useCrudService(baseURL);
 
 	const schema = yup.object({
-		dirigido_a: yup.string().max(12).required(),
+		dirigido_a: yup.string().max(12).required("Campo requerido"),
 		nombres_apellidos_destinatario: yup.string(),
 		pais_destinatario: yup.string(),
 		departamento_destinatario: yup.string(),

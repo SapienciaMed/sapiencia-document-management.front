@@ -17,11 +17,14 @@ const SenderData = () => {
 	const { get } = useCrudService(baseURL);
 
 	const schema = yup.object({
-		enviado_por: yup.string().max(12),
-		nombres_apellidos: yup.string(),
-		pais: yup.string(),
-		departamento: yup.string(),
-		municipio: yup.string(),
+		enviado_por: yup
+			.string()
+			.max(12, "Máximo 12 caracteres")
+			.required("Campo requerido"),
+		nombres_apellidos: yup.string().required(),
+		pais: yup.string().required(),
+		departamento: yup.string().required(),
+		municipio: yup.string().required(),
 	});
 
 	const {
@@ -77,7 +80,7 @@ const SenderData = () => {
 								control={control}
 								label="Enviado por"
 								className="input-basic"
-								classNameLabel="text-black bold"
+								classNameLabel="text-black bold text-required"
 								errors={errors}
 								disabled={false}
 								onBlur={onBlurData}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -10,20 +10,28 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import useCurrentDateTime from "../current-date-time";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const RadicadoDetails = () => {
+	const { authorization } = useContext(AppContext);
+
 	const currentDateTime: string = useCurrentDateTime();
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 
 	const schema = yup.object({
-		radicado: yup.string(),
-		fecha_radicado: yup.string(),
-		radicado_origen: yup.string().max(12),
-		fecha_origen: yup.string(),
-		radicado_por: yup.string(),
-		nombres_apellidos: yup.string(),
+		radicado: yup.string().required("Ingresar el número de radicado"),
+		fecha_radicado: yup.string().required(),
+		radicado_origen: yup
+			.string()
+			.max(12, "Máximo 12 caracteres")
+			.optional(),
+		fecha_origen: yup.string().optional(),
+		radicado_por: yup.string().required(),
+		nombres_apellidos: yup
+			.string()
+			.required("Ingresar el nombre y apellidos completos"),
 	});
 
 	const {
@@ -40,7 +48,6 @@ const RadicadoDetails = () => {
 
 	const onBlurData = () => {
 		const radicadoOrigen = getValues("radicado_origen");
-		console.log("radicadoOrigen", radicadoOrigen);
 		if (radicadoOrigen) {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
 				async ({ data }: any) => {
@@ -59,18 +66,6 @@ const RadicadoDetails = () => {
 		const endpoint: string = `/radicado-details/${radicado}`;
 		const data = await get(`${endpoint}`);
 		return data;
-		// try {
-		// 	const response = await fetch(
-		// 		`https://rickandmortyapi.com/api/character/?name=rick`
-		// 	);
-		// 	if (response.ok) {
-		// 		const data = await response.json();
-		// 		return data || { message: "No se encontraron datos" }; // Devuelve los datos si la solicitud fue exitosa.
-		// 	}
-		// } catch (error) {
-		// 	console.error("Error al consultar en la base de datos:", error);
-		// 	return null; // Devuelve null en caso de error.
-		// }
 	};
 
 	return (
@@ -141,6 +136,7 @@ const RadicadoDetails = () => {
 					id="radicado_por"
 					idInput="radicado_por"
 					label="Radicado por"
+					value={authorization.user.numberDocument}
 					className="input-basic"
 					classNameLabel="text-black bold"
 					typeInput={"number"}
@@ -158,10 +154,14 @@ const RadicadoDetails = () => {
 							id="nombres_apellidos"
 							idInput="nombres_apellidos"
 							label="Nombres y Apellidos"
-							value={`${field.value}`}
+							value={`${
+								authorization.user.names +
+								" " +
+								authorization.user.lastNames
+							}`}
 							className="input-basic"
 							classNameLabel="text-black bold"
-							typeInput={"number"}
+							typeInput={"text"}
 							register={register}
 							onChange={null}
 							errors={errors}

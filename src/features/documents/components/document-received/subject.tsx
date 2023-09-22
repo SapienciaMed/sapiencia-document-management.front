@@ -13,18 +13,19 @@ const Subject = () => {
 	const MAX_LENGTH_TEXT = 2000;
 	const [textoLength, setTextoLength] = useState(0);
 	const schema = yup.object({
-		referencia: yup.string().max(2000),
-		tipo: yup.string(),
+		referencia: yup
+			.string()
+			.max(2000)
+			.required("Campo Referencia requerido"),
+		tipo: yup.string().required("Campo Tipo requerido"),
 	});
 	const {
 		register,
 		control,
-		setValue,
-		getValues,
 		formState: { errors },
 	} = useForm<ISubjectForm>({
 		resolver: yupResolver(schema),
-		mode: "onBlur",
+		mode: "all",
 	});
 
 	return (
@@ -43,7 +44,7 @@ const Subject = () => {
 									idInput="referencia"
 									label="Referencia"
 									className={`${styles["input"]} ${styles["referencia"]} input-basic`}
-									classNameLabel="text-black bold"
+									classNameLabel="text-black bold text-required"
 									typeInput={"text"}
 									register={register}
 									onChange={(e) => {
@@ -70,7 +71,7 @@ const Subject = () => {
 								className="select-basic"
 								control={control}
 								errors={errors}
-								label="Tipo"
+								label="Opciones de respuesta"
 								classNameLabel="text-black bold text-required"
 								// direction={EDirection.column}
 								placeholder="Seleccionar"

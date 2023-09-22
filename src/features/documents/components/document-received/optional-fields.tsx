@@ -12,9 +12,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 const OptionalFields = () => {
 	const schema = yup.object({
 		observaciones: yup.string().max(2000).optional(),
-		numero_anexos: yup.number().positive().integer().optional(),
-		numero_folios: yup.number().positive().integer().optional(),
-		numero_cajas: yup.number().positive().integer().optional(),
+		numero_anexos: yup
+			.number()
+			.positive("Debe ser un numero positivo")
+			.integer("Debe ser un numero entero")
+			.optional(),
+		numero_folios: yup
+			.number()
+			.positive("Debe ser un numero positivo")
+			.integer("Debe ser un numero entero")
+			.optional(),
+		numero_cajas: yup
+			.number()
+			.positive("Debe ser un numero positivo")
+			.integer("Debe ser un numero entero")
+			.optional(),
 	});
 	const {
 		register,
