@@ -17,15 +17,23 @@ module.exports = (webpackConfigEnv, argv) => {
 				{
 					test: /\.s[ac]ss$/i,
 					use: [
-						"style-loader",
+						{
+							loader: "style-loader",
+						},
 						{
 							loader: "css-loader",
 							options: {
 								importLoaders: 1,
-								modules: true,
 							},
 						},
-						"sass-loader",
+						{
+							loader: "sass-loader",
+							options: {
+								sassOptions: {
+									includePaths: ["styles/"],
+								},
+							},
+						},
 					],
 				},
 				{
