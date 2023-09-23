@@ -16,38 +16,45 @@ const DocumentsReceived = () => {
 			id: 1,
 			name: "Datos del radicado",
 			content: <RadicadoDetails />,
+			disabled: false,
 		},
 		{
 			id: 2,
 			name: "Datos remitente",
 			content: <SenderData />,
+			disabled: false,
 		},
 		{
 			id: 3,
 			name: "Información básica del documento",
 			content: <BasicDocumentInformation />,
+			disabled: false,
 		},
 		{
 			id: 4,
 			name: "Datos del destinatario",
 			content: <RecipientData />,
+			disabled: false,
 		},
 		{
 			id: 5,
 			name: "Adicionar destinatario para envío de copia",
 			content: <AddRecipient />,
+			disabled: false,
 		},
 		,
 		{
 			id: 6,
 			name: "Asunto",
 			content: <Subject />,
+			disabled: false,
 		},
 		,
 		{
 			id: 7,
 			name: "Campos Adicionales",
 			content: <OptionalFields />,
+			disabled: false,
 		},
 	];
 	return (
