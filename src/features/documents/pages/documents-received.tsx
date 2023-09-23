@@ -59,72 +59,38 @@ const DocumentsReceived = () => {
 	];
 	return (
 		<div className="crud-page full-height">
-			<div className="main-page full-height">
+			<div className="main-page">
 				<div className="card-table">
 					<div className="title-area">
 						<div className="text-black extra-large bold">
 							Documentos recibidos
 						</div>
 					</div>
-					<div className="text-black large bold">
+					<h2 className="text--black bold">
 						Ficha de radicación de documento recibido
-					</div>
+					</h2>
 
 					<AccordionsComponent
 						data={accordionsData}
 						ref={accordionsComponentRef}
 					/>
-
-					<div className="projects-footer-mobile mobile">
-						<div className="save-temp">
-							<ButtonComponent
-								className="button-main huge hover-three button-save"
-								value="Guardar temporalmente"
-								type="button"
-								action={null}
-							/>
-						</div>
-
-						<div className="mobile-actions">
-							<span
-								className="bold text-center button"
-								onClick={null}
-							>
-								Cancelar
-							</span>
-							<ButtonComponent
-								value={"Continuar"}
-								className="button-main huge hover-three"
-								type="button"
-								action={null}
-								disabled={null}
-							/>
-						</div>
-					</div>
 				</div>
 			</div>
-			<div className="container-button-bot space-between">
+			<div className="flex justify-content--end m-40 gap-20">
 				<ButtonComponent
 					className="button-main huge hover-three"
-					value="Guardar temporalmente"
+					value="Volver a la bandeja"
 					type="button"
 					action={null}
 				/>
 
-				<div className="buttons-bot">
-					<span className="bold text-center button" onClick={null}>
-						Cancelar
-					</span>
-					<ButtonComponent
-						className={`button-main ${
-							null ? "extra_extra_large" : "huge"
-						} hover-three button-save`}
-						value={null || "Continuar"}
-						type="button"
-						action={null || (() => {})}
-						disabled={null}
-					/>
-				</div>
+				<ButtonComponent
+					className="button-main huge hover-three"
+					value="Guardar"
+					type="button"
+					action={null}
+					disabled={true}
+				/>
 			</div>
 		</div>
 	);

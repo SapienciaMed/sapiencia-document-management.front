@@ -1,1 +1,25 @@
 @import "./mixins.scss";
+
+.text--black {
+	color: #000;
+}
+
+.flex {
+	display: flex;
+}
+
+.justify-content--end {
+	justify-content: flex-end;
+}
+
+.m-20 {
+	margin: 20px;
+}
+
+.m-40 {
+	margin: 40px;
+}
+
+.gap-20 {
+	gap: 20px;
+}

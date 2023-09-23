@@ -40,13 +40,10 @@ const SenderData = () => {
 
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
-		console.log("idNumber", idNumber);
 
 		if (idNumber) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
-				console.log("data", message);
 				if (data !== null) {
-					console.log("data x", message);
 					setValue(
 						"nombres_apellidos",
 						data.usr_nombre + " " + data.usr_apellidos
@@ -80,7 +77,7 @@ const SenderData = () => {
 								control={control}
 								label="Enviado por"
 								className="input-basic"
-								classNameLabel="text-black bold text-required"
+								classNameLabel="text--black text-required"
 								errors={errors}
 								disabled={false}
 								onBlur={onBlurData}
@@ -101,7 +98,7 @@ const SenderData = () => {
 								value={`${field.value || ""}`}
 								label="Nombres y apellidos"
 								className="input-basic"
-								classNameLabel="text-black bold"
+								classNameLabel="text--black"
 								typeInput={"text"}
 								register={register}
 								onChange={null}
@@ -124,7 +121,7 @@ const SenderData = () => {
 								value={`${field.value || ""}`}
 								label="Pais"
 								className="input-basic"
-								classNameLabel="text-black bold"
+								classNameLabel="text--black"
 								typeInput={"text"}
 								register={register}
 								onChange={null}
@@ -144,7 +141,7 @@ const SenderData = () => {
 								value={`${field.value || ""}`}
 								label="Departamento"
 								className="input-basic"
-								classNameLabel="text-black bold"
+								classNameLabel="text--black"
 								typeInput={"text"}
 								register={register}
 								onChange={null}
@@ -163,7 +160,7 @@ const SenderData = () => {
 								value={`${field.value || ""}`}
 								label="Municipio"
 								className="input-basic"
-								classNameLabel="text-black bold"
+								classNameLabel="text--black"
 								typeInput={"texto"}
 								register={register}
 								onChange={null}

@@ -1,18 +1,13 @@
 import React from "react";
 import styles from "./document-received.module.scss";
 import {
-	ButtonComponent,
 	FormComponent,
 	InputComponent,
 } from "../../../../common/components/Form";
 
-import { Button } from "primereact/button";
 import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 
 const AddRecipient = () => {
-	const handleAddRecipient = () => {
-		console.log("hola");
-	};
 	return (
 		<>
 			<div
@@ -45,7 +40,7 @@ const AddRecipient = () => {
 						value={""}
 						label="Documento"
 						className="input-basic"
-						classNameLabel="text-black bold"
+						classNameLabel="text--black"
 						typeInput={"number"}
 						register={null}
 						onChange={null}
@@ -59,7 +54,7 @@ const AddRecipient = () => {
 						value={""}
 						label="Nombre"
 						className="input-basic"
-						classNameLabel="text-black bold"
+						classNameLabel="text--black"
 						typeInput={"text"}
 						register={null}
 						onChange={null}
@@ -72,7 +67,7 @@ const AddRecipient = () => {
 						value={""}
 						label="Correo"
 						className="input-basic"
-						classNameLabel="text-black bold"
+						classNameLabel="text--black"
 						typeInput={"email"}
 						register={null}
 						onChange={null}

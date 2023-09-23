@@ -78,7 +78,7 @@ const RadicadoDetails = () => {
 					idInput="radicado"
 					label="Radicado"
 					className="input-basic"
-					classNameLabel="text-black bold"
+					classNameLabel="text--black"
 					typeInput={"number"}
 					register={register}
 					onChange={null}
@@ -91,7 +91,7 @@ const RadicadoDetails = () => {
 					idInput="fecha_radicado"
 					label="Fecha Radicado"
 					className="input-basic"
-					classNameLabel="text-black bold"
+					classNameLabel="text--black"
 					value={currentDateTime}
 					typeInput={"string"}
 					register={register}
@@ -105,7 +105,7 @@ const RadicadoDetails = () => {
 					control={control}
 					label="Radicado Origen"
 					className="input-basic"
-					classNameLabel="text-black bold"
+					classNameLabel="text--black"
 					errors={errors}
 					disabled={false}
 					onBlur={onBlurData}
@@ -122,7 +122,7 @@ const RadicadoDetails = () => {
 							label="Fecha Origen"
 							value={`${field.value || ""}`}
 							className="input-basic"
-							classNameLabel="text-black bold"
+							classNameLabel="text--black"
 							typeInput={"string"}
 							register={register}
 							onChange={null}
@@ -138,7 +138,7 @@ const RadicadoDetails = () => {
 					label="Radicado por"
 					value={authorization.user.numberDocument}
 					className="input-basic"
-					classNameLabel="text-black bold"
+					classNameLabel="text--black"
 					typeInput={"number"}
 					register={register}
 					onChange={null}
@@ -160,7 +160,7 @@ const RadicadoDetails = () => {
 								authorization.user.lastNames
 							}`}
 							className="input-basic"
-							classNameLabel="text-black bold"
+							classNameLabel="text--black"
 							typeInput={"text"}
 							register={register}
 							onChange={null}

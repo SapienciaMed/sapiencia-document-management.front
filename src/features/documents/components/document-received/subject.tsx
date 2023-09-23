@@ -44,7 +44,7 @@ const Subject = () => {
 									idInput="referencia"
 									label="Referencia"
 									className={`${styles["input"]} ${styles["referencia"]} input-basic`}
-									classNameLabel="text-black bold text-required"
+									classNameLabel="text--black text-required"
 									typeInput={"text"}
 									register={register}
 									onChange={(e) => {
@@ -72,8 +72,7 @@ const Subject = () => {
 								control={control}
 								errors={errors}
 								label="Opciones de respuesta"
-								classNameLabel="text-black bold text-required"
-								// direction={EDirection.column}
+								classNameLabel="text--black"
 								placeholder="Seleccionar"
 								data={[
 									{ name: "Requiere respuesta", value: "1" },

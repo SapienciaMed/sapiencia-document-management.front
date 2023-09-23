@@ -34,7 +34,7 @@ const OptionalFields = () => {
 		formState: { errors },
 	} = useForm<IOptionalFieldsForm>({
 		resolver: yupResolver(schema),
-		mode: "onBlur",
+		mode: "all",
 	});
 	return (
 		<>
@@ -49,7 +49,7 @@ const OptionalFields = () => {
 								idInput="observaciones"
 								label="Observaciones"
 								className={`${styles["input-textarea"]}`}
-								classNameLabel="text-black bold"
+								classNameLabel="text--black"
 								register={register}
 								errors={errors}
 								disabled={false}
@@ -70,8 +70,8 @@ const OptionalFields = () => {
 						idInput="numero_anexos"
 						label="Número de anexos"
 						className={`input-basic ${styles["input-small"]}`}
-						classNameLabel="text-black bold"
-						typeInput={"number"}
+						classNameLabel="text--black"
+						typeInput={"text"}
 						register={register}
 						errors={errors}
 						disabled={false}
@@ -81,7 +81,7 @@ const OptionalFields = () => {
 						idInput="numero_folios"
 						label="Número de folios"
 						className={`input-basic ${styles["input-small"]}`}
-						classNameLabel="text-black bold text-center"
+						classNameLabel="text--black text-center"
 						typeInput={"number"}
 						register={register}
 						errors={errors}
@@ -92,7 +92,7 @@ const OptionalFields = () => {
 						idInput="numero_cajas"
 						label="Número de cajas"
 						className={`input-basic ${styles["input-small"]}`}
-						classNameLabel="text-black bold text-center"
+						classNameLabel="text--black text-center"
 						typeInput={"number"}
 						register={register}
 						errors={errors}

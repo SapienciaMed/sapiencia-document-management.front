@@ -51,12 +51,10 @@ const BasicDocumentInformation = () => {
 
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
-		console.log("idAsunto", idAsunto);
 
 		if (idAsunto) {
 			checkIdInDB(idAsunto).then(async ({ data }: any) => {
 				if (data) {
-					console.log("data", data);
 					setValue("nombre_asunto", data.inf_nombre_asunto);
 					setValue("tiempo_respuesta", data.inf_timepo_respuesta);
 					setValue("unidad", data.inf_unidad);
@@ -85,7 +83,7 @@ const BasicDocumentInformation = () => {
 							control={control}
 							label="Código asunto"
 							className="input-basic"
-							classNameLabel="text-black bold text-required"
+							classNameLabel="text--black text-required"
 							errors={errors}
 							disabled={false}
 							onBlur={onBlurData}
@@ -107,7 +105,7 @@ const BasicDocumentInformation = () => {
 							value={`${field.value || ""}`}
 							label="Nombre asunto"
 							className="input-basic"
-							classNameLabel="text-black bold"
+							classNameLabel="text--black"
 							typeInput={"text"}
 							register={register}
 							onChange={null}
@@ -127,7 +125,7 @@ const BasicDocumentInformation = () => {
 							value={`${field.value || ""}`}
 							label="Tiempo de respuesta"
 							className="input-basic"
-							classNameLabel="text-black bold "
+							classNameLabel="text--black "
 							typeInput={"text"}
 							register={register}
 							onChange={null}
@@ -147,7 +145,7 @@ const BasicDocumentInformation = () => {
 							value={`${field.value || ""}`}
 							label="Unidad"
 							className="input-basic"
-							classNameLabel="text-black bold "
+							classNameLabel="text--black "
 							typeInput={"text"}
 							register={register}
 							onChange={null}
@@ -167,7 +165,7 @@ const BasicDocumentInformation = () => {
 							control={control}
 							errors={errors}
 							label="Tipo"
-							classNameLabel="text-black bold text-required"
+							classNameLabel="text--black text-required"
 							direction={EDirection.column}
 							placeholder="Seleccionar"
 							data={[
@@ -189,7 +187,7 @@ const BasicDocumentInformation = () => {
 							control={control}
 							errors={errors}
 							label="Prioridad"
-							classNameLabel="text-black bold text-required"
+							classNameLabel="text--black text-required"
 							direction={EDirection.column}
 							placeholder="Seleccionar"
 							data={[
