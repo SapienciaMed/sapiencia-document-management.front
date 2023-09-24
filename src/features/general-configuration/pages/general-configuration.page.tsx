@@ -1,11 +1,22 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AccordionsComponent from "../../../common/components/accordions.component";
-import ConsecutiveNumberFormComponent from "../components/consecutive-number-form.component";
 import { AppContext } from "../../../common/contexts/app.context";
 import { generalConfigurationValidator } from "../../../common/schemas";
 import { useGeneralConfigurationService } from "../hooks/general-configuration-service.hook";
 import { EResponseCodes } from "../../../common/constants/api.enum";
+
+import ConsecutiveNumberFormComponent from "../components/consecutive-number-form.component";
+import WorkingHoursFormComponent from "../components/working-hours-form.component";
+import StandarTypeFormComponent from "../components/standar-type-form.component";
+import AlarmFormComponent from "../components/alarm-form.component";
+import NotificationsFormComponent from "../components/notifications-form.component";
+import ProcessIpRangeFormComponent from "../components/process-ip-range-form.component";
+import StartWithoutImageFormComponent from "../components/start-without-image-form.component";
+import TemporaryFilingRulesFormComponent  from "../components/temporary-filing-rules-form.component";
+import TemporaryFilingRangeFormComponent from "../components/temporary-filing-range-form.component";
+import PDFProcessFormComponent from "../components/pdf-process-form.component";
+import ZIPProcessFormComponent from "../components/zip-process-form.component";
 
 export default React.memo(() => {
     const navigate = useNavigate();
@@ -63,17 +74,17 @@ export default React.memo(() => {
                 <h2 className="biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik', color: 'black' }}>Configuración General</h2>
                 <AccordionsComponent
                     data={[
-                        { id: 1, name: "ALARMAS", content: (<></>), disabled: true },
-                        { id: 2, name: "HORA_LABORAL", content: (<></>), disabled: true },
+                        { id: 1, name: "ALARMAS",  content: (<AlarmFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 2, name: "HORA_LABORAL",  content: (<WorkingHoursFormComponent onChange={onChange} data={data} />), disabled: false },
                         { id: 3, name: "NUM_CONSEC", content: (<ConsecutiveNumberFormComponent onChange={onChange} data={data} />), disabled: false },
-                        { id: 4, name: "INICIAR_SIN_IMAGEN", content: (<></>), disabled: true },
-                        { id: 5, name: "NOTIFICACIONES", content: (<></>), disabled: true },
-                        { id: 6, name: "PROCESOPDF", content: (<></>), disabled: true },
-                        { id: 7, name: "PROCESO_RANGO_IP", content: (<></>), disabled: true },
-                        { id: 8, name: "PROCESOZIP", content: (<></>), disabled: true },
-                        { id: 9, name: "RANGOTEMPORAL", content: (<></>), disabled: true },
-                        { id: 10, name: "RADICADOTEMP_NORMAS", content: (<></>), disabled: true },
-                        { id: 11, name: "TIPO_ESTANDAR", content: (<></>), disabled: true },
+                        { id: 4, name: "INICIAR_SIN_IMAGEN",  content: (<StartWithoutImageFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 5, name: "NOTIFICACIONES",  content: (<NotificationsFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 6, name: "PROCESOPDF",  content: (<PDFProcessFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 7, name: "PROCESO_RANGO_IP",  content: (<ProcessIpRangeFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 8, name: "PROCESOZIP",  content: (<ZIPProcessFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 9, name: "RADICADOTEMPORAL",  content: (<TemporaryFilingRangeFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 10, name: "RADICADOTEMP_NORMAS",  content: (<TemporaryFilingRulesFormComponent onChange={onChange} data={data} />), disabled: false },
+                        { id: 11, name: "TIPO_ESTANDAR",  content: (<StandarTypeFormComponent onChange={onChange} data={data} />), disabled: false },
                 ]} />
             </div>
         </div>
