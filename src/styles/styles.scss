@@ -12,14 +12,174 @@
 	justify-content: flex-end;
 }
 
-.m-20 {
-	margin: 20px;
+// Crea margenes desde 8px hasta 40px
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.m-#{$px} {
+			margin: $margin + 0rem;
+		}
+	}
 }
 
-.m-40 {
-	margin: 40px;
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.mt-#{$px} {
+			margin-top: $margin + 0rem;
+		}
+	}
 }
 
-.gap-20 {
-	gap: 20px;
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.mb-#{$px} {
+			margin-bottom: $margin + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.ml-#{$px} {
+			margin-left: $margin + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.mr-#{$px} {
+			margin-right: $margin + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.mx-#{$px} {
+			margin-left: ($margin + 0rem);
+			margin-right: ($margin + 0rem);
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$margin: calc(($base + $i) / 16);
+		.my-#{$px} {
+			margin-top: ($margin + 0rem);
+			margin-bottom: ($margin + 0rem);
+		}
+	}
+}
+
+// Crea margenes desde 8px hasta 40px
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.p-#{$px} {
+			padding: $padding + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.pt-#{$px} {
+			padding-top: $padding + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.pb-#{$px} {
+			padding-bottom: $padding + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.pl-#{$px} {
+			padding-left: $padding + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.pr-#{$px} {
+			padding-right: $padding + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.px-#{$px} {
+			padding-left: ($padding + 0rem);
+			padding-right: ($padding + 0rem);
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$padding: calc(($base + $i) / 16);
+		.py-#{$px} {
+			padding-top: ($padding + 0rem);
+			padding-bottom: ($padding + 0rem);
+		}
+	}
+}
+
+//crea gap
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$gap: calc(($base + $i) / 16);
+		.gap-#{$px} {
+			gap: $gap + 0rem;
+		}
+	}
 }

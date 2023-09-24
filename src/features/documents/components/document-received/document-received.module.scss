@@ -10,6 +10,16 @@
 	&--col4-small {
 		grid-template-columns: repeat(4, 150px);
 	}
+
+	@media screen and (max-width: 1200px) {
+		/* Cambia a una sola columna en pantallas más pequeñas que 768px */
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@media screen and (max-width: 768px) {
+		/* Cambia a una sola columna en pantallas más pequeñas que 768px */
+		grid-template-columns: repeat(1, 1fr);
+	}
 }
 
 .grid {
