@@ -26,7 +26,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   return (
     <FormComponent action={undefined} className="">
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
-        <div style={{ paddingRight: 50 }}>
+        <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de los Anexos de los Documentos</p>
             <InputComponent
                 idInput="anexo"
@@ -40,7 +40,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 onChange={(e) => onChange({ ...data, anexo: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
             />
         </div>
-        <div style={{ padding: '0 50px' }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de las cartas</p>
           <InputComponent
               idInput="letter"
@@ -55,7 +55,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           />
         </div>
 
-        <div style={{ paddingLeft: 50 }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del número de Expediente</p>
           <InputComponent
               idInput="expedient"
@@ -71,7 +71,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
       </div>
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
-        <div style={{ paddingRight: 50 }}>
+        <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos Externos</p>
             <InputComponent
                 idInput="external"
@@ -85,7 +85,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 onChange={(e) => onChange({ ...data, external: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
             />
         </div>
-        <div style={{ padding: '0 50px' }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos Internos</p>
           <InputComponent
               idInput="internal"
@@ -100,7 +100,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           />
         </div>
 
-        <div style={{ paddingLeft: 50 }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos no Radicables</p>
           <InputComponent
               idInput="radiable_number"
@@ -116,7 +116,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
       </div>
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
-        <div style={{ paddingRight: 50 }}>
+        <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los No Radicables desde el expediente</p>
             <InputComponent
                 idInput="filed_number_exped"
@@ -130,7 +130,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 onChange={(e) => onChange({ ...data, filed_number_exped: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
              />
         </div>
-        <div style={{ padding: '0 50px' }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos Recibidos</p>
           <InputComponent
               idInput="received"
@@ -145,7 +145,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           />
         </div>
 
-        <div style={{ paddingLeft: 50 }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de las series documentes del inventario</p>
           <InputComponent
               idInput="series"
@@ -161,7 +161,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
       </div>
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
-        <div style={{ paddingRight: 50 }}>
+        <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que se comienza el ingreso del Registro de Inventario Documental</p>
             <InputComponent
                 idInput="inventory_record"
@@ -175,7 +175,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
                 onChange={(e) => onChange({ ...data, inventory_record: Number(e.target.value) == 0 ? null : Number(e.target.value) })}
              />
         </div>
-        <div style={{ paddingLeft: 50 }}>
+        <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que se comienza el ingreso de los Documentos del Registro de Inventario Documental</p>
           <InputComponent
               idInput="inventory_record_detail"
