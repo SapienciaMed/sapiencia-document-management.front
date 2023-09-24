@@ -10,7 +10,10 @@
 //   --color-theme-2: #d2cfcd;
 //   --color-theme-3: #00ebf9; //#00ebf9;
 // }
-html,
+html {
+	font-size: 100%;
+}
+
 body {
 	padding: 0;
 	margin: 0;
