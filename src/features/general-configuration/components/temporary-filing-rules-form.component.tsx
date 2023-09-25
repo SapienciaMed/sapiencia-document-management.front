@@ -25,10 +25,15 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               
               <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>RADICADOTEMPORAL_NORMAS</p>
              
-              <label className="switch">
-                  <input checked={data?.temporary_filing_rules || false} type="checkbox" onChange={(e) => onChange({ ...data, temporary_filing_rules: e.target.checked })} />
-                  <span className="slider"></span>
-              </label>
+              <div className="d-flex align-items-center">
+                <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginRight: 7 }}>NO</span>
+                <label className="switch">
+                    <input checked={data?.temporary_filing_rules || false} type="checkbox" onChange={(e) => onChange({ ...data, temporary_filing_rules: e.target.checked })} />
+                    <span className="slider"></span>
+                </label>
+                <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginLeft: 7 }}>SI</span>
+              </div>
+
             </div>
         </div>
       </div>

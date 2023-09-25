@@ -25,10 +25,14 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               
               <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>COMPRIMIR_IMAGEN</p>
              
-              <label className="switch">
-                  <input checked={data?.compress_image || false} type="checkbox" onChange={(e) => onChange({ ...data, compress_image: e.target.checked })} />
-                  <span className="slider"></span>
-              </label>
+              <div className="d-flex align-items-center">
+                <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginRight: 7 }}>NO</span>
+                <label className="switch">
+                    <input checked={data?.compress_image || false} type="checkbox" onChange={(e) => onChange({ ...data, compress_image: e.target.checked })} />
+                    <span className="slider"></span>
+                </label>
+                <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginLeft: 7 }}>SI</span>
+              </div>
             </div>
         </div>
       </div>
