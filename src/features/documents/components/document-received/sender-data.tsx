@@ -4,13 +4,13 @@ import {
 	FormComponent,
 	InputComponent,
 } from "../../../../common/components/Form";
-import { HiOutlineSearch } from "react-icons/hi";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import { AppContext } from "../../../../common/contexts/app.context";
+import { IoSearchOutline } from "react-icons/io5";
 
 const SenderData = () => {
 	const { setMessage } = useContext(AppContext);
@@ -97,7 +97,7 @@ const SenderData = () => {
 							/>
 						</div>
 						<div className={styles["icon-search"]}>
-							<HiOutlineSearch />
+							<IoSearchOutline />
 						</div>
 					</div>
 					<Controller

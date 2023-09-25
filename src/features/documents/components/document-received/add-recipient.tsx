@@ -6,6 +6,8 @@ import {
 } from "../../../../common/components/Form";
 
 import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
+import { IoTrashOutline } from "react-icons/io5";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const AddRecipient = () => {
 	return (
@@ -17,7 +19,7 @@ const AddRecipient = () => {
 					<button className={`${styles["btn-link"]}`} type="button">
 						Agregar Destinatario Copia
 					</button>
-					<FaPlusCircle color="#4338CA" />
+					<AiOutlinePlusCircle size={15} color="#4338CA" />
 				</div>
 				<div className={`${styles["add-recipient-link"]}`}>
 					<button
@@ -26,7 +28,7 @@ const AddRecipient = () => {
 					>
 						Quitar
 					</button>
-					<FaTrashAlt color="#FF0000" />
+					<IoTrashOutline size={20} color="#FF0000" />
 				</div>
 			</div>
 
