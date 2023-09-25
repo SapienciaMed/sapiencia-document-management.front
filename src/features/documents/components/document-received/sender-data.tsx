@@ -78,7 +78,7 @@ const SenderData = () => {
 
 	return (
 		<FormComponent action={null}>
-			<div className="card-table">
+			<div className="">
 				<div
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>

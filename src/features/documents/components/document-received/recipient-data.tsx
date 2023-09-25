@@ -19,7 +19,10 @@ const RecipientData = () => {
 	const { get } = useCrudService(baseURL);
 
 	const schema = yup.object({
-		dirigido_a: yup.string().max(12).required("Campo requerido"),
+		dirigido_a: yup
+			.string()
+			.max(12, "Máximo 12 caracteres")
+			.required("Campo requerido"),
 		nombres_apellidos_destinatario: yup.string(),
 		pais_destinatario: yup.string(),
 		departamento_destinatario: yup.string(),
@@ -76,7 +79,7 @@ const RecipientData = () => {
 	};
 	return (
 		<FormComponent action={null}>
-			<div className="card-table">
+			<div className="">
 				<div
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
