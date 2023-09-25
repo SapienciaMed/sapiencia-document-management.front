@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -10,8 +10,10 @@ import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const SenderData = () => {
+	const { setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -43,6 +45,7 @@ const SenderData = () => {
 
 		if (idNumber) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
+				console.log(message);
 				if (data !== null) {
 					setValue(
 						"nombres_apellidos",
@@ -52,7 +55,16 @@ const SenderData = () => {
 					setValue("departamento", data.usr_departamento);
 					setValue("municipio", data.usr_municipio);
 				} else {
-					console.log(message.error);
+					setMessage({
+						title: "Datos del remitente",
+						description: message.error,
+						show: true,
+						background: true,
+						okTitle: "Aceptar",
+						onOk: () => {
+							setMessage({});
+						},
+					});
 				}
 			});
 		}

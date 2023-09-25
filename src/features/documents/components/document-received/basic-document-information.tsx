@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	FormComponent,
 	InputComponent,
@@ -13,8 +13,10 @@ import { InputTextComponent } from "../../../../common/components/Form/input-tex
 import { HiOutlineSearch } from "react-icons/hi";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { IoWarningOutline } from "react-icons/io5";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const BasicDocumentInformation = () => {
+	const { setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -53,13 +55,22 @@ const BasicDocumentInformation = () => {
 		const idAsunto = getValues("codigo_asunto");
 
 		if (idAsunto) {
-			checkIdInDB(idAsunto).then(async ({ data }: any) => {
+			checkIdInDB(idAsunto).then(async ({ data, message }: any) => {
 				if (data) {
 					setValue("nombre_asunto", data.inf_nombre_asunto);
 					setValue("tiempo_respuesta", data.inf_timepo_respuesta);
 					setValue("unidad", data.inf_unidad);
 				} else {
-					console.log("No se encontraron datos");
+					setMessage({
+						title: "Información básica del documento",
+						description: message.error,
+						show: true,
+						background: true,
+						okTitle: "Aceptar",
+						onOk: () => {
+							setMessage({});
+						},
+					});
 				}
 			});
 		}

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -13,6 +13,7 @@ import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { AppContext } from "../../../../common/contexts/app.context";
 
 const RadicadoDetails = () => {
+	const { setMessage } = useContext(AppContext);
 	const { authorization } = useContext(AppContext);
 
 	const currentDateTime: string = useCurrentDateTime();
@@ -39,7 +40,6 @@ const RadicadoDetails = () => {
 		control,
 		setValue,
 		getValues,
-		trigger,
 		formState: { errors },
 	} = useForm<IRadicadoDetailsForm>({
 		resolver: yupResolver(schema),
@@ -50,12 +50,20 @@ const RadicadoDetails = () => {
 		const radicadoOrigen = getValues("radicado_origen");
 		if (radicadoOrigen) {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
-				async ({ data }: any) => {
+				async ({ data, message }: any) => {
 					if (data) {
-						console.log("data", data);
 						setValue("fecha_origen", data.dra_fecha_origen);
 					} else {
-						console.log("No se encontraron datos");
+						setMessage({
+							title: "Datos del radicado origen",
+							description: message.error,
+							show: true,
+							background: true,
+							okTitle: "Aceptar",
+							onOk: () => {
+								setMessage({});
+							},
+						});
 					}
 				}
 			);
@@ -95,7 +103,6 @@ const RadicadoDetails = () => {
 					value={currentDateTime}
 					typeInput={"string"}
 					register={register}
-					onChange={null}
 					errors={errors}
 					disabled={true}
 				/>
@@ -123,7 +130,7 @@ const RadicadoDetails = () => {
 							value={`${field.value || ""}`}
 							className="input-basic"
 							classNameLabel="text--black"
-							typeInput={"string"}
+							typeInput="string"
 							register={register}
 							onChange={null}
 							errors={errors}

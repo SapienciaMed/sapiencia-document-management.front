@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -10,8 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import { HiOutlineSearch } from "react-icons/hi";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const RecipientData = () => {
+	const { setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -52,7 +54,16 @@ const RecipientData = () => {
 					);
 					setValue("municipio_destinatario", data.usr_municipio);
 				} else {
-					console.log(message.error);
+					setMessage({
+						title: "Datos del destinatario",
+						description: message.error,
+						show: true,
+						background: true,
+						okTitle: "Aceptar",
+						onOk: () => {
+							setMessage({});
+						},
+					});
 				}
 			});
 		}
