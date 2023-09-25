@@ -51,11 +51,13 @@
 }
 
 .icon-search {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: 40px;
-	padding: 0.4rem 0.4rem;
+	height: 40px;
 	border: 1px solid #e2e2e2;
 	border-radius: 10px 10px;
-	margin-bottom: 5px;
 	align-self: flex-end;
 }
 
