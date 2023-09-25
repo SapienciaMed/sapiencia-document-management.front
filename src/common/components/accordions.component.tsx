@@ -41,6 +41,7 @@ const AccordionsComponent = forwardRef<IRef, IProps>((props, ref) => {
 						header={accordion.name}
 						key={accordion.id}
 						disabled={accordion.disabled}
+						className="accordion-border-radius"
 					>
 						{/* </AccordionTab> <AccordionTab header={accordion.name} key={accordion.id} disabled={disables.includes(accordion.id)}> */}
 

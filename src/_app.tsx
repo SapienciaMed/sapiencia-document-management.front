@@ -2,8 +2,8 @@ import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppContextProvider } from "./common/contexts/app.context";
 import "./styles/_app.scss";
-//import "./styles/_theme-prime.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "./styles/_theme-prime.css";
+//import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 
 import ModalMessageComponent from "./common/components/modal-message.component";
