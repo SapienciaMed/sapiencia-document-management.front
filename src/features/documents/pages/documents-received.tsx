@@ -59,8 +59,8 @@ const DocumentsReceived = () => {
 	];
 	return (
 		<div className="crud-page full-height">
-			<div className="main-page">
-				<div className="card-table">
+			<div className="main-page container-docs-received">
+				<div className="card-table shadow-none">
 					<div className="title-area">
 						<div className="text-black extra-large bold">
 							Documentos recibidos
@@ -76,7 +76,7 @@ const DocumentsReceived = () => {
 					/>
 				</div>
 			</div>
-			<div className="flex justify-content--end m-40 gap-20">
+			<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
 				<ButtonComponent
 					className="button-main huge hover-three"
 					value="Volver a la bandeja"

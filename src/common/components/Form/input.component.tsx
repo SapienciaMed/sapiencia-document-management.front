@@ -153,7 +153,7 @@ export function InputComponent({
 				)}
 			</div>
 			{messageError() && (
-				<p className="error-message bold not-margin-padding">
+				<p className="error-message not-margin-padding">
 					{messageError()}
 				</p>
 			)}
