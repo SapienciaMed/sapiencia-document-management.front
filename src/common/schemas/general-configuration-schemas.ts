@@ -35,13 +35,14 @@ const validations = {
 }
 
 export const consecutiveNumberValidator = yup.object({ ...validations.consecutiveNumberForm });
-export const notificationsValidator = yup.object({ ...validations.notificationsForm });
+export const notificationsValidator = yup.object({  });
 export const pdfProcessFormValidator = yup.object({ ...validations.pdfProcessFormValidator });
 export const standarTypeFormValidator = yup.object({ ...validations.standarTypeFormValidator });
 export const workingHoursFormValidator = yup.object({ ...validations.workingHoursFormValidator });
 
 export const generalConfigurationValidator = yup.object({
-    ...validations.consecutiveNumberForm, ...validations.notificationsForm,
-    ...validations.pdfProcessFormValidator, ...validations.standarTypeFormValidator,
+    ...validations.consecutiveNumberForm,
+    ...validations.pdfProcessFormValidator,
+    ...validations.standarTypeFormValidator,
     ...validations.workingHoursFormValidator,
 });

@@ -68,9 +68,9 @@ export default React.memo(() => {
     }
 
   return (
-    <div className="w-100 general-configuration-page ">
-        <div className="spc-common-table expansible card-table" style={{ margin: 20 }}>
-            <div className="spc-common-table expansible card-table" >
+    <div className="w-100 general-configuration-page" style={{ maxWidth: 1600, marginLeft: 'auto', marginRight: 'auto' }}>
+        <div className="spc-common-table expansible card-table" style={{ margin: 20, borderRadius: 20 }}>
+            <div className="spc-common-table expansible card-table" style={{ borderRadius: 29, paddingBottom: 50 }}>
                 <h2 className="biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik', color: 'black' }}>Configuración General</h2>
                 <AccordionsComponent
                     data={[

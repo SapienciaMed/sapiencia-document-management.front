@@ -17,7 +17,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   });
   
   return (
-    <FormComponent action={undefined} className="w-100">
+    <FormComponent action={undefined} className="accordion-item-containerw-100">
       <div className="w-100" style={{ padding: '20px 10px'}}>
         <div className="w-100">
             <p className="color-black" style={{ minHeight: 20, fontSize: 17, fontWeight: 400 }}>Indica si administrará direcciones internas y externas para mostrar los archivos</p>
@@ -25,10 +25,14 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
               
               <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>ACTIVAR_RANGO_IP</p>
              
-              <label className="switch">
-                  <input checked={data?.ip_range || false} type="checkbox" onChange={(e) => onChange({ ...data, ip_range: e.target.checked })} />
-                  <span className="slider"></span>
-              </label>
+              <div className="d-flex align-items-center">
+                <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginRight: 7 }}>NO</span>
+                <label className="switch">
+                    <input checked={data?.ip_range || false} type="checkbox" onChange={(e) => onChange({ ...data, ip_range: e.target.checked })} />
+                    <span className="slider"></span>
+                </label>
+                <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginLeft: 7 }}>SI</span>
+              </div>
             </div>
         </div>
       </div>

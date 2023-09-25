@@ -24,7 +24,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   });
   
   return (
-    <FormComponent action={undefined} className="">
+    <FormComponent action={undefined} className="accordion-item-container">
       <div className="grid-form-2-container" style={{ padding: '20px 10px'}}>
         <div className="grid-form-3-container ">              
           <div className="d-flex align-items-center">
