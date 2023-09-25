@@ -3,9 +3,6 @@ import { FormComponent, InputComponent, SelectComponent } from "../../../common/
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IGeneralConfiguration, } from "../interfaces/GeneralConfigurationInterfaces";
-import useYupValidationResolver from "../../../common/hooks/form-validator.hook";
-import { notificationsValidator } from "../../../common/schemas/general-configuration-schemas";
-
 
 interface IProps {
   onChange: (data: any) => void,
@@ -13,33 +10,37 @@ interface IProps {
 }
 
 export default ({ onChange, data }: IProps): React.JSX.Element => {
-  const resolver = useYupValidationResolver(notificationsValidator);
   const {
     register,
     formState: { errors },
   } = useForm<any>({
-    resolver,
     defaultValues:{ ...data },
     mode: "all",
   });
   
   return (
-    <FormComponent action={undefined} className="">
-      <div className="grid-form-3-container d-flex align-items-center" style={{ padding: '20px 10px'}}>
-          <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>CORREOADMINISTRADOR</p>
+    <FormComponent action={undefined} className="accordion-item-container">
+      <div className="grid-form-3-container">
+        <div className="d-flex align-items-center">
+          <p className="color-black" style={{ fontSize: 17,  fontWeight: 400 }}>CORREOADMINISTRADOR</p>
+        </div>
 
+        <div className="d-flex align-items-center w-100 grid-form-1-container">
           <InputComponent
             idInput="admin_email"
             typeInput="email"
-            className="input-basic background-textArea"
+            className="input-basic background-textArea w-100"
             register={register}
             label="Correo electrónico"
             classNameLabel="text-black big text-required"
             direction={EDirection.column}
             errors={errors}
-            onChange={(e) => onChange({ ...data, admin_email : e.target.value })}
+            disabled
         />
-        <p className="color-black" style={{  fontSize: 17,  fontWeight: 400, maxWidth: 310 }}>Guarda el correo al que se debe notificar si se realizó el proceso de notificaciones</p>
+        </div>
+        <div className="d-flex align-items-center">
+          <p className="color-black" style={{ fontSize: 17,  fontWeight: 400, maxWidth: 310 }}>Guarda el correo al que se debe notificar si se realizó el proceso de notificaciones</p>
+        </div>
       </div>
 
 

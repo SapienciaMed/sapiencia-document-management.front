@@ -24,7 +24,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   });
   
   return (
-    <FormComponent action={undefined} className="">
+    <FormComponent action={undefined} className="accordion-item-container">
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
         <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de los Anexos de los Documentos</p>

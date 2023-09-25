@@ -17,7 +17,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   });
   
   return (
-    <FormComponent action={undefined} className="w-100">
+    <FormComponent action={undefined} className="accordion-item-containerw-100">
       <div className="w-100" style={{ padding: '20px 10px'}}>
         <div className="w-100">
             <p className="color-black" style={{ minHeight: 20, fontSize: 17, fontWeight: 400 }}>Si el sistema trabaja con radicados temporales</p>

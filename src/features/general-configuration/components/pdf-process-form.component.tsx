@@ -3,8 +3,6 @@ import { FormComponent, InputComponent, SelectComponent } from "../../../common/
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IGeneralConfiguration, } from "../interfaces/GeneralConfigurationInterfaces";
-import useYupValidationResolver from "../../../common/hooks/form-validator.hook";
-import { pdfProcessFormValidator } from "../../../common/schemas/general-configuration-schemas";
 import copyIcon from "../../../public/images/icons/copy.png";
 
 interface IProps {
@@ -13,12 +11,10 @@ interface IProps {
 }
 
 export default ({ onChange, data }: IProps): React.JSX.Element => {
-  const resolver = useYupValidationResolver(pdfProcessFormValidator);
   const {
     register,
     formState: { errors },
   } = useForm<any>({
-    resolver,
     defaultValues:{ ...data },
     mode: "all",
   });
@@ -29,7 +25,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   }
   
   return (
-    <FormComponent action={undefined} className="">
+    <FormComponent action={undefined} className="accordion-item-container">
       <div className="grid-form-4-container" style={{ padding: '20px 10px'}}>
         <div className="d-flex align-items-center">
           <p className="color-black" style={{  fontSize: 17,  fontWeight: 400, maxWidth: 220 }}>Ruta donde se encuentra instalado PDFCreator, se usa cuando se genera Pdf por impresora</p>
@@ -45,7 +41,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
             classNameLabel="text-black big text-required"
             direction={EDirection.column}
             errors={errors}
-            onChange={(e) => onChange({ ...data, route_creator_path : e.target.value })}
+            disabled
           />
           <div style={{ position: 'relative'}}>
             <img onClick={() => copy(data.route_creator_path)} style={{ position: 'absolute', marginLeft: '-25px', marginTop: '6px', cursor: 'pointer'  }} width={15} src={copyIcon} />
@@ -62,7 +58,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
             classNameLabel="text-black big text-required"
             direction={EDirection.column}
             errors={errors}
-            onChange={(e) => onChange({ ...data, pdf_temporary_path : e.target.value })}
+            disabled
           />
           <div style={{ position: 'relative'}}>
             <img onClick={() => copy(data.pdf_temporary_path)} style={{ position: 'absolute', marginLeft: '-25px', marginTop: '6px', cursor: 'pointer'  }} width={15} src={copyIcon} />

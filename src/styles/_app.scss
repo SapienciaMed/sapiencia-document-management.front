@@ -80,6 +80,33 @@ div[id="single-spa-application:@sapiencia/document-management"] {
     color: black;
   }
 
+  .p-accordion .p-accordion-tab:first-child .p-accordion-header .p-accordion-header-link {
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+  }
+
+  .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
+    color: #533893;
+  }
+
+  .p-accordion-header-text  {
+    color: #6C757D;
+    font-weight: 500;
+  }
+
+  .p-accordion-tab-active .p-accordion-header-text  {
+    color: black;
+  }
+
+  @media (max-width: 600px) {
+    .accordion-item-container {
+      max-width: 280px;
+    }
+
+  }
+
+ 
+
   .space-between {
     justify-content: space-between;
   }
