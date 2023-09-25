@@ -36,10 +36,14 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
           
           <div className="d-flex align-items-center">
-            <label className="switch">
+            <div className="d-flex align-items-center">
+              <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginRight: 7 }}>NO</span>
+              <label className="switch">
               <input checked={data?.business_days || false} type="checkbox" onChange={(e) => onChange({ ...data, business_days: e.target.checked })} />
-              <span className="slider"></span>
-            </label>
+                  <span className="slider"></span>
+              </label>
+              <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginLeft: 7 }}>SI</span>
+            </div>
           </div>
       </div>
 
