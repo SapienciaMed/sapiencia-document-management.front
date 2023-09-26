@@ -99,6 +99,7 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 		return data;
 	};
 
+	console.log(data)
 	return (
 		<FormComponent action={undefined}>
 			<div
@@ -129,19 +130,25 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 					errors={errors}
 					disabled={true}
 				/>
-
-				<InputTextNumberComponent
-					idInput="radicado_origen"
-					control={control}
-					label="Radicado Origen"
-					className="input-basic"
-					classNameLabel={`text--black ${data.tipo == 2 ? 'text-required' : ''}`}
-					errors={errors}
-					disabled={false}
-					onBlur={onBlurData}
-					max={12}
-					type={"number"}
-				/>
+				
+				<div>
+					<InputTextNumberComponent
+						idInput="radicado_origen"
+						control={control}
+						label="Radicado Origen"
+						className="input-basic"
+						classNameLabel={`text--black ${data.tipo == 2 ? 'text-required' : ''}`}
+						errors={errors}
+						disabled={false}
+						onBlur={onBlurData}
+						max={12}
+						type={"number"}
+					/>
+					{ data.tipo == 2 && data.radicado_origen == null  ? (
+						<span className="error-message not-margin-padding">El campo es obligatorio</span>
+					): null }
+					
+				</div>
 
 				<Controller
 					name="fecha_origen"

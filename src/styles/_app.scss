@@ -263,7 +263,14 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 }
 
 
-.recived-documents {	
+.recived-documents {
+	.error-message {
+		font-size: .7rem;
+		color: red;
+		text-align: left;
+	}
+
+
 	* {
 		font-family: 'Rubik' !important;
 	}
