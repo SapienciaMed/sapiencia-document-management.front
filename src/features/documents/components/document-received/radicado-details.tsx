@@ -14,7 +14,13 @@ import { AppContext } from "../../../../common/contexts/app.context";
 import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
 import { InputTextNumberComponent } from "../input-text-number";
 
-const RadicadoDetails = () => {
+
+interface IProps {
+	onChange: (data: any) => void,
+	data: any
+}
+
+const RadicadoDetails = ({ data, onChange }: IProps) => {
 	const { setMessage } = useContext(AppContext);
 	const { authorization } = useContext(AppContext);
 
@@ -36,6 +42,19 @@ const RadicadoDetails = () => {
 		nombres_apellidos: yup.string().required("El campo es obligatorio"),
 	});
 
+	const schema2 = yup.object({
+		radicado: yup.string().required("Ingresar el número de radicado"),
+		fecha_radicado: yup.string().required(),
+		radicado_origen: yup
+			.string()
+			.min(12, "Escribir mínimo 12 dígitos")
+			.max(12, "Solo se permiten 12 dígitos")
+			.required('El campo es obligatorio'),
+		fecha_origen: yup.string().optional(),
+		radicado_por: yup.string().required(),
+		nombres_apellidos: yup.string().required("El campo es obligatorio"),
+	});
+
 	const {
 		register,
 		control,
@@ -43,12 +62,14 @@ const RadicadoDetails = () => {
 		getValues,
 		formState: { errors },
 	} = useForm<IRadicadoDetailsForm>({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(data.tipo == 2 ? schema2 : schema),
+		defaultValues: { ...data },
 		mode: "all",
 	});
 
 	const onBlurData = () => {
 		const radicadoOrigen = getValues("radicado_origen");
+		onChange({ ...data, radicado_origen: Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen) })
 		if (radicadoOrigen) {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
 				async ({ data, message }: any) => {
@@ -114,7 +135,7 @@ const RadicadoDetails = () => {
 					control={control}
 					label="Radicado Origen"
 					className="input-basic"
-					classNameLabel="text--black"
+					classNameLabel={`text--black ${data.tipo == 2 ? 'text-required' : ''}`}
 					errors={errors}
 					disabled={false}
 					onBlur={onBlurData}

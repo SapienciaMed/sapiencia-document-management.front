@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ButtonComponent } from "../../../common/components/Form";
 import AccordionsComponent from "../../../common/components/accordions.component";
 import { IAccordionTemplate } from "../../../common/interfaces/accordions.interfaces";
@@ -11,11 +11,21 @@ import Subject from "../components/document-received/subject";
 import OptionalFields from "../components/document-received/optional-fields";
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
+	const [data, setData] = useState<any>({})
+
+	const onChange = async (newData: any) => {
+        try {
+            setData(newData);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 	const accordionsData: IAccordionTemplate[] = [
 		{
 			id: 1,
 			name: "Datos del radicado",
-			content: <RadicadoDetails />,
+			content: <RadicadoDetails data={data} onChange={onChange} />,
 			disabled: false,
 		},
 		{
@@ -46,7 +56,7 @@ const DocumentsReceived = () => {
 		{
 			id: 6,
 			name: "Asunto",
-			content: <Subject />,
+			content: <Subject data={data} onChange={onChange} />,
 			disabled: false,
 		},
 		,
