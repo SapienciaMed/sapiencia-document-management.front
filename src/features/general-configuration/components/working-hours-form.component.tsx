@@ -27,7 +27,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
     <FormComponent action={undefined} className="accordion-item-container">
       <div className="grid-form-2-container" style={{ padding: '20px 10px'}}>
         <div className="grid-form-3-container ">              
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center ">
             <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>Configuración para el manejo de reportes para tomar en cuenta solo los días, horas y minutos hábiles.</p>
           </div>
 
@@ -35,7 +35,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
             <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>DIAS_HABILES</p>
           </div>
           
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center ">
             <div className="d-flex align-items-center">
               <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginRight: 7 }}>NO</span>
               <label className="switch">

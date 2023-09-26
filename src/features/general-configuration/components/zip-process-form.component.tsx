@@ -21,7 +21,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
       <div className="w-100" style={{ padding: '20px 10px'}}>
         <div className="w-100">
             <p className="color-black" style={{ minHeight: 20, fontSize: 17, fontWeight: 400 }}>Indica si administrará direcciones internas y externas para mostrar los archivos</p>
-            <div className="d-flex align-items-center space-between w-100">
+            <div className="d-flex space-between switch-md w-100">
               
               <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>COMPRIMIR_IMAGEN</p>
              

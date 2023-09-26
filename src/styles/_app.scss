@@ -17,7 +17,7 @@ html {
 body {
 	padding: 0;
 	margin: 0;
-	font-family: "RubikMedium", sans-serif;
+	// font-family: "RubikMedium", sans-serif;
 	// font-size: 16px;
 }
 
@@ -79,9 +79,52 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 }
 
 .general-configuration-page {
-	font-size: "Rubik";
+	.standar-type-container {
+		padding: 20px 150px;
+		column-gap: 27
+	}
+
+	.switch-md {
+		align-items: center;
+	}
+
+	@media (max-width: 600px) {
+
+		.fs-md {
+			font-size: 14px	;
+			margin-right: 12px ;
+		}
+
+		.switch-md {
+			flex-direction: column;
+			align-items: flex-start !important;
+		}
+
+		.fs-md-2 {
+			font-size: 12px	;
+			margin-right: 12px ;
+		} 
+
+		.standar-type-container {
+			padding: 20px 10px;
+		}
+	  }
+
+
+	* {
+		font-family: 'Rubik' !important;
+	}
+
 	.color-black {
 		color: black;
+	}
+
+	.without-border {
+		border: none;
+	}
+
+	.without-bold {
+		font-weight: 400;
 	}
 
 	.space-between {
@@ -109,7 +152,6 @@ div[id="single-spa-application:@sapiencia/document-management"] {
     .accordion-item-container {
       max-width: 280px;
     }
-
   }
 
  
@@ -212,6 +254,6 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	}
 }
 
-.text-black {
+.modal-content .text-black {
 	text-align: center;
 }

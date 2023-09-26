@@ -54,8 +54,8 @@ export default React.memo(() => {
         UpdateGeneralConfiguration(1, data).then((response => {
             if (response.operation.code === EResponseCodes.OK) {
                 setMessage({
-                    // title: "Guardar cambios",
-                    description: "Edición exitosa",
+                    title: "Edición exitosa",
+                    description: "Se han editado los cambios exitosamente",
                     show: true,
                     background: true,
                     okTitle: "Aceptar",
@@ -95,18 +95,18 @@ export default React.memo(() => {
                 <div className="">
                     <button style={{ marginRight: 12 }} className="cancel-button" onClick={(() => {
                         setMessage({
-                            // title: "Cancelar cambios",
+                            title: "Cancelar",
                             description: "¿Desea cancelar la acción? no se guardarán los datos",
                             show: true,
                             background: true,
                             cancelTitle: "Cancelar",
                             okTitle: "Continuar",
                             onCancel: () => {
-                                setMessage({ });
-                            },
-                            onOk: () => {
                                 navigate('./../../');
                                 setMessage({});
+                            },
+                            onOk: () => {
+                                setMessage({ });
                             }
                         })
                     })}>
