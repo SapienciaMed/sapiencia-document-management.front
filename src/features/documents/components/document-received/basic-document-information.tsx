@@ -42,6 +42,7 @@ const BasicDocumentInformation = () => {
 		setValue,
 		getValues,
 		watch,
+		reset,
 		formState: { errors },
 	} = useForm<IBasicDocumentInformationForm>({
 		resolver: yupResolver(schema),
@@ -68,6 +69,7 @@ const BasicDocumentInformation = () => {
 							setMessage({});
 						},
 					});
+					reset();
 				}
 			});
 		}

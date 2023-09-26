@@ -8,8 +8,6 @@ import useCrudService from "../../../../common/hooks/crud-service.hook";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
-import { HiOutlineSearch } from "react-icons/hi";
 import { AppContext } from "../../../../common/contexts/app.context";
 import { InputTextIconComponent } from "../input-text-icon.component";
 
@@ -22,7 +20,7 @@ const RecipientData = () => {
 	const schema = yup.object({
 		dirigido_a: yup
 			.string()
-			.max(12, "Solo se permiten 12 caracteres")
+			.max(15, "Solo se permiten 15 caracteres")
 			.required("El campo es obligatorio"),
 		nombres_apellidos_destinatario: yup.string(),
 		pais_destinatario: yup.string(),
@@ -42,6 +40,72 @@ const RecipientData = () => {
 		mode: "all",
 	});
 
+	const getPais = (pais: number) => {
+		const paises = [
+			{
+				codigo: 57,
+				descripcion: "Colombia",
+			},
+			{
+				codigo: 1,
+				descripcion: "Estados Unidos",
+			},
+			{
+				codigo: 2,
+				descripcion: "Alemania",
+			},
+		];
+
+		const paisEncontrado = paises.find(
+			(descripcion) => descripcion.codigo === pais
+		);
+
+		// Si encontramos el país, mostramos su descripción
+		if (paisEncontrado) {
+			console.log(paisEncontrado);
+			setValue("pais_destinatario", paisEncontrado.descripcion);
+		}
+	};
+
+	const getDepartamento = (departamento: number) => {
+		const departamentos = [
+			{
+				codigo: 13,
+				descripcion: "Bolivar",
+			},
+		];
+
+		const departamentoEncontrado = departamentos.find(
+			(descripcion) => descripcion.codigo === departamento
+		);
+
+		// Si encontramos el país, mostramos su descripción
+		if (departamentoEncontrado) {
+			setValue(
+				"departamento_destinatario",
+				departamentoEncontrado.descripcion
+			);
+		}
+	};
+
+	const getMunicipio = (municipio: number) => {
+		const municipios = [
+			{
+				codigo: 13001,
+				descripcion: "Cartagena de Indias",
+			},
+		];
+
+		const municipioEncontrado = municipios.find(
+			(descripcion) => descripcion.codigo === municipio
+		);
+
+		// Si encontramos el país, mostramos su descripción
+		if (municipioEncontrado) {
+			setValue("municipio_destinatario", municipioEncontrado.descripcion);
+		}
+	};
+
 	const onBlurData = () => {
 		const idNumber = getValues("dirigido_a");
 
@@ -52,12 +116,15 @@ const RecipientData = () => {
 						"nombres_apellidos_destinatario",
 						data.usr_nombre + " " + data.usr_apellidos
 					);
-					setValue("pais_destinatario", data.usr_pais);
-					setValue(
-						"departamento_destinatario",
-						data.usr_departamento
-					);
-					setValue("municipio_destinatario", data.usr_municipio);
+					getPais(data.usr_pais);
+					//setValue("pais_destinatario", data.usr_pais);
+					getDepartamento(data.usr_departamento);
+					// setValue(
+					// 	"departamento_destinatario",
+					// 	data.usr_departamento
+					// );
+					getMunicipio(data.usr_municipio);
+					//setValue("municipio_destinatario", data.usr_municipio);
 				} else {
 					setMessage({
 						title: "Datos del destinatario",
@@ -96,7 +163,7 @@ const RecipientData = () => {
 							errors={errors}
 							disabled={false}
 							onBlur={onBlurData}
-							min={12}
+							min={15}
 							type={"number"}
 						/>
 					</div>
