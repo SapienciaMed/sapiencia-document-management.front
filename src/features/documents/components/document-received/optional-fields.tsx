@@ -21,7 +21,10 @@ const OptionalFields = () => {
 			.string()
 			.max(3, "Solo se permiten 3 dígitos")
 			.optional(),
-		numero_cajas: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
+		numero_cajas: yup
+			.string()
+			.max(3, "Solo se permiten 3 dígitos")
+			.optional(),
 	});
 	const {
 		register,

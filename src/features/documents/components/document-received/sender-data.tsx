@@ -133,7 +133,12 @@ const SenderData = () => {
 							setMessage({});
 						},
 					});
-					reset();
+					reset({
+						nombres_apellidos: "",
+						pais: "",
+						departamento: "",
+						municipio: "",
+					});
 				}
 			});
 		}
