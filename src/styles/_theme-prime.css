@@ -819,13 +819,17 @@
 .p-dropdown.p-dropdown-clearable .p-dropdown-label {
 	padding-right: 1.75rem;
 }
+
 .p-dropdown .p-dropdown-label {
 	background: transparent;
 	border: 0 none;
 }
+
 .p-dropdown .p-dropdown-label.p-placeholder {
 	color: #6c757d;
+	font-size: 0.9rem;
 }
+
 .p-dropdown .p-dropdown-label:enabled:focus {
 	outline: 0 none;
 	box-shadow: none;
