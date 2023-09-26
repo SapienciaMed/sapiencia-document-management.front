@@ -262,6 +262,23 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	}
 }
 
+
+.recived-documents {	
+	* {
+		font-family: 'Rubik' !important;
+	}
+
+	.p-accordion-header-text  {
+		color: #6C757D;
+		font-weight: 500;
+		font-family: 'Rubik' !important;
+	}
+
+	.p-accordion-tab-active .p-accordion-header-text  {
+	color: black;
+	}
+}
+
 .modal-content .text-black {
 	text-align: center;
 }

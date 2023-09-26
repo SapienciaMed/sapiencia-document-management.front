@@ -68,7 +68,7 @@ const DocumentsReceived = () => {
 		},
 	];
 	return (
-		<div className="crud-page full-height">
+		<div className="crud-page full-height recived-documents">
 			<div className="main-page container-docs-received">
 				<div className="card-table shadow-none">
 					<div className="title-area">
