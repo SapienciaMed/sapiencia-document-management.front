@@ -35,7 +35,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           <InputComponentOriginal
             idInput="route_creator_path"
             typeInput="text"
-            className="input-basic background-textArea without-border without-bold"
+            className="input-basic background-textArea without-border without-bold min-width-309px"
             register={register}
             label="RUTAPDFCreator"
             classNameLabel="text-black big"
@@ -52,7 +52,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           <InputComponentOriginal
             idInput="pdf_temporary_path"
             typeInput="text"
-            className="input-basic background-textArea"
+            className="input-basic background-textArea without-border without-bold min-width-309px"
             register={register}
             label="RUTATEMPPDF"
             classNameLabel="text-black big"
