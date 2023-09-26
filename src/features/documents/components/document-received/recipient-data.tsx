@@ -136,7 +136,12 @@ const RecipientData = () => {
 							setMessage({});
 						},
 					});
-					reset();
+					reset({
+						nombres_apellidos_destinatario: "",
+						pais_destinatario: "",
+						departamento_destinatario: "",
+						municipio_destinatario: "",
+					});
 				}
 			});
 		}
