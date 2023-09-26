@@ -35,11 +35,75 @@ const SenderData = () => {
 		control,
 		setValue,
 		getValues,
+		reset,
 		formState: { errors },
 	} = useForm<ISenderDataForm>({
 		resolver: yupResolver(schema),
 		mode: "all",
 	});
+
+	const getPais = (pais: number) => {
+		const paises = [
+			{
+				codigo: 57,
+				descripcion: "Colombia",
+			},
+			{
+				codigo: 1,
+				descripcion: "Estados Unidos",
+			},
+			{
+				codigo: 2,
+				descripcion: "Alemania",
+			},
+		];
+
+		const paisEncontrado = paises.find(
+			(descripcion) => descripcion.codigo === pais
+		);
+
+		// Si encontramos el país, mostramos su descripción
+		if (paisEncontrado) {
+			console.log(paisEncontrado);
+			setValue("pais", paisEncontrado.descripcion);
+		}
+	};
+
+	const getDepartamento = (departamento: number) => {
+		const departamentos = [
+			{
+				codigo: 13,
+				descripcion: "Bolivar",
+			},
+		];
+
+		const departamentoEncontrado = departamentos.find(
+			(descripcion) => descripcion.codigo === departamento
+		);
+
+		// Si encontramos el país, mostramos su descripción
+		if (departamentoEncontrado) {
+			setValue("departamento", departamentoEncontrado.descripcion);
+		}
+	};
+
+	const getMunicipio = (municipio: number) => {
+		const municipios = [
+			{
+				codigo: 13001,
+				descripcion: "Cartagena de Indias",
+			},
+		];
+
+		const municipioEncontrado = municipios.find(
+			(descripcion) => descripcion.codigo === municipio
+		);
+
+		// Si encontramos el país, mostramos su descripción
+		if (municipioEncontrado) {
+			setValue("municipio", municipioEncontrado.descripcion);
+		}
+	};
 
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
@@ -52,9 +116,12 @@ const SenderData = () => {
 						"nombres_apellidos",
 						data.usr_nombre + " " + data.usr_apellidos
 					);
-					setValue("pais", data.usr_pais);
-					setValue("departamento", data.usr_departamento);
-					setValue("municipio", data.usr_municipio);
+					//setValue("pais", data.usr_pais);
+					getPais(data.usr_pais);
+					getDepartamento(data.usr_departamento);
+					//setValue("departamento", data.usr_departamento);
+					getMunicipio(data.usr_municipio);
+					//setValue("municipio", data.usr_municipio);
 				} else {
 					setMessage({
 						title: "Datos del remitente",
@@ -66,6 +133,7 @@ const SenderData = () => {
 							setMessage({});
 						},
 					});
+					reset();
 				}
 			});
 		}
