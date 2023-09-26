@@ -61,6 +61,7 @@ export default React.memo(() => {
                     okTitle: "Aceptar",
                     onOk: () => {
                         setMessage({});
+                        navigate('./../../');
                     }
                 })
             }
