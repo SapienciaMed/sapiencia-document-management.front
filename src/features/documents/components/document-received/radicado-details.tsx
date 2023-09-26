@@ -11,6 +11,8 @@ import useCurrentDateTime from "../current-date-time";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { AppContext } from "../../../../common/contexts/app.context";
+import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
+import { InputTextNumberComponent } from "../input-text-number";
 
 const RadicadoDetails = () => {
 	const { setMessage } = useContext(AppContext);
@@ -26,13 +28,12 @@ const RadicadoDetails = () => {
 		fecha_radicado: yup.string().required(),
 		radicado_origen: yup
 			.string()
-			.max(12, "Máximo 12 caracteres")
+			.min(12, "Escribir mínimo 12 dígitos")
+			.max(12, "Solo se permiten 12 dígitos")
 			.optional(),
 		fecha_origen: yup.string().optional(),
 		radicado_por: yup.string().required(),
-		nombres_apellidos: yup
-			.string()
-			.required("Ingresar el nombre y apellidos completos"),
+		nombres_apellidos: yup.string().required("El campo es obligatorio"),
 	});
 
 	const {
@@ -52,7 +53,7 @@ const RadicadoDetails = () => {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
 				async ({ data, message }: any) => {
 					if (data) {
-						setValue("fecha_origen", data.dra_fecha_origen);
+						setValue("fecha_origen", data.dra_fecha_radicado);
 					} else {
 						setMessage({
 							title: "Datos del radicado origen",
@@ -64,6 +65,7 @@ const RadicadoDetails = () => {
 								setMessage({});
 							},
 						});
+						setValue("fecha_origen", "");
 					}
 				}
 			);
@@ -107,7 +109,7 @@ const RadicadoDetails = () => {
 					disabled={true}
 				/>
 
-				<InputTextComponent
+				<InputTextNumberComponent
 					idInput="radicado_origen"
 					control={control}
 					label="Radicado Origen"
@@ -117,6 +119,7 @@ const RadicadoDetails = () => {
 					disabled={false}
 					onBlur={onBlurData}
 					max={12}
+					type={"number"}
 				/>
 
 				<Controller

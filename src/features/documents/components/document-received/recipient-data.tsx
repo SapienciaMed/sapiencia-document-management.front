@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import { HiOutlineSearch } from "react-icons/hi";
 import { AppContext } from "../../../../common/contexts/app.context";
+import { InputTextIconComponent } from "../input-text-icon.component";
 
 const RecipientData = () => {
 	const { setMessage } = useContext(AppContext);
@@ -21,8 +22,8 @@ const RecipientData = () => {
 	const schema = yup.object({
 		dirigido_a: yup
 			.string()
-			.max(12, "Máximo 12 caracteres")
-			.required("Campo requerido"),
+			.max(12, "Solo se permiten 12 caracteres")
+			.required("El campo es obligatorio"),
 		nombres_apellidos_destinatario: yup.string(),
 		pais_destinatario: yup.string(),
 		departamento_destinatario: yup.string(),
@@ -34,6 +35,7 @@ const RecipientData = () => {
 		control,
 		setValue,
 		getValues,
+		reset,
 		formState: { errors },
 	} = useForm<IRecipientDataForm>({
 		resolver: yupResolver(schema),
@@ -67,6 +69,7 @@ const RecipientData = () => {
 							setMessage({});
 						},
 					});
+					reset();
 				}
 			});
 		}
@@ -83,24 +86,21 @@ const RecipientData = () => {
 				<div
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
-					<div className={styles["search-input"]}>
-						<div className={styles["search-input-enviado"]}>
-							<InputTextComponent
-								idInput="dirigido_a"
-								control={control}
-								label="Dirigido a"
-								className="input-basic"
-								classNameLabel="text--black text-required"
-								errors={errors}
-								disabled={false}
-								onBlur={onBlurData}
-								min={12}
-							/>
-						</div>
-						<div className={styles["icon-search"]}>
-							<HiOutlineSearch />
-						</div>
+					<div>
+						<InputTextIconComponent
+							idInput="dirigido_a"
+							control={control}
+							label="Dirigido a"
+							className="input-basic"
+							classNameLabel="text--black text-required"
+							errors={errors}
+							disabled={false}
+							onBlur={onBlurData}
+							min={12}
+							type={"number"}
+						/>
 					</div>
+
 					<Controller
 						name="nombres_apellidos_destinatario"
 						control={control}
@@ -132,7 +132,7 @@ const RecipientData = () => {
 								id="pais_destinatario"
 								idInput="pais_destinatario"
 								value={`${field.value || ""}`}
-								label="Pais"
+								label="País"
 								className="input-basic"
 								classNameLabel="text--black"
 								typeInput={"text"}

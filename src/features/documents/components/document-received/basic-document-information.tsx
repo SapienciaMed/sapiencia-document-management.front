@@ -14,6 +14,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { IoWarningOutline } from "react-icons/io5";
 import { AppContext } from "../../../../common/contexts/app.context";
+import { InputTextIconComponent } from "../input-text-icon.component";
 
 const BasicDocumentInformation = () => {
 	const { setMessage } = useContext(AppContext);
@@ -22,22 +23,18 @@ const BasicDocumentInformation = () => {
 	const { get } = useCrudService(baseURL);
 	const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
 
-	const schema = yup
-		.object({
-			codigo_asunto: yup
-				.number()
-				.typeError("Debe ser un número")
-				.positive("No debe ser negativo")
-				.integer("debe ser un número entero")
-				.required("Código Requerido")
-				.max(10, "Máximo 10 dígitos"),
-			nombre_asunto: yup.string().required(),
-			tiempo_respuesta: yup.string().required(),
-			unidad: yup.string().required(),
-			tipo: yup.string().required("Tipo requerido"),
-			prioridad: yup.string().required("Prioridad requerida"),
-		})
-		.required();
+	const schema = yup.object({
+		codigo_asunto: yup
+			.string()
+			.required("El campo es obligatorio")
+			.min(10, "Solo permiten mínimo 10 dígitos")
+			.max(10, "Solo permiten 10 dígitos"),
+		nombre_asunto: yup.string().required(),
+		tiempo_respuesta: yup.string().required(),
+		unidad: yup.string().required(),
+		tipo: yup.string().required("El campo es obligatorio"),
+		prioridad: yup.string().required("El campo es obligatorio"),
+	});
 
 	const {
 		register,
@@ -87,25 +84,21 @@ const BasicDocumentInformation = () => {
 			<div
 				className={`${styles["document-container"]} ${styles["document-container--col4"]}`}
 			>
-				<div className={styles["search-input"]}>
-					<div className={styles["search-input-enviado"]}>
-						<InputTextComponent
-							idInput="codigo_asunto"
-							control={control}
-							label="Código asunto"
-							className="input-basic"
-							classNameLabel="text--black text-required"
-							errors={errors}
-							disabled={false}
-							onBlur={onBlurData}
-							max={12}
-						/>
-					</div>
-
-					<div className={styles["icon-search"]}>
-						<HiOutlineSearch />
-					</div>
+				<div>
+					<InputTextIconComponent
+						idInput="codigo_asunto"
+						control={control}
+						label="Código asunto"
+						className="input-basic"
+						classNameLabel="text--black text-required"
+						errors={errors}
+						disabled={false}
+						onBlur={onBlurData}
+						max={12}
+						type="number"
+					/>
 				</div>
+
 				<Controller
 					name="nombre_asunto"
 					control={control}
@@ -172,7 +165,7 @@ const BasicDocumentInformation = () => {
 					render={({ field }) => (
 						<SelectComponent
 							idInput="tipo"
-							className="select-basic"
+							className="select-basic select-placeholder"
 							control={control}
 							errors={errors}
 							label="Tipo"

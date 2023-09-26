@@ -46,8 +46,8 @@
 	gap: 0.5rem;
 }
 
-.search-input-enviado {
-	flex-basis: 100%;
+.search-input-size {
+	width: 80%;
 }
 
 .icon-search {
@@ -58,7 +58,15 @@
 	height: 40px;
 	border: 1px solid #e2e2e2;
 	border-radius: 10px 10px;
-	align-self: flex-end;
+}
+.search-input-absolute {
+	position: relative;
+}
+.icon-position-left {
+	position: absolute;
+	top: 50%;
+	left: 87%;
+	transform: translateY(-50%);
 }
 
 .add-recipient-link {

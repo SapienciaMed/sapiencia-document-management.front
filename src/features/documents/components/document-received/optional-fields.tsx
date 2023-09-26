@@ -8,25 +8,14 @@ import { Controller, useForm } from "react-hook-form";
 import { TextAreaComponent } from "../../../../common/components/Form/input-text-area.component";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { InputTextNumberComponent } from "../input-text-number";
 
 const OptionalFields = () => {
 	const schema = yup.object({
 		observaciones: yup.string().max(2000).optional(),
-		numero_anexos: yup
-			.number()
-			.positive("Debe ser un numero positivo")
-			.integer("Debe ser un numero entero")
-			.optional(),
-		numero_folios: yup
-			.number()
-			.positive("Debe ser un numero positivo")
-			.integer("Debe ser un numero entero")
-			.optional(),
-		numero_cajas: yup
-			.number()
-			.positive("Debe ser un numero positivo")
-			.integer("Debe ser un numero entero")
-			.optional(),
+		numero_anexos: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
+		numero_folios: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
+		numero_cajas: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
 	});
 	const {
 		register,
@@ -54,49 +43,53 @@ const OptionalFields = () => {
 								errors={errors}
 								disabled={false}
 								rows={5}
+								placeholder="Escribe aquí"
 							/>
 						)}
 					/>
 					<div className="text-right">
-						<span>Max 2000 caracteres</span>
+						<span>Máx. 2000 caracteres</span>
 					</div>
 				</div>
 
 				<div
 					className={`text-center ${styles["document-container"]} ${styles["document-container--col4-small"]} ${styles["mb-10"]}`}
 				>
-					<InputComponent
-						id="numero_anexos"
+					<InputTextNumberComponent
 						idInput="numero_anexos"
 						label="Número de anexos"
 						className={`input-basic ${styles["input-small"]}`}
 						classNameLabel="text--black"
-						typeInput={"text"}
-						register={register}
+						max={999}
+						min={1}
+						control={control}
 						errors={errors}
 						disabled={false}
+						type={"number"}
 					/>
-					<InputComponent
-						id="numero_folios"
+					<InputTextNumberComponent
 						idInput="numero_folios"
 						label="Número de folios"
 						className={`input-basic ${styles["input-small"]}`}
 						classNameLabel="text--black text-center"
-						typeInput={"number"}
-						register={register}
+						control={control}
 						errors={errors}
 						disabled={false}
+						max={999}
+						min={1}
+						type={"number"}
 					/>
-					<InputComponent
-						id="numero_cajas"
+					<InputTextNumberComponent
 						idInput="numero_cajas"
 						label="Número de cajas"
 						className={`input-basic ${styles["input-small"]}`}
 						classNameLabel="text--black text-center"
-						typeInput={"number"}
-						register={register}
 						errors={errors}
+						control={control}
 						disabled={false}
+						max={999}
+						min={1}
+						type={"number"}
 					/>
 				</div>
 			</FormComponent>

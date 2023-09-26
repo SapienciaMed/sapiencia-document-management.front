@@ -26,6 +26,7 @@ interface IInputProps<T> {
 	optionsRegister?: {};
 	max?: number;
 	min?: number;
+	maxlength?: number;
 }
 
 function LabelElement({ label, idInput, classNameLabel }): React.JSX.Element {
@@ -54,6 +55,7 @@ function InputElement({
 	optionsRegister,
 	max,
 	min,
+	maxlength,
 }): React.JSX.Element {
 	return (
 		<input
@@ -70,6 +72,7 @@ function InputElement({
 			value={value}
 			max={max}
 			min={min}
+			maxlength={maxlength}
 		/>
 	);
 }
@@ -95,6 +98,7 @@ export function InputComponent({
 	optionsRegister = {},
 	max,
 	min,
+	maxlength,
 }: IInputProps<any>): React.JSX.Element {
 	const messageError = () => {
 		const keysError = idInput.split(".");
@@ -143,6 +147,7 @@ export function InputComponent({
 					optionsRegister={optionsRegister}
 					max={max}
 					min={min}
+					maxlength={maxlength}
 				/>
 				{messageError() && (
 					<MdOutlineError

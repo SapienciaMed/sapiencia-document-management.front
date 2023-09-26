@@ -13,11 +13,8 @@ const Subject = () => {
 	const MAX_LENGTH_TEXT = 2000;
 	const [textoLength, setTextoLength] = useState(0);
 	const schema = yup.object({
-		referencia: yup
-			.string()
-			.max(2000)
-			.required("Campo Referencia requerido"),
-		tipo: yup.string().required("Campo Tipo requerido"),
+		referencia: yup.string().max(2000).required("El campo es obligatorio"),
+		tipo: yup.string().required("El campo es obligatorio"),
 	});
 	const {
 		register,

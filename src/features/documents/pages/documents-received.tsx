@@ -52,7 +52,7 @@ const DocumentsReceived = () => {
 		,
 		{
 			id: 7,
-			name: "Campos Adicionales",
+			name: "Campos Opcionales",
 			content: <OptionalFields />,
 			disabled: false,
 		},

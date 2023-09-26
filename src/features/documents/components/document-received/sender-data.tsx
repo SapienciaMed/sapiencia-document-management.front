@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import { AppContext } from "../../../../common/contexts/app.context";
 import { IoSearchOutline } from "react-icons/io5";
+import { InputTextIconComponent } from "../input-text-icon.component";
 
 const SenderData = () => {
 	const { setMessage } = useContext(AppContext);
@@ -21,8 +22,8 @@ const SenderData = () => {
 	const schema = yup.object({
 		enviado_por: yup
 			.string()
-			.max(12, "Máximo 12 caracteres")
-			.required("Campo requerido"),
+			.max(15, "Solo se permiten 15 caracteres")
+			.required("El campo es obligatorio"),
 		nombres_apellidos: yup.string().required(),
 		pais: yup.string().required(),
 		departamento: yup.string().required(),
@@ -82,24 +83,20 @@ const SenderData = () => {
 				<div
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
-					<div className={styles["search-input"]}>
-						<div className={styles["search-input-enviado"]}>
-							<InputTextComponent
-								idInput="enviado_por"
-								control={control}
-								label="Enviado por"
-								className="input-basic"
-								classNameLabel="text--black text-required"
-								errors={errors}
-								disabled={false}
-								onBlur={onBlurData}
-								max={12}
-							/>
-						</div>
-						<div className={styles["icon-search"]}>
-							<IoSearchOutline />
-						</div>
+					<div>
+						<InputTextIconComponent
+							idInput="enviado_por"
+							control={control}
+							label="Enviado por"
+							className="input-basic"
+							classNameLabel="text--black text-required"
+							errors={errors}
+							disabled={false}
+							onBlur={onBlurData}
+							max={12}
+						/>
 					</div>
+
 					<Controller
 						name="nombres_apellidos"
 						control={control}
@@ -131,7 +128,7 @@ const SenderData = () => {
 								id="pais"
 								idInput="pais"
 								value={`${field.value || ""}`}
-								label="Pais"
+								label="País"
 								className="input-basic"
 								classNameLabel="text--black"
 								typeInput={"text"}
