@@ -1,5 +1,5 @@
 import React from "react";
-import { FormComponent, InputComponent, SelectComponent } from "../../../common/components/Form";
+import { FormComponent, InputComponent, InputComponentOriginal } from "../../../common/components/Form";
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IConsecutiveNumberForm, } from "../interfaces/GeneralConfigurationInterfaces";
@@ -28,7 +28,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
         <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de los Anexos de los Documentos</p>
-            <InputComponent
+            <InputComponentOriginal
                 idInput="anexo"
                 typeInput="number"
                 className="input-basic background-textArea"
@@ -42,7 +42,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de las cartas</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="letter"
               typeInput="number"
               className="input-basic background-textArea"
@@ -57,7 +57,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
 
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del número de Expediente</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="expedient"
               typeInput="number"
               className="input-basic background-textArea"
@@ -73,7 +73,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
         <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos Externos</p>
-            <InputComponent
+            <InputComponentOriginal
                 idInput="external"
                 typeInput="number"
                 className="input-basic background-textArea"
@@ -87,7 +87,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos Internos</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="internal"
               typeInput="number"
               className="input-basic background-textArea"
@@ -102,7 +102,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
 
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos no Radicables</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="radiable_number"
               typeInput="number"
               className="input-basic background-textArea"
@@ -118,7 +118,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
         <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los No Radicables desde el expediente</p>
-            <InputComponent
+            <InputComponentOriginal
                 idInput="filed_number_exped"
                 typeInput="number"
                 className="input-basic background-textArea"
@@ -132,7 +132,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo del Radicado de los documentos Recibidos</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="received"
               typeInput="number"
               className="input-basic background-textArea"
@@ -147,7 +147,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
 
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que comienza el consecutivo de las series documentes del inventario</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="series"
               typeInput="number"
               className="input-basic background-textArea"
@@ -163,7 +163,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
       <div className="grid-form-3-container" style={{ padding: '20px 10px'}}>
         <div>
             <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que se comienza el ingreso del Registro de Inventario Documental</p>
-            <InputComponent
+            <InputComponentOriginal
                 idInput="inventory_record"
                 typeInput="number"
                 className="input-basic background-textArea"
@@ -177,7 +177,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
         <div>
           <p className="color-black" style={{ minHeight: 70, fontSize: 17 }}>Número con el que se comienza el ingreso de los Documentos del Registro de Inventario Documental</p>
-          <InputComponent
+          <InputComponentOriginal
               idInput="inventory_record_detail"
               typeInput="number"
               className="input-basic background-textArea"

@@ -1,5 +1,5 @@
 import React from "react";
-import { FormComponent, InputComponent, SelectComponent } from "../../../common/components/Form";
+import { FormComponent, InputComponentOriginal, SelectComponent } from "../../../common/components/Form";
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IGeneralConfiguration, } from "../interfaces/GeneralConfigurationInterfaces";
@@ -54,7 +54,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
 
           <div className="d-flex align-items-center">
-            <InputComponent
+            <InputComponentOriginal
               idInput="lunch_duration"
               typeInput="number"
               className="input-basic background-textArea"
@@ -78,7 +78,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
 
           <div className="d-flex align-items-center">
-            <InputComponent
+            <InputComponentOriginal
               idInput="time"
               typeInput="number"
               className="input-basic background-textArea"
@@ -98,7 +98,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
 
           <div className="d-flex align-items-center">
-            <InputComponent
+            <InputComponentOriginal
                 idInput="lunch_time"
                 typeInput="number"
                 className="input-basic background-textArea"
