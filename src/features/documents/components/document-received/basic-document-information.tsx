@@ -52,7 +52,7 @@ const BasicDocumentInformation = () => {
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
 
-		if (idAsunto) {
+		if (idAsunto && idAsunto.length <= 10) {
 			checkIdInDB(idAsunto).then(async ({ data, message }: any) => {
 				if (data) {
 					setValue("nombre_asunto", data.inf_nombre_asunto);
