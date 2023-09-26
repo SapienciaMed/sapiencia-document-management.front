@@ -29,7 +29,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           <InputComponentOriginal
             idInput="admin_email"
             typeInput="email"
-            className="input-basic background-textArea w-100 without-border without-bold"
+            className="input-basic background-textArea w-100 without-border without-bold min-width-270px"
             register={register}
             label="Correo electrónico"
             classNameLabel="text-black"
