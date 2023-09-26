@@ -21,7 +21,7 @@ const AddRecipient = () => {
 					</button>
 					<AiOutlinePlusCircle size={15} color="#4338CA" />
 				</div>
-				<div className={`${styles["add-recipient-link"]}`}>
+				{/* <div className={`${styles["add-recipient-link"]}`}>
 					<button
 						className={`${styles["btn-link"]} ${styles["btn-link--black"]}`}
 						type="button"
@@ -29,7 +29,7 @@ const AddRecipient = () => {
 						Quitar
 					</button>
 					<IoTrashOutline size={20} color="#FF0000" />
-				</div>
+				</div> */}
 			</div>
 
 			<FormComponent action={null}>
@@ -63,19 +63,25 @@ const AddRecipient = () => {
 						errors={null}
 						disabled={true}
 					/>
-					<InputComponent
-						id="correo_destinatario_copia"
-						idInput="correo_destinatario_copia"
-						value={""}
-						label="Correo"
-						className="input-basic"
-						classNameLabel="text--black"
-						typeInput={"email"}
-						register={null}
-						onChange={null}
-						errors={null}
-						disabled={true}
-					/>
+
+					<div className="d-flex align-items-center">
+						<InputComponent
+							id="correo_destinatario_copia"
+							idInput="correo_destinatario_copia"
+							value={""}
+							label="Correo"
+							className="input-basic"
+							classNameLabel="text--black"
+							typeInput={"email"}
+							register={null}
+							onChange={null}
+							errors={null}
+							disabled={true}
+						/>
+
+						<IoTrashOutline style={{ marginLeft: 20, marginTop: 20 }} size={20} color="#FF0000" />
+
+					</div>
 				</div>
 			</FormComponent>
 		</>
