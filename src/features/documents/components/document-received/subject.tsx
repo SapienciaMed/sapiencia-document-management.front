@@ -8,6 +8,7 @@ import {
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { TextAreaComponent } from "../../../../common/components/Form/input-text-area.component";
 
 const Subject = () => {
 	const MAX_LENGTH_TEXT = 2000;
@@ -31,34 +32,6 @@ const Subject = () => {
 				<div
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
-					<div className={`${styles["input-wrapper"]}`}>
-						<Controller
-							name="referencia"
-							control={control}
-							render={({ field }) => (
-								<InputComponent
-									id="referencia"
-									idInput="referencia"
-									label="Referencia"
-									className={`${styles["input"]} ${styles["referencia"]} input-basic`}
-									classNameLabel="text--black text-required"
-									typeInput={"text"}
-									register={register}
-									onChange={(e) => {
-										field.onChange(e); // Importante para que react-hook-form registre el cambio.
-										setTextoLength(e.target.value.length);
-									}}
-									errors={errors}
-									disabled={false}
-								/>
-							)}
-						/>
-						<span
-							className={`${styles["input-icon"]} ${styles["referencia"]}`}
-						>
-							{MAX_LENGTH_TEXT - textoLength}
-						</span>
-					</div>
 					<Controller
 						name="tipo"
 						control={control}
@@ -83,14 +56,45 @@ const Subject = () => {
 							/>
 						)}
 					/>
-					<div className={`${styles["button-wrapper"]}`}>
-						<div className={`${styles["button-item"]}`}></div>
-						<button
-							className={`${styles["btn"]} ${styles["btn--gray"]}`}
+				</div>
+				<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
+					<div className={`${styles["input-wrapper"]}`}>
+						<Controller
+							name="referencia"
+							control={control}
+							render={({ field }) => (
+								<TextAreaComponent
+									id="referencia"
+									idInput="referencia"
+									label="Referencia"
+									className={`${styles["input-textarea"]} ${styles["input"]} ${styles["referencia"]}`}
+									classNameLabel="text--black text-required"
+									register={register}
+									errors={errors}
+									disabled={false}
+									rows={5}
+									placeholder="Escribe aquí"
+									onChange={(e) => {
+										field.onChange(e); // Importante para que react-hook-form registre el cambio.
+										setTextoLength(e.target.value.length);
+									}}
+								/>
+							)}
+						/>
+						<span
+							className={`${styles["input-icon"]} ${styles["referencia"]}`}
 						>
-							Respuestas Relacionadas
-						</button>
+							{MAX_LENGTH_TEXT - textoLength}
+						</span>
 					</div>
+				</div>
+				<div className={`${styles["button-wrapper"]}`}>
+					<div className={`${styles["button-item"]}`}></div>
+					<button
+						className={`${styles["btn"]} ${styles["btn--gray"]}`}
+					>
+						Respuestas Relacionadas
+					</button>
 				</div>
 			</FormComponent>
 		</>
