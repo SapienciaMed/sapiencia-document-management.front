@@ -15,6 +15,8 @@ import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { IoWarningOutline } from "react-icons/io5";
 import { AppContext } from "../../../../common/contexts/app.context";
 import { InputTextIconComponent } from "../input-text-icon.component";
+import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
+import { ITableAction, ITableElement } from "../../../../common/interfaces/table.interfaces";
 
 const BasicDocumentInformation = () => {
 	const { setMessage } = useContext(AppContext);
@@ -80,6 +82,33 @@ const BasicDocumentInformation = () => {
 		const data = await get(`${endpoint}`);
 		return data;
 	};
+
+	const effectsColumns: ITableElement<any>[] = [
+		{
+		  fieldName: "type",
+		  header: "Seleccione",
+		},
+		{
+		  fieldName: "impact",
+		  header: "Código",
+		},
+		{
+		  fieldName: "level",
+		  header: "Nombre",
+		},
+		{
+		  fieldName: "classification",
+		  header: "Dependencia",
+		},
+		{
+		  fieldName: "measures",
+		  header: "Tiempo respuesta",
+		},
+		{
+		  fieldName: "measures",
+		  header: "Unidad",
+		},
+	  ];
 
 	return (
 		<FormComponent action={undefined}>
@@ -212,6 +241,54 @@ const BasicDocumentInformation = () => {
 					/>
 				</div>
 			</div>
+
+			<div className="spc-common-table expansible card-table" style={{ marginTop: 40, marginBottom: 40 }}>
+				
+				<h2 className="biggest bold" style={{ fontSize: 24, fontFamily: 'Rubik', color: 'black', fontWeight: 500 }}>Parámetros asunto</h2>
+				<FormComponent action={undefined}>
+					<div
+						className={`${styles["document-container"]} ${styles["document-container--col4"]}`}
+					>
+						<Controller
+							name="codigo_asunto"
+							control={control}
+							render={({ field }) => (
+								<InputComponent
+									id="code"
+									idInput="code"
+									value={`${field.value || ""}`}
+									label="Código"
+									className="input-basic"
+									classNameLabel="text--black"
+									typeInput={"text"}
+									register={register}
+									onChange={null}
+									errors={errors}
+								/>
+							)}
+						/>
+						<Controller
+							name="nombre_asunto"
+							control={control}
+							render={({ field }) => (
+								<InputComponent
+									id="name"
+									idInput="name"
+									value={`${field.value || ""}`}
+									label="Nombre"
+									className="input-basic"
+									classNameLabel="text--black"
+									typeInput={"text"}
+									register={register}
+									onChange={null}
+									errors={errors}
+								/>
+							)}
+						/>
+					</div>
+				</FormComponent>
+			</div>
+			<TableExpansibleComponent actions={undefined} columns={effectsColumns} data={[]} />
 		</FormComponent>
 	);
 };
