@@ -15,6 +15,7 @@ const DocumentsReceived = () => {
 
 	const onChange = async (newData: any) => {
         try {
+			console.log(newData)
             setData(newData);
         } catch (err) {
             console.log(err);
@@ -37,7 +38,7 @@ const DocumentsReceived = () => {
 		{
 			id: 3,
 			name: "Información básica del documento",
-			content: <BasicDocumentInformation />,
+			content: <BasicDocumentInformation data={data} onChange={onChange} />,
 			disabled: false,
 		},
 		{

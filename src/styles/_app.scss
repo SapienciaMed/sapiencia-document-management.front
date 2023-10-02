@@ -207,6 +207,7 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	.save-button-active {
 		background-color: #533893;
 		color: white;
+		cursor: pointer;
 	}
 
 	.save-button-disabled {
@@ -266,6 +267,36 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 
 
 .recived-documents {
+
+	.search-button {
+		padding: 12px 16px 12px 16px;
+		border: none;
+		border-radius: 100px;
+		width: 88px;
+		height: 43px;
+	}
+
+	.search-button-active {
+		background-color: #533893;
+		color: white;
+		cursor: pointer;
+	}
+
+	.search-button-disabled {
+		background-color: #e2e2e2;
+		color: black;
+	}
+
+	.cancel-button {
+		padding: 12px 16px 12px 16px;
+		color: black;
+		border: none;
+		border-radius: 100px;
+		background-color: transparent;
+		width: 121p;
+		height: 41px;
+	}
+
 	.error-message {
 		font-size: .7rem;
 		color: red;
