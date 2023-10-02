@@ -108,7 +108,7 @@ const SenderData = () => {
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
 
-		if (idNumber) {
+		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
 				console.log(message);
 				if (data !== null) {
@@ -133,7 +133,12 @@ const SenderData = () => {
 							setMessage({});
 						},
 					});
-					reset();
+					reset({
+						nombres_apellidos: "",
+						pais: "",
+						departamento: "",
+						municipio: "",
+					});
 				}
 			});
 		}

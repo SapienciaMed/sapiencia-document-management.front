@@ -89,7 +89,13 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 							setMessage({});
 						},
 					});
-					reset();
+					reset({
+						nombre_asunto: "",
+						tiempo_respuesta: 0,
+						unidad: "",
+						tipo: "",
+						prioridad: "",
+					});
 				}
 			});
 		}

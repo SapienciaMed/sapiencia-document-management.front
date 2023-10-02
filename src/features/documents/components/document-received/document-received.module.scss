@@ -59,7 +59,13 @@
 	border: 1px solid #e2e2e2;
 	border-radius: 10px 10px;
 	cursor: pointer;
+	transition: background-color 0.3s;
 }
+
+.icon-search:hover {
+	background-color: #f8f6f6;
+}
+
 .search-input-absolute {
 	position: relative;
 }
@@ -109,7 +115,7 @@
 .input-icon.referencia {
 	left: unset;
 	right: 12px;
-	top: 60px;
+	top: 120px;
 }
 
 .button-wrapper {

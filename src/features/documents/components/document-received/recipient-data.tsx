@@ -109,7 +109,7 @@ const RecipientData = () => {
 	const onBlurData = () => {
 		const idNumber = getValues("dirigido_a");
 
-		if (idNumber) {
+		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
 				if (data !== null) {
 					setValue(
@@ -136,7 +136,12 @@ const RecipientData = () => {
 							setMessage({});
 						},
 					});
-					reset();
+					reset({
+						nombres_apellidos_destinatario: "",
+						pais_destinatario: "",
+						departamento_destinatario: "",
+						municipio_destinatario: "",
+					});
 				}
 			});
 		}

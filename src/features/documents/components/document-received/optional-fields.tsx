@@ -13,9 +13,18 @@ import { InputTextNumberComponent } from "../input-text-number";
 const OptionalFields = () => {
 	const schema = yup.object({
 		observaciones: yup.string().max(2000).optional(),
-		numero_anexos: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
-		numero_folios: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
-		numero_cajas: yup.string().max(3, "Solo permiten 3 dígitos").optional(),
+		numero_anexos: yup
+			.string()
+			.max(3, "Solo se permiten 3 dígitos")
+			.optional(),
+		numero_folios: yup
+			.string()
+			.max(3, "Solo se permiten 3 dígitos")
+			.optional(),
+		numero_cajas: yup
+			.string()
+			.max(3, "Solo se permiten 3 dígitos")
+			.optional(),
 	});
 	const {
 		register,
