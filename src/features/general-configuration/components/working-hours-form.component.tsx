@@ -1,5 +1,5 @@
 import React from "react";
-import { FormComponent, InputComponent, SelectComponent } from "../../../common/components/Form";
+import { FormComponent, InputComponentOriginal, SelectComponent } from "../../../common/components/Form";
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IGeneralConfiguration, } from "../interfaces/GeneralConfigurationInterfaces";
@@ -27,7 +27,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
     <FormComponent action={undefined} className="accordion-item-container">
       <div className="grid-form-2-container" style={{ padding: '20px 10px'}}>
         <div className="grid-form-3-container ">              
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center ">
             <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>Configuración para el manejo de reportes para tomar en cuenta solo los días, horas y minutos hábiles.</p>
           </div>
 
@@ -35,7 +35,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
             <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>DIAS_HABILES</p>
           </div>
           
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center ">
             <div className="d-flex align-items-center">
               <span style={{ fontSize: 17, fontWeight: 400, font: 'Rubik', marginRight: 7 }}>NO</span>
               <label className="switch">
@@ -54,7 +54,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
 
           <div className="d-flex align-items-center">
-            <InputComponent
+            <InputComponentOriginal
               idInput="lunch_duration"
               typeInput="number"
               className="input-basic background-textArea"
@@ -78,7 +78,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
 
           <div className="d-flex align-items-center">
-            <InputComponent
+            <InputComponentOriginal
               idInput="time"
               typeInput="number"
               className="input-basic background-textArea"
@@ -98,7 +98,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
           </div>
 
           <div className="d-flex align-items-center">
-            <InputComponent
+            <InputComponentOriginal
                 idInput="lunch_time"
                 typeInput="number"
                 className="input-basic background-textArea"

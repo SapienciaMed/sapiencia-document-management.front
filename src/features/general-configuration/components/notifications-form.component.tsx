@@ -1,5 +1,5 @@
 import React from "react";
-import { FormComponent, InputComponent, SelectComponent } from "../../../common/components/Form";
+import { FormComponent, InputComponentOriginal, SelectComponent } from "../../../common/components/Form";
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IGeneralConfiguration, } from "../interfaces/GeneralConfigurationInterfaces";
@@ -26,13 +26,13 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
         </div>
 
         <div className="d-flex align-items-center w-100 grid-form-1-container">
-          <InputComponent
+          <InputComponentOriginal
             idInput="admin_email"
             typeInput="email"
-            className="input-basic background-textArea w-100"
+            className="input-basic background-textArea w-100 without-border without-bold min-width-270px"
             register={register}
             label="Correo electrónico"
-            classNameLabel="text-black big text-required"
+            classNameLabel="text-black"
             direction={EDirection.column}
             errors={errors}
             disabled

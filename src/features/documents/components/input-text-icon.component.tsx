@@ -30,6 +30,7 @@ interface IInputTextIcon<T> {
 	shouldUnregister?: boolean;
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 	iconAction?: () => void;
+	handleOnSearch?: () => void;
 }
 
 function LabelElement({ label, idInput, classNameLabel }): React.JSX.Element {
@@ -63,6 +64,7 @@ export function InputTextIconComponent({
 	shouldUnregister,
 	onBlur,
 	iconAction,
+	handleOnSearch,
 }: IInputTextIcon<any>): React.JSX.Element {
 	const messageError = () => {
 		const keysError = idInput.split(".");
@@ -122,6 +124,7 @@ export function InputTextIconComponent({
 				</div>
 				<div
 					className={`${styles["icon-search"]} ${styles["icon-position-left"]}`}
+					onClick={handleOnSearch}
 				>
 					<IoSearchOutline onClick={iconAction} />
 				</div>
