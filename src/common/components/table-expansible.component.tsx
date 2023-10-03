@@ -172,7 +172,7 @@ const TableExpansibleComponent = ({
 						})}
 					</div>
 					<div className="card-footer">
-						{actions.map((action) => (
+						{actions?.map((action) => (
 							<div
 								key={action.icon}
 								onClick={() => action.onClick(item)}
@@ -217,7 +217,7 @@ const TableExpansibleComponent = ({
 									})}
 								</div>
 								<div className="card-footer">
-									{actions.map((action) => (
+									{actions?.map((action) => (
 										<div
 											key={action.icon}
 											onClick={() => action.onClick(item)}
