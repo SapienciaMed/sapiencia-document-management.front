@@ -24,6 +24,12 @@ interface ISenderDataForm {
 	municipio: string;
 }
 
+interface ISenderSearchForm {
+	doc_identidad: string;
+	entidad: string;
+	abreviatura: string;
+}
+
 interface IBasicDocumentInformationForm {
 	codigo_asunto: string;
 	nombre_asunto: string;
