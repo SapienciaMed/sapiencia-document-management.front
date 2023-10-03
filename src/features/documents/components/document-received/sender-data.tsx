@@ -15,6 +15,7 @@ import TableExpansibleComponent from "../../../../common/components/table-expans
 import SearchSenderForm from "./search-sender-form";
 
 const SenderData = () => {
+	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
 	const [geographicData, setGeographicData] = useState<any>([]);
 	const [getNombreEntidad, setGetNombreEntidad] = useState("");
 	const [getPais, setGetPais] = useState("");
@@ -57,7 +58,7 @@ const SenderData = () => {
 				if (selectedCheckbox == row?.usr_numero_identidad) {
 					setGetNombreEntidad(row?.fullName);
 				}
-				return row?.fullName || "N/A";
+				return row?.fullName || "";
 			},
 		},
 		{
@@ -66,9 +67,9 @@ const SenderData = () => {
 			renderCell: (row) => {
 				const texto = elementoBuscado("PAISES", row?.usr_pais);
 				if (selectedCheckbox == row?.usr_numero_identidad) {
-					setGetPais(texto?.lge_elemento_descripcion || "N/A");
+					setGetPais(texto?.lge_elemento_descripcion || "");
 				}
-				return texto?.lge_elemento_descripcion || "N/A";
+				return texto?.lge_elemento_descripcion || "";
 			},
 		},
 		{
@@ -80,11 +81,9 @@ const SenderData = () => {
 					row?.usr_departamento
 				);
 				if (selectedCheckbox == row?.usr_numero_identidad) {
-					setGetDepartamento(
-						texto?.lge_elemento_descripcion || "N/A"
-					);
+					setGetDepartamento(texto?.lge_elemento_descripcion || "");
 				}
-				return texto?.lge_elemento_descripcion || "N/A";
+				return texto?.lge_elemento_descripcion || "";
 			},
 		},
 		{
@@ -93,9 +92,9 @@ const SenderData = () => {
 			renderCell: (row) => {
 				const texto = elementoBuscado("MUNICIPIOS", row?.usr_municipio);
 				if (selectedCheckbox == row?.usr_numero_identidad) {
-					setGetMunicipio(texto?.lge_elemento_descripcion || "N/A");
+					setGetMunicipio(texto?.lge_elemento_descripcion || "");
 				}
-				return texto?.lge_elemento_descripcion || "N/A";
+				return texto?.lge_elemento_descripcion || "";
 			},
 		},
 		{
@@ -113,6 +112,14 @@ const SenderData = () => {
 			setGeographicData(data);
 		});
 	}, []);
+
+	useEffect(() => {
+		setGetNombreEntidad("");
+		setGetPais("");
+		setGetDepartamento("");
+		setGetMunicipio("");
+		setDeleteInputs(false);
+	}, [deleteInputs]);
 
 	const elementoBuscado = (agrupador: string, codigo: string | number) =>
 		geographicData.find((item) => {
@@ -174,12 +181,12 @@ const SenderData = () => {
 						"nombres_apellidos",
 						data?.usr_nombre + " " + data?.usr_apellidos
 					);
-					setGetPais(paisData?.lge_elemento_descripcion || "N/A");
+					setGetPais(paisData?.lge_elemento_descripcion || "");
 					setGetDepartamento(
-						departamentoData?.lge_elemento_descripcion || "N/A"
+						departamentoData?.lge_elemento_descripcion || ""
 					);
 					setGetMunicipio(
-						municipioData?.lge_elemento_descripcion || "N/A"
+						municipioData?.lge_elemento_descripcion || ""
 					);
 				} else {
 					setMessage({
@@ -198,6 +205,7 @@ const SenderData = () => {
 						departamento: "",
 						municipio: "",
 					});
+					setDeleteInputs(true);
 				}
 			});
 		}
