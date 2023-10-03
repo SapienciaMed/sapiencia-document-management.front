@@ -16,6 +16,10 @@ input {
 	color: #000 !important;
 }
 
+.color--primary {
+	color: #533893;
+}
+
 input:disabled {
 	background: #e9e9e9;
 	border: #e2e2e2;
@@ -214,6 +218,17 @@ input:disabled {
 		$gap: calc(($base + $i) / 16);
 		.gap-#{$px} {
 			gap: $gap + 0rem;
+		}
+	}
+}
+
+@for $i from 1 through 40 {
+	$base: 6;
+	@if ($i % 2 == 0) {
+		$px: $base + $i;
+		$size: calc(($base + $i) / 16);
+		.font-size-#{$px} {
+			font-size: ($size + 0rem);
 		}
 	}
 }
