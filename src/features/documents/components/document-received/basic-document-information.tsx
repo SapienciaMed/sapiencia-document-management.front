@@ -43,6 +43,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		unidad: yup.string().required(),
 		tipo: yup.string().required("El campo es obligatorio"),
 		prioridad: yup.string().required("El campo es obligatorio"),
+		search_codigo_asunto: yup.number().transform((value) => Number.isNaN(value) ? null : value ).max(999999999999999, 'Solo se permiten 15 dígitos'),
+		search_nombre_asunto: yup.string().max(50, 'Solo se permiten 50 caracteres'),
 	});
 
 	const {
@@ -108,9 +110,22 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	};
 
 	const search = async () => {
-		const endpoint: string = `/search?name=${data?.search_nombre_asunto}&code=${data?.search_codigo_asunto}`;
-		const response = await get(`${endpoint}`);
+		const endpoint: string = `/search?name=${data?.search_nombre_asunto ? `${data?.search_nombre_asunto}` : ''}&code=${data?.search_codigo_asunto ? `${data?.search_codigo_asunto}` : ''}`;
+		const response: any = await get(`${endpoint}`);
 		setSubjets(response?.data)
+
+		if (response?.data?.length <= 0) {
+			setMessage({
+				title: "Información básica del documento",
+				description: 'Asunto no Encontrado',
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+				onOk: () => {
+					setMessage({});
+				},
+			});
+		}
 	};
 
 	const handleCheckboxChange = (event) => {
@@ -261,7 +276,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 									<div className="grid-form-2-container">
 										<InputComponentOriginal
 											idInput="search_codigo_asunto"
-											typeInput="text"
+											typeInput="number"
 											className="input-basic background-textArea"
 											register={register}
 											label="Código"
@@ -297,11 +312,11 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										<button
 											style={{ marginTop: 12 }}
 											className={
-												`search-button ${(!data?.search_nombre_asunto && !data?.search_codigo_asunto)
+												`search-button ${(!data?.search_nombre_asunto && !data?.search_codigo_asunto) || ((errors.search_codigo_asunto || errors.search_nombre_asunto ? true : false))
 													? 'search-button-disabled' : 'cursor-pointer search-button-active' }`
 											}
 											onClick={(e) => { e.preventDefault(); search()}}
-											disabled={(!data?.search_nombre_asunto && !data?.search_codigo_asunto)}
+											disabled={(!data?.search_nombre_asunto && !data?.search_codigo_asunto) || ((errors.search_codigo_asunto || errors.search_nombre_asunto ? true : false))}
 										>Buscar</button>
 
 									</div>
@@ -332,7 +347,6 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											},
 											{ fieldName: "inf_codigo_asunto", header: "Código", },
 											{ fieldName: "inf_nombre_asunto", header: "Nombre", },
-											{ fieldName: "inf_prioridad", header: "Dependencia", },
 											{ fieldName: "inf_timepo_respuesta", header: "Tiempo respuesta", },
 											{ fieldName: "inf_unidad", header: "Unidad", }, ]}
 										data={subjets}

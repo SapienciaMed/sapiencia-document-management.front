@@ -111,7 +111,7 @@ const TableExpansibleComponent = ({ columns, actions, data }: IProps<any>): Reac
                         })}
                     </div>
                     <div className="card-footer">
-                        {actions.map((action) => (
+                        {actions?.map((action) => (
                             <div key={action.icon} onClick={() => action.onClick(item)}>
                                 {getIconElement(action.icon, "src")}
                             </div>
@@ -139,7 +139,7 @@ const TableExpansibleComponent = ({ columns, actions, data }: IProps<any>): Reac
                                 })}
                             </div>
                             <div className="card-footer">
-                                {actions.map((action) => (
+                                {actions?.map((action) => (
                                     <div key={action.icon} onClick={() => action.onClick(item)}>
                                         {getIconElement(action.icon, "src")}
                                     </div>
