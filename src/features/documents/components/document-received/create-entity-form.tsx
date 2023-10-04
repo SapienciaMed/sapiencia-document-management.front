@@ -150,6 +150,7 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 						show: true,
 						background: true,
 						okTitle: "Aceptar",
+						style: "z-index-1200",
 						onOk: () => {
 							setMessage({});
 						},

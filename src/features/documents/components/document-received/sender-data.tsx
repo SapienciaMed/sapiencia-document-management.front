@@ -254,21 +254,23 @@ const SenderData = () => {
 	};
 
 	const handleHideEntityForm = () => {
-		// setMessage({
-		// 	title: "Cancear acción",
-		// 	description:
-		// 		"¿Desea cacelar la acción?, no se guardaran los cambios",
-		// 	show: true,
-		// 	background: true,
-		// 	okTitle: "Continuar",
-		// 	onOk: () => {
-		// 		setVisibleCreateForm(false);
-		// 	},
-		// 	onCancel: () => {
-		// 		setMessage({});
-		// 	},
-		// });
-		setVisibleCreateForm(false);
+		setMessage({
+			title: "Cancelar acción",
+			description:
+				"¿Desea cancelar la acción?, no se guardaran los cambios",
+			show: true,
+			background: true,
+			okTitle: "Continuar",
+			cancelTitle: "Cancelar",
+			style: "z-index-1200",
+			onOk: () => {
+				setMessage({});
+			},
+			onCancel: () => {
+				setMessage({});
+				setVisibleCreateForm(false);
+			},
+		});
 	};
 
 	return (
