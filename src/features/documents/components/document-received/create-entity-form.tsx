@@ -7,6 +7,7 @@ import {
 } from "../../../../common/components/Form";
 import { Dialog } from "primereact/dialog";
 import styles from "./document-received.module.scss";
+import { InputSwitch } from "primereact/inputswitch";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,6 +16,7 @@ import { InputTextComponent } from "../../../../common/components/Form/input-tex
 import { IDropdownProps } from "../../../../common/interfaces/select.interface";
 import { AppContext } from "../../../../common/contexts/app.context";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
+import { classNames } from "primereact/utils";
 
 const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 	const [isSaveDisabled, setIsSaveDisabled] = useState(true);
@@ -48,8 +50,15 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 			.string()
 			.min(3, "El nombre debe tener al menos 3 caracteres")
 			.required("El campo es obligatorio"),
+		ent_razon_social: yup
+			.string()
+			.max(100, "Solo se permiten 100 caracteres")
+			.optional(),
 		ent_tipo_entidad: yup.string().required("El campo es obligatorio"),
-		ent_descripcion: yup.string().optional(),
+		ent_abreviatura: yup
+			.string()
+			.max(10, "Solo se permiten 10 caracteres")
+			.optional(),
 		ent_direccion: yup.string().required("El campo es obligatorio"),
 		ent_email: yup
 			.string()
@@ -61,14 +70,14 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 		ent_pais: yup.string().required("El campo es obligatorio"),
 		ent_departamento: yup.string().required("El campo es obligatorio"),
 		ent_municipio: yup.string().required("El campo es obligatorio"),
-		ent_estado: yup.string().optional(),
-		ent_abreviatura: yup.string().optional(),
+		ent_estado: yup.boolean().optional(),
 	});
 
 	const {
 		register: registerCreate,
 		control: controlCreate,
 		getValues: getValuesCreate,
+		setValue: setValueCreate,
 		reset: resetCreate,
 		watch: watchCreate,
 
@@ -110,7 +119,6 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 
 	const municipios = () => {
 		const filterMunicipios = geographicData.filter((item) => {
-			console.log(item.lge_campos_adicionales.departmentId);
 			return (
 				item.lge_agrupador == "MUNICIPIOS" &&
 				item.lge_campos_adicionales.departmentId ==
@@ -150,16 +158,36 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 		}
 	};
 
-	console.log(
-		!isValidCreate,
-		"isValidCreate",
-		isSaveDisabled,
-		"isSaveDisabled"
-	);
 	const checkIdInDB = async (idNumber: string) => {
 		const endpoint: string = `/entities/${idNumber}`;
 		const data = await get(`${endpoint}`);
 		return data;
+	};
+
+	console.log(watchCreate(), "ent_tipo");
+
+	useEffect(() => {
+		checkIdentityType();
+	}, [watchCreate("ent_tipo_documento")]);
+
+	const checkIdentityType = () => {
+		if (watchCreate("ent_tipo_documento") == "NIT") {
+			setValueCreate("ent_razon_social", "");
+			setValueCreate("ent_nombres", "N/A");
+			setValueCreate("ent_apellidos", "N/A");
+		} else {
+			setValueCreate("ent_nombres", " ");
+			setValueCreate("ent_apellidos", " ");
+			setValueCreate("ent_razon_social", "N/A");
+		}
+	};
+
+	const getFormErrorMessage = (name) => {
+		return errorsCreate[name] ? (
+			<small className="p-error">{errorsCreate[name].message}</small>
+		) : (
+			<small className="p-error">&nbsp;</small>
+		);
 	};
 
 	return (
@@ -221,27 +249,43 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 								disabled={false}
 								onBlur={onBlurData}
 							/>
+							{watchCreate("ent_tipo_documento") !== "NIT" && (
+								<>
+									<InputTextComponent
+										idInput="ent_nombres"
+										label="Nombres"
+										className="input-basic"
+										classNameLabel="text--black text-required"
+										control={controlCreate}
+										errors={errorsCreate}
+										disabled={false}
+									/>
 
-							<InputTextComponent
-								idInput="ent_nombres"
-								label="Nombres"
-								className="input-basic"
-								classNameLabel="text--black text-required"
-								control={controlCreate}
-								errors={errorsCreate}
-								disabled={false}
-							/>
-
-							<InputTextComponent
-								idInput="ent_apellidos"
-								label="Apellidos"
-								className="input-basic"
-								classNameLabel="text--black text-required"
-								control={controlCreate}
-								errors={errorsCreate}
-								disabled={false}
-							/>
+									<InputTextComponent
+										idInput="ent_apellidos"
+										label="Apellidos"
+										className="input-basic"
+										classNameLabel="text--black text-required"
+										control={controlCreate}
+										errors={errorsCreate}
+										disabled={false}
+									/>
+								</>
+							)}
+							{watchCreate("ent_tipo_documento") == "NIT" && (
+								<InputTextComponent
+									idInput="ent_razon_social"
+									label="Razon Social"
+									className="input-basic"
+									classNameLabel="text--black text-required"
+									control={controlCreate}
+									errors={errorsCreate}
+									disabled={false}
+									onBlur={onBlurData}
+								/>
+							)}
 						</div>
+
 						<div
 							className={`${styles["document-container"]} ${styles["document-container--col4"]} mb-20`}
 						>
@@ -272,7 +316,7 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 								)}
 							/>
 							<InputTextComponent
-								idInput="ent_descripcion"
+								idInput="ent_abreviatura"
 								label="Descripción Abreviada"
 								className="input-basic"
 								classNameLabel="text--black"
@@ -280,7 +324,6 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 								errors={errorsCreate}
 								disabled={false}
 							/>
-
 							<InputTextComponent
 								idInput="ent_direccion"
 								label="Dirección"
@@ -322,7 +365,6 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 								errors={errorsCreate}
 								disabled={false}
 							/>
-
 							<InputTextComponent
 								idInput="ent_observaciones"
 								label="Observaciones"
@@ -387,6 +429,50 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 									/>
 								)}
 							/>
+						</div>
+						<div
+							className={`${styles["document-container"]} ${styles["document-container--col4"]} mb-20`}
+						>
+							<div className={`flex ${styles["flex-center"]}`}>
+								<div className="mr-24 text-main text--black">
+									Estado
+								</div>
+								<div className="mr-8 text-main text--black">
+									Inactivo
+								</div>
+								<Controller
+									name="ent_estado"
+									control={controlCreate}
+									rules={{ required: "Accept is required." }}
+									render={({ field, fieldState }) => (
+										<>
+											<label
+												htmlFor={field.name}
+												className={classNames({
+													"p-error":
+														errorsCreate.ent_estado,
+												})}
+											></label>
+											<InputSwitch
+												inputId={field.name}
+												checked={field.value}
+												inputRef={field.ref}
+												className={classNames({
+													"p-invalid":
+														fieldState.error,
+												})}
+												onChange={(e) =>
+													field.onChange(e.value)
+												}
+											/>
+											{getFormErrorMessage(field.name)}
+										</>
+									)}
+								/>
+								<div className="ml-8 text-main text--black">
+									Activo
+								</div>
+							</div>
 						</div>
 						<div
 							className={`flex container-docs-received ${styles["flex-center"]}  px-20 py-20 gap-20`}

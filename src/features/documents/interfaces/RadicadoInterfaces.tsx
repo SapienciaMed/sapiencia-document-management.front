@@ -31,12 +31,13 @@ interface ISenderSearchForm {
 }
 
 interface ISenderCreateForm {
-	ent_tipo_documento: number;
+	ent_tipo_documento: string;
 	ent_numero_identidad: string;
 	ent_nombres: string;
 	ent_apellidos: string;
+	ent_razon_social: string;
 	ent_tipo_entidad: number;
-	ent_descripcion: string;
+	ent_abreviatura: string;
 	ent_direccion: string;
 	ent_email: string;
 	ent_contacto_uno: string;
@@ -45,8 +46,7 @@ interface ISenderCreateForm {
 	ent_pais: string;
 	ent_departamento: string;
 	ent_municipio: string;
-	ent_estado: number;
-	ent_abreviatura: string;
+	ent_estado: boolean;
 }
 
 interface IBasicDocumentInformationForm {
