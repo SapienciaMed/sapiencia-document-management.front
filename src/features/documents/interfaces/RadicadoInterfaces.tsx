@@ -30,6 +30,25 @@ interface ISenderSearchForm {
 	abreviatura: string;
 }
 
+interface ISenderCreateForm {
+	ent_tipo_documento: number;
+	ent_numero_identidad: string;
+	ent_nombres: string;
+	ent_apellidos: string;
+	ent_tipo_entidad: number;
+	ent_descripcion: string;
+	ent_direccion: string;
+	ent_email: string;
+	ent_contacto_uno: string;
+	ent_contacto_dos: string;
+	ent_observaciones: string;
+	ent_pais: string;
+	ent_departamento: string;
+	ent_municipio: string;
+	ent_estado: number;
+	ent_abreviatura: string;
+}
+
 interface IBasicDocumentInformationForm {
 	codigo_asunto: string;
 	nombre_asunto: string;

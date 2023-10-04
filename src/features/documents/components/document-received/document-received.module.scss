@@ -7,6 +7,10 @@
 		grid-template-columns: repeat(4, 1fr);
 	}
 
+	&--col3 {
+		grid-template-columns: 1fr 1fr 2fr;
+	}
+
 	&--col4-small {
 		grid-template-columns: repeat(4, 150px);
 	}
