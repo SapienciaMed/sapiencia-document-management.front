@@ -7,6 +7,14 @@
 		grid-template-columns: repeat(4, 1fr);
 	}
 
+	&--col3 {
+		grid-template-columns: 2fr 1fr 1fr;
+	}
+
+	&--col3-1-1-2 {
+		grid-template-columns: 1fr 1fr 2fr;
+	}
+
 	&--col4-small {
 		grid-template-columns: repeat(4, 150px);
 	}

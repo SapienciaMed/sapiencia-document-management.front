@@ -13,6 +13,7 @@ import { AppContext } from "../../../../common/contexts/app.context";
 import { InputTextIconComponent } from "../input-text-icon.component";
 import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
 import SearchSenderForm from "./search-sender-form";
+import CreateEntityForm from "./create-entity-form";
 
 const SenderData = () => {
 	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
@@ -24,6 +25,7 @@ const SenderData = () => {
 	const [isDisableSendButton, setIsDisableSendButton] = useState(true);
 	const [isVisibleTable, setIsVisibleTable] = useState<boolean>(false);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
+	const [visibleCreateForm, setVisibleCreateForm] = useState<boolean>(false);
 	const [isVisibleSearchForm, setIsVisibleSearchForm] =
 		useState<boolean>(false);
 	const { setMessage } = useContext(AppContext);
@@ -251,6 +253,24 @@ const SenderData = () => {
 		setIsVisibleTable(false);
 	};
 
+	const handleHideEntityForm = () => {
+		// setMessage({
+		// 	title: "Cancear acción",
+		// 	description:
+		// 		"¿Desea cacelar la acción?, no se guardaran los cambios",
+		// 	show: true,
+		// 	background: true,
+		// 	okTitle: "Continuar",
+		// 	onOk: () => {
+		// 		setVisibleCreateForm(false);
+		// 	},
+		// 	onCancel: () => {
+		// 		setMessage({});
+		// 	},
+		// });
+		setVisibleCreateForm(false);
+	};
+
 	return (
 		<>
 			<FormComponent action={null}>
@@ -386,11 +406,18 @@ const SenderData = () => {
 							className="button-main hover-three py-12 px-16 font-size-16"
 							value="Crear Entidad"
 							type="button"
-							action={null}
+							action={() => setVisibleCreateForm(true)}
 							disabled={false}
 						/>
 					</div>
 				</div>
+			)}
+			{visibleCreateForm && (
+				<CreateEntityForm
+					visible={visibleCreateForm}
+					onHideCreateForm={handleHideEntityForm}
+					geographicData={geographicData}
+				/>
 			)}
 		</>
 	);
