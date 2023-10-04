@@ -44,7 +44,7 @@ const DocumentsReceived = () => {
 		{
 			id: 4,
 			name: "Datos del destinatario",
-			content: <RecipientData />,
+			content: <RecipientData data={data} onChange={onChange} />,
 			disabled: false,
 		},
 		{

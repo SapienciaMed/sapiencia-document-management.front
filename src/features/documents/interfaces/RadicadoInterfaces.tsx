@@ -47,6 +47,9 @@ interface IRecipientDataForm {
 	pais_destinatario: string;
 	departamento_destinatario: string;
 	municipio_destinatario: string;
+	search_codigo_usuario: number;
+	search_nombre_usuario: string;
+	search_apellido_usuario: string;
 }
 
 interface ISubjectForm {

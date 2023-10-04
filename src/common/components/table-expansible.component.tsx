@@ -236,9 +236,9 @@ const TableExpansibleComponent = ({
 		);
 	};
 	return (
-		<div className="spc-common-table expansible">
+		<div className="spc-common-table expansible" style={{ position: 'relative', border: 'none' }}>
 			<div className="title-area mb-8">
-				<div className="text-black large bold">
+				<div className="text-black large bold" style={{ position: 'absolute', marginTop: 50 }}>
 					Resultados de Búsqueda
 				</div>
 			</div>

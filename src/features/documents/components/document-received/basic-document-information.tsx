@@ -43,7 +43,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		unidad: yup.string().required(),
 		tipo: yup.string().required("El campo es obligatorio"),
 		prioridad: yup.string().required("El campo es obligatorio"),
-		search_codigo_asunto: yup.number().transform((value) => Number.isNaN(value) ? null : value ).max(999999999999999, 'Solo se permiten 15 dígitos'),
+		search_codigo_asunto: yup.number().transform((value) => Number.isNaN(value) ? null : value ).nullable().max(999999999999999, 'Solo se permiten 15 dígitos'),
 		search_nombre_asunto: yup.string().max(50, 'Solo se permiten 50 caracteres'),
 	});
 
@@ -110,17 +110,17 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	};
 
 	const search = async () => {
-		const endpoint: string = `/search?name=${data?.search_nombre_asunto ? `${data?.search_nombre_asunto}` : ''}&code=${data?.search_codigo_asunto ? `${data?.search_codigo_asunto}` : ''}`;
+		const endpoint: string = `/basic-document/search?nombre=${data?.search_nombre_asunto ? `${data?.search_nombre_asunto}` : ''}&codigo=${data?.search_codigo_asunto ? `${data?.search_codigo_asunto}` : ''}`;
 		const response: any = await get(`${endpoint}`);
 		setSubjets(response?.data)
 
 		if (response?.data?.length <= 0) {
 			setMessage({
-				title: "Información básica del documento",
-				description: 'Asunto no Encontrado',
+				title: "Error",
+				description: 'El código de asunto no exite',
 				show: true,
 				background: true,
-				okTitle: "Aceptar",
+				okTitle: "Cerrar",
 				onOk: () => {
 					setMessage({});
 				},
@@ -306,6 +306,12 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											setSubjets([]);
 											setSelectedCheckbox("")
 											setShowSearch(false);
+											setSelectedSubject(selectedCheckbox)
+											setSubjets([]);
+											setShowSearch(false);
+											setValue("search_codigo_asunto", null);
+											setValue("search_nombre_asunto", "");
+											onChange({ ...data, selectedCheckbox })
 										})}>
 											Cancelar
 										</button>
@@ -327,8 +333,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 							</FormComponent>
 						</div>
 						{
-							subjets.length > 0 ? (
-								<>
+							subjets?.length > 0 ? (
+								<div className="card-table" style={{ borderRadius: 20 }}>
 									<TableExpansibleComponent
 										actions={undefined}
 										columns={[
@@ -371,13 +377,15 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 												setSubjets([]);
 												setShowSearch(false);
 												setValue("codigo_asunto", selectedCheckbox);
+												setValue("search_codigo_asunto", null);
+												setValue("search_nombre_asunto", "");
 												onChange({ ...data, selectedCheckbox })
 											}}
 											disabled={(selectedCheckbox == "")}
 										>Aceptar</button>
 
 									</div>
-								</>
+								</div>
 							) : null
 						}
 					</>

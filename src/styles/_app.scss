@@ -322,3 +322,88 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 .modal-content .text-black {
 	text-align: center;
 }
+
+
+.spc-common-table .p-datatable {
+	border: none !important;
+	border-radius: none !important;
+}
+
+.spc-common-table .p-datatable .p-datatable-thead > tr > th {
+    background: white !important;
+}
+
+.spc-common-table .p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
+    color: black !important;
+	font-family: 'Rubik' !important;
+	font-size: 14px !important;
+	font-weight: 700 !important;
+	opacity: 1 !important;
+}
+
+.spc-common-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+	width: 40px !important;
+	height: 40px !important;
+	padding: 10px !important;
+	border-radius: 4px !important;
+	gap: 10px !important;
+	background-color: #533893 !important;
+	color: white !important;
+}
+
+.spc-common-table .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: black !important;
+}
+
+.spc-common-table .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight) {
+    color: black !important;
+	font-family: 'Rubik' !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	line-height: 17px !important;
+	letter-spacing: 0em !important;
+	text-align: center !important;
+
+}
+
+.spc-common-table input[type="checkbox"] {
+	width: 16px !important; 
+	height: 16px !important;
+	border-radius: 4px;
+	border: 1px solid black !important;
+	
+}
+
+.spc-common-table input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+  }
+
+.spc-common-table input[type="checkbox"]:checked {
+	background-color: #533893;
+}
+
+.spc-common-table input[type="checkbox"]:checked::before {
+	content: "\2713";
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 14px;
+	font-weight: 500;
+	text-align: center;
+	padding: 2.5px;
+}
+
+.spc-common-table .p-datatable .p-datatable-tbody > tr > td {
+    border: none !important;
+}
+
+.spc-common-table .p-datatable .p-datatable-thead > tr > th {
+    border: none !important;
+}
+
+.spc-common-table .p-datatable {
+    height: auto !important;
+	max-height: 50vh !important;
+}
