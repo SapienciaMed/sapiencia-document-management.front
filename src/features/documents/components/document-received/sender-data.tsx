@@ -253,24 +253,43 @@ const SenderData = () => {
 		setIsVisibleTable(false);
 	};
 
-	const handleHideEntityForm = () => {
-		setMessage({
-			title: "Cancelar acción",
-			description:
-				"¿Desea cancelar la acción?, no se guardaran los cambios",
-			show: true,
-			background: true,
-			okTitle: "Continuar",
-			cancelTitle: "Cancelar",
-			style: "z-index-1200",
-			onOk: () => {
-				setMessage({});
-			},
-			onCancel: () => {
-				setMessage({});
-				setVisibleCreateForm(false);
-			},
-		});
+	const handleHideEntityForm = (isModalOption) => {
+		isModalOption
+			? setMessage({
+					title: "Cancelar acción",
+					description:
+						"¿Desea cancelar la acción?, no se guardaran los datos",
+					show: true,
+					background: true,
+					okTitle: "Continuar",
+					cancelTitle: "Cancelar",
+					style: "z-index-1200",
+					onOk: () => {
+						setMessage({});
+					},
+					onCancel: () => {
+						setMessage({});
+						setVisibleCreateForm(false);
+					},
+			  })
+			: setVisibleCreateForm(false);
+	};
+
+	const chargingNewData = (data) => {
+		const paisData = elementoBuscado("PAISES", data?.ent_pais);
+		const departamentoData = elementoBuscado(
+			"DEPARTAMENTOS",
+			data?.ent_departamento
+		);
+		const municipioData = elementoBuscado(
+			"MUNICIPIOS",
+			data?.ent_municipio
+		);
+		setValue("enviado_por", data.ent_numero_identidad);
+		setValue("nombres_apellidos", data.fullName);
+		setGetPais(paisData?.lge_elemento_descripcion || "");
+		setGetDepartamento(departamentoData?.lge_elemento_descripcion || "");
+		setGetMunicipio(municipioData?.lge_elemento_descripcion || "");
 	};
 
 	return (
@@ -419,6 +438,7 @@ const SenderData = () => {
 					visible={visibleCreateForm}
 					onHideCreateForm={handleHideEntityForm}
 					geographicData={geographicData}
+					chargingNewData={chargingNewData}
 				/>
 			)}
 		</>
