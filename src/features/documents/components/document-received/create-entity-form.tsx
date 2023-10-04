@@ -66,7 +66,10 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 			.required("El campo es obligatorio"),
 		ent_contacto_uno: yup.string().optional(),
 		ent_contacto_dos: yup.string().optional(),
-		ent_observaciones: yup.string().optional(),
+		ent_observaciones: yup
+			.string()
+			.max(100, "Solo se permiten 100 caracteres")
+			.optional(),
 		ent_pais: yup.string().required("El campo es obligatorio"),
 		ent_departamento: yup.string().required("El campo es obligatorio"),
 		ent_municipio: yup.string().required("El campo es obligatorio"),
@@ -163,8 +166,6 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 		const data = await get(`${endpoint}`);
 		return data;
 	};
-
-	console.log(watchCreate(), "ent_tipo");
 
 	useEffect(() => {
 		checkIdentityType();
@@ -344,7 +345,7 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 							/>
 						</div>
 						<div
-							className={`${styles["document-container"]} ${styles["document-container--col3"]} mb-20`}
+							className={`${styles["document-container"]} ${styles["document-container--col3-1-1-2"]} mb-20`}
 						>
 							<InputTextComponent
 								idInput="ent_contacto_uno"
@@ -365,15 +366,20 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 								errors={errorsCreate}
 								disabled={false}
 							/>
-							<InputTextComponent
-								idInput="ent_observaciones"
-								label="Observaciones"
-								className="input-basic"
-								classNameLabel="text--black"
-								control={controlCreate}
-								errors={errorsCreate}
-								disabled={false}
-							/>
+							<div className={`${styles["grid"]}`}>
+								<InputTextComponent
+									idInput="ent_observaciones"
+									label="Observaciones"
+									className="input-basic"
+									classNameLabel="text--black"
+									control={controlCreate}
+									errors={errorsCreate}
+									disabled={false}
+								/>
+								<div className="font-size-14 text-right">
+									<span>Máx. 100 caracteres</span>
+								</div>
+							</div>
 						</div>
 						<div
 							className={`${styles["document-container"]} ${styles["document-container--col4"]} mb-20`}
