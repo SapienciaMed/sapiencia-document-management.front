@@ -99,7 +99,6 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 		return data;
 	};
 
-	console.log(data)
 	return (
 		<FormComponent action={undefined}>
 			<div
