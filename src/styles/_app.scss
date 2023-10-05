@@ -397,6 +397,7 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 
 .spc-common-table .p-datatable .p-datatable-tbody > tr > td {
     border: none !important;
+	color: black !important;
 }
 
 .spc-common-table .p-datatable .p-datatable-thead > tr > th {
@@ -406,4 +407,11 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 .spc-common-table .p-datatable {
     height: auto !important;
 	max-height: 50vh !important;
+}
+
+
+.card-table, .card-user-detail .card-table-user-detail, .card-user .card-table-user, .card-user-detail .card-table-user, .card-user-detail-profile .card-table-user {
+    border: 1px solid #E2E2E2 !important;
+    box-shadow: none !important;
+    box-shadow: none !important;
 }

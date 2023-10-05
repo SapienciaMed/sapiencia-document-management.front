@@ -188,7 +188,15 @@ const RecipientData = ({ data, onChange }: IProps) => {
 							onBlur={onBlurData}
 							min={15}
 							type={"number"}
-							handleOnSearch={() => setShowSearch(!showSearch)}
+							handleOnSearch={() => {
+								setShowSearch(!showSearch)
+								onChange({
+									...data,
+									search_codigo_usuario: null,
+									search_nombre_usuario: "",
+									search_apellido_usuario: "",
+								})
+							}}
 						/>
 					</div>
 
@@ -329,13 +337,13 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											setAddressees([]);
 											setSelectedCheckbox("")
 											setShowSearch(false);
-											setSelectedAddressee(selectedCheckbox)
+											onChange({ ...data, search_codigo_usuario: null, search_nombre_usuario: "", search_apellido_usuario:  "" })
 											setAddressees([]);
 											setShowSearch(false);
 											setValue("search_codigo_usuario", null);
 											setValue("search_nombre_usuario", "");
 											setValue("search_apellido_usuario", "");
-											onChange({ ...data, selectedCheckbox })
+											onChange({ ...data })
 										})}>
 											Cancelar
 										</button>
@@ -390,6 +398,10 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											e.preventDefault();
 											setAddressees([]);
 											setShowSearch(false);
+											onChange({ ...data, search_codigo_usuario: null, search_nombre_usuario: "", search_apellido_usuario:  "" })
+											setValue("search_codigo_usuario", null);
+											setValue("search_nombre_usuario", "");
+											setValue("search_apellido_usuario", "");
 										})}>
 											Cancelar
 										</button>
@@ -401,14 +413,15 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											}
 											onClick={(e) => {
 												e.preventDefault();
+												setSelectedAddressee(selectedCheckbox)
 												setAddressees([]);
 												setShowSearch(false);
 												setValue("dirigido_a", selectedCheckbox);
-												setSelectedAddressee(selectedCheckbox)
+												onChange({ ...data, search_codigo_usuario: null, search_nombre_usuario: "", search_apellido_usuario:  "" })
 												setValue("search_codigo_usuario", null);
 												setValue("search_nombre_usuario", "");
 												setValue("search_apellido_usuario", "");
-												onChange({ ...data, selectedCheckbox })
+												setSelectedCheckbox("")
 											}}
 											disabled={(selectedCheckbox == "")}
 										>Aceptar</button>
