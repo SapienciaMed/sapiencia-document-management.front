@@ -18,6 +18,7 @@ import CreateEntityForm from "./create-entity-form";
 const SenderData = () => {
 	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
 	const [geographicData, setGeographicData] = useState<any>([]);
+	const [typeEntityData, setTypeEntityData] = useState<any>([]);
 	const [getNombreEntidad, setGetNombreEntidad] = useState("");
 	const [getPais, setGetPais] = useState("");
 	const [getDepartamento, setGetDepartamento] = useState("");
@@ -65,7 +66,7 @@ const SenderData = () => {
 		},
 		{
 			fieldName: "ent_pais",
-			header: "Pais",
+			header: "País",
 			renderCell: (row) => {
 				const texto = elementoBuscado("PAISES", row?.ent_pais);
 				if (selectedCheckbox == row?.ent_numero_identidad) {
@@ -107,11 +108,28 @@ const SenderData = () => {
 			fieldName: "ent_abreviatura",
 			header: "Abreviatura",
 		},
+		{
+			fieldName: "ent_tipo_entidad",
+			header: "Tipo entidad",
+			renderCell: (row) => {
+				console.log(row);
+				const texto = tipoEntidad(
+					"TIPOS_ENTIDAD",
+					row?.ent_tipo_entidad
+				);
+				console.log(texto, row?.ent_tipo_entidad);
+				return texto?.lge_elemento_descripcion || "";
+			},
+		},
 	];
 
 	useEffect(() => {
-		get(`/geographic-list`).then((data) => {
+		get(`/generic-list/geographic-list`).then((data) => {
 			setGeographicData(data);
+		});
+		get(`/generic-list/type-entity-list`).then((data) => {
+			console.log(data);
+			setTypeEntityData(data);
 		});
 	}, []);
 
@@ -125,6 +143,14 @@ const SenderData = () => {
 
 	const elementoBuscado = (agrupador: string, codigo: string | number) =>
 		geographicData.find((item) => {
+			return (
+				item.lge_agrupador == agrupador &&
+				item.lge_elemento_codigo == codigo
+			);
+		});
+
+	const tipoEntidad = (agrupador: string, codigo: string | number) =>
+		typeEntityData.find((item) => {
 			return (
 				item.lge_agrupador == agrupador &&
 				item.lge_elemento_codigo == codigo

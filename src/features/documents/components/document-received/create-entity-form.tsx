@@ -65,7 +65,7 @@ const CreateEntityForm = ({
 		ent_tipo_entidad: yup.string().required("El campo es obligatorio"),
 		ent_abreviatura: yup
 			.string()
-			.max(10, "Solo se permiten 10 caracteres")
+			.max(15, "Solo se permiten 15 caracteres")
 			.optional(),
 		ent_direccion: yup
 			.string()
