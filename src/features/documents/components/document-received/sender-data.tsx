@@ -245,22 +245,7 @@ const SenderData = () => {
 	const findSenderInformation = async (findData) => {
 		const endpoint: string = `/entities/find`;
 		setFindSenderData(await post(`${endpoint}`, findData));
-		console.log(findSenderData, "findSenderData");
-		if (findSenderData.length == 0) {
-			setMessage({
-				title: "Resultado de búsqueda",
-				description: "El remitente no existe",
-				show: true,
-				background: true,
-				okTitle: "Aceptar",
-				cancelTitle: "Cancelar",
-				onOk: () => {
-					setMessage({});
-				},
-			});
-		} else {
-			//setIsVisibleTable(true);
-		}
+		setIsVisibleTable(true);
 	};
 
 	const handleClickHideForm = () => {
