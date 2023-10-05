@@ -17,8 +17,14 @@ const SearchSenderForm = ({ searchData, onClickHideForm }) => {
 			.string()
 			.max(15, "Solo se permiten 15 caracteres")
 			.optional(),
-		entidad: yup.string().optional(),
-		abreviatura: yup.string().optional(),
+		entidad: yup
+			.string()
+			.max(50, "Solo se permiten 50 caracteres")
+			.optional(),
+		abreviatura: yup
+			.string()
+			.max(10, "Solo se permiten 10 caracteres")
+			.optional(),
 	});
 
 	const {

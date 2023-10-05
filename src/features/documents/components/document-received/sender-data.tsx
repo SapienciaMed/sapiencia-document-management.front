@@ -225,22 +225,6 @@ const SenderData = () => {
 		setIsVisibleTable(true);
 	};
 
-	// const hasData = () => {
-	// 	console.log(findSenderData, "findSenderData");
-	// 	if (findSenderData.length == 0) {
-	// 		setMessage({
-	// 			title: "Datos del remitente",
-	// 			description: "El remitente no existe",
-	// 			show: true,
-	// 			background: true,
-	// 			okTitle: "Aceptar",
-	// 			onOk: () => {
-	// 				setMessage({});
-	// 			},
-	// 		});
-	// 	}
-	// };
-
 	const handleClickHideForm = () => {
 		setIsVisibleSearchForm(!isVisibleSearchForm);
 		setIsVisibleTable(false);
