@@ -67,9 +67,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	};
 
 	useEffect(() => {
-		if (data.selectedCheckbox) {
-			setValue("codigo_asunto", data.selectedCheckbox);
-			setSelectedSubject(data.selectedCheckbox)
+		if (data.selectedSubject) {
+			setValue("codigo_asunto", data.selectedSubject);
+			setSelectedSubject(data.selectedSubject)
 		}
 	}, [])
 	
@@ -80,6 +80,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 					setValue("nombre_asunto", data.inf_nombre_asunto);
 					setValue("tiempo_respuesta", data.inf_timepo_respuesta);
 					setValue("unidad", data.inf_unidad);
+					setValue("codigo_asunto", idAsunto)
 				} else {
 					setMessage({
 						title: "Información básica del documento",
@@ -113,6 +114,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		const endpoint: string = `/basic-document/search?nombre=${data?.search_nombre_asunto ? `${data?.search_nombre_asunto}` : ''}&codigo=${data?.search_codigo_asunto ? `${data?.search_codigo_asunto}` : ''}`;
 		const response: any = await get(`${endpoint}`);
 		setSubjets(response?.data)
+		setSelectedCheckbox("")
 
 		if (response?.data?.length <= 0) {
 			setMessage({
@@ -149,7 +151,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						onBlur={onBlurData}
 						max={12}
 						type="number"
-						handleOnSearch={() => setShowSearch(!showSearch)}
+						handleOnSearch={() => {
+							setShowSearch(!showSearch);
+							onChange({ ...data, search_codigo_asunto: null, search_nombre_asunto: "" })
+						}}
 					/>
 				</div>
 
@@ -306,12 +311,11 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											setSubjets([]);
 											setSelectedCheckbox("")
 											setShowSearch(false);
-											setSelectedSubject(selectedCheckbox)
+											setSelectedSubject("")
 											setSubjets([]);
 											setShowSearch(false);
 											setValue("search_codigo_asunto", null);
 											setValue("search_nombre_asunto", "");
-											onChange({ ...data, selectedCheckbox })
 										})}>
 											Cancelar
 										</button>
@@ -362,6 +366,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											e.preventDefault();
 											setSubjets([]);
 											setShowSearch(false);
+											setSelectedCheckbox("")
+											setValue("search_codigo_asunto", null);
+											setValue("search_nombre_asunto", "");
 										})}>
 											Cancelar
 										</button>
@@ -379,7 +386,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 												setValue("codigo_asunto", selectedCheckbox);
 												setValue("search_codigo_asunto", null);
 												setValue("search_nombre_asunto", "");
-												onChange({ ...data, selectedCheckbox })
+												setSelectedCheckbox("")
 											}}
 											disabled={(selectedCheckbox == "")}
 										>Aceptar</button>

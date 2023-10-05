@@ -49,7 +49,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 			.number()
 			.transform((value) => (Number.isNaN(value) ? null : value))
 			.nullable()
-			.max(999999999999999, "Solo se permiten 15 dígitos"),
+			.max(15, "Solo se permiten 15 dígitos"),
 		search_nombre_usuario: yup
 			.string()
 			.max(50, "Solo se permiten 50 caracteres"),
@@ -72,7 +72,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	});
 
 	useEffect(() => {
-		get(`/generic-list/geographic-list`).then((data) => {
+		get(`/geographic-list`).then((data) => {
 			setGeographicData(data);
 		});
 
@@ -213,7 +213,15 @@ const RecipientData = ({ data, onChange }: IProps) => {
 							onBlur={onBlurData}
 							min={15}
 							type={"number"}
-							handleOnSearch={() => setShowSearch(!showSearch)}
+							handleOnSearch={() => {
+								setShowSearch(!showSearch);
+								onChange({
+									...data,
+									search_codigo_usuario: null,
+									search_nombre_usuario: "",
+									search_apellido_usuario: "",
+								});
+							}}
 						/>
 					</div>
 
@@ -396,9 +404,12 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											setAddressees([]);
 											setSelectedCheckbox("");
 											setShowSearch(false);
-											setSelectedAddressee(
-												selectedCheckbox
-											);
+											onChange({
+												...data,
+												search_codigo_usuario: null,
+												search_nombre_usuario: "",
+												search_apellido_usuario: "",
+											});
 											setAddressees([]);
 											setShowSearch(false);
 											setValue(
@@ -413,10 +424,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 												"search_apellido_usuario",
 												""
 											);
-											onChange({
-												...data,
-												selectedCheckbox,
-											});
+											onChange({ ...data });
 										}}
 									>
 										Cancelar
@@ -533,6 +541,15 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										e.preventDefault();
 										setAddressees([]);
 										setShowSearch(false);
+										onChange({
+											...data,
+											search_codigo_usuario: null,
+											search_nombre_usuario: "",
+											search_apellido_usuario: "",
+										});
+										setValue("search_codigo_usuario", null);
+										setValue("search_nombre_usuario", "");
+										setValue("search_apellido_usuario", "");
 									}}
 								>
 									Cancelar
@@ -546,17 +563,23 @@ const RecipientData = ({ data, onChange }: IProps) => {
 									}`}
 									onClick={(e) => {
 										e.preventDefault();
+										setSelectedAddressee(selectedCheckbox);
 										setAddressees([]);
 										setShowSearch(false);
 										setValue(
 											"dirigido_a",
 											selectedCheckbox
 										);
-										setSelectedAddressee(selectedCheckbox);
+										onChange({
+											...data,
+											search_codigo_usuario: null,
+											search_nombre_usuario: "",
+											search_apellido_usuario: "",
+										});
 										setValue("search_codigo_usuario", null);
 										setValue("search_nombre_usuario", "");
 										setValue("search_apellido_usuario", "");
-										onChange({ ...data, selectedCheckbox });
+										setSelectedCheckbox("");
 									}}
 									disabled={selectedCheckbox == ""}
 								>
