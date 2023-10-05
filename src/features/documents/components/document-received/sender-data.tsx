@@ -42,69 +42,69 @@ const SenderData = () => {
 				return (
 					<input
 						type="checkbox"
-						value={row?.usr_numero_identidad}
-						checked={selectedCheckbox == row?.usr_numero_identidad}
+						value={row?.ent_numero_identidad}
+						checked={selectedCheckbox == row?.ent_numero_identidad}
 						onChange={handleCheckboxChange}
 					/>
 				);
 			},
 		},
 		{
-			fieldName: "usr_numero_identidad",
+			fieldName: "ent_numero_identidad",
 			header: "Doc. Identidad",
 		},
 		{
 			fieldName: "fullName",
 			header: "Nombre entidad",
 			renderCell: (row) => {
-				if (selectedCheckbox == row?.usr_numero_identidad) {
+				if (selectedCheckbox == row?.ent_numero_identidad) {
 					setGetNombreEntidad(row?.fullName);
 				}
 				return row?.fullName || "";
 			},
 		},
 		{
-			fieldName: "usr_pais",
+			fieldName: "ent_pais",
 			header: "Pais",
 			renderCell: (row) => {
-				const texto = elementoBuscado("PAISES", row?.usr_pais);
-				if (selectedCheckbox == row?.usr_numero_identidad) {
+				const texto = elementoBuscado("PAISES", row?.ent_pais);
+				if (selectedCheckbox == row?.ent_numero_identidad) {
 					setGetPais(texto?.lge_elemento_descripcion || "");
 				}
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
 		{
-			fieldName: "usr_departamento",
+			fieldName: "ent_departamento",
 			header: "Departamento",
 			renderCell: (row) => {
 				const texto = elementoBuscado(
 					"DEPARTAMENTOS",
-					row?.usr_departamento
+					row?.ent_departamento
 				);
-				if (selectedCheckbox == row?.usr_numero_identidad) {
+				if (selectedCheckbox == row?.ent_numero_identidad) {
 					setGetDepartamento(texto?.lge_elemento_descripcion || "");
 				}
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
 		{
-			fieldName: "usr_municipio",
+			fieldName: "ent_municipio",
 			header: "Municipio",
 			renderCell: (row) => {
-				const texto = elementoBuscado("MUNICIPIOS", row?.usr_municipio);
-				if (selectedCheckbox == row?.usr_numero_identidad) {
+				const texto = elementoBuscado("MUNICIPIOS", row?.ent_municipio);
+				if (selectedCheckbox == row?.ent_numero_identidad) {
 					setGetMunicipio(texto?.lge_elemento_descripcion || "");
 				}
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
 		{
-			fieldName: "usr_direccion",
+			fieldName: "ent_direccion",
 			header: "Direccion",
 		},
 		{
-			fieldName: "abreviatura",
+			fieldName: "ent_abreviatura",
 			header: "Abreviatura",
 		},
 	];
@@ -169,19 +169,19 @@ const SenderData = () => {
 
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
-				const paisData = elementoBuscado("PAISES", data?.usr_pais);
+				const paisData = elementoBuscado("PAISES", data?.ent_pais);
 				const departamentoData = elementoBuscado(
 					"DEPARTAMENTOS",
-					data?.usr_departamento
+					data?.ent_departamento
 				);
 				const municipioData = elementoBuscado(
 					"MUNICIPIOS",
-					data?.usr_municipio
+					data?.ent_municipio
 				);
 				if (data !== null) {
 					setValue(
 						"nombres_apellidos",
-						data?.usr_nombre + " " + data?.usr_apellidos
+						data?.ent_nombres + " " + data?.ent_apellidos
 					);
 					setGetPais(paisData?.lge_elemento_descripcion || "");
 					setGetDepartamento(
@@ -214,32 +214,16 @@ const SenderData = () => {
 	};
 
 	const checkIdInDB = async (idNumber: string) => {
-		const endpoint: string = `/sender-information/${idNumber}`;
+		const endpoint: string = `/entities/${idNumber}`;
 		const data = await get(`${endpoint}`);
 		return data;
 	};
 
 	const findSenderInformation = async (findData) => {
-		const endpoint: string = `/sender-information/find`;
+		const endpoint: string = `/entities/find`;
 		setFindSenderData(await post(`${endpoint}`, findData));
 		setIsVisibleTable(true);
 	};
-
-	// const hasData = () => {
-	// 	console.log(findSenderData, "findSenderData");
-	// 	if (findSenderData.length == 0) {
-	// 		setMessage({
-	// 			title: "Datos del remitente",
-	// 			description: "El remitente no existe",
-	// 			show: true,
-	// 			background: true,
-	// 			okTitle: "Aceptar",
-	// 			onOk: () => {
-	// 				setMessage({});
-	// 			},
-	// 		});
-	// 	}
-	// };
 
 	const handleClickHideForm = () => {
 		setIsVisibleSearchForm(!isVisibleSearchForm);
@@ -253,22 +237,44 @@ const SenderData = () => {
 		setIsVisibleTable(false);
 	};
 
-	const handleHideEntityForm = () => {
-		// setMessage({
-		// 	title: "Cancear acción",
-		// 	description:
-		// 		"¿Desea cacelar la acción?, no se guardaran los cambios",
-		// 	show: true,
-		// 	background: true,
-		// 	okTitle: "Continuar",
-		// 	onOk: () => {
-		// 		setVisibleCreateForm(false);
-		// 	},
-		// 	onCancel: () => {
-		// 		setMessage({});
-		// 	},
-		// });
-		setVisibleCreateForm(false);
+	const handleHideEntityForm = (isModalOption) => {
+		isModalOption
+			? setMessage({
+					title: "Cancelar acción",
+					description:
+						"¿Desea cancelar la acción?, no se guardaran los datos",
+					show: true,
+					background: true,
+					okTitle: "Continuar",
+					cancelTitle: "Cancelar",
+					style: "z-index-1200",
+					onOk: () => {
+						setMessage({});
+					},
+					onCancel: () => {
+						setMessage({});
+						setVisibleCreateForm(false);
+					},
+			  })
+			: setVisibleCreateForm(false);
+	};
+
+	const chargingNewData = (data) => {
+		const paisData = elementoBuscado("PAISES", data?.ent_pais);
+		const departamentoData = elementoBuscado(
+			"DEPARTAMENTOS",
+			data?.ent_departamento
+		);
+		const municipioData = elementoBuscado(
+			"MUNICIPIOS",
+			data?.ent_municipio
+		);
+		setValue("enviado_por", data.ent_numero_identidad);
+		//setValue("nombres_apellidos", data.fullName);
+		setGetNombreEntidad(data.fullName);
+		setGetPais(paisData?.lge_elemento_descripcion || "");
+		setGetDepartamento(departamentoData?.lge_elemento_descripcion || "");
+		setGetMunicipio(municipioData?.lge_elemento_descripcion || "");
 	};
 
 	return (
@@ -417,6 +423,7 @@ const SenderData = () => {
 					visible={visibleCreateForm}
 					onHideCreateForm={handleHideEntityForm}
 					geographicData={geographicData}
+					chargingNewData={chargingNewData}
 				/>
 			)}
 		</>

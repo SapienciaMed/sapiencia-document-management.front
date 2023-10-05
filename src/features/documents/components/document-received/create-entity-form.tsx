@@ -17,8 +17,14 @@ import { IDropdownProps } from "../../../../common/interfaces/select.interface";
 import { AppContext } from "../../../../common/contexts/app.context";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { classNames } from "primereact/utils";
+import { ApiResponse } from "../../../../common/utils/api-response";
 
-const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
+const CreateEntityForm = ({
+	visible,
+	onHideCreateForm,
+	geographicData,
+	chargingNewData,
+}) => {
 	const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 	const [getPais, setGetPais] = useState<IDropdownProps[]>([]);
 	const [getDepartamentos, setGetDepartamentos] = useState<IDropdownProps[]>(
@@ -45,10 +51,12 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 		ent_nombres: yup
 			.string()
 			.min(3, "El nombre debe tener al menos 3 caracteres")
+			.max(50, "Solo se permiten 50 caracteres")
 			.required("El campo es obligatorio"),
 		ent_apellidos: yup
 			.string()
 			.min(3, "El nombre debe tener al menos 3 caracteres")
+			.max(50, "Solo se permiten 50 caracteres")
 			.required("El campo es obligatorio"),
 		ent_razon_social: yup
 			.string()
@@ -59,13 +67,23 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 			.string()
 			.max(10, "Solo se permiten 10 caracteres")
 			.optional(),
-		ent_direccion: yup.string().required("El campo es obligatorio"),
+		ent_direccion: yup
+			.string()
+			.max(200, "Solo se permiten 200 caracteres")
+			.required("El campo es obligatorio"),
 		ent_email: yup
 			.string()
 			.email("Ingrese un email válido")
+			.max(50, "Solo se permiten 50 caracteres")
 			.required("El campo es obligatorio"),
-		ent_contacto_uno: yup.string().optional(),
-		ent_contacto_dos: yup.string().optional(),
+		ent_contacto_uno: yup
+			.string()
+			.max(15, "Solo se permiten 15 caracteres")
+			.optional(),
+		ent_contacto_dos: yup
+			.string()
+			.max(15, "Solo se permiten 15 caracteres")
+			.optional(),
 		ent_observaciones: yup
 			.string()
 			.max(100, "Solo se permiten 100 caracteres")
@@ -83,7 +101,7 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 		setValue: setValueCreate,
 		reset: resetCreate,
 		watch: watchCreate,
-
+		handleSubmit: handleSubmitCreate,
 		formState: { errors: errorsCreate, isValid: isValidCreate },
 	} = useForm<ISenderCreateForm>({
 		resolver: yupResolver(schemaFindSender),
@@ -150,6 +168,7 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 						show: true,
 						background: true,
 						okTitle: "Aceptar",
+						style: "z-index-1200",
 						onOk: () => {
 							setMessage({});
 						},
@@ -191,16 +210,41 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 		);
 	};
 
+	const storeEntity = async (data) => {
+		const endpoint: string = `/entities`;
+		const entityData = await post(`${endpoint}`, data);
+		return entityData;
+	};
+	const onSubmit = async (data) => {
+		storeEntity(data).then(async ({ data, message }: any) => {
+			if (data !== null) {
+				setMessage({
+					title: "Entidad creada",
+					description: message.success,
+					show: true,
+					background: true,
+					okTitle: "Aceptar",
+					style: "z-index-1200",
+					onOk: () => {
+						chargingNewData(data);
+						setMessage({});
+						onHideCreateForm(false);
+					},
+				});
+			}
+		});
+	};
+
 	return (
 		<>
 			<Dialog
 				header="Crear Entidad"
 				visible={visible}
 				style={{ width: "50vw" }}
-				onHide={() => onHideCreateForm()}
+				onHide={() => onHideCreateForm(true)}
 			>
 				<div className="card-table shadow-none mt-8">
-					<FormComponent action={null}>
+					<FormComponent action={handleSubmitCreate(onSubmit)}>
 						<div
 							className={`${styles["document-container"]} ${styles["document-container--col4"]} mb-20`}
 						>
@@ -305,11 +349,11 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 										placeholder="Seleccionar"
 										data={[
 											{
-												name: "Persona Natural",
+												name: "Comunidad",
 												value: "1",
 											},
 											{
-												name: "Persona Jurídica",
+												name: "Sapiencia",
 												value: "2",
 											},
 										]}
@@ -487,14 +531,13 @@ const CreateEntityForm = ({ visible, onHideCreateForm, geographicData }) => {
 								className={`${styles["btn-nobackground"]} hover-three py-12 px-22`}
 								value="Cancelar"
 								type="button"
-								action={() => onHideCreateForm()}
+								action={() => onHideCreateForm(true)}
 								disabled={false}
 							/>
 							<ButtonComponent
 								className="button-main hover-three py-12 px-16 font-size-16"
 								value="Guardar"
-								type="button"
-								action={null}
+								type="submit"
 								disabled={
 									isSaveDisabled == false &&
 									isValidCreate == true
