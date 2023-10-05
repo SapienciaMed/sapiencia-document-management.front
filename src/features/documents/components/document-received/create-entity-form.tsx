@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import {
 	ButtonComponent,
 	FormComponent,
-	InputComponent,
 	SelectComponent,
 } from "../../../../common/components/Form";
 import { Dialog } from "primereact/dialog";
@@ -17,7 +16,7 @@ import { IDropdownProps } from "../../../../common/interfaces/select.interface";
 import { AppContext } from "../../../../common/contexts/app.context";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { classNames } from "primereact/utils";
-import { ApiResponse } from "../../../../common/utils/api-response";
+import { InputTextNumberComponent } from "../input-text-number";
 
 const CreateEntityForm = ({
 	visible,
@@ -78,11 +77,11 @@ const CreateEntityForm = ({
 			.required("El campo es obligatorio"),
 		ent_contacto_uno: yup
 			.string()
-			.max(15, "Solo se permiten 15 caracteres")
+			.max(15, "Solo se permiten 15 dígitos")
 			.optional(),
 		ent_contacto_dos: yup
 			.string()
-			.max(15, "Solo se permiten 15 caracteres")
+			.max(15, "Solo se permiten 15 dígitos")
 			.optional(),
 		ent_observaciones: yup
 			.string()
@@ -107,6 +106,10 @@ const CreateEntityForm = ({
 		resolver: yupResolver(schemaFindSender),
 		mode: "onChange",
 	});
+
+	useEffect(() => {
+		setValueCreate("ent_estado", true);
+	}, []);
 
 	useEffect(() => {
 		setGetMunicipios(municipios());
@@ -215,8 +218,11 @@ const CreateEntityForm = ({
 		const entityData = await post(`${endpoint}`, data);
 		return entityData;
 	};
+
 	const onSubmit = async (data) => {
+		console.log(data);
 		storeEntity(data).then(async ({ data, message }: any) => {
+			console.log(data);
 			if (data !== null) {
 				setMessage({
 					title: "Entidad creada",
@@ -234,7 +240,7 @@ const CreateEntityForm = ({
 			}
 		});
 	};
-
+	console.log(watchCreate());
 	return (
 		<>
 			<Dialog
@@ -391,7 +397,7 @@ const CreateEntityForm = ({
 						<div
 							className={`${styles["document-container"]} ${styles["document-container--col3-1-1-2"]} mb-20`}
 						>
-							<InputTextComponent
+							<InputTextNumberComponent
 								idInput="ent_contacto_uno"
 								label="Contacto 1"
 								className="input-basic"
@@ -399,9 +405,10 @@ const CreateEntityForm = ({
 								control={controlCreate}
 								errors={errorsCreate}
 								disabled={false}
+								type={"number"}
 							/>
 
-							<InputTextComponent
+							<InputTextNumberComponent
 								idInput="ent_contacto_dos"
 								label="Contacto 2"
 								className="input-basic"
@@ -409,6 +416,7 @@ const CreateEntityForm = ({
 								control={controlCreate}
 								errors={errorsCreate}
 								disabled={false}
+								type={"number"}
 							/>
 							<div className={`${styles["grid"]}`}>
 								<InputTextComponent

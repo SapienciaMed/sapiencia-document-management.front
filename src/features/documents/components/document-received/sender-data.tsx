@@ -112,12 +112,10 @@ const SenderData = () => {
 			fieldName: "ent_tipo_entidad",
 			header: "Tipo entidad",
 			renderCell: (row) => {
-				console.log(row);
 				const texto = tipoEntidad(
 					"TIPOS_ENTIDAD",
 					row?.ent_tipo_entidad
 				);
-				console.log(texto, row?.ent_tipo_entidad);
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
@@ -128,7 +126,6 @@ const SenderData = () => {
 			setGeographicData(data);
 		});
 		get(`/generic-list/type-entity-list`).then((data) => {
-			console.log(data);
 			setTypeEntityData(data);
 		});
 	}, []);
@@ -248,7 +245,22 @@ const SenderData = () => {
 	const findSenderInformation = async (findData) => {
 		const endpoint: string = `/entities/find`;
 		setFindSenderData(await post(`${endpoint}`, findData));
-		setIsVisibleTable(true);
+		console.log(findSenderData, "findSenderData");
+		if (findSenderData.length == 0) {
+			setMessage({
+				title: "Resultado de búsqueda",
+				description: "El remitente no existe",
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+				cancelTitle: "Cancelar",
+				onOk: () => {
+					setMessage({});
+				},
+			});
+		} else {
+			//setIsVisibleTable(true);
+		}
 	};
 
 	const handleClickHideForm = () => {
