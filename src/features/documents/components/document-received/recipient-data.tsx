@@ -72,7 +72,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	});
 
 	useEffect(() => {
-		get(`/geographic-list`).then((data) => {
+		get(`/generic-list/geographic-list`).then((data) => {
 			setGeographicData(data);
 		});
 
