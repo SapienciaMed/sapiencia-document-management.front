@@ -106,7 +106,7 @@ const SenderData = () => {
 		},
 		{
 			fieldName: "ent_direccion",
-			header: "Direccion",
+			header: "Dirección",
 		},
 		{
 			fieldName: "ent_abreviatura",

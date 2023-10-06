@@ -407,7 +407,7 @@ const CreateEntityForm = ({
 							/>
 						</div>
 						<div
-							className={`${styles["document-container"]} ${styles["document-container--col3-1-1-2"]} mb-20`}
+							className={`${styles["document-container"]} ${styles["document-container--col3-1-1-2"]}`}
 						>
 							<InputTextNumberComponent
 								idInput="ent_contacto_uno"
@@ -442,7 +442,9 @@ const CreateEntityForm = ({
 									placeholder="Escribe Aquí"
 								/>
 								<div className="font-size-14 text-right">
-									<span>Máx. 100 caracteres</span>
+									<span className="text--black">
+										Máx. 100 caracteres
+									</span>
 								</div>
 							</div>
 						</div>

@@ -232,7 +232,7 @@ const EditEntityForm = ({
 			<Dialog
 				header="Editar Entidad"
 				visible={visible}
-				style={{ width: "50vw" }}
+				style={{ width: "60vw" }}
 				onHide={() => onHideEditForm(true)}
 			>
 				<div className="card-table shadow-none mt-8">
@@ -379,7 +379,7 @@ const EditEntityForm = ({
 							/>
 						</div>
 						<div
-							className={`${styles["document-container"]} ${styles["document-container--col3-1-1-2"]} mb-20`}
+							className={`${styles["document-container"]} ${styles["document-container--col3-1-1-2"]}`}
 						>
 							<InputTextNumberComponent
 								idInput="ent_contacto_uno"
@@ -413,7 +413,9 @@ const EditEntityForm = ({
 									disabled={false}
 								/>
 								<div className="font-size-14 text-right">
-									<span>Máx. 100 caracteres</span>
+									<span className="text--black">
+										Máx. 100 caracteres
+									</span>
 								</div>
 							</div>
 						</div>
