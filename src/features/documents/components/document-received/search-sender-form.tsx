@@ -1,7 +1,7 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import styles from "./document-received.module.scss";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
 	ButtonComponent,
@@ -9,7 +9,6 @@ import {
 	InputComponent,
 } from "../../../../common/components/Form";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
-import SenderData from "./sender-data";
 
 const SearchSenderForm = ({ searchData, onClickHideForm }) => {
 	const schemaFindSender = yup.object({
@@ -23,7 +22,7 @@ const SearchSenderForm = ({ searchData, onClickHideForm }) => {
 			.optional(),
 		abreviatura: yup
 			.string()
-			.max(10, "Solo se permiten 10 caracteres")
+			.max(15, "Solo se permiten 15 caracteres")
 			.optional(),
 	});
 
