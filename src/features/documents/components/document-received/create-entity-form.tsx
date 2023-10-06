@@ -115,6 +115,10 @@ const CreateEntityForm = ({
 		setGetMunicipios(municipios());
 	}, [watchCreate("ent_departamento")]);
 
+	useEffect(() => {
+		setGetDepartamentos(departamentos());
+	}, [watchCreate("ent_pais")]);
+
 	const pais = () => {
 		const filterPais = geographicData.filter((item) => {
 			return item.lge_agrupador == "PAISES";
@@ -133,12 +137,21 @@ const CreateEntityForm = ({
 			return item.lge_agrupador == "DEPARTAMENTOS";
 		});
 
-		return filterDepartamentos.map((item) => {
-			return {
-				name: item.lge_elemento_descripcion,
-				value: item.lge_elemento_codigo,
-			};
-		});
+		console.log(getValuesCreate("ent_pais"), "ent_pais99");
+
+		return getValuesCreate("ent_pais") === "COL"
+			? filterDepartamentos.map((item) => {
+					return {
+						name: item.lge_elemento_descripcion,
+						value: item.lge_elemento_codigo,
+					};
+			  })
+			: [
+					{
+						name: "N/A",
+						value: "N/A",
+					},
+			  ];
 	};
 
 	const municipios = () => {
@@ -149,12 +162,19 @@ const CreateEntityForm = ({
 					getValuesCreate("ent_departamento")
 			);
 		});
-		return filterMunicipios.map((item) => {
-			return {
-				name: item.lge_elemento_descripcion,
-				value: item.lge_elemento_codigo,
-			};
-		});
+		return getValuesCreate("ent_pais") === "COL"
+			? filterMunicipios.map((item) => {
+					return {
+						name: item.lge_elemento_descripcion,
+						value: item.lge_elemento_codigo,
+					};
+			  })
+			: [
+					{
+						name: "N/A",
+						value: "N/A",
+					},
+			  ];
 	};
 
 	const onBlurData = () => {
@@ -269,11 +289,11 @@ const CreateEntityForm = ({
 										placeholder="Seleccionar"
 										data={[
 											{
-												name: "Cedula de ciudadania",
+												name: "Cédula de ciudadanía",
 												value: "CC",
 											},
 											{
-												name: "Cedula de extranjeria",
+												name: "Cédula de extranjería",
 												value: "CE",
 											},
 											{
@@ -282,7 +302,7 @@ const CreateEntityForm = ({
 											},
 											{ name: "NIT", value: "NIT" },
 											{
-												name: "Anonimo",
+												name: "Anónimo",
 												value: "AN",
 											},
 										]}

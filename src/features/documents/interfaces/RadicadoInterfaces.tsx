@@ -44,8 +44,8 @@ interface ISenderCreateForm {
 	ent_contacto_dos: string;
 	ent_observaciones: string;
 	ent_pais: string;
-	ent_departamento: string;
-	ent_municipio: string;
+	ent_departamento: number;
+	ent_municipio: number;
 	ent_estado: boolean;
 }
 
