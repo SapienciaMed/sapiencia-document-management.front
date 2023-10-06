@@ -44,17 +44,14 @@ const CreateEntityForm = ({
 		ent_tipo_documento: yup.string().required("El campo es obligatorio"),
 		ent_numero_identidad: yup
 			.string()
-			.min(3, "El documento debe tener al menos 3 caracteres")
 			.max(15, "Solo se permiten 15 caracteres")
 			.required("El campo es obligatorio"),
 		ent_nombres: yup
 			.string()
-			.min(3, "El nombre debe tener al menos 3 caracteres")
 			.max(50, "Solo se permiten 50 caracteres")
 			.required("El campo es obligatorio"),
 		ent_apellidos: yup
 			.string()
-			.min(3, "El nombre debe tener al menos 3 caracteres")
 			.max(50, "Solo se permiten 50 caracteres")
 			.required("El campo es obligatorio"),
 		ent_razon_social: yup
