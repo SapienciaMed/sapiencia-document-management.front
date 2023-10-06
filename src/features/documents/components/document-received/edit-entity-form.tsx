@@ -234,6 +234,12 @@ const EditEntityForm = ({
 				visible={visible}
 				style={{ width: "60vw" }}
 				onHide={() => onHideEditForm(true)}
+				pt={{
+					headerTitle: { className: "text-title-modal text--black" },
+					closeButtonIcon: {
+						className: "color--primary close-button-modal",
+					},
+				}}
 			>
 				<div className="card-table shadow-none mt-8">
 					<FormComponent action={handleSubmitEdit(onSubmitEdit)}>
@@ -501,10 +507,16 @@ const EditEntityForm = ({
 												inputId={field.name}
 												checked={field.value}
 												inputRef={field.ref}
-												className={classNames({
-													"p-invalid":
-														fieldState.error,
-												})}
+												className={classNames(
+													{
+														"p-invalid":
+															fieldState.error,
+													},
+													{
+														"inputswitch-bg--primary":
+															field.value,
+													}
+												)}
 												onChange={(e) =>
 													field.onChange(e.value)
 												}

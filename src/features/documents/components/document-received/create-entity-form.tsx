@@ -261,6 +261,12 @@ const CreateEntityForm = ({
 				visible={visible}
 				style={{ width: "50vw" }}
 				onHide={() => onHideCreateForm(true)}
+				pt={{
+					headerTitle: { className: "text-title-modal text--black" },
+					closeButtonIcon: {
+						className: "color--primary close-button-modal",
+					},
+				}}
 			>
 				<div className="card-table shadow-none mt-8">
 					<FormComponent action={handleSubmitCreate(onSubmit)}>
@@ -530,10 +536,16 @@ const CreateEntityForm = ({
 												inputId={field.name}
 												checked={field.value}
 												inputRef={field.ref}
-												className={classNames({
-													"p-invalid":
-														fieldState.error,
-												})}
+												className={classNames(
+													{
+														"p-invalid":
+															fieldState.error,
+													},
+													{
+														"inputswitch-bg--primary":
+															field.value,
+													}
+												)}
 												onChange={(e) =>
 													field.onChange(e.value)
 												}
