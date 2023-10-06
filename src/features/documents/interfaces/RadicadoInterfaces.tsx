@@ -40,8 +40,8 @@ interface ISenderCreateForm {
 	ent_abreviatura: string;
 	ent_direccion: string;
 	ent_email: string;
-	ent_contacto_uno: string;
-	ent_contacto_dos: string;
+	ent_contacto_uno: number;
+	ent_contacto_dos: number;
 	ent_observaciones: string;
 	ent_pais: string;
 	ent_departamento: number;

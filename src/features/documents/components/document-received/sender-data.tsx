@@ -14,6 +14,8 @@ import { InputTextIconComponent } from "../input-text-icon.component";
 import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
 import SearchSenderForm from "./search-sender-form";
 import CreateEntityForm from "./create-entity-form";
+import EditEntityForm from "./edit-entity-form";
+import { ITableAction } from "../../../../common/interfaces/table.interfaces";
 
 const SenderData = () => {
 	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
@@ -34,6 +36,8 @@ const SenderData = () => {
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
 	const [findSenderData, setFindSenderData] = useState<any>([]);
+	const [editData, setEditData] = useState<any>([]);
+	const [visibleEditForm, setVisibleEditForm] = useState<boolean>(false);
 
 	const columnSenderTable = [
 		{
@@ -117,6 +121,16 @@ const SenderData = () => {
 					row?.ent_tipo_entidad
 				);
 				return texto?.lge_elemento_descripcion || "";
+			},
+		},
+	];
+
+	const EntitySearchActions: ITableAction<any>[] = [
+		{
+			icon: "Edit",
+			onClick: (row) => {
+				setEditData(row);
+				setVisibleEditForm(true);
 			},
 		},
 	];
@@ -261,25 +275,29 @@ const SenderData = () => {
 	};
 
 	const handleHideEntityForm = (isModalOption) => {
-		isModalOption
-			? setMessage({
-					title: "Cancelar acción",
-					description:
-						"¿Desea cancelar la acción?, no se guardaran los datos",
-					show: true,
-					background: true,
-					okTitle: "Continuar",
-					cancelTitle: "Cancelar",
-					style: "z-index-1200",
-					onOk: () => {
-						setMessage({});
-					},
-					onCancel: () => {
-						setMessage({});
-						setVisibleCreateForm(false);
-					},
-			  })
-			: setVisibleCreateForm(false);
+		if (isModalOption) {
+			setMessage({
+				title: "Cancelar acción",
+				description:
+					"¿Desea cancelar la acción?, no se guardaran los datos",
+				show: true,
+				background: true,
+				okTitle: "Continuar",
+				cancelTitle: "Cancelar",
+				style: "z-index-1200",
+				onOk: () => {
+					setMessage({});
+				},
+				onCancel: () => {
+					setMessage({});
+					setVisibleCreateForm(false);
+					setVisibleEditForm(false);
+				},
+			});
+		} else {
+			setVisibleCreateForm(false);
+			setVisibleEditForm(false);
+		}
 	};
 
 	const chargingNewData = (data) => {
@@ -418,9 +436,9 @@ const SenderData = () => {
 				<div className="card-table shadow-none mt-20">
 					{/* Expansible Table */}
 					<TableExpansibleComponent
-						actions={undefined}
 						columns={columnSenderTable}
 						data={findSenderData}
+						actions={EntitySearchActions}
 					/>
 
 					<div className="flex container-docs-received justify-content--end px-20 py-20 gap-20">
@@ -447,6 +465,15 @@ const SenderData = () => {
 					onHideCreateForm={handleHideEntityForm}
 					geographicData={geographicData}
 					chargingNewData={chargingNewData}
+				/>
+			)}
+
+			{visibleEditForm && (
+				<EditEntityForm
+					visible={visibleEditForm}
+					onHideEditForm={handleHideEntityForm}
+					geographicData={geographicData}
+					editData={editData}
 				/>
 			)}
 		</>
