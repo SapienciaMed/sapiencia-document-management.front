@@ -140,12 +140,19 @@ const EditEntityForm = ({
 			return item.lge_agrupador == "DEPARTAMENTOS";
 		});
 
-		return filterDepartamentos.map((item) => {
-			return {
-				name: item.lge_elemento_descripcion,
-				value: parseInt(item.lge_elemento_codigo),
-			};
-		});
+		return getValuesEdit("ent_pais") === "COL"
+			? filterDepartamentos.map((item) => {
+					return {
+						name: item.lge_elemento_descripcion,
+						value: parseInt(item.lge_elemento_codigo),
+					};
+			  })
+			: [
+					{
+						name: "N/A",
+						value: 999,
+					},
+			  ];
 	};
 
 	const municipios = () => {
@@ -156,12 +163,19 @@ const EditEntityForm = ({
 					getValuesEdit("ent_departamento")
 			);
 		});
-		return filterMunicipios.map((item) => {
-			return {
-				name: item.lge_elemento_descripcion,
-				value: parseInt(item.lge_elemento_codigo),
-			};
-		});
+		return getValuesEdit("ent_pais") === "COL"
+			? filterMunicipios.map((item) => {
+					return {
+						name: item.lge_elemento_descripcion,
+						value: parseInt(item.lge_elemento_codigo),
+					};
+			  })
+			: [
+					{
+						name: "N/A",
+						value: 999,
+					},
+			  ];
 	};
 
 	useEffect(() => {
