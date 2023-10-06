@@ -439,6 +439,7 @@ const CreateEntityForm = ({
 									control={controlCreate}
 									errors={errorsCreate}
 									disabled={false}
+									placeholder="Escribe Aquí"
 								/>
 								<div className="font-size-14 text-right">
 									<span>Máx. 100 caracteres</span>
