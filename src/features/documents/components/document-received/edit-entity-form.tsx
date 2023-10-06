@@ -38,13 +38,12 @@ const EditEntityForm = ({
 	const { setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-	const { get, put } = useCrudService(baseURL);
+	const { put } = useCrudService(baseURL);
 
 	const schemaFindSender = yup.object({
 		ent_tipo_documento: yup.string().required("El campo es obligatorio"),
 		ent_numero_identidad: yup
 			.string()
-			.min(3, "El documento debe tener al menos 3 caracteres")
 			.max(15, "Solo se permiten 15 caracteres")
 			.required("El campo es obligatorio"),
 		ent_nombres: yup
@@ -256,11 +255,11 @@ const EditEntityForm = ({
 										placeholder="Seleccionar"
 										data={[
 											{
-												name: "Cedula de ciudadania",
+												name: "Cédula de ciudadanía",
 												value: "CC",
 											},
 											{
-												name: "Cedula de extranjeria",
+												name: "Cédula de extranjería",
 												value: "CE",
 											},
 											{
@@ -269,7 +268,7 @@ const EditEntityForm = ({
 											},
 											{ name: "NIT", value: "NIT" },
 											{
-												name: "Anonimo",
+												name: "Anónimo",
 												value: "AN",
 											},
 										]}
@@ -312,7 +311,7 @@ const EditEntityForm = ({
 							{watchEdit("ent_tipo_documento") == "NIT" && (
 								<InputTextComponent
 									idInput="ent_razon_social"
-									label="Razon Social"
+									label="Razón Social"
 									className="input-basic"
 									classNameLabel="text--black text-required"
 									control={controlEdit}
