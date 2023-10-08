@@ -279,7 +279,7 @@ const SenderData = () => {
 			setMessage({
 				title: "Cancelar acción",
 				description:
-					"¿Desea cancelar la acción?, no se guardaran los datos",
+					"¿Desea cancelar la acción?, no se guardarán los datos",
 				show: true,
 				background: true,
 				okTitle: "Continuar",

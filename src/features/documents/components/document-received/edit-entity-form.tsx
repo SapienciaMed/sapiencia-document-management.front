@@ -101,7 +101,11 @@ const EditEntityForm = ({
 		reset: resetEdit,
 		watch: watchEdit,
 		handleSubmit: handleSubmitEdit,
-		formState: { errors: errorsEdit, isValid: isValidEdit },
+		formState: {
+			errors: errorsEdit,
+			isValid: isValidEdit,
+			isDirty: isDirtyEdit,
+		},
 	} = useForm<ISenderCreateForm>({
 		resolver: yupResolver(schemaFindSender),
 		defaultValues: editData,
@@ -417,6 +421,7 @@ const EditEntityForm = ({
 									control={controlEdit}
 									errors={errorsEdit}
 									disabled={false}
+									placeholder="Escribe aquí"
 								/>
 								<div className="font-size-14 text-right">
 									<span className="text--black">
@@ -544,7 +549,9 @@ const EditEntityForm = ({
 								className="button-main hover-three py-12 px-16 font-size-16"
 								value="Guardar"
 								type="submit"
-								disabled={!isValidEdit}
+								disabled={
+									isValidEdit && isDirtyEdit ? false : true
+								}
 							/>
 						</div>
 					</FormComponent>
