@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -8,12 +8,28 @@ import {
 import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import AddRecipientCopyForm from "./add-recipient-copy-form";
 
 const AddRecipient = () => {
+	const [show, setShow] = useState(false);
+	const [data, setData] = useState<any>([]);
+
+	const newData = (newData: any[]) => {
+		console.log('newData', newData)
+		const mergeData = [...data, ...newData];
+		setData(Array.from(new Set(mergeData.map(m => m.ent_numero_identidad))).map(ent_numero_identidad => mergeData.find(obj => obj.ent_numero_identidad === ent_numero_identidad)));
+
+	}
+
+	const remove = (ent_numero_identidad: string) => {
+		setData(data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad))
+	}
+
 	return (
 		<>
 			<div
 				className={`${styles["flex-row"]} ${styles["flex-row--gap10"]}`}
+				onClick={() => setShow(true)}
 			>
 				<div className={`${styles["add-recipient-link"]}`}>
 					<button className={`${styles["btn-link"]}`} type="button">
@@ -21,69 +37,73 @@ const AddRecipient = () => {
 					</button>
 					<AiOutlinePlusCircle size={15} color="#4338CA" />
 				</div>
-				{/* <div className={`${styles["add-recipient-link"]}`}>
-					<button
-						className={`${styles["btn-link"]} ${styles["btn-link--black"]}`}
-						type="button"
-					>
-						Quitar
-					</button>
-					<IoTrashOutline size={20} color="#FF0000" />
-				</div> */}
 			</div>
 
-			<FormComponent action={null}>
-				<div
-					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
-				>
-					<InputComponent
-						id="documento"
-						idInput="documento"
-						value={""}
-						label="Documento"
-						className="input-basic"
-						classNameLabel="text--black"
-						typeInput={"number"}
-						register={null}
-						onChange={null}
-						errors={null}
-						disabled={true}
-					/>
+			<AddRecipientCopyForm
+				visible={show}
+				onHideCreateForm={() =>  setShow(false) }
+				geographicData={() => {} }
+				chargingNewData={newData}
+			/>
+			
 
-					<InputComponent
-						id="nombre_destinatario_copia"
-						idInput="nombre_destinatario_copia"
-						value={""}
-						label="Nombre"
-						className="input-basic"
-						classNameLabel="text--black"
-						typeInput={"text"}
-						register={null}
-						onChange={null}
-						errors={null}
-						disabled={true}
-					/>
+			{
+				data.map((d) => (
+					<FormComponent key={d.ent_numero_identidad} action={null}>
+						<div
+							className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
+						>
+							<InputComponent
+								id="documento"
+								idInput="documento"
+								value={d.ent_numero_identidad}
+								label="Documento"
+								className="input-basic"
+								classNameLabel="text--black"
+								typeInput={"number"}
+								register={null}
+								onChange={null}
+								errors={null}
+								disabled={true}
+							/>
 
-					<div className="d-flex align-items-center">
-						<InputComponent
-							id="correo_destinatario_copia"
-							idInput="correo_destinatario_copia"
-							value={""}
-							label="Correo"
-							className="input-basic"
-							classNameLabel="text--black"
-							typeInput={"email"}
-							register={null}
-							onChange={null}
-							errors={null}
-							disabled={true}
-						/>
+							<InputComponent
+								id="nombre_destinatario_copia"
+								idInput="nombre_destinatario_copia"
+								value={d.ent_tipo_documento == "CC" ? `${d.ent_nombres} ${d.ent_apellidos}`: d.ent_razon_social}
+								label="Nombre"
+								className="input-basic"
+								classNameLabel="text--black"
+								typeInput={"text"}
+								register={null}
+								onChange={null}
+								errors={null}
+								disabled={true}
+							/>
 
-						<IoTrashOutline style={{ marginLeft: 20, marginTop: 20 }} size={20} color="#FF0000" />
+							<div className="d-flex align-items-center" style={{ cursor: 'pointer'}} onClick={() => remove(d.ent_numero_identidad)}>
+								<InputComponent
+									id="correo_destinatario_copia"
+									idInput="correo_destinatario_copia"
+									value={d.ent_email}
+									label="Correo"
+									className="input-basic"
+									classNameLabel="text--black"
+									typeInput={"email"}
+									register={null}
+									onChange={null}
+									errors={null}
+									disabled={true}
+								/>
 
-					</div>
-				</div>
-			</FormComponent>
+								<IoTrashOutline style={{ marginLeft: 20, marginTop: 20 }} size={20} color="#FF0000" />
+
+							</div>
+						</div>
+					</FormComponent>)
+				)
+			}
+			
 		</>
 	);
 };
