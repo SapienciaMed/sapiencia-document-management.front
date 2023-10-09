@@ -52,7 +52,7 @@ const DocumentsReceived = () => {
 		{
 			id: 5,
 			name: "Adicionar destinatario para envío de copia",
-			content: <AddRecipient />,
+			content: <AddRecipient data={data} onChange={onChange} />,
 			disabled: false,
 		},
 		,
@@ -62,7 +62,6 @@ const DocumentsReceived = () => {
 			content: <Subject data={data} onChange={onChange} />,
 			disabled: false,
 		},
-		,
 		{
 			id: 7,
 			name: "Campos Opcionales",

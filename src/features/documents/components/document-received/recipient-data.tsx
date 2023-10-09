@@ -536,6 +536,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 									onClick={(e) => {
 										e.preventDefault();
 										setAddressees([]);
+										setSelectedCheckbox("");
 										setShowSearch(false);
 										onChange({
 											...data,

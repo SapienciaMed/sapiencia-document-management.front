@@ -402,6 +402,9 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 .spc-common-table .p-datatable .p-datatable-tbody > tr > td {
     border: none !important;
 	color: black !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	font-family: 'Rubik' !important;
 }
 
 .spc-common-table .p-datatable .p-datatable-thead > tr > th {
@@ -418,4 +421,13 @@ div[id="single-spa-application:@sapiencia/document-management"] {
     border: 1px solid #E2E2E2 !important;
     box-shadow: none !important;
     box-shadow: none !important;
+}
+
+.p-column-title {
+	font-family: 'RubikMedium' !important;
+	font-size: 17px !important;
+	font-weight: 500 !important;
+	line-height: 20px !important;
+	letter-spacing: 0em !important;
+	color: #000000 !important;
 }

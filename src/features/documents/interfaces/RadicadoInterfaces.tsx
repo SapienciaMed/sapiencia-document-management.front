@@ -73,7 +73,7 @@ interface IRecipientDataForm {
 
 interface ISubjectForm {
 	referencia: string;
-	tipo: string;
+	tipo_asunto: string;
 }
 
 interface IOptionalFieldsForm {

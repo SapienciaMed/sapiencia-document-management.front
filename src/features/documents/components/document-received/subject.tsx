@@ -22,7 +22,7 @@ const Subject = ({ data, onChange }: IProps) => {
 	const [textoLength, setTextoLength] = useState(0);
 	const schema = yup.object({
 		referencia: yup.string().max(2000).required("El campo es obligatorio"),
-		tipo: yup.string().required("El campo es obligatorio"),
+		tipo_asunto: yup.string().required("El campo es obligatorio"),
 	});
 	const {
 		register,
@@ -41,14 +41,14 @@ const Subject = ({ data, onChange }: IProps) => {
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
 					<Controller
-						name="tipo"
+						name="tipo_asunto"
 						control={control}
 						render={({ field }) => {
 
-							if (field.value !== data.tipo) {
+							if (field.value !== data.tipo_asunto) {
 								console.log(field.value)
-								onChange({ ...data, tipo: field.value || null });
-								data.tipo = field.value;
+								onChange({ ...data, tipo_asunto: field.value || null });
+								data.tipo_asunto = field.value;
 							}
 							
 							return (
@@ -92,7 +92,7 @@ const Subject = ({ data, onChange }: IProps) => {
 									rows={5}
 									placeholder="Escribe aquí"
 									onChange={(e) => {
-										field.onChange(e); // Importante para que react-hook-form registre el cambio.
+										field.onChange(e);
 										setTextoLength(e.target.value.length);
 									}}
 								/>
