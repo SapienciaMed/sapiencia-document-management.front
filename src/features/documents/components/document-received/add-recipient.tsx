@@ -15,7 +15,6 @@ const AddRecipient = () => {
 	const [data, setData] = useState<any>([]);
 
 	const newData = (newData: any[]) => {
-		console.log('newData', newData)
 		const mergeData = [...data, ...newData];
 		setData(Array.from(new Set(mergeData.map(m => m.ent_numero_identidad))).map(ent_numero_identidad => mergeData.find(obj => obj.ent_numero_identidad === ent_numero_identidad)));
 
