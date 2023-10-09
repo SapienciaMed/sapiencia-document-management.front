@@ -269,7 +269,7 @@ const AddRecipientCopyForm = ({
 
 					<ButtonComponent
 						className="button-main hover-three py-12 px-14 font-size-16"
-						value="Guardar"
+						value="Aceptar"
 						type="button"
 						action={() => {
 							chargingNewData(selectedCheckboxs)
