@@ -36,8 +36,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		codigo_asunto: yup
 			.string()
 			.required("El campo es obligatorio")
-			.min(10, "Solo permiten mínimo 10 dígitos")
-			.max(10, "Solo permiten 10 dígitos"),
+			.max(15, "Solo permiten 10 dígitos"),
 		nombre_asunto: yup.string().required(),
 		tiempo_respuesta: yup.string().required(),
 		unidad: yup.string().required(),
