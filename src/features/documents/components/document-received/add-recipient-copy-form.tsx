@@ -161,7 +161,7 @@ const AddRecipientCopyForm = ({
 							<div className={`flex container-docs-received ${styles["flex-center"]}  px-20 py-20 gap-20`}>
 								<ButtonComponent
 									className={`${styles["btn-nobackground"]} hover-three py-12 px-22`}
-									value="Cancelar"
+									value="Limpiar campos"
 									type="button"
 									action={() => {
 										setSelectedCheckboxs([])
