@@ -91,21 +91,21 @@ const RecipientData = ({ data, onChange }: IProps) => {
 
 	const setSelectedAddressee = (idNumber: string) => {
 		if (idNumber && idNumber.length <= 15) {
-			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
-				const paisData = elementoBuscado("PAISES", data?.usr_pais);
+			checkIdInDB(idNumber).then(async ({ data: payload, message }: any) => {
+				const paisData = elementoBuscado("PAISES", payload?.usr_pais);
 				const departamentoData = elementoBuscado(
 					"DEPARTAMENTOS",
-					data?.usr_departamento
+					payload?.usr_departamento
 				);
 				const municipioData = elementoBuscado(
 					"MUNICIPIOS",
-					data?.usr_municipio
+					payload?.usr_municipio
 				);
 
-				if (data !== null) {
+				if (payload !== null) {
 					setValue(
 						"nombres_apellidos_destinatario",
-						data?.usr_nombre + " " + data?.usr_apellidos
+						payload?.usr_nombre + " " + payload?.usr_apellidos
 					);
 					setGetPais(paisData?.lge_elemento_descripcion || "");
 					setGetDepartamento(
@@ -119,7 +119,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 						...data,
 						dirigido_a: selectedCheckbox,
 						nombres_apellidos_destinatario:
-							data?.usr_nombre + " " + data?.usr_apellidos,
+							payload?.usr_nombre + " " + payload?.usr_apellidos,
 						pais_destinatario:
 							paisData?.lge_elemento_descripcion || "",
 						departamento_destinatario:
