@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -10,18 +10,33 @@ import { IoTrashOutline } from "react-icons/io5";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import AddRecipientCopyForm from "./add-recipient-copy-form";
 
-const AddRecipient = () => {
+
+interface IProps {
+	onChange: (data: any) => void,
+	data: any
+}
+
+const AddRecipient = ({ data: payload, onChange }: IProps) => {
 	const [show, setShow] = useState(false);
 	const [data, setData] = useState<any>([]);
 
+	useEffect(() => {
+		if (payload.add_recipient_data) {
+			setData(payload.add_recipient_data)
+		}
+	}, [])
+
 	const newData = (newData: any[]) => {
 		const mergeData = [...data, ...newData];
-		setData(Array.from(new Set(mergeData.map(m => m.ent_numero_identidad))).map(ent_numero_identidad => mergeData.find(obj => obj.ent_numero_identidad === ent_numero_identidad)));
-
+		const d = Array.from(new Set(mergeData.map(m => m.ent_numero_identidad))).map(ent_numero_identidad => mergeData.find(obj => obj.ent_numero_identidad === ent_numero_identidad))
+		setData(d);
+		onChange({ ...payload, add_recipient_data: d})
 	}
 
 	const remove = (ent_numero_identidad: string) => {
-		setData(data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad))
+		const d = data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad)
+		setData(d)
+		onChange({ ...payload, add_recipient_data: d})
 	}
 
 	return (

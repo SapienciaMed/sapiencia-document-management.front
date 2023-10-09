@@ -63,6 +63,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
 		setSelectedSubject(idAsunto)
+		onChange({
+			...data,
+			codigo_asunto: idAsunto
+		})
 	};
 
 	useEffect(() => {
@@ -80,6 +84,13 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 					setValue("tiempo_respuesta", data.inf_timepo_respuesta);
 					setValue("unidad", data.inf_unidad);
 					setValue("codigo_asunto", idAsunto)
+					onChange({
+						...data,
+						nombre_asunto: data.inf_nombre_asunto,
+						tiempo_respuesta: data.inf_timepo_respuesta,
+						unidad: data.inf_unidad,
+						codigo_asunto: idAsunto
+					})
 				} else {
 					setMessage({
 						title: "Información básica del documento",
@@ -220,7 +231,14 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 				<Controller
 					name="tipo"
 					control={control}
-					render={({ field }) => (
+					render={({ field }) => {
+						if (field.value !== data.tipo) {
+							onChange({ ...data, tipo: field.value || null });
+							data.tipo = field.value;
+						}
+
+						return (
+						
 						<SelectComponent
 							idInput="tipo"
 							className="select-basic select-placeholder"
@@ -236,13 +254,19 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								{ name: "Tipo 3", value: "3" },
 							]}
 						/>
-					)}
+					)}}
 				/>
 
 				<Controller
 					name="prioridad"
 					control={control}
-					render={({ field }) => (
+					render={({ field }) => {
+						if (field.value !== data.prioridad) {
+							onChange({ ...data, prioridad: field.value || null });
+							data.prioridad = field.value;
+						}
+
+						return (
 						<SelectComponent
 							idInput="prioridad"
 							className="select-basic"
@@ -258,7 +282,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								{ name: "Alta", value: "3" },
 							]}
 						/>
-					)}
+					)}}
 				/>
 				<div className={`${styles["button-wrapper"]}`}>
 					<div className={`${styles["button-item"]}`}></div>
