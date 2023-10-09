@@ -11,7 +11,7 @@ import Subject from "../components/document-received/subject";
 import OptionalFields from "../components/document-received/optional-fields";
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
-	const [data, setData] = useState<any>({});
+	const [data, setData] = useState<any>({ prioridad: "2" });
 
 	const onChange = async (newData: any) => {
 		try {
