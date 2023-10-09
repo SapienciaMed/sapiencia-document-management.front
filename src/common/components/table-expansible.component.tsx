@@ -8,6 +8,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { DataView } from "primereact/dataview";
 import * as Icons from "react-icons/fa";
+import * as IconsBI from "react-icons/bi";
 import {
 	Paginator,
 	PaginatorCurrentPageReportOptions,
@@ -20,6 +21,7 @@ import {
 } from "primereact/paginator";
 import { Dropdown } from "primereact/dropdown";
 import { classNames } from "primereact/utils";
+        
 
 interface IProps<T> {
 	columns: ITableElement<T>[];
@@ -473,7 +475,7 @@ function getIconElement(icon: string, element: "name" | "src") {
 			return element == "name" ? (
 				"Editar"
 			) : (
-				<Icons.FaPencilAlt className="button grid-button button-edit" />
+				<IconsBI.BiPencil className="button grid-button button-edit" />
 			);
 		case "Delete":
 			return element == "name" ? (
