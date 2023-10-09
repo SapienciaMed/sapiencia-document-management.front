@@ -433,6 +433,7 @@ const SenderData = ({ data: allD, onChange }: IProps) => {
 									register={register}
 									onChange={null}
 									errors={errors}
+									disabled={true}
 								/>
 							)}
 						/>
