@@ -499,7 +499,7 @@ const SenderData = ({ data: allD, onChange }: IProps) => {
 
 					<div className="flex container-docs-received justify-content--end px-20 py-20 gap-20">
 						<ButtonComponent
-							className={`${styles["btn-blackborder"]} hover-three py-12 px-22`}
+							className={`${styles["btn-blackborder"]} text--black hover-three py-12 px-22`}
 							value="Aceptar"
 							type="button"
 							action={onclickSenderIdValue}
