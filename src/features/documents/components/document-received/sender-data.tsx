@@ -18,6 +18,8 @@ import EditEntityForm from "./edit-entity-form";
 import { ITableAction } from "../../../../common/interfaces/table.interfaces";
 
 const SenderData = () => {
+	const [refreshTableId, setRefreshTableId] =
+		useState<ISenderCreateForm>(null);
 	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
 	const [geographicData, setGeographicData] = useState<any>([]);
 	const [typeEntityData, setTypeEntityData] = useState<any>([]);
@@ -134,6 +136,18 @@ const SenderData = () => {
 			},
 		},
 	];
+
+	useEffect(() => {
+		if (refreshTableId?.ent_numero_identidad) {
+			const updateData = async () => {
+				await findSenderInformation({
+					doc_identidad: refreshTableId?.ent_numero_identidad,
+				});
+				setRefreshTableId(null);
+			};
+			updateData();
+		}
+	}, [refreshTableId, findSenderData]);
 
 	useEffect(() => {
 		get(`/generic-list/geographic-list`).then((data) => {
@@ -260,6 +274,10 @@ const SenderData = () => {
 		const endpoint: string = `/entities/find`;
 		setFindSenderData(await post(`${endpoint}`, findData));
 		setIsVisibleTable(true);
+	};
+
+	const refreshTable = (data) => {
+		setRefreshTableId(data);
 	};
 
 	const handleClickHideForm = () => {
@@ -474,6 +492,7 @@ const SenderData = () => {
 					onHideEditForm={handleHideEntityForm}
 					geographicData={geographicData}
 					editData={editData}
+					refreshTable={refreshTable}
 				/>
 			)}
 		</>
