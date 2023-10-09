@@ -28,6 +28,7 @@ const AddRecipientCopyForm = ({
 	chargingNewData,
 }) => {
 	const [data, setData] = useState<any>([])
+	const [showTable, setShowTable] = useState(false)
 	const [selectedCheckboxs, setSelectedCheckboxs] = useState<any>([])
 	const { setMessage } = useContext(AppContext);
 	const baseURL: string =
@@ -76,6 +77,7 @@ const AddRecipientCopyForm = ({
 
 		const response = await get(`${endpoint}?${params}`);
 		setData(response.data)
+		setShowTable(true)
 	}
 
 
@@ -162,8 +164,9 @@ const AddRecipientCopyForm = ({
 									value="Cancelar"
 									type="button"
 									action={() => {
-										onHideCreateForm(true)
 										setSelectedCheckboxs([])
+										setShowTable(false)
+										setData([])
 										setValue('ent_numero_identidad', '');
 										setValue('ent_nombres', '');
 										setValue('ent_tipo_entidad', '');
@@ -183,58 +186,64 @@ const AddRecipientCopyForm = ({
 				</div>
 				
 
-				<div style={{padding: '20px 40px' }}>
-					<div className="card-table">
-						<TableExpansibleComponent
-							actions={undefined}
-							columns={[
-								{
-									fieldName: "check",
-									header: "Seleccione",
-									renderCell: (row) => (
-										<input
-											type="checkbox"
-											value={
-												row?.ent_numero_identidad
-											}
-											checked={
-												selectedCheckboxs.find((s) => s.ent_numero_identidad == row?.ent_numero_identidad)
-											}
-											onChange={handleCheckboxChange}
-										/>
-									),
-								},
-								{
-									fieldName: "ent_numero_identidad",
-									header: "Documento",
-								},
-								{
-									fieldName: "Nombres y apellidos ",
-									header: "Nombres y apellidos",
-									renderCell: (row) => (
-										<>
-											{row.ent_tipo_documento == "CC" ? (<>{row.ent_nombres}{" "}{row.ent_apellidos}{" "}</>) : null}
-											{row.ent_tipo_documento == "NIT" ? (<>{row.ent_razon_social}{" "}</>) : null}											
-										</>
-									),
-								},
-							]}
-							data={data}
-						/>
-					</div>
-				</div>
+				{
+					showTable ? (
+						<div style={{padding: '20px 40px' }}>
+							<div className="card-table">
+								<TableExpansibleComponent
+									actions={undefined}
+									columns={[
+										{
+											fieldName: "check",
+											header: "Seleccione",
+											renderCell: (row) => (
+												<input
+													type="checkbox"
+													value={
+														row?.ent_numero_identidad
+													}
+													checked={
+														selectedCheckboxs.find((s) => s.ent_numero_identidad == row?.ent_numero_identidad)
+													}
+													onChange={handleCheckboxChange}
+												/>
+											),
+										},
+										{
+											fieldName: "ent_numero_identidad",
+											header: "Documento",
+										},
+										{
+											fieldName: "Nombres y apellidos ",
+											header: "Nombres y apellidos",
+											renderCell: (row) => (
+												<>
+													{row.ent_tipo_documento == "CC" ? (<>{row.ent_nombres}{" "}{row.ent_apellidos}{" "}</>) : null}
+													{row.ent_tipo_documento == "NIT" ? (<>{row.ent_razon_social}{" "}</>) : null}											
+												</>
+											),
+										},
+									]}
+									data={data}
+								/>
+							</div>
+						</div>
+					) : null
+				}
 
-				<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+
+				<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 20}}>
 					<ButtonComponent
 						className={`${styles["btn-nobackground"]} hover-three py-12 px-22`}
 						value="Cancelar"
 						type="button"
 						action={() => {
-							onHideCreateForm(true)
 							setSelectedCheckboxs([])
 							setValue('ent_numero_identidad', '');
 							setValue('ent_nombres', '');
 							setValue('ent_tipo_entidad', '');
+							setShowTable(false)
+							onHideCreateForm(true)
 						}}
 						disabled={false}
 					/>
@@ -245,11 +254,12 @@ const AddRecipientCopyForm = ({
 						type="button"
 						action={() => {
 							chargingNewData(selectedCheckboxs)
-							onHideCreateForm(true)
-							setSelectedCheckboxs([])
+							setSelectedCheckboxs([])	
 							setValue('ent_numero_identidad', '');
 							setValue('ent_nombres', '');
 							setValue('ent_tipo_entidad', '');
+							setShowTable(false)
+							onHideCreateForm(true)
 						}}
 						disabled={selectedCheckboxs.length <= 0}
 					/>
