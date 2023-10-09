@@ -98,7 +98,7 @@ const AddRecipientCopyForm = ({
 			<Dialog
 				header="Parámetros Destinatario"
 				visible={visible}
-				style={{ width: "80vw" }}
+				style={{ maxWidth: "1131px" }}
 				onHide={() => onHideCreateForm(true)}
 				pt={{
 					headerTitle: { className: "text-title-modal text--black" },
