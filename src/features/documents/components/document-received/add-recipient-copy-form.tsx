@@ -37,6 +37,7 @@ const AddRecipientCopyForm = ({
 	
 	const schemaFindSender = yup.object({
 		ent_tipo_documento: yup.string().required("El campo es obligatorio"),
+		ent_tipo_entidad: yup.string().required("El campo es obligatorio"),
 		ent_numero_identidad: yup
 			.string()
 			.max(15, "Solo se permiten 15 caracteres")
