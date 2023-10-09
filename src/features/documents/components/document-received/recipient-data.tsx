@@ -45,11 +45,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		pais_destinatario: yup.string(),
 		departamento_destinatario: yup.string(),
 		municipio_destinatario: yup.string(),
-		search_codigo_usuario: yup
-			.number()
-			.transform((value) => (Number.isNaN(value) ? null : value))
-			.nullable()
-			.max(15, "Solo se permiten 15 dígitos"),
+		search_codigo_usuario: yup.number().transform((value) => Number.isNaN(value) ? null : value ).nullable().max(999999999999999, 'Solo se permiten 15 dígitos'),
 		search_nombre_usuario: yup
 			.string()
 			.max(50, "Solo se permiten 50 caracteres"),
