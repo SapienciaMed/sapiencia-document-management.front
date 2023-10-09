@@ -238,12 +238,30 @@ const AddRecipientCopyForm = ({
 						value="Cancelar"
 						type="button"
 						action={() => {
-							setSelectedCheckboxs([])
-							setValue('ent_numero_identidad', '');
-							setValue('ent_nombres', '');
-							setValue('ent_tipo_entidad', '');
-							setShowTable(false)
-							onHideCreateForm(true)
+
+							setMessage({
+								title: "Cancelar acción",
+								description:
+									"¿Desea cancelar la acción?, no se guardarán los datos",
+								show: true,
+								background: true,
+								okTitle: "Continuar",
+								cancelTitle: "Cancelar",
+								style: "z-index-1200",
+								onOk: () => {
+									setMessage({});
+								},
+								onCancel: () => {
+									setSelectedCheckboxs([])
+									setValue('ent_numero_identidad', '');
+									setValue('ent_nombres', '');
+									setValue('ent_tipo_entidad', '');
+									setShowTable(false)
+									onHideCreateForm(true)
+									setMessage({});
+								},
+							});
+							
 						}}
 						disabled={false}
 					/>
