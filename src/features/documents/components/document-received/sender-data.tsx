@@ -22,7 +22,7 @@ interface IProps {
 	data: any;
 }
 
-const SenderData = ({ data: allD, onChange }: IProps) => {
+const SenderData = ({ data: allData, onChange }: IProps) => {
 	const [refreshTableId, setRefreshTableId] =
 		useState<ISenderCreateForm>(null);
 	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
@@ -215,13 +215,13 @@ const SenderData = ({ data: allD, onChange }: IProps) => {
 	} = useForm<ISenderDataForm>({
 		resolver: yupResolver(schema),
 		mode: "all",
-		defaultValues: { ...allD },
+		defaultValues: { ...allData },
 	});
 
 	// Verifica si el array no contiene valores indefinidos
 	//const hasUndefinedValues = watchSearchInputs.every((x) => x === undefined);
 
-	const setAllDataX = (data) => {
+	const setAllData = (data) => {
 		//ToDO: Se puede Optimizar
 		const paisData = elementoBuscado("PAISES", data?.ent_pais);
 		const departamentoData = elementoBuscado(
@@ -238,7 +238,7 @@ const SenderData = ({ data: allD, onChange }: IProps) => {
 		);
 
 		onChange({
-			...allD,
+			...allData,
 			enviado_por: data?.ent_numero_identidad,
 			nombres_apellidos: data?.fullName,
 			pais: paisData?.lge_elemento_descripcion,
@@ -273,7 +273,7 @@ const SenderData = ({ data: allD, onChange }: IProps) => {
 					setGetMunicipio(
 						municipioData?.lge_elemento_descripcion || ""
 					);
-					setAllDataX(data);
+					setAllData(data);
 				} else {
 					setMessage({
 						title: "Datos del remitente",
