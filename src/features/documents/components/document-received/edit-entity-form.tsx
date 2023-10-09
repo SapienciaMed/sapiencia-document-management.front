@@ -23,12 +23,14 @@ type IProps = {
 	onHideEditForm: (data: boolean) => void;
 	geographicData: any;
 	editData?: any;
+	refreshTable?: (data: ISenderCreateForm) => void;
 };
 const EditEntityForm = ({
 	visible,
 	onHideEditForm,
 	geographicData,
 	editData,
+	refreshTable,
 }: IProps) => {
 	const [getPais, setGetPais] = useState<IDropdownProps[]>([]);
 	const [getDepartamentos, setGetDepartamentos] = useState<IDropdownProps[]>(
@@ -229,6 +231,7 @@ const EditEntityForm = ({
 				});
 			}
 		});
+		refreshTable(data);
 	};
 
 	return (
