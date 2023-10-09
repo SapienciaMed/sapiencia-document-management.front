@@ -161,7 +161,13 @@ const AddRecipientCopyForm = ({
 									className={`${styles["btn-nobackground"]} hover-three py-12 px-22`}
 									value="Cancelar"
 									type="button"
-									action={() => onHideCreateForm(true)}
+									action={() => {
+										onHideCreateForm(true)
+										setSelectedCheckboxs([])
+										setValue('ent_numero_identidad', '');
+										setValue('ent_nombres', '');
+										setValue('ent_tipo_entidad', '');
+									}}
 									disabled={false}
 								/>
 								<ButtonComponent
@@ -223,7 +229,13 @@ const AddRecipientCopyForm = ({
 						className={`${styles["btn-nobackground"]} hover-three py-12 px-22`}
 						value="Cancelar"
 						type="button"
-						action={() => onHideCreateForm(true)}
+						action={() => {
+							onHideCreateForm(true)
+							setSelectedCheckboxs([])
+							setValue('ent_numero_identidad', '');
+							setValue('ent_nombres', '');
+							setValue('ent_tipo_entidad', '');
+						}}
 						disabled={false}
 					/>
 
