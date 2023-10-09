@@ -11,15 +11,16 @@ import Subject from "../components/document-received/subject";
 import OptionalFields from "../components/document-received/optional-fields";
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
-	const [data, setData] = useState<any>({})
+	const [data, setData] = useState<any>({});
 
 	const onChange = async (newData: any) => {
-        try {
-            setData(newData);
-        } catch (err) {
-            console.log(err);
-        }
-    }
+		try {
+			console.log(newData, "newData");
+			setData(newData);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const accordionsData: IAccordionTemplate[] = [
 		{
@@ -31,13 +32,15 @@ const DocumentsReceived = () => {
 		{
 			id: 2,
 			name: "Datos remitente",
-			content: <SenderData />,
+			content: <SenderData data={data} onChange={onChange} />,
 			disabled: false,
 		},
 		{
 			id: 3,
 			name: "Información básica del documento",
-			content: <BasicDocumentInformation data={data} onChange={onChange} />,
+			content: (
+				<BasicDocumentInformation data={data} onChange={onChange} />
+			),
 			disabled: false,
 		},
 		{

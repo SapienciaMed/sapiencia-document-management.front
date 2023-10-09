@@ -17,7 +17,12 @@ import CreateEntityForm from "./create-entity-form";
 import EditEntityForm from "./edit-entity-form";
 import { ITableAction } from "../../../../common/interfaces/table.interfaces";
 
-const SenderData = () => {
+interface IProps {
+	onChange: (data: any) => void;
+	data: any;
+}
+
+const SenderData = ({ data: allD, onChange }: IProps) => {
 	const [refreshTableId, setRefreshTableId] =
 		useState<ISenderCreateForm>(null);
 	const [deleteInputs, setDeleteInputs] = useState<boolean>(false);
@@ -210,10 +215,37 @@ const SenderData = () => {
 	} = useForm<ISenderDataForm>({
 		resolver: yupResolver(schema),
 		mode: "all",
+		defaultValues: { ...allD },
 	});
 
 	// Verifica si el array no contiene valores indefinidos
 	//const hasUndefinedValues = watchSearchInputs.every((x) => x === undefined);
+
+	const setAllDataX = (data) => {
+		//ToDO: Se puede Optimizar
+		const paisData = elementoBuscado("PAISES", data?.ent_pais);
+		const departamentoData = elementoBuscado(
+			"DEPARTAMENTOS",
+			data?.ent_departamento
+		);
+		const municipioData = elementoBuscado(
+			"MUNICIPIOS",
+			data?.ent_municipio
+		);
+		setValue(
+			"nombres_apellidos",
+			data?.ent_nombres + " " + data?.ent_apellidos
+		);
+
+		onChange({
+			...allD,
+			enviado_por: data?.ent_numero_identidad,
+			nombres_apellidos: data?.fullName,
+			pais: paisData?.lge_elemento_descripcion,
+			departamento: departamentoData?.lge_elemento_descripcion,
+			municipio: municipioData?.lge_elemento_descripcion,
+		});
+	};
 
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
@@ -241,6 +273,7 @@ const SenderData = () => {
 					setGetMunicipio(
 						municipioData?.lge_elemento_descripcion || ""
 					);
+					setAllDataX(data);
 				} else {
 					setMessage({
 						title: "Datos del remitente",
@@ -287,6 +320,8 @@ const SenderData = () => {
 
 	const onclickSenderIdValue = () => {
 		setValue("enviado_por", selectedCheckbox);
+		setSelectedCheckbox("");
+		onBlurData();
 		setFocus("enviado_por");
 		setIsVisibleSearchForm(!isVisibleSearchForm);
 		setIsVisibleTable(false);
@@ -390,7 +425,7 @@ const SenderData = () => {
 								<InputComponent
 									id="pais"
 									idInput="pais"
-									value={`${getPais || ""}`}
+									value={`${getPais || field.value || ""}`}
 									label="País"
 									className="input-basic"
 									classNameLabel="text--black"
@@ -410,7 +445,9 @@ const SenderData = () => {
 								<InputComponent
 									id="departamento"
 									idInput="departamento"
-									value={`${getDepartamento || ""}`}
+									value={`${
+										getDepartamento || field.value || ""
+									}`}
 									label="Departamento"
 									className="input-basic"
 									classNameLabel="text--black"
@@ -429,7 +466,9 @@ const SenderData = () => {
 								<InputComponent
 									id="municipio"
 									idInput="municipio"
-									value={`${getMunicipio || ""}`}
+									value={`${
+										getMunicipio || field.value || ""
+									}`}
 									label="Municipio"
 									className="input-basic"
 									classNameLabel="text--black"
@@ -461,7 +500,7 @@ const SenderData = () => {
 
 					<div className="flex container-docs-received justify-content--end px-20 py-20 gap-20">
 						<ButtonComponent
-							className={`${styles["btn-blackborder"]} hover-three py-12 px-22`}
+							className={`${styles["btn-blackborder"]} text--black hover-three py-12 px-22`}
 							value="Aceptar"
 							type="button"
 							action={onclickSenderIdValue}
