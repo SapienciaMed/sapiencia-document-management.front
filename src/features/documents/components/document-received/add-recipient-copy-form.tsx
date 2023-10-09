@@ -174,7 +174,7 @@ const AddRecipientCopyForm = ({
 									disabled={false}
 								/>
 								<ButtonComponent
-									className="button-main hover-three py-12 px-16 font-size-16"
+									className="button-main hover-three py-12 px-14 font-size-16"
 									value="Buscar"
 									type="button"
 									action={() => search()}
@@ -267,7 +267,7 @@ const AddRecipientCopyForm = ({
 					/>
 
 					<ButtonComponent
-						className="button-main hover-three py-12 px-16 font-size-16"
+						className="button-main hover-three py-12 px-14 font-size-16"
 						value="Guardar"
 						type="button"
 						action={() => {

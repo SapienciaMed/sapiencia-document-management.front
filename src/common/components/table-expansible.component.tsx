@@ -245,7 +245,7 @@ const TableExpansibleComponent = ({
 			<div className="title-area mb-8">
 				<div
 					className="text-black large bold"
-					style={{ position: "absolute", marginTop: 50 }}
+					style={{ position: "absolute", marginTop: 55 }}
 				>
 					Resultados de Búsqueda
 				</div>
