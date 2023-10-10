@@ -78,17 +78,20 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 
 				console.log('response', response)
 				if (response) {
-					setValue("nombre_asunto", response.inf_nombre_asunto);
-					setValue("tiempo_respuesta", response.inf_timepo_respuesta);
-					setValue("unidad", response.inf_unidad);
-					setValue("codigo_asunto", idAsunto)
+					
 					onChange({
 						...data,
 						nombre_asunto: response.inf_nombre_asunto,
 						tiempo_respuesta: response.inf_timepo_respuesta,
 						unidad: response.inf_unidad,
-						codigo_asunto: idAsunto
+						codigo_asunto: idAsunto,
+						tipo: "",
 					})
+					setValue("nombre_asunto", response.inf_nombre_asunto);
+					setValue("tiempo_respuesta", response.inf_timepo_respuesta);
+					setValue("unidad", response.inf_unidad);
+					setValue("codigo_asunto", idAsunto)
+					setValue("tipo", "")
 				} else {
 					setMessage({
 						title: "Información básica del documento",
@@ -224,7 +227,6 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 					control={control}
 					render={({ field }) => {
 						if (field.value !== data.tipo) {
-							onChange({ ...data, tipo: field.value || null });
 							data.tipo = field.value;
 						}
 
@@ -400,6 +402,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 												setValue("codigo_asunto", selectedCheckbox);
 												setValue("search_codigo_asunto", null);
 												setValue("search_nombre_asunto", "");
+												// onChange({ ...data, tipo: "" })
+												// setValue("tipo", "");
 												setSelectedCheckbox("")
 											}}
 											disabled={(selectedCheckbox == "")}
