@@ -67,7 +67,7 @@ const SearchSenderForm = ({ searchData, onClickHideForm }) => {
 							<InputTextComponent
 								control={controlSearch}
 								idInput="doc_identidad"
-								label="Documento de indentidad"
+								label="Documento de identidad"
 								className="input-basic"
 								classNameLabel="text--black"
 								errors={errorsSearch}
