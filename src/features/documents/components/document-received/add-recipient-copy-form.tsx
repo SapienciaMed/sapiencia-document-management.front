@@ -189,7 +189,7 @@ const AddRecipientCopyForm = ({
 
 				{
 					showTable ? (
-						<div style={{padding: '20px 40px' }}>
+						<div style={{padding: '20px 0' }}>
 							<div className="card-table">
 								<TableExpansibleComponent
 									actions={undefined}
