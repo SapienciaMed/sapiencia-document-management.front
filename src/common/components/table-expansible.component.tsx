@@ -21,7 +21,6 @@ import {
 } from "primereact/paginator";
 import { Dropdown } from "primereact/dropdown";
 import { classNames } from "primereact/utils";
-        
 
 interface IProps<T> {
 	columns: ITableElement<T>[];
@@ -29,6 +28,7 @@ interface IProps<T> {
 	data?: object[];
 	isSelectionMode?: boolean;
 	isExpander?: boolean;
+	tableTitle?: string;
 }
 
 const TableExpansibleComponent = ({
@@ -37,6 +37,7 @@ const TableExpansibleComponent = ({
 	data,
 	isSelectionMode,
 	isExpander,
+	tableTitle,
 }: IProps<any>): React.JSX.Element => {
 	const [first, setFirst] = useState<number>(0);
 	const [perPage, setPerPage] = useState<number>(10);
@@ -247,7 +248,7 @@ const TableExpansibleComponent = ({
 					className="text-black large bold"
 					style={{ position: "absolute", marginTop: 55 }}
 				>
-					Resultados de Búsqueda
+					{tableTitle || "Resultados de Búsqueda"}
 				</div>
 			</div>
 			<Paginator

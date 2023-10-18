@@ -29,6 +29,7 @@ const RelatedAnswers = ({
 }: IProps) => {
 	const { setMessage } = useContext(AppContext);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
+	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [relatedAnswers, setRelatedAnswers] = useState<any>([]);
 	const [isVisibleAnswerDocumentModal, setIsVisibleAnswerDocumentModal] =
 		useState<boolean>(false);
@@ -57,6 +58,10 @@ const RelatedAnswers = ({
 		{
 			fieldName: "dra_tipo_radicado",
 			header: "Tipo documento",
+			renderCell: (row) => {
+				const texto = radicadoTypesList(row?.dra_tipo_radicado);
+				return texto?.lge_elemento_descripcion || "";
+			},
 		},
 		{
 			fieldName: "dra_nombre_radicador",
@@ -89,6 +94,10 @@ const RelatedAnswers = ({
 				setRelatedAnswers(data);
 			}
 		);
+
+		get(`/generic-list/type-radicado-list`).then((data) => {
+			setRadicadoTypes(data);
+		});
 	}, []);
 
 	const getRelatedAnswersByID = async (radicadoId: string) => {
@@ -124,6 +133,14 @@ const RelatedAnswers = ({
 	/**
 	 * FUNCTIONS
 	 */
+
+	const radicadoTypesList = (code: string | number) =>
+		radicadoTypes.find((item) => {
+			return (
+				item.lge_agrupador == "TIPOS_RADICADOS" &&
+				item.lge_elemento_codigo == code
+			);
+		});
 
 	const handleCheckboxChange = (event) => {
 		setSelectedCheckbox(event.target.value);
@@ -232,6 +249,7 @@ const RelatedAnswers = ({
 								columns={columnSenderTable}
 								data={relatedAnswers}
 								actions={relatedAnswersTableActions}
+								tableTitle="Respuestas del documento"
 							/>
 						) : (
 							<div className="font-size-28 font-w500 text-center text-color--gray py-40 px-40">

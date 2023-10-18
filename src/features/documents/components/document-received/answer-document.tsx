@@ -53,6 +53,10 @@ const AnswerDocument = ({
 		{
 			fieldName: "dra_tipo_radicado",
 			header: "Tipo documento",
+			renderCell: (row) => {
+				const texto = typeRadicadoName(row?.dra_tipo_radicado);
+				return texto?.lge_elemento_descripcion || "";
+			},
 		},
 		{
 			fieldName: "rn_radicado_remitente_to_entity.fullName",
@@ -96,6 +100,14 @@ const AnswerDocument = ({
 			};
 		});
 	};
+
+	const typeRadicadoName = (code: string | number) =>
+		radicadoTypes.find((item) => {
+			return (
+				item.lge_agrupador == "TIPOS_RADICADOS" &&
+				item.lge_elemento_codigo == code
+			);
+		});
 
 	// useEffect(() => {
 	// 	getAnswerDocumentByID("966496264426", "1").then( //TODO: CAMBIAR IDs POR VARIABLES
@@ -228,6 +240,7 @@ const AnswerDocument = ({
 									<TableExpansibleComponent
 										columns={columnSenderTable}
 										data={answerDocumentList}
+										tableTitle="Ubicar documento para relacionar"
 									/>
 								) : (
 									<div className="font-size-28 font-w500 text-center text-color--gray py-40 px-40">
