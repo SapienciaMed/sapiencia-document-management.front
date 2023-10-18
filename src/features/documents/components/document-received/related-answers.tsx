@@ -32,7 +32,7 @@ const RelatedAnswers = ({
 		useState<boolean>(false);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-	const { get, post } = useCrudService(baseURL);
+	const { get, post, deleted } = useCrudService(baseURL);
 	const columnSenderTable = [
 		{
 			fieldName: "check",
@@ -75,6 +75,7 @@ const RelatedAnswers = ({
 			onClick: (row) => {
 				//setEditData(row);
 				//setVisibleEditForm(true);
+				deleteRelatedAnswer(row?.dra_radicado);
 			},
 		},
 	];
@@ -134,6 +135,20 @@ const RelatedAnswers = ({
 		};
 		const endpoint: string = `/related-answers`;
 		const relatedAnswerData = await post(`${endpoint}`, data);
+		if (relatedAnswerData.operation.code == "OK") {
+			getRelatedAnswersByID(idRadicado).then(
+				//TODO: CAMBIAR ID POR VARIABLE
+				async ({ data, operation }) => {
+					setRelatedAnswers(data);
+				}
+			);
+		}
+	};
+
+	const deleteRelatedAnswer = async (idAnswerDocument) => {
+		const endpoint: string = `/related-answers/${idAnswerDocument}/${idRadicado}`;
+		const relatedAnswerData = await deleted(`${endpoint}`);
+		console.log(relatedAnswerData, "relatedAnswerData");
 		if (relatedAnswerData.operation.code == "OK") {
 			getRelatedAnswersByID(idRadicado).then(
 				//TODO: CAMBIAR ID POR VARIABLE
