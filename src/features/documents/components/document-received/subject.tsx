@@ -1,4 +1,4 @@
-import React, { Children, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -9,17 +9,23 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { TextAreaComponent } from "../../../../common/components/Form/input-text-area.component";
-
+import RelatedAnswers from "./related-answers";
+import useCrudService from "../../../../common/hooks/crud-service.hook";
 
 interface IProps {
-	onChange: (data: any) => void,
-	data: any
+	onChange: (data: any) => void;
+	data: any;
 }
-
 
 const Subject = ({ data, onChange }: IProps) => {
 	const MAX_LENGTH_TEXT = 2000;
+	const [isVisibleRelatedAnswersModal, setIsVisibleRelatedAnswersModal] =
+		useState<boolean>(false);
 	const [textoLength, setTextoLength] = useState(0);
+	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
+	const baseURL: string =
+		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+	const { get } = useCrudService(baseURL);
 	const schema = yup.object({
 		referencia: yup.string().max(2000).required("El campo es obligatorio"),
 		tipo_asunto: yup.string().required("El campo es obligatorio"),
@@ -27,12 +33,42 @@ const Subject = ({ data, onChange }: IProps) => {
 	const {
 		register,
 		control,
+		getValues: getValuesSubjectForm,
 		formState: { errors },
 	} = useForm<ISubjectForm>({
 		resolver: yupResolver(schema),
 		defaultValues: { ...data },
 		mode: "all",
 	});
+
+	useEffect(() => {
+		const data = async () =>
+			await get(`/generic-list/type-radicado-list`).then((data) => {
+				setRadicadoTypes(data);
+			});
+		data();
+	}, []);
+
+	const radicadoTypesData = radicadoTypes.filter((item) => {
+		return item.lge_agrupador == "TIPOS_RADICADOS";
+	});
+
+	const radicadoTypesList = async () => {
+		return await radicadoTypesData.map((item) => {
+			return {
+				name: item.lge_elemento_descripcion,
+				value: item.lge_elemento_codigo,
+			};
+		});
+	};
+
+	const nameTypeRadicado = (code: string | number): string => {
+		const data = radicadoTypesData.find((item) => {
+			return item.lge_elemento_codigo == code;
+		});
+
+		return data?.lge_elemento_descripcion;
+	};
 
 	return (
 		<>
@@ -44,16 +80,17 @@ const Subject = ({ data, onChange }: IProps) => {
 						name="tipo_asunto"
 						control={control}
 						render={({ field }) => {
-
 							if (field.value !== data.tipo_asunto) {
-								console.log(field.value)
-								onChange({ ...data, tipo_asunto: field.value || null });
+								onChange({
+									...data,
+									tipo_asunto: field.value || null,
+								});
 								data.tipo_asunto = field.value;
 							}
-							
+
 							return (
 								<SelectComponent
-									idInput="tipo"
+									idInput="tipo_asunto"
 									className="select-basic"
 									control={control}
 									errors={errors}
@@ -61,8 +98,14 @@ const Subject = ({ data, onChange }: IProps) => {
 									classNameLabel="text--black"
 									placeholder="Seleccionar"
 									data={[
-										{ name: "Requiere respuesta", value: "1" },
-										{ name: "Es una Respuesta", value: "2" },
+										{
+											name: "Requiere respuesta",
+											value: "1",
+										},
+										{
+											name: "Es una Respuesta",
+											value: "2",
+										},
 										{ name: "Ambas", value: "3" },
 										{
 											name: "Ninguna de las anteriores",
@@ -70,7 +113,7 @@ const Subject = ({ data, onChange }: IProps) => {
 										},
 									]}
 								/>
-							)
+							);
 						}}
 					/>
 				</div>
@@ -109,11 +152,23 @@ const Subject = ({ data, onChange }: IProps) => {
 					<div className={`${styles["button-item"]}`}></div>
 					<button
 						className={`${styles["btn"]} ${styles["btn--gray"]}`}
+						onClick={(e) => {
+							e.preventDefault();
+							setIsVisibleRelatedAnswersModal(true);
+						}}
+						disabled={getValuesSubjectForm("tipo_asunto") !== "2"}
 					>
 						Respuestas Relacionadas
 					</button>
 				</div>
 			</FormComponent>
+
+			<RelatedAnswers
+				visible={isVisibleRelatedAnswersModal}
+				onCloseModal={() => setIsVisibleRelatedAnswersModal(false)}
+				idRadicado={data?.dra_radicado || "190867804547"}
+				idTypeRadicado={"Recibido"}
+			/>
 		</>
 	);
 };

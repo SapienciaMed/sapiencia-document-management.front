@@ -62,7 +62,6 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
-		console.log('idAsunto', idAsunto)
 		setSelectedSubject(idAsunto)
 		onChange({
 			...data,
@@ -76,7 +75,6 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 
 			checkIdInDB(idAsunto).then(async ({ data: response, message }: any) => {
 
-				console.log('response', response)
 				if (response) {
 					setValue("nombre_asunto", response.inf_nombre_asunto);
 					setValue("tiempo_respuesta", response.inf_timepo_respuesta);

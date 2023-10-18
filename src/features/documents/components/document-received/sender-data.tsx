@@ -69,9 +69,9 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 			fieldName: "fullName",
 			header: "Nombre entidad",
 			renderCell: (row) => {
-				if (selectedCheckbox == row?.ent_numero_identidad) {
-					setGetNombreEntidad(row?.fullName);
-				}
+				// if (selectedCheckbox == row?.ent_numero_identidad) {
+				// 	setGetNombreEntidad(row?.fullName);
+				// }
 				return row?.fullName || "";
 			},
 		},
@@ -80,9 +80,9 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 			header: "País",
 			renderCell: (row) => {
 				const texto = elementoBuscado("PAISES", row?.ent_pais);
-				if (selectedCheckbox == row?.ent_numero_identidad) {
-					setGetPais(texto?.lge_elemento_descripcion || "");
-				}
+				// if (selectedCheckbox == row?.ent_numero_identidad) {
+				// 	setGetPais(texto?.lge_elemento_descripcion || "");
+				// }
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
@@ -94,9 +94,9 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 					"DEPARTAMENTOS",
 					row?.ent_departamento
 				);
-				if (selectedCheckbox == row?.ent_numero_identidad) {
-					setGetDepartamento(texto?.lge_elemento_descripcion || "");
-				}
+				// if (selectedCheckbox == row?.ent_numero_identidad) {
+				// 	setGetDepartamento(texto?.lge_elemento_descripcion || "");
+				// }
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
@@ -105,9 +105,9 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 			header: "Municipio",
 			renderCell: (row) => {
 				const texto = elementoBuscado("MUNICIPIOS", row?.ent_municipio);
-				if (selectedCheckbox == row?.ent_numero_identidad) {
-					setGetMunicipio(texto?.lge_elemento_descripcion || "");
-				}
+				// if (selectedCheckbox == row?.ent_numero_identidad) {
+				// 	setGetMunicipio(texto?.lge_elemento_descripcion || "");
+				// }
 				return texto?.lge_elemento_descripcion || "";
 			},
 		},
@@ -321,6 +321,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const onclickSenderIdValue = () => {
 		setValue("enviado_por", selectedCheckbox);
 		setSelectedCheckbox("");
+		setGetDepartamento("");
+		setGetMunicipio("");
 		onBlurData();
 		setFocus("enviado_por");
 		setIsVisibleSearchForm(!isVisibleSearchForm);

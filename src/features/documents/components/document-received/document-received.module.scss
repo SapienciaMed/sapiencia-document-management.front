@@ -11,6 +11,10 @@
 		grid-template-columns: 2fr 1fr 1fr;
 	}
 
+	&--col2 {
+		grid-template-columns: 1fr 1fr;
+	}
+
 	&--col3-1-1-2 {
 		grid-template-columns: 0.97fr 0.97fr 2fr;
 	}
@@ -41,6 +45,27 @@
 	&--gap10 {
 		gap: 1rem;
 	}
+}
+
+.flex-center {
+	justify-content: center;
+	align-items: center;
+}
+
+.flex-align-content {
+	align-content: space-between;
+}
+
+.flex-basis-30 {
+	flex-basis: 30%;
+}
+
+.align-self-end {
+	align-self: flex-end;
+}
+
+.align-self-start {
+	align-self: flex-start;
 }
 
 .mb-10 {
@@ -173,10 +198,6 @@
 .input-small {
 	width: 5rem;
 }
-.flex-center {
-	justify-content: center;
-	align-items: center;
-}
 
 .btn-blackborder {
 	background: none !important;
@@ -196,4 +217,15 @@
 	cursor: pointer;
 	font-weight: 500;
 	font-size: 1rem;
+}
+
+.btn-main {
+	background-color: #533893;
+	color: #fff;
+	border-radius: 30px;
+	border: none;
+	cursor: pointer;
+	min-width: 80px;
+	max-width: 250px;
+	transition: background-color 0.3s ease;
 }

@@ -18,6 +18,7 @@
 
 .flex {
 	display: flex;
+	justify-content: space-between;
 }
 
 .justify-content--end {
@@ -34,6 +35,10 @@ input {
 
 .color--disabled {
 	color: #ced4da;
+}
+
+.text-color--gray {
+	color: #6c757d;
 }
 
 input:disabled {
@@ -102,6 +107,18 @@ input:disabled {
 /***************************/
 /* General reusable components */
 /***************************/
+.mb-4 {
+	margin-bottom: 0.25rem;
+}
+
+.ml-106 {
+	margin-left: 6.625rem;
+}
+
+.px-112 {
+	padding-left: 7rem;
+	padding-right: 7rem;
+}
 // Crea margenes desde 8px hasta 40px
 @for $i from 1 through 40 {
 	$base: 6;

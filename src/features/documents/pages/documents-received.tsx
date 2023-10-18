@@ -15,7 +15,6 @@ const DocumentsReceived = () => {
 
 	const onChange = async (newData: any) => {
 		try {
-			console.log(newData, "newData");
 			setData(newData);
 		} catch (err) {
 			console.log(err);

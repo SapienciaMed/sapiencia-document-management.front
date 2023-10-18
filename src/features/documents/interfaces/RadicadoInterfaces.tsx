@@ -30,6 +30,16 @@ interface ISenderSearchForm {
 	abreviatura: string;
 }
 
+interface IRelatedAnswerForm {
+	dra_radicado: string;
+	dra_tipo_radicado: string;
+}
+
+interface IAnswerDocumentForm {
+	dra_radicado: string;
+	dra_tipo_radicado: number;
+}
+
 interface ISenderCreateForm {
 	ent_tipo_documento: string;
 	ent_numero_identidad: string;

@@ -14,10 +14,9 @@ import { AppContext } from "../../../../common/contexts/app.context";
 import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
 import { InputTextNumberComponent } from "../input-text-number";
 
-
 interface IProps {
-	onChange: (data: any) => void,
-	data: any
+	onChange: (data: any) => void;
+	data: any;
 }
 
 const RadicadoDetails = ({ data, onChange }: IProps) => {
@@ -49,7 +48,7 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 			.string()
 			.min(12, "Escribir mínimo 12 dígitos")
 			.max(12, "Solo se permiten 12 dígitos")
-			.required('El campo es obligatorio'),
+			.required("El campo es obligatorio"),
 		fecha_origen: yup.string().optional(),
 		radicado_por: yup.string().required(),
 		nombres_apellidos: yup.string().required("El campo es obligatorio"),
@@ -69,7 +68,11 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 
 	const onBlurData = () => {
 		const radicadoOrigen = getValues("radicado_origen");
-		onChange({ ...data, radicado_origen: Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen) })
+		onChange({
+			...data,
+			radicado_origen:
+				Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen),
+		});
 		if (radicadoOrigen) {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
 				async ({ data, message }: any) => {
@@ -129,24 +132,27 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 					errors={errors}
 					disabled={true}
 				/>
-				
+
 				<div>
 					<InputTextNumberComponent
 						idInput="radicado_origen"
 						control={control}
 						label="Radicado Origen"
 						className="input-basic"
-						classNameLabel={`text--black ${data.tipo == 2 ? 'text-required' : ''}`}
+						classNameLabel={`text--black ${
+							data.tipo == 2 ? "text-required" : ""
+						}`}
 						errors={errors}
 						disabled={false}
 						onBlur={onBlurData}
 						max={12}
 						type={"number"}
 					/>
-					{ data.tipo == 2 && data.radicado_origen == null  ? (
-						<span className="error-message not-margin-padding">El campo es obligatorio</span>
-					): null }
-					
+					{data.tipo == 2 && data.radicado_origen == null ? (
+						<span className="error-message not-margin-padding">
+							El campo es obligatorio
+						</span>
+					) : null}
 				</div>
 
 				<Controller
