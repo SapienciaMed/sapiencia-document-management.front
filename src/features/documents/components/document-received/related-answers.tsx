@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Dialog } from "primereact/dialog";
 import {
 	ButtonComponent,
@@ -13,6 +13,7 @@ import { ITableAction } from "../../../../common/interfaces/table.interfaces";
 import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import AnswerDocument from "./answer-document";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 interface IProps {
 	idRadicado: string;
@@ -26,6 +27,7 @@ const RelatedAnswers = ({
 	idRadicado,
 	idTypeRadicado,
 }: IProps) => {
+	const { setMessage } = useContext(AppContext);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [relatedAnswers, setRelatedAnswers] = useState<any>([]);
 	const [isVisibleAnswerDocumentModal, setIsVisibleAnswerDocumentModal] =
@@ -146,17 +148,36 @@ const RelatedAnswers = ({
 	};
 
 	const deleteRelatedAnswer = async (idAnswerDocument) => {
-		const endpoint: string = `/related-answers/${idAnswerDocument}/${idRadicado}`;
-		const relatedAnswerData = await deleted(`${endpoint}`);
-		console.log(relatedAnswerData, "relatedAnswerData");
-		if (relatedAnswerData.operation.code == "OK") {
-			getRelatedAnswersByID(idRadicado).then(
-				//TODO: CAMBIAR ID POR VARIABLE
-				async ({ data, operation }) => {
-					setRelatedAnswers(data);
-				}
-			);
-		}
+		const deleteData = async () => {
+			const endpoint: string = `/related-answers/${idAnswerDocument}/${idRadicado}`;
+			const relatedAnswerData = await deleted(`${endpoint}`);
+			console.log(relatedAnswerData, "relatedAnswerData");
+			if (relatedAnswerData.operation.code == "OK") {
+				getRelatedAnswersByID(idRadicado).then(
+					//TODO: CAMBIAR ID POR VARIABLE
+					async ({ data, operation }) => {
+						setRelatedAnswers(data);
+					}
+				);
+			}
+		};
+		setMessage({
+			title: "Borrar respuesta",
+			description:
+				"¿Está seguro que desea borrar la respuesta de este radicado?",
+			show: true,
+			background: true,
+			okTitle: "Aceptar",
+			cancelTitle: "Cancelar",
+			style: "z-index-1300",
+			onOk: () => {
+				deleteData();
+				setMessage({});
+			},
+			onCancel: () => {
+				setMessage({});
+			},
+		});
 	};
 
 	return (
@@ -186,7 +207,7 @@ const RelatedAnswers = ({
 								idInput="dra_radicado"
 								label="N.° Radicado original"
 								className="input-basic"
-								classNameLabel="text--black text-required"
+								classNameLabel="text--black"
 								control={controlRelatedAnswer}
 								errors={errorsRelatedAnswer}
 								disabled={true}
@@ -205,7 +226,8 @@ const RelatedAnswers = ({
 					</div>
 					<div className="card-table shadow-none mt-20">
 						{/* Expansible Table */}
-						{Array.isArray(relatedAnswers) ? (
+						{Array.isArray(relatedAnswers) &&
+						relatedAnswers.length > 0 ? (
 							<TableExpansibleComponent
 								columns={columnSenderTable}
 								data={relatedAnswers}
