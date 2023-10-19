@@ -287,6 +287,7 @@ const RelatedAnswers = ({
 							setIsVisibleAnswerDocumentModal(false)
 						}
 						saveAnswerDocument={saveAnswerDocument}
+						idTypeRadicado={idTypeRadicado}
 					/>
 				)}
 			</Dialog>

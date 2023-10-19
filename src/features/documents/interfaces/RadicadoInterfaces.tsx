@@ -37,7 +37,7 @@ interface IRelatedAnswerForm {
 
 interface IAnswerDocumentForm {
 	dra_radicado: string;
-	dra_tipo_radicado: number;
+	dra_tipo_radicado: string;
 }
 
 interface ISenderCreateForm {

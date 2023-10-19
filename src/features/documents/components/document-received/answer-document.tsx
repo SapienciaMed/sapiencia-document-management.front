@@ -18,11 +18,13 @@ interface IProps {
 	visible: boolean;
 	onCloseModal: (data: boolean) => void;
 	saveAnswerDocument: (data: string) => void;
+	idTypeRadicado: string;
 }
 const AnswerDocument = ({
 	visible,
 	onCloseModal,
 	saveAnswerDocument,
+	idTypeRadicado,
 }: IProps) => {
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
@@ -118,7 +120,7 @@ const AnswerDocument = ({
 	// 	);
 	// }, []);
 
-	const getAnswerDocumentByID = async (radicadoId: string, type: number) => {
+	const getAnswerDocumentByID = async (radicadoId: string, type: string) => {
 		const endpoint: string = `/answer-document/${radicadoId}/type/${type}`;
 		const dataList = await get(`${endpoint}`);
 		setAnswerDocumentList(dataList.data);
@@ -130,7 +132,7 @@ const AnswerDocument = ({
 			.string()
 			.max(15, "Solo se permiten 15 caracteres")
 			.required("El campo es obligatorio"),
-		dra_tipo_radicado: yup.number().nullable(),
+		dra_tipo_radicado: yup.string().nullable(),
 	});
 
 	const {
@@ -142,6 +144,9 @@ const AnswerDocument = ({
 		formState: { errors: errorsAnswerDocument },
 	} = useForm<IAnswerDocumentForm>({
 		resolver: yupResolver(schema),
+		defaultValues: {
+			dra_tipo_radicado: idTypeRadicado == "1" ? "3" : "2",
+		},
 		mode: "all",
 	});
 
