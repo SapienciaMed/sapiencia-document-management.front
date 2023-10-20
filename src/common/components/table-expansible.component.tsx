@@ -503,7 +503,7 @@ const ActionComponent = (props: {
 					onClick={() => action.onClick(props.row)}
 				>
 					{getIconElement(action.icon, "src")}
-					{action.customIcon()}
+					{action?.customIcon ? action?.customIcon() : null}
 				</div>
 			))}
 		</div>
