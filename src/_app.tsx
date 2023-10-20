@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppContextProvider } from "./common/contexts/app.context";
 import "./styles/_app.scss";
 import "./styles/_theme-prime.css";
-//import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 
 import ModalMessageComponent from "./common/components/modal-message.component";
@@ -12,6 +11,7 @@ import ApplicationProvider from "./application-provider";
 import useAppCominicator from "./common/hooks/app-communicator.hook";
 import DocumentsRoutes from "./features/documents/documents-routes";
 import DocumentsReceived from "./features/documents/pages/documents-received";
+import RecipientTray from "./features/recipient-tray/recipient-tray.page";
 
 function App() {
 	const { publish } = useAppCominicator();
@@ -55,6 +55,12 @@ function App() {
 								element={<GeneralConfigurationPage />}
 							/>
 							;
+							<Route
+								path={
+									"/gestion-documental/consultas/historico-destinatarios"
+								}
+								element={<RecipientTray />}
+							/>
 							<Route
 								path={
 									"/gestion-documental/radicacion/documento-recibido"

@@ -1,0 +1,438 @@
+import React, { useContext, useEffect, useState, useRef } from "react";
+import { SpeedDial } from 'primereact/speeddial';
+import { Toast } from 'primereact/toast';
+import * as Icons from "react-icons/fa";
+import { IoWarningOutline } from "react-icons/io5";
+import arrows from "../../public/images/icons/arrows.icon.png";
+import firm from "../../public/images/icons/firm.icon.png";
+
+import moment from 'moment';
+// import { useNavigate } from "react-router-dom";
+// import AccordionsComponent from "../../../common/components/accordions.component";
+// import { AppContext } from "../../../common/contexts/app.context";
+// import { generalConfigurationValidator } from "../../../common/schemas";
+// import { useGeneralConfigurationService } from "../hooks/general-configuration-service.hook";
+// import { EResponseCodes } from "../../../common/constants/api.enum";
+
+import { ButtonComponent, FormComponent, InputComponent, InputComponentOriginal, SelectComponent } from "../../common/components/Form";
+import { EDirection } from "../../common/constants/input.enum";
+import { Controller, useForm } from "react-hook-form";
+import TableExpansibleComponent from "../../common/components/table-expansible.component";
+import { Tooltip } from "primereact/tooltip";
+// import useYupValidationResolver from "../../../common/hooks/form-validator.hook";
+// import { consecutiveNumberValidator } from "../../../common/schemas/general-configuration-schemas";
+import useCrudService from "../../common/hooks/crud-service.hook";
+
+export default React.memo(() => {
+  // const resolver = useYupValidationResolver(consecutiveNumberValidator);
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState<any>([]);
+  const [showTable, setShowTable] = useState(false);
+  const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
+
+  const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+  const { get, post } = useCrudService(baseURL);
+
+  const {
+    register,
+    control,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm<any>({
+    // resolver,
+    mode: "all",
+  });
+
+  const searchInDB = async () => {
+		const endpoint: string = `/radicado-details/searchByRecipient`;
+
+		const response = await get(
+      `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}`
+      );
+    console.log(response.data)
+		setData(response.data)
+		setShowTable(true)
+	}
+
+  const toast = useRef(null);
+    const items = [
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-anexo" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-anexo" data-pr-tooltip="Ver anexo">
+                <Icons.FaPaperclip className="button grid-button button-link" style={{ color: 'white' }}/>
+              </a>
+            </>
+          ),
+        },
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-firma" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-firma" data-pr-tooltip="Firma">
+                <img className="icons" src={firm} />
+              </a>
+            </>
+          ),
+        },
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-comentarios" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-comentarios" data-pr-tooltip="Comentarios">
+              <Icons.FaComment className="button grid-button button-link" style={{ color: 'white' }}/>
+              </a>
+            </>
+          ),
+        },
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-expediente" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-expediente" data-pr-tooltip="Expediente">
+              <Icons.FaFile className="button grid-button button-link" style={{ color: 'white' }}/>
+              </a>
+            </>
+          ),
+        },
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-todo" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-todo" data-pr-tooltip="Ver todo">
+                <Icons.FaFolderOpen className="button grid-button button-link" style={{ color: 'white' }}/>
+              </a>
+            </>
+          ),
+        },
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-todo" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-todo" data-pr-tooltip="Ver todo">
+              <img className="icons" src={arrows} />
+              </a>
+            </>
+          ),
+        },
+        {
+          template: () => (
+            <>
+              <Tooltip target=".ver-todo" />
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-todo" data-pr-tooltip="Ver todo">
+                <Icons.FaImage className="button grid-button button-link" style={{ color: 'white' }}/>
+              </a>
+            </>
+          ),
+        }
+    ];
+
+  return (
+    <div className="w-100 custom-mw" style={{ marginLeft: 'auto', marginRight: 'auto', overflowX: "hidden", paddingBottom: 40 }}>
+      <div className="spc-common-table expansible card-table" style={{ marginTop: 20, borderRadius: 20, width: '100%' }}>
+        <div className="spc-common-table expansible card-table" style={{ borderRadius: 29, paddingBottom: 30 }}>
+            <h2 className="biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik', color: 'black', margin: 0, padding: 0 }}>Histórico destinatarios</h2>
+            <FormComponent action={undefined} className="accordion-item-container w-100">
+              <div className="grid-form-3-container w-100" style={{ padding: '20px 10px', columnGap: 150 }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <InputComponentOriginal
+                        idInput="days"
+                        typeInput="number"
+                        className="input-basic background-textArea text-center"
+                        register={register}
+                        label="Documentos evacuados en los últimos:"
+                        classNameLabel="text-black big custom-label"
+                        direction={EDirection.column}
+                        errors={errors}
+                    />
+                    <span style={{ marginTop: 45, marginLeft: 15 }} className="custom-label">días</span>
+                </div>
+                <div style={{ marginTop: 20 }}>
+                  <InputComponentOriginal
+                      idInput="start"
+                      typeInput="date"
+                      className="input-basic background-textArea"
+                      register={register}
+                      label="Desde"
+                      classNameLabel="text-black big custom-label"
+                      direction={EDirection.column}
+                      errors={errors}
+                  />
+                </div>
+
+                <div style={{ marginTop: 20 }}>
+                  <InputComponentOriginal
+                      idInput="end"
+                      typeInput="date"
+                      className="input-basic background-textArea"
+                      register={register}
+                      label="Hasta"
+                      classNameLabel="text-black big custom-label"
+                      direction={EDirection.column}
+                      errors={errors}
+                  />
+                </div>
+              </div>
+              <div className="w-100" style={{ float: "right" }}>
+                <div className="d-flex align-items-center">
+                  <div style={{ marginRight: 15 }}>
+                    <ButtonComponent
+                      className="btn-clean"
+                      value="Limpiar campos"
+                      type="button"
+                      action={() => { }}
+                      disabled={false}
+                    />
+                  </div>
+                  <ButtonComponent
+                    className="button-main hover-three py-12 px-14 font-size-16"
+                    value="Buscar"
+                    type="button"
+                    action={() => { searchInDB(); }}
+                  />
+                </div>
+              </div>
+
+            </FormComponent>
+        </div>
+
+
+        {/* Apellidos_DestinatarioCopia
+: 
+"Apellido"
+Apellidos_DestinatarioOriginal
+: 
+"Apellidos10"
+DRA_CODIGO
+: 
+21
+DRA_CODIGO_ASUNTO
+: 
+10
+DRA_FECHA_EVACUACION_ENTRADA
+: 
+"2021-10-20T05:00:00.000Z"
+DRA_FECHA_EVACUACION_SALIDA
+: 
+"2022-03-27T05:00:00.000Z"
+DRA_FECHA_RADICADO
+: 
+"2023-10-25T05:00:00.000Z"
+DRA_ID_DESTINATARIO
+: 
+"Destinatario10"
+DRA_ID_REMITENTE
+: 
+"Remitente10"
+DRA_NOMBRE_RADICADOR
+: 
+"Radicador10"
+DRA_NUM_ANEXOS
+: 
+5
+DRA_NUM_CAJAS
+: 
+2
+DRA_NUM_FOLIOS
+: 
+14
+DRA_OBSERVACION
+: 
+"Observacion10"
+DRA_OPCIONES_RESPUESTA
+: 
+1
+DRA_RADICADO
+: 
+"RAD1010"
+DRA_RADICADO_ORIGEN
+: 
+"Origen10"
+DRA_RADICADO_POR
+: 
+"Usuario10"
+DRA_REFERENCIA
+: 
+"Referencia10"
+DRA_TIPO_RADICADO
+: 
+2
+ID_DestinatarioCopia
+: 
+"797940"
+ID_DestinatarioOriginal
+: 
+"Destinatario10"
+Nombres_DestinatarioCopia
+: 
+"Nombre"
+Nombres_DestinatarioOriginal
+: 
+"Nombres10"
+RCD_CODIGO
+: 
+11
+RCD_ID_DESTINATARIO
+: 
+"797940"
+RCD_RADICADO
+: 
+"RAD1010"
+created_at
+: 
+"2023-10-20T22:02:57.000Z"
+updated_at
+: 
+"2023-10-20T22:02:57.000Z" */}
+        {
+          showTable ? (
+            <div className="card-table" style={{ marginTop: 25, width: '100%' }}>
+          <TableExpansibleComponent
+            tableTitle=" "
+            renderTitle={() => {
+              return (
+                <div style={{ marginTop: '-40px'}}>
+                  <InputComponentOriginal
+                    idInput="search"
+                    typeInput="text"
+                    className="input-basic background-textArea custom-placeholder"
+                    register={register}
+                    label="Buscar documentos en la bandeja:"
+                    classNameLabel="text-black big custom-label"
+                    direction={EDirection.column}
+                    placeholder="Buscar"
+                    errors={errors}
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
+                </div>
+              )
+            }}
+            actions={[
+              {
+                customIcon: () => (
+                  <div style={{ height: '100px' }} className="card d-flex align-items-center justify-content-center" >
+                    <div style={{ justifyContent: 'center', width: '250px' }} className="">
+                        <Toast ref={toast} />
+                        <SpeedDial style={{ marginTop: '-30px' }} model={items} radius={80} type="circle" buttonClassName="custom-speed-dial custom-p-button" />
+                    </div>
+                  </div>
+                ),
+                icon: '',
+                onClick: () => { console.log('click')}
+              }
+            ]}
+            columns={[
+              {
+                fieldName: "DRA_RADICADO",
+                header: "No.Radicado",
+                sort: true,
+              },
+              {
+                fieldName: "clase",
+                header: "Clase",
+                sort: true,
+              },
+              {
+                fieldName: "DRA_TIPO_DOCUMENTO_RADICADO",
+                header: "Origen",
+                sort: true,
+              },
+              {
+                fieldName: "DRA_FECHA_RADICADO",
+                header: "Fecha Radicación",
+                renderCell: (row) => {
+                  return (
+                    <>{moment(row.DRA_FECHA_RADICADO).format('DD/MM/YYYY')}</>
+                  )
+                },
+                sort: true,
+              },
+              {
+                fieldName: "DRA_FECHA_EVACUACION_ENTRADA",
+                header: "Fecha Entrada",
+                renderCell: (row) => {
+                  return (
+                    <>{row.DRA_FECHA_EVACUACION_ENTRADA ? moment(row.DRA_FECHA_EVACUACION_ENTRADA).format('DD/MM/YYYY'): ''}</>
+                  )
+                },
+                sort: true,
+              },
+              {
+                fieldName: "DRA_FECHA_EVACUACION_SALIDA",
+                header: "Fecha Salida",
+                renderCell: (row) => {
+                  return (
+                    <>{row.DRA_FECHA_EVACUACION_SALIDA ? moment(row.DRA_FECHA_EVACUACION_SALIDA).format('DD/MM/YYYY'): ''}</>
+                  )
+                },
+                sort: true,
+              },
+              {
+                fieldName: "NombresORazonSocial_Remitente",
+                header: "Remitente",
+                renderCell: (row) => {
+                  return (
+                    <>{row.NombresORazonSocial_Remitente}</>
+                  )
+                },
+                sort: true,
+              },
+              {
+                fieldName: "destinatario",
+                header: "Destinatario",
+                renderCell: (row) => {
+                  return (
+                    <>{row.NombresORazonSocial_DestinatarioOriginal ? row.NombresORazonSocial_DestinatarioOriginal : row.NombresORazonSocial_DestinatarioCopia}</>
+                  )
+                },
+                sort: true,
+              },
+              {
+                fieldName: "tipo_documento",
+                header: "Tipo documento",
+                sort: true,
+                renderCell: () => {
+                  return (<>Solicitud de documentos</>)
+                }
+              },
+              {
+                fieldName: "DRA_REFERENCIA",
+                header: "Referencia",
+                sort: true,
+              },
+              {
+                fieldName: "DRA_RADICADO_ORIGEN",
+                header: "Radicado origen",
+                sort: true,
+              },
+              {
+                fieldName: "DRA_PRIORIDAD",
+                header: "Prioridad",
+                sort: true,
+                renderCell: (row) => {
+                  return (<><IoWarningOutline color={COLORS[row.DRA_PRIORIDAD]} size={50} /></>)
+                }
+              },
+            ]}
+            data={data.filter((item) => {
+              if (search) {
+                for (const key in item) {
+                  if (item[key] && item[key].toString().toLowerCase().includes(search.toLowerCase())) {
+                    return true;
+                  }
+                }
+                return false;
+              }
+
+              return true;
+            })}
+          />
+        </div>
+          ) : null
+        }
+      </div>
+    </div>
+  )
+});

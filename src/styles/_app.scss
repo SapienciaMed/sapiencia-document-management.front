@@ -431,3 +431,61 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	letter-spacing: 0em !important;
 	color: #000000 !important;
 }
+
+
+.custom-label {
+	font-family: 'RubikMedium' !important;
+	font-size: 17px !important;
+	font-weight: 500 !important;
+	line-height: 20px !important;
+	letter-spacing: 0em !important;
+}
+
+.btn-clean {
+	background: none;
+	border: none;
+	border-radius: 30px;
+	text-decoration: none;
+	cursor: pointer;
+	font-family: 'Rubik';
+	font-size: 16px;
+	font-weight: 500;
+	text-align: center;
+
+}
+
+.custom-mw { 
+	max-width: 100%,
+}
+
+@media (min-width: 1000px) {
+	.custom-mw { 
+		max-width: 1200px,
+	}
+}
+
+
+.custom-p-button {
+    background: #533893 !important;
+}
+
+.p-speeddial-action:hover {
+    background: #343a40 !important;
+}
+
+.p-speeddial-action.disabled {
+	 cursor: inherit !important;
+	span, i, svg, img {
+		opacity: 0.4 !important;
+		cursor: inherit !important;
+	}
+}
+
+.custom-placeholder::placeholder {
+	font-weight: 400;
+	font-family: 'Rubik';
+}
+
+.p-sortable-column-icon {
+	color: black !important;
+}
