@@ -28,7 +28,6 @@ const RelatedAnswers = ({
 	idTypeRadicado,
 }: IProps) => {
 	const { setMessage } = useContext(AppContext);
-	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [relatedAnswers, setRelatedAnswers] = useState<any>([]);
 	const [isVisibleAnswerDocumentModal, setIsVisibleAnswerDocumentModal] =
@@ -37,20 +36,6 @@ const RelatedAnswers = ({
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post, deleted } = useCrudService(baseURL);
 	const columnSenderTable = [
-		{
-			fieldName: "check",
-			header: "Seleccione",
-			renderCell: (row) => {
-				return (
-					<input
-						type="checkbox"
-						value={row?.dra_radicado}
-						checked={selectedCheckbox == row?.dra_radicado}
-						onChange={handleCheckboxChange}
-					/>
-				);
-			},
-		},
 		{
 			fieldName: "dra_radicado",
 			header: "N.° Radicado",
@@ -142,11 +127,6 @@ const RelatedAnswers = ({
 			);
 		});
 
-	const handleCheckboxChange = (event) => {
-		setSelectedCheckbox(event.target.value);
-		//setIsDisableSendButton(event.target.value ? false : true);
-	};
-
 	const saveAnswerDocument = async (idAnswerDocument) => {
 		const data = {
 			rrr_id_radicado: idRadicado,
@@ -159,6 +139,18 @@ const RelatedAnswers = ({
 				//TODO: CAMBIAR ID POR VARIABLE
 				async ({ data, operation }) => {
 					setRelatedAnswers(data);
+					setMessage({
+						title: "Respuesta Relacionada",
+						description: relatedAnswerData.operation.message,
+						show: true,
+						background: true,
+						okTitle: "Aceptar",
+
+						style: "z-index-1300",
+						onOk: () => {
+							setMessage({});
+						},
+					});
 				}
 			);
 		}
@@ -168,7 +160,6 @@ const RelatedAnswers = ({
 		const deleteData = async () => {
 			const endpoint: string = `/related-answers/${idAnswerDocument}/${idRadicado}`;
 			const relatedAnswerData = await deleted(`${endpoint}`);
-			console.log(relatedAnswerData, "relatedAnswerData");
 			if (relatedAnswerData.operation.code == "OK") {
 				getRelatedAnswersByID(idRadicado).then(
 					//TODO: CAMBIAR ID POR VARIABLE

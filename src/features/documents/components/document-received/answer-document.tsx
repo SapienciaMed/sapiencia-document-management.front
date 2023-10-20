@@ -30,6 +30,7 @@ const AnswerDocument = ({
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [isVisibleTable, setIsVisibleTable] = useState<boolean>(false);
 	const [answerDocumentList, setAnswerDocumentList] = useState<any>([]);
+	const [radicadoCodeId, setRadicadoCodeId] = useState<number>(2);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -132,7 +133,7 @@ const AnswerDocument = ({
 			.string()
 			.max(15, "Solo se permiten 15 caracteres")
 			.required("El campo es obligatorio"),
-		dra_tipo_radicado: yup.string().nullable(),
+		dra_tipo_radicado: yup.number().nullable(),
 	});
 
 	const {
@@ -145,7 +146,7 @@ const AnswerDocument = ({
 	} = useForm<IAnswerDocumentForm>({
 		resolver: yupResolver(schema),
 		defaultValues: {
-			dra_tipo_radicado: idTypeRadicado == "1" ? "3" : "2",
+			dra_tipo_radicado: idTypeRadicado == "Recibido" ? "3" : "2",
 		},
 		mode: "all",
 	});
@@ -190,7 +191,7 @@ const AnswerDocument = ({
 								idInput="dra_radicado"
 								label="Digite el documento o parte de él"
 								className={`input-basic`}
-								classNameLabel="text--black"
+								classNameLabel="text--black text-required"
 								control={controlAnswerDocument}
 								errors={errorsAnswerDocument}
 								disabled={false}

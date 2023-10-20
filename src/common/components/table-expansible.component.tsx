@@ -278,26 +278,34 @@ const TableExpansibleComponent = ({
 	return (
 		<div
 			className="spc-common-table expansible"
-			style={{ position: "relative", border: "none" }}
+			style={{ display: "relative", border: "none" }}
 		>
-			<div className="title-area mb-8">
-				<div
-					className="text-black large bold"
-					style={{ position: "absolute", marginTop: 55 }}
-				>
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					alignContent: "center",
+					justifyContent: "space-between",
+					border: "none",
+				}}
+			>
+				<div className="text-black large bold mt-18 ">
 					{tableTitle || "Resultados de Búsqueda"}
 					{renderTitle() || null}
 				</div>
+
+				<Paginator
+					style={{ justifyContent: "flex-end" }}
+					className="between"
+					template={paginatorHeader}
+					// leftContent={width > 830 ? leftContent : null}
+					first={first}
+					rows={perPage}
+					totalRecords={data?.length || 0}
+					onPageChange={onPageChange}
+				/>
 			</div>
-			<Paginator
-				className="between spc-table-paginator"
-				template={paginatorHeader}
-				leftContent={width > 830 ? leftContent : null}
-				first={first}
-				rows={perPage}
-				totalRecords={data?.length || 0}
-				onPageChange={onPageChange}
-			/>
+
 			{width > 830 ? (
 				<DataTable
 					style={{ maxWidth: '100%', width: '100%' }}
