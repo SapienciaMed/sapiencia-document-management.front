@@ -291,7 +291,7 @@ const TableExpansibleComponent = ({
 			>
 				<div className="text-black large bold mt-18 ">
 					{tableTitle || "Resultados de Búsqueda"}
-					{renderTitle() || null}
+					{renderTitle ? renderTitle() : null}
 				</div>
 
 				<Paginator
