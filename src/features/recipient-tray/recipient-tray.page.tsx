@@ -36,6 +36,7 @@ export default React.memo(() => {
   const {
     register,
     control,
+    setValue,
     getValues,
     watch,
     formState: { errors },
@@ -182,7 +183,11 @@ export default React.memo(() => {
                       className="btn-clean"
                       value="Limpiar campos"
                       type="button"
-                      action={() => { }}
+                      action={() => {
+                        setValue('days', '')
+                        setValue('start', '')
+                        setValue('end', '')
+                      }}
                       disabled={false}
                     />
                   </div>
@@ -197,95 +202,6 @@ export default React.memo(() => {
 
             </FormComponent>
         </div>
-
-
-        {/* Apellidos_DestinatarioCopia
-: 
-"Apellido"
-Apellidos_DestinatarioOriginal
-: 
-"Apellidos10"
-DRA_CODIGO
-: 
-21
-DRA_CODIGO_ASUNTO
-: 
-10
-DRA_FECHA_EVACUACION_ENTRADA
-: 
-"2021-10-20T05:00:00.000Z"
-DRA_FECHA_EVACUACION_SALIDA
-: 
-"2022-03-27T05:00:00.000Z"
-DRA_FECHA_RADICADO
-: 
-"2023-10-25T05:00:00.000Z"
-DRA_ID_DESTINATARIO
-: 
-"Destinatario10"
-DRA_ID_REMITENTE
-: 
-"Remitente10"
-DRA_NOMBRE_RADICADOR
-: 
-"Radicador10"
-DRA_NUM_ANEXOS
-: 
-5
-DRA_NUM_CAJAS
-: 
-2
-DRA_NUM_FOLIOS
-: 
-14
-DRA_OBSERVACION
-: 
-"Observacion10"
-DRA_OPCIONES_RESPUESTA
-: 
-1
-DRA_RADICADO
-: 
-"RAD1010"
-DRA_RADICADO_ORIGEN
-: 
-"Origen10"
-DRA_RADICADO_POR
-: 
-"Usuario10"
-DRA_REFERENCIA
-: 
-"Referencia10"
-DRA_TIPO_RADICADO
-: 
-2
-ID_DestinatarioCopia
-: 
-"797940"
-ID_DestinatarioOriginal
-: 
-"Destinatario10"
-Nombres_DestinatarioCopia
-: 
-"Nombre"
-Nombres_DestinatarioOriginal
-: 
-"Nombres10"
-RCD_CODIGO
-: 
-11
-RCD_ID_DESTINATARIO
-: 
-"797940"
-RCD_RADICADO
-: 
-"RAD1010"
-created_at
-: 
-"2023-10-20T22:02:57.000Z"
-updated_at
-: 
-"2023-10-20T22:02:57.000Z" */}
         {
           showTable ? (
             <div className="card-table" style={{ marginTop: 25, width: '100%' }}>
@@ -380,7 +296,7 @@ updated_at
                 sort: true,
               },
               {
-                fieldName: "destinatario",
+                fieldName: "NombresORazonSocial_DestinatarioOriginal",
                 header: "Destinatario",
                 renderCell: (row) => {
                   return (
@@ -390,7 +306,7 @@ updated_at
                 sort: true,
               },
               {
-                fieldName: "tipo_documento",
+                fieldName: "",
                 header: "Tipo documento",
                 sort: true,
                 renderCell: () => {
