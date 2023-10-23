@@ -50,21 +50,33 @@ const RecipientTray = () => {
 	const getRadicadosByID = async (radicadoId: string) => {
 		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
-		setRadicadosList(dataList?.data);
+		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
 
 	const handleKeyPress = (e) => {
 		if (
 			e.key === "Enter" &&
-			e.target.value !== null &&
-			e.target.value !== ""
+			(e.target.value !== null || e.target.value !== "")
 		) {
 			getRadicadosByID(e.target.value);
+		}
+		if (
+			e.key === "Enter" &&
+			(e.target.value == null || e.target.value == "")
+		) {
+			const getRadicadoList = async () => {
+				const endpoint: string = `/radicado-details/find-all`;
+				const dataList = await get(`${endpoint}`);
+
+				setRadicadosList(
+					Array.isArray(dataList?.data) ? dataList?.data : []
+				);
+			};
+			getRadicadoList();
 		}
 	};
 
 	const statusRowFilterTemplate = (options) => {
-		console.log(options, radicadoTypes, "options");
 		return (
 			<Dropdown
 				value={options.value}
@@ -92,7 +104,6 @@ const RecipientTray = () => {
 						value={options.value}
 						placeholder="DD/MM/AAAA"
 						onChange={(e) => {
-							console.log(e.currentTarget.value, "eeee");
 							return options.filterApplyCallback(
 								e.currentTarget.value
 							);
@@ -190,7 +201,7 @@ const RecipientTray = () => {
 					row?.dra_fecha_radicado,
 					"DD/MM/YYYY"
 				);
-				console.log(dateRadicado.isValid(), "dateRadicado");
+
 				return <TimeElapsed fecha={dateRadicado} />;
 			},
 		},
@@ -373,9 +384,6 @@ const RecipientTray = () => {
 											classNameLabel="text-black big custom-label"
 											direction={EDirection.column}
 											placeholder="Buscar"
-											onChange={(e) =>
-												console.log(e.target.value)
-											}
 											onKeyPress={handleKeyPress}
 										/>
 									</div>
