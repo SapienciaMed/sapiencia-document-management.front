@@ -14,8 +14,9 @@ import useAppCominicator from "./common/hooks/app-communicator.hook";
 import DocumentsRoutes from "./features/documents/documents-routes";
 import DocumentsReceived from "./features/documents/pages/documents-received";
 
-import RecipientTray from "./features/recipient-tray/recipient-tray.page";
 import RadicadosTray from "./features/documents/components/radicados-tray/radicados-tray";
+import RecipientTray from "./features/documents/components/recipient-tray/recipient-tray";
+import RecipientTrayPage from "./features/recipient-tray/recipient-tray.page";
 
 function App() {
 	const { publish } = useAppCominicator();
@@ -63,7 +64,7 @@ function App() {
 								path={
 									"/gestion-documental/consultas/historico-destinatarios"
 								}
-								element={<RecipientTray />}
+								element={<RecipientTrayPage />}
 							/>
 							<Route
 								path={
@@ -76,6 +77,12 @@ function App() {
 									"/gestion-documental/radicacion/bandeja-radicado"
 								}
 								element={<RadicadosTray />}
+							/>
+							<Route
+								path={
+									"/gestion-documental/radicacion/bandeja-destinatarios"
+								}
+								element={<RecipientTray />}
 							/>
 						</Routes>
 					</Suspense>
