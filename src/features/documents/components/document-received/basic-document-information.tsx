@@ -360,7 +360,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 												fieldName: "check",
 												header: "Seleccione",
 												renderCell: (row) => {
-													console.log(selectedCheckbox, row?.inf_codigo_asunto)
+													
 													return <input
 														type="checkbox"
 														value={row?.inf_codigo_asunto}

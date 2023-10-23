@@ -61,7 +61,6 @@ const RadicadosTray = () => {
 	};
 
 	const handleKeyPress = (e) => {
-		console.log(e.target.value, "e");
 		if (
 			e.key === "Enter" &&
 			(e.target.value !== null || e.target.value !== "")
@@ -85,13 +84,11 @@ const RadicadosTray = () => {
 	};
 
 	const statusRowFilterTemplate = (options) => {
-		console.log(options, radicadoTypes, "options");
 		return (
 			<Dropdown
 				value={options.value}
 				options={radicadoTypes}
 				onChange={(e) => {
-					console.log(e.value, "eeee");
 					return options.filterApplyCallback(e.value);
 				}}
 				//itemTemplate={statusItemTemplate}
@@ -106,7 +103,7 @@ const RadicadosTray = () => {
 	};
 
 	const dateRowFilterTemplate = (options) => {
-		console.log(options, "options");
+		
 		return (
 			<>
 				<span className="p-input-icon-right">
@@ -114,7 +111,7 @@ const RadicadosTray = () => {
 					<InputText
 						value={options.value}
 						onChange={(e) => {
-							console.log(e.currentTarget.value, "eeee");
+							
 							return options.filterApplyCallback(
 								e.currentTarget.value
 							);
@@ -226,7 +223,7 @@ const RadicadosTray = () => {
 					row?.dra_fecha_radicado,
 					"DD/MM/YYYY"
 				);
-				console.log(dateRadicado.isValid(), "dateRadicado");
+			
 				return <TimeElapsed fecha={dateRadicado} />;
 			},
 		},
