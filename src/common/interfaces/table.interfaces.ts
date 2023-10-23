@@ -1,3 +1,4 @@
+import { classNames } from "primereact/utils";
 export interface ITableElement<T> {
 	sort?: boolean;
 	header: string;
@@ -23,6 +24,8 @@ export interface ITableElementDial<T> {
 	showFilterMenu?: boolean;
 	filterElement?: (row: T) => JSX.Element;
 	style?: object;
+	filterMenuStyle?: object;
+	className?: string;
 }
 
 export interface IListTableElement {

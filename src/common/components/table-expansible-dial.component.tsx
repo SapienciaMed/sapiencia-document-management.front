@@ -292,8 +292,10 @@ const TableExpansibleDialComponent = ({
 					//scrollHeight="1700px"
 					filters={filters}
 					filterDisplay={filterDisplay}
-					globalFilterFields={["dra_radicado", "dra_asunto"]} //TODO: Quitar
-					style={{ minHeight: "100%" }}
+					//tableStyle={{ minWidth: "10rem" }}
+					style={{
+						minHeight: "100%",
+					}}
 				>
 					{isSelectionMode && (
 						<Column
@@ -324,11 +326,7 @@ const TableExpansibleDialComponent = ({
 							style={col.style}
 							filterElement={col.filterElement}
 							showFilterMenu={col.showFilterMenu}
-							// style={{
-							// 	maxWidth: `${widthColumns}px`,
-							// 	minHeight: `${widthColumns}px`,
-							// 	width: `${widthColumns}px`,
-							// }}
+							filterMenuStyle={col.filterMenuStyle}
 						/>
 					))}
 

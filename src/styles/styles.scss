@@ -136,6 +136,12 @@ input:disabled {
 // 	color: #533893; /* Estilos opcionales para el texto */
 // }
 
+.filters-tray {
+	.column-filter-clear-button {
+		display: none;
+	}
+}
+
 /***************************/
 /* End CSS para la pagina documents-received */
 /***************************/
