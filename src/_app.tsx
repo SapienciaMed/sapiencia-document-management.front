@@ -1,9 +1,11 @@
 import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppContextProvider } from "./common/contexts/app.context";
+
 import "./styles/_app.scss";
 import "./styles/_theme-prime.css";
 import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 import ModalMessageComponent from "./common/components/modal-message.component";
 import ApplicationProvider from "./application-provider";
@@ -11,7 +13,9 @@ import ApplicationProvider from "./application-provider";
 import useAppCominicator from "./common/hooks/app-communicator.hook";
 import DocumentsRoutes from "./features/documents/documents-routes";
 import DocumentsReceived from "./features/documents/pages/documents-received";
+
 import RecipientTray from "./features/recipient-tray/recipient-tray.page";
+import RadicadosTray from "./features/documents/components/radicados-tray/radicados-tray";
 
 function App() {
 	const { publish } = useAppCominicator();
@@ -66,6 +70,12 @@ function App() {
 									"/gestion-documental/radicacion/documento-recibido"
 								}
 								element={<DocumentsReceived />}
+							/>
+							<Route
+								path={
+									"/gestion-documental/radicacion/bandeja-radicado"
+								}
+								element={<RadicadosTray />}
 							/>
 						</Routes>
 					</Suspense>

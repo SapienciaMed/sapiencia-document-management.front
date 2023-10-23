@@ -1,5 +1,9 @@
 @import "./mixins.scss";
 
+// .weight-form {
+// 	min-height: 900px;
+// }
+
 .text--black {
 	color: #000;
 }
@@ -19,6 +23,10 @@
 .flex {
 	display: flex;
 	//justify-content: space-between;
+}
+
+.flex-column {
+	flex-direction: column;
 }
 
 .flex-justify-between {
@@ -74,6 +82,13 @@ input:disabled {
 .container-docs-received {
 	width: 100%;
 	max-width: 1600px;
+	margin: 0 auto;
+}
+
+.container-radicados-tray {
+	width: 84vw;
+	height: 95vh;
+	//max-width: 1600px;
 	margin: 0 auto;
 }
 
