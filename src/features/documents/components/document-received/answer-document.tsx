@@ -184,9 +184,8 @@ const AnswerDocument = ({
 							Si este documento es una respuesta, digite el número
 							del documento al cual está respondiendo
 						</p>
-						<div
-							className={`${styles["document-container"]} ${styles["flex-row"]} ml-40 mb-20`}
-						>
+
+						<div className={`${styles["form-answer-document"]}`}>
 							<InputTextComponent
 								idInput="dra_radicado"
 								label="Digite el documento o parte de él"
@@ -199,42 +198,43 @@ const AnswerDocument = ({
 
 							<SelectComponent
 								idInput="dra_tipo_radicado"
-								className="select-basic select-placeholder mx-20"
+								className="select-basic select-placeholder"
 								control={controlAnswerDocument}
 								errors={errorsAnswerDocument}
 								label="Clase de documento"
-								classNameLabel="text--black mx-20"
+								classNameLabel="text--black"
 								placeholder="Seleccionar"
 								data={radicadoTypesList() || []}
 							/>
-							<div
-								className={`${styles["align-self-end"]} ${styles["flex-basis-30"]} mb-4 ml-106`}
-							>
-								<ButtonComponent
-									className={`button-main hover-three py-12 px-16 mr-24 font-size-16`}
-									value="Buscar"
-									type="button"
-									action={() => {
-										getAnswerDocumentByID(
-											getValuesAnswerDocument(
-												"dra_radicado"
-											),
-											getValuesAnswerDocument(
-												"dra_tipo_radicado"
-											)
-										);
-									}}
-									disabled={false}
-								/>
-								<ButtonComponent
-									className={`button-main hover-three py-12 px-16 font-size-16`}
-									value="Cerrar"
-									type="button"
-									action={() => {
-										onCloseModal(false);
-									}}
-									disabled={false}
-								/>
+
+							<div className={`px-26 pt-24`}>
+								<div>
+									<ButtonComponent
+										className={`button-main hover-three py-12 px-16 mr-24 font-size-16`}
+										value="Buscar"
+										type="button"
+										action={() => {
+											getAnswerDocumentByID(
+												getValuesAnswerDocument(
+													"dra_radicado"
+												),
+												getValuesAnswerDocument(
+													"dra_tipo_radicado"
+												)
+											);
+										}}
+										disabled={false}
+									/>
+									<ButtonComponent
+										className={`button-main hover-three py-12 px-16 font-size-16`}
+										value="Cerrar"
+										type="button"
+										action={() => {
+											onCloseModal(false);
+										}}
+										disabled={false}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>

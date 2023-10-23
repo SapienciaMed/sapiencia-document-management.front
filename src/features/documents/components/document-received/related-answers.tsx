@@ -248,7 +248,7 @@ const RelatedAnswers = ({
 							</div>
 						)}
 					</div>
-					<div className={`flex  px-20 py-20`}>
+					<div className={`flex flex-justify-between  px-20 py-20`}>
 						<ButtonComponent
 							className={` ${styles["btn-main"]} hover-three py-12 px-36`}
 							value="Relacionar Respuesta"
