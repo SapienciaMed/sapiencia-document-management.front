@@ -82,7 +82,7 @@ export default React.memo(() => {
           template: () => (
             <>
               <Tooltip target=".ver-comentarios" />
-              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-comentarios" data-pr-tooltip="Comentarios">
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-comentarios" data-pr-tooltip="Ver comentario">
               <Icons.FaComment className="button grid-button button-link" style={{ color: 'white' }}/>
               </a>
             </>
@@ -92,7 +92,7 @@ export default React.memo(() => {
           template: () => (
             <>
               <Tooltip target=".ver-expediente" />
-              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-expediente" data-pr-tooltip="Expediente">
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-expediente" data-pr-tooltip="Ver expediente">
               <Icons.FaFile className="button grid-button button-link" style={{ color: 'white' }}/>
               </a>
             </>
@@ -111,9 +111,9 @@ export default React.memo(() => {
         {
           template: () => (
             <>
-              <Tooltip target=".ver-todo" />
-              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-todo" data-pr-tooltip="Ver todo">
-              <img className="icons" src={arrows} />
+              <Tooltip target=".movimientos" />
+                <a href="#" role="menuitem" className="p-speeddial-action disabled movimientos" data-pr-tooltip="Movimientos">
+                <img className="icons" src={arrows} />
               </a>
             </>
           ),
@@ -122,7 +122,7 @@ export default React.memo(() => {
           template: () => (
             <>
               <Tooltip target=".ver-todo" />
-              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-todo" data-pr-tooltip="Ver todo">
+              <a href="#" role="menuitem" className="p-speeddial-action disabled ver-todo" data-pr-tooltip="Ver imagen">
                 <Icons.FaImage className="button grid-button button-link" style={{ color: 'white' }}/>
               </a>
             </>
