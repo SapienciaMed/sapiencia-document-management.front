@@ -187,6 +187,8 @@ export default React.memo(() => {
                         setValue('days', '')
                         setValue('start', '')
                         setValue('end', '')
+                        setData([])
+                        setShowTable(false)
                       }}
                       disabled={false}
                     />
