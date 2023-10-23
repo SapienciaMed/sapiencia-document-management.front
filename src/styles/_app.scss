@@ -1,5 +1,6 @@
 @import "./styles.scss";
 @import "./mixins.scss";
+@import "~primeicons/primeicons.css";
 // :root {
 //   --color-black: #0b060e;
 //   --color-gray: #535353;
@@ -78,7 +79,6 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	}
 }
 
-
 .d-flex {
 	display: flex;
 }
@@ -90,7 +90,7 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 .general-configuration-page {
 	.standar-type-container {
 		padding: 20px 150px;
-		column-gap: 27
+		column-gap: 27;
 	}
 
 	.min-width-270px {
@@ -106,10 +106,9 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	}
 
 	@media (max-width: 600px) {
-
 		.fs-md {
-			font-size: 14px	;
-			margin-right: 12px ;
+			font-size: 14px;
+			margin-right: 12px;
 		}
 
 		.switch-md {
@@ -118,18 +117,17 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 		}
 
 		.fs-md-2 {
-			font-size: 12px	;
-			margin-right: 12px ;
-		} 
+			font-size: 12px;
+			margin-right: 12px;
+		}
 
 		.standar-type-container {
 			padding: 20px 10px;
 		}
-	  }
-
+	}
 
 	* {
-		font-family: 'Rubik' !important;
+		font-family: "Rubik" !important;
 	}
 
 	.color-black {
@@ -147,40 +145,43 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	.space-between {
 		justify-content: space-between;
 	}
-  .p-accordion .p-accordion-tab:first-child .p-accordion-header .p-accordion-header-link {
-    border-top-right-radius: 6px;
-    border-top-left-radius: 6px;
-  }
+	.p-accordion
+		.p-accordion-tab:first-child
+		.p-accordion-header
+		.p-accordion-header-link {
+		border-top-right-radius: 6px;
+		border-top-left-radius: 6px;
+	}
 
-  .p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
-    color: #533893;
-  }
+	.p-accordion
+		.p-accordion-header
+		.p-accordion-header-link
+		.p-accordion-toggle-icon {
+		color: #533893;
+	}
 
-  .p-accordion-header-text  {
-    color: #6C757D;
-    font-weight: 500;
-  }
+	.p-accordion-header-text {
+		color: #6c757d;
+		font-weight: 500;
+	}
 
-  .p-accordion-tab-active .p-accordion-header-text  {
-    color: black;
-  }
+	.p-accordion-tab-active .p-accordion-header-text {
+		color: black;
+	}
 
-  @media (max-width: 600px) {
-    .accordion-item-container {
-      max-width: 280px;
-    }
-  }
+	@media (max-width: 600px) {
+		.accordion-item-container {
+			max-width: 280px;
+		}
+	}
 
- 
+	.space-between {
+		justify-content: space-between;
+	}
 
-  .space-between {
-    justify-content: space-between;
-  }
-
-  .justify-content-center {
-    justify-content: center;
-  }
-
+	.justify-content-center {
+		justify-content: center;
+	}
 
 	.w-100 {
 		width: 100%;
@@ -269,9 +270,7 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	}
 }
 
-
 .recived-documents {
-
 	.search-button {
 		padding: 12px 16px 12px 16px;
 		border: none;
@@ -302,24 +301,23 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	}
 
 	.error-message {
-		font-size: .7rem;
+		font-size: 0.7rem;
 		color: red;
 		text-align: left;
 	}
 
-
 	* {
-		font-family: 'Rubik' !important;
+		font-family: "Rubik", "primeicons" !important;
 	}
 
-	.p-accordion-header-text  {
-		color: #6C757D;
+	.p-accordion-header-text {
+		color: #6c757d;
 		font-weight: 500;
-		font-family: 'Rubik' !important;
+		font-family: "Rubik" !important;
 	}
 
-	.p-accordion-tab-active .p-accordion-header-text  {
-	color: black;
+	.p-accordion-tab-active .p-accordion-header-text {
+		color: black;
 	}
 }
 
@@ -327,25 +325,30 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	text-align: center;
 }
 
-
 .spc-common-table .p-datatable {
 	border: none !important;
 	border-radius: none !important;
 }
 
 .spc-common-table .p-datatable .p-datatable-thead > tr > th {
-    background: white !important;
+	background: white !important;
 }
 
-.spc-common-table .p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
-    color: black !important;
-	font-family: 'Rubik' !important;
+.spc-common-table .p-paginator .p-paginator-first,
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next,
+.p-paginator .p-paginator-last {
+	color: black !important;
+	font-family: "Rubik" !important;
 	font-size: 14px !important;
 	font-weight: 700 !important;
 	opacity: 1 !important;
 }
 
-.spc-common-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+.spc-common-table
+	.p-paginator
+	.p-paginator-pages
+	.p-paginator-page.p-highlight {
 	width: 40px !important;
 	height: 40px !important;
 	padding: 10px !important;
@@ -355,35 +358,39 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	color: white !important;
 }
 
-.spc-common-table .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover {
-    background: transparent !important;
-    border-color: transparent !important;
-    color: black !important;
+.spc-common-table
+	.p-paginator
+	.p-paginator-pages
+	.p-paginator-page:not(.p-highlight):hover {
+	background: transparent !important;
+	border-color: transparent !important;
+	color: black !important;
 }
 
-.spc-common-table .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight) {
-    color: black !important;
-	font-family: 'Rubik' !important;
+.spc-common-table
+	.p-paginator
+	.p-paginator-pages
+	.p-paginator-page:not(.p-highlight) {
+	color: black !important;
+	font-family: "Rubik" !important;
 	font-size: 14px !important;
 	font-weight: 500 !important;
 	line-height: 17px !important;
 	letter-spacing: 0em !important;
 	text-align: center !important;
-
 }
 
 .spc-common-table input[type="checkbox"] {
-	width: 16px !important; 
+	width: 16px !important;
 	height: 16px !important;
 	border-radius: 4px;
 	border: 1px solid black !important;
-	
 }
 
 .spc-common-table input[type="checkbox"] {
 	-webkit-appearance: none;
 	appearance: none;
-  }
+}
 
 .spc-common-table input[type="checkbox"]:checked {
 	background-color: #533893;
@@ -400,31 +407,34 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 }
 
 .spc-common-table .p-datatable .p-datatable-tbody > tr > td {
-    border: none !important;
+	border: none !important;
 	color: black !important;
 	font-size: 14px !important;
 	font-weight: 500 !important;
-	font-family: 'Rubik' !important;
+	font-family: "Rubik" !important;
 }
 
 .spc-common-table .p-datatable .p-datatable-thead > tr > th {
-    border: none !important;
+	border: none !important;
 }
 
 .spc-common-table .p-datatable {
-    height: auto !important;
+	height: auto !important;
 	max-height: 50vh !important;
 }
 
-
-.card-table, .card-user-detail .card-table-user-detail, .card-user .card-table-user, .card-user-detail .card-table-user, .card-user-detail-profile .card-table-user {
-    border: 1px solid #E2E2E2 !important;
-    box-shadow: none !important;
-    box-shadow: none !important;
+.card-table,
+.card-user-detail .card-table-user-detail,
+.card-user .card-table-user,
+.card-user-detail .card-table-user,
+.card-user-detail-profile .card-table-user {
+	border: 1px solid #e2e2e2 !important;
+	box-shadow: none !important;
+	box-shadow: none !important;
 }
 
 .p-column-title {
-	font-family: 'RubikMedium' !important;
+	font-family: "RubikMedium" !important;
 	font-size: 17px !important;
 	font-weight: 500 !important;
 	line-height: 20px !important;
@@ -432,9 +442,8 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	color: #000000 !important;
 }
 
-
 .custom-label {
-	font-family: 'RubikMedium' !important;
+	font-family: "RubikMedium" !important;
 	font-size: 17px !important;
 	font-weight: 500 !important;
 	line-height: 20px !important;
@@ -447,35 +456,36 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	border-radius: 30px;
 	text-decoration: none;
 	cursor: pointer;
-	font-family: 'Rubik';
+	font-family: "Rubik";
 	font-size: 16px;
 	font-weight: 500;
 	text-align: center;
-
 }
 
-.custom-mw { 
-	max-width: 100%,
+.custom-mw {
+	max-width: 100%;
 }
 
 @media (min-width: 1000px) {
-	.custom-mw { 
-		max-width: 1200px,
+	.custom-mw {
+		max-width: 1200px;
 	}
 }
 
-
 .custom-p-button {
-    background: #533893 !important;
+	background: #533893 !important;
 }
 
 .p-speeddial-action:hover {
-    background: #343a40 !important;
+	background: #343a40 !important;
 }
 
 .p-speeddial-action.disabled {
-	 cursor: inherit !important;
-	span, i, svg, img {
+	cursor: inherit !important;
+	span,
+	i,
+	svg,
+	img {
 		opacity: 0.4 !important;
 		cursor: inherit !important;
 	}
@@ -483,7 +493,7 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 
 .custom-placeholder::placeholder {
 	font-weight: 400;
-	font-family: 'Rubik';
+	font-family: "Rubik";
 }
 
 .p-sortable-column-icon {
