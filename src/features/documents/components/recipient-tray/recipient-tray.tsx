@@ -20,13 +20,13 @@ import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
 
-const RadicadosTray = () => {
+const RecipientTray = () => {
 	const [radicadosList, setRadicadosList] = useState<any>([]);
 	const [filters, setFilters] = useState({
-		global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
 		dra_fecha_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
+		dra_fecha_entrada: { value: null, matchMode: FilterMatchMode.EQUALS },
 	});
 	const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
 
@@ -34,13 +34,6 @@ const RadicadosTray = () => {
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
-	const [statuses] = useState([
-		"Recibido",
-		"2",
-		"new",
-		"negotiation",
-		"renewal",
-	]);
 
 	useEffect(() => {
 		const getRadicadoList = async () => {
@@ -57,30 +50,16 @@ const RadicadosTray = () => {
 	const getRadicadosByID = async (radicadoId: string) => {
 		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
-		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
+		setRadicadosList(dataList?.data);
 	};
 
 	const handleKeyPress = (e) => {
-		console.log(e.target.value, "e");
 		if (
 			e.key === "Enter" &&
-			(e.target.value !== null || e.target.value !== "")
+			e.target.value !== null &&
+			e.target.value !== ""
 		) {
 			getRadicadosByID(e.target.value);
-		}
-		if (
-			e.key === "Enter" &&
-			(e.target.value == null || e.target.value == "")
-		) {
-			const getRadicadoList = async () => {
-				const endpoint: string = `/radicado-details/find-all`;
-				const dataList = await get(`${endpoint}`);
-
-				setRadicadosList(
-					Array.isArray(dataList?.data) ? dataList?.data : []
-				);
-			};
-			getRadicadoList();
 		}
 	};
 
@@ -91,13 +70,12 @@ const RadicadosTray = () => {
 				value={options.value}
 				options={radicadoTypes}
 				onChange={(e) => {
-					console.log(e.value, "eeee");
 					return options.filterApplyCallback(e.value);
 				}}
 				//itemTemplate={statusItemTemplate}
 				placeholder="Seleccionar"
 				className="p-column-filter"
-				showClear
+				showClear={true}
 				style={{ minWidth: "12rem" }}
 				optionLabel="lge_elemento_descripcion"
 				optionValue="lge_elemento_codigo"
@@ -106,13 +84,13 @@ const RadicadosTray = () => {
 	};
 
 	const dateRowFilterTemplate = (options) => {
-		console.log(options, "options");
 		return (
 			<>
 				<span className="p-input-icon-right">
 					<i className="pi pi-calendar" />
 					<InputText
 						value={options.value}
+						placeholder="DD/MM/AAAA"
 						onChange={(e) => {
 							console.log(e.currentTarget.value, "eeee");
 							return options.filterApplyCallback(
@@ -121,31 +99,6 @@ const RadicadosTray = () => {
 						}}
 					/>
 				</span>
-				{/* <span className="p-float-label">
-					<Calendar
-						inputId="date"
-						value={options.value}
-						dateFormat="dd/mm/yy"
-						onChange={(e) => {
-							console.log(e.value, "eeee");
-							return options.filterApplyCallback(e.value);
-						}}
-					/>
-					<label htmlFor="date">DD/MM/AAAA</label>
-				</span> */}
-				{/* <Dropdown
-					value={options.value}
-					options={statuses}
-					onChange={(e) => {
-						console.log(e.value, "eeee");
-						return options.filterApplyCallback(e.value);
-					}}
-					//itemTemplate={statusItemTemplate}
-					placeholder="Seleccionar"
-					className="p-column-filter"
-					showClear
-					style={{ minWidth: "12rem" }}
-				/> */}
 			</>
 		);
 	};
@@ -173,6 +126,8 @@ const RadicadosTray = () => {
 				const texto = radicadoTypesList(row?.dra_tipo_radicado);
 				return texto?.lge_elemento_descripcion || "";
 			},
+			filterMenuStyle: { width: "14rem" },
+			//filterField: "dra_tipo_radicado",
 		},
 		{
 			fieldName: "dra_fecha_radicado",
@@ -181,8 +136,17 @@ const RadicadosTray = () => {
 			filter: true,
 			filterElement: dateRowFilterTemplate,
 			showFilterMenu: false,
+			style: { minWidth: "15rem" },
+		},
+		{
+			fieldName: "dra_fecha_entrada",
+			header: "Fecha Entrada",
+			sortable: true,
+			filter: true,
+			filterElement: dateRowFilterTemplate,
+			showFilterMenu: false,
 			filterPlaceholder: "DD/MM/AAAA",
-			style: { minWidth: "13rem" },
+			style: { minWidth: "15rem" },
 		},
 		{
 			fieldName: "rn_radicado_remitente_to_entity.fullName",
@@ -383,7 +347,7 @@ const RadicadosTray = () => {
 					<div className="card-table shadow-none">
 						<div className="title-area">
 							<div className="text-black bold font-size-30 mb-40">
-								Bandeja de Radicados
+								Bandeja de Destinatarios
 							</div>
 						</div>
 						<TableExpansibleDialComponent
@@ -409,6 +373,9 @@ const RadicadosTray = () => {
 											classNameLabel="text-black big custom-label"
 											direction={EDirection.column}
 											placeholder="Buscar"
+											onChange={(e) =>
+												console.log(e.target.value)
+											}
 											onKeyPress={handleKeyPress}
 										/>
 									</div>
@@ -422,4 +389,4 @@ const RadicadosTray = () => {
 	);
 };
 
-export default RadicadosTray;
+export default RecipientTray;
