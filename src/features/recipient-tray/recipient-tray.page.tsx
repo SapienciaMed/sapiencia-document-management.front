@@ -189,6 +189,7 @@ export default React.memo(() => {
                         setValue('end', '')
                         setData([])
                         setShowTable(false)
+                        setSearch('')
                       }}
                       disabled={false}
                     />
