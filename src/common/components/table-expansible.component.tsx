@@ -8,6 +8,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Row } from "primereact/row";
 import { DataView } from "primereact/dataview";
+import * as IconsIo5 from "react-icons/io5";
 import * as Icons from "react-icons/fa";
 import * as IconsBI from "react-icons/bi";
 import {
@@ -30,7 +31,7 @@ interface IProps<T> {
 	isSelectionMode?: boolean;
 	isExpander?: boolean;
 	tableTitle?: string;
-	renderTitle?: any
+	renderTitle?: any;
 }
 
 const TableExpansibleComponent = ({
@@ -240,41 +241,41 @@ const TableExpansibleComponent = ({
 		);
 	};
 
-//   const [sortField, setSortField] = useState(null);
-//   const [sortOrder, setSortOrder] = useState(1);
-//   let [orderStatus, setOrderStatus] = useState(false)
+	//   const [sortField, setSortField] = useState(null);
+	//   const [sortOrder, setSortOrder] = useState(1);
+	//   let [orderStatus, setOrderStatus] = useState(false)
 
-//   const customSort = (e) => {
-// 	const field = e.sortField;
-// 	let order = e.sortOrder;
+	//   const customSort = (e) => {
+	// 	const field = e.sortField;
+	// 	let order = e.sortOrder;
 
-// 	if (order !== 0) {
-// 		order = order === 1 ? -1 : 1;
-// 	}
+	// 	if (order !== 0) {
+	// 		order = order === 1 ? -1 : 1;
+	// 	}
 
-// 	console.log(order)
+	// 	console.log(order)
 
-// 	setSortField(field);
-// 	setSortOrder(!orderStatus ? 1 : -1);
-// 	setOrderStatus(!orderStatus);
-//   };
+	// 	setSortField(field);
+	// 	setSortOrder(!orderStatus ? 1 : -1);
+	// 	setOrderStatus(!orderStatus);
+	//   };
 
-//   const customSortFunction = (dataToSort) => {
-//   const emptyItems = dataToSort.filter((item) => Object.keys(item).length === 0);
-//   const nonEmptyItems = dataToSort.filter((item) => Object.keys(item).length > 0);
+	//   const customSortFunction = (dataToSort) => {
+	//   const emptyItems = dataToSort.filter((item) => Object.keys(item).length === 0);
+	//   const nonEmptyItems = dataToSort.filter((item) => Object.keys(item).length > 0);
 
-//   if (sortField && sortOrder !== 0) {
-//     nonEmptyItems.sort((a, b) => {
-//       const aValue = a[sortField];
-//       const bValue = b[sortField];
-//       return sortOrder === 1 ? (aValue > bValue ? 1 : -1) : (bValue > aValue ? 1 : -1);
-//     });
-//   }
+	//   if (sortField && sortOrder !== 0) {
+	//     nonEmptyItems.sort((a, b) => {
+	//       const aValue = a[sortField];
+	//       const bValue = b[sortField];
+	//       return sortOrder === 1 ? (aValue > bValue ? 1 : -1) : (bValue > aValue ? 1 : -1);
+	//     });
+	//   }
 
-//   return [...emptyItems, ...nonEmptyItems];
-// };
+	//   return [...emptyItems, ...nonEmptyItems];
+	// };
 
-//   const sortedData = customSortFunction(data);
+	//   const sortedData = customSortFunction(data);
 	return (
 		<div
 			className="spc-common-table expansible"
@@ -308,7 +309,7 @@ const TableExpansibleComponent = ({
 
 			{width > 830 ? (
 				<DataTable
-					style={{ maxWidth: '100%', width: '100%' }}
+					style={{ maxWidth: "100%", width: "100%" }}
 					value={data.slice(page * perPage, page * perPage + perPage)}
 					// sortField={sortField}
 					// sortOrder={sortOrder as any}
@@ -343,7 +344,7 @@ const TableExpansibleComponent = ({
 							field={col.fieldName}
 							header={col.header}
 							body={col.renderCell}
-							sortable={col.sort || false }
+							sortable={col.sort || false}
 							style={{
 								minWidth: `150px`,
 								minHeight: `${widthColumns}px`,
@@ -494,7 +495,7 @@ const ActionComponent = (props: {
 	row: any;
 	actions: ITableAction<any>[];
 }): React.JSX.Element => {
-	console.log(props)
+	console.log(props);
 	return (
 		<div className="spc-table-action-button">
 			{props.actions.map((action) => (
@@ -517,7 +518,7 @@ function getIconElement(icon: string, element: "name" | "src") {
 			return element == "name" ? (
 				"Detalle"
 			) : (
-				<Icons.FaEye className="button grid-button button-detail" />
+				<IconsIo5.IoEyeOutline className="button grid-button button-detail" />
 			);
 		case "Edit":
 			return element == "name" ? (
@@ -529,7 +530,7 @@ function getIconElement(icon: string, element: "name" | "src") {
 			return element == "name" ? (
 				"Eliminar"
 			) : (
-				<Icons.FaTrashAlt className="button grid-button button-delete" />
+				<IconsIo5.IoTrashOutline className="button grid-button button-delete" />
 			);
 		case "Link":
 			return element == "name" ? (
