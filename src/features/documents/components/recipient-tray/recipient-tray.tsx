@@ -101,14 +101,20 @@ const RecipientTray = () => {
 		return (
 			<>
 				<span className="p-input-icon-right">
-					<i className="pi pi-calendar" />
-					<InputText
-						value={options.value}
+					<i className="pi pi-calendar" style={{ zIndex: "1000" }} />
+					<Calendar
+						style={{ minWidth: "10rem" }}
+						inputId="date"
+						//value={options.value}
+						dateFormat="dd/mm/yy"
 						placeholder="DD/MM/AAAA"
 						onChange={(e) => {
-							return options.filterApplyCallback(
-								e.currentTarget.value
-							);
+							const myDate: Date = new Date(e.value.toString());
+							console.log(myDate, "myDate");
+							const date = moment(myDate)
+								.format("DD/MM/YYYY")
+								.toString();
+							return options.filterApplyCallback(date);
 						}}
 					/>
 				</span>

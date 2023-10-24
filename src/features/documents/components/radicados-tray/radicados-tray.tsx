@@ -19,6 +19,7 @@ import * as IconsAi from "react-icons/ai";
 import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
+import { calculateBusinessDays } from "../../../../common/utils/helpers";
 
 const RadicadosTray = () => {
 	const [radicadosList, setRadicadosList] = useState<any>([]);
@@ -105,7 +106,7 @@ const RadicadosTray = () => {
 	const dateRowFilterTemplate = (options) => {
 		return (
 			<>
-				<span className="p-input-icon-right">
+				{/* <span className="p-input-icon-right">
 					<i className="pi pi-calendar" />
 					<InputText
 						value={options.value}
@@ -115,19 +116,28 @@ const RadicadosTray = () => {
 							);
 						}}
 					/>
-				</span>
-				{/* <span className="p-float-label">
+				</span> */}
+				{/* <span className="p-float-label"> */}
+				<span className="p-input-icon-right">
+					<i className="pi pi-calendar" style={{ zIndex: "1000" }} />
 					<Calendar
+						style={{ minWidth: "10rem" }}
 						inputId="date"
-						value={options.value}
+						//value={options.value}
 						dateFormat="dd/mm/yy"
+						placeholder="DD/MM/AAAA"
 						onChange={(e) => {
-							console.log(e.value, "eeee");
-							return options.filterApplyCallback(e.value);
+							const myDate: Date = new Date(e.value.toString());
+							console.log(myDate, "myDate");
+							const date = moment(myDate)
+								.format("DD/MM/YYYY")
+								.toString();
+							return options.filterApplyCallback(date);
 						}}
 					/>
-					<label htmlFor="date">DD/MM/AAAA</label>
-				</span> */}
+				</span>
+				{/* <label htmlFor="date">DD/MM/AAAA</label> */}
+				{/* </span> */}
 				{/* <Dropdown
 					value={options.value}
 					options={statuses}
@@ -176,7 +186,6 @@ const RadicadosTray = () => {
 			filter: true,
 			filterElement: dateRowFilterTemplate,
 			showFilterMenu: false,
-			filterPlaceholder: "DD/MM/AAAA",
 			style: { minWidth: "13rem" },
 		},
 		{
