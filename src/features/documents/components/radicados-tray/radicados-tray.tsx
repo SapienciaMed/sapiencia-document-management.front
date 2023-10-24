@@ -193,7 +193,7 @@ const RadicadosTray = () => {
 		},
 		{
 			fieldName: "dra_tipo_asunto",
-			header: "Tipo Asunto",
+			header: "Tipo de documento",
 			sortable: true,
 			style: { minWidth: "6rem" },
 		},

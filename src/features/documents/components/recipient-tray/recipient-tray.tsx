@@ -210,6 +210,7 @@ const RecipientTray = () => {
 			sortable: true,
 			style: { minWidth: "6rem" },
 			renderCell: (row) => {
+				//TODO: cambiar al por los verdaderos tipos
 				return "Tipo 1";
 			},
 		},
