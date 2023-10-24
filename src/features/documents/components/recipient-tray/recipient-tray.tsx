@@ -1,6 +1,6 @@
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
 import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
@@ -19,8 +19,10 @@ import * as IconsAi from "react-icons/ai";
 import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const RecipientTray = () => {
+	const { authorization } = useContext(AppContext);
 	const [radicadosList, setRadicadosList] = useState<any>([]);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -116,13 +118,44 @@ const RecipientTray = () => {
 
 	const columnSenderTable = [
 		{
+			fieldName: "dra_prioridad_asunto",
+			header: "Fase",
+			style: {
+				position: "relative",
+			},
+			renderCell: (row) => {
+				//TODO: cambiar al original si el documento es vigente ó vencido
+				return (
+					<div
+						className={`circle ${
+							row?.dra_prioridad_asunto == 1
+								? "circle--orange"
+								: "circle--green"
+						}`}
+					></div>
+				);
+			},
+		},
+		{
+			fieldName: "",
+			header: "Clase",
+			renderCell: (row) => {
+				const text =
+					authorization.user?.numberDocument ==
+					row.dra_id_destinatario
+						? "Original"
+						: "Copia";
+				return text;
+			},
+		},
+		{
 			fieldName: "dra_radicado",
 			header: "N.° Radicado",
 			sortable: true,
-			filterPlaceholder: "Radicado",
-			filter: true,
-			filterField: "dra_radicado",
-			showFilterMenu: false,
+			//filterPlaceholder: "Radicado",
+			//filter: true,
+			//filterField: "dra_radicado",
+			//showFilterMenu: false,
 			style: { minWidth: "12rem" },
 		},
 		{
@@ -142,7 +175,7 @@ const RecipientTray = () => {
 		},
 		{
 			fieldName: "dra_fecha_radicado",
-			header: "Fecha",
+			header: "Fecha radicación",
 			sortable: true,
 			filter: true,
 			filterElement: dateRowFilterTemplate,
@@ -173,14 +206,20 @@ const RecipientTray = () => {
 		},
 		{
 			fieldName: "dra_tipo_asunto",
-			header: "Tipo Asunto",
+			header: "Tipo de documento",
 			sortable: true,
 			style: { minWidth: "6rem" },
+			renderCell: (row) => {
+				return "Tipo 1";
+			},
 		},
 		{
 			fieldName: "dra_asunto",
 			header: "Asunto",
 			sortable: true,
+			renderCell: (row) => {
+				return "Nombre asunto";
+			},
 		},
 		{
 			fieldName: "dra_referencia",

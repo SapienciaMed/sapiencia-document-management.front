@@ -15,14 +15,14 @@ export interface ITableElementDial<T> {
 	fieldName: string;
 	required?: boolean;
 	dataList?: IListTableElement[];
-	renderCell?: (row: T) => JSX.Element;
+	renderCell?: (row: T) => JSX.Element | string;
 	width?: string | number;
 	sortable?: boolean;
 	filterPlaceholder?: string;
 	filter?: boolean;
 	filterField?: string;
 	showFilterMenu?: boolean;
-	filterElement?: (row: T) => JSX.Element;
+	filterElement?: (row: T) => JSX.Element | string;
 	style?: object;
 	filterMenuStyle?: object;
 	className?: string;

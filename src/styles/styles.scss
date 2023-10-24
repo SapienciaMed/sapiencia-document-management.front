@@ -142,6 +142,29 @@ input:disabled {
 	}
 }
 
+.circle {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	overflow: hidden; /* Evitar que el contenido se visualice fuera del borde*/
+	position: absolute; /*Centra el elemento circulo en la tabla*/
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	&--red {
+		border: solid 5px #ea1f1f;
+	}
+
+	&--green {
+		border: solid 5px #5cce3f;
+	}
+
+	&--orange {
+		border: solid 5px #ff7a00;
+	}
+}
+
 /***************************/
 /* End CSS para la pagina documents-received */
 /***************************/

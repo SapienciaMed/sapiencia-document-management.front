@@ -103,7 +103,6 @@ const RadicadosTray = () => {
 	};
 
 	const dateRowFilterTemplate = (options) => {
-		
 		return (
 			<>
 				<span className="p-input-icon-right">
@@ -111,7 +110,6 @@ const RadicadosTray = () => {
 					<InputText
 						value={options.value}
 						onChange={(e) => {
-							
 							return options.filterApplyCallback(
 								e.currentTarget.value
 							);
@@ -152,10 +150,10 @@ const RadicadosTray = () => {
 			fieldName: "dra_radicado",
 			header: "N.° Radicado",
 			sortable: true,
-			filterPlaceholder: "Radicado",
-			filter: true,
-			filterField: "dra_radicado",
-			showFilterMenu: false,
+			//filterPlaceholder: "Radicado",
+			//filter: true,
+			//filterField: "dra_radicado",
+			//showFilterMenu: false,
 			style: { minWidth: "12rem" },
 		},
 		{
@@ -223,7 +221,7 @@ const RadicadosTray = () => {
 					row?.dra_fecha_radicado,
 					"DD/MM/YYYY"
 				);
-			
+
 				return <TimeElapsed fecha={dateRadicado} />;
 			},
 		},
