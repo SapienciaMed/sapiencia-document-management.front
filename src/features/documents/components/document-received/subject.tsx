@@ -137,6 +137,10 @@ const Subject = ({ data, onChange }: IProps) => {
 									onChange={(e) => {
 										field.onChange(e);
 										setTextoLength(e.target.value.length);
+										onChange({
+											...data,
+											referencia: field.value || null,
+										});
 									}}
 								/>
 							)}
