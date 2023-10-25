@@ -295,6 +295,7 @@ const TableExpansibleDialComponent = ({
 					//tableStyle={{ minWidth: "10rem" }}
 					style={{
 						minHeight: "100%",
+						display: "inline-flex",
 					}}
 				>
 					{isSelectionMode && (
