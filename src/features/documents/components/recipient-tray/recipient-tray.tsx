@@ -149,6 +149,16 @@ const RecipientTray = () => {
 			},
 		},
 		{
+			fieldName: "dra_radicado",
+			header: "N.° Radicado",
+			sortable: true,
+			//filterPlaceholder: "Radicado",
+			//filter: true,
+			//filterField: "dra_radicado",
+			//showFilterMenu: false,
+			style: { minWidth: "12rem" },
+		},
+		{
 			fieldName: "",
 			header: "Clase",
 			renderCell: (row) => {
@@ -159,16 +169,7 @@ const RecipientTray = () => {
 						: "Copia";
 				return text;
 			},
-		},
-		{
-			fieldName: "dra_radicado",
-			header: "N.° Radicado",
-			sortable: true,
-			//filterPlaceholder: "Radicado",
-			//filter: true,
-			//filterField: "dra_radicado",
-			//showFilterMenu: false,
-			style: { minWidth: "12rem" },
+			style: { minWidth: "9rem" },
 		},
 		{
 			fieldName: "dra_tipo_radicado",
