@@ -330,6 +330,14 @@ div[id="single-spa-application:@sapiencia/document-management"] {
 	border-radius: none !important;
 }
 
+.recipient-tray-page {
+	.spc-common-table .p-datatable {
+		border: none !important;
+		border-radius: none !important;
+		display: inline-flex !important;
+	}
+}
+
 .spc-common-table .p-datatable .p-datatable-thead > tr > th {
 	background: white !important;
 }

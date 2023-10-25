@@ -131,7 +131,7 @@ export default React.memo(() => {
     ];
 
   return (
-    <div className="w-100 custom-mw" style={{ marginLeft: 'auto', marginRight: 'auto', overflowX: "hidden", paddingBottom: 40 }}>
+    <div className="w-100 custom-mw recipient-tray-page" style={{ marginLeft: 'auto', marginRight: 'auto', overflowX: "hidden", paddingBottom: 40 }}>
       <div className="spc-common-table expansible card-table" style={{ marginTop: 20, borderRadius: 20, width: '100%' }}>
         <div className="spc-common-table expansible card-table" style={{ borderRadius: 29, paddingBottom: 30 }}>
             <h2 className="biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik', color: 'black', margin: 0, padding: 0 }}>Histórico destinatarios</h2>
