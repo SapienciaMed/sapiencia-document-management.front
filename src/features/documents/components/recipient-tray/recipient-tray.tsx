@@ -93,6 +93,9 @@ const RecipientTray = () => {
 				style={{ minWidth: "12rem" }}
 				optionLabel="lge_elemento_descripcion"
 				optionValue="lge_elemento_codigo"
+				dropdownIcon={
+					<IconsIo5.IoChevronDown style={{ color: "#533893" }} />
+				}
 			/>
 		);
 	};
@@ -101,7 +104,10 @@ const RecipientTray = () => {
 		return (
 			<>
 				<span className="p-input-icon-right">
-					<i className="pi pi-calendar" style={{ zIndex: "1000" }} />
+					<i
+						className="pi pi-calendar"
+						style={{ zIndex: "1000", color: "#533893" }}
+					/>
 					<Calendar
 						style={{ minWidth: "10rem" }}
 						inputId="date"

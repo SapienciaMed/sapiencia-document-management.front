@@ -86,20 +86,25 @@ const RadicadosTray = () => {
 
 	const statusRowFilterTemplate = (options) => {
 		return (
-			<Dropdown
-				value={options.value}
-				options={radicadoTypes}
-				onChange={(e) => {
-					return options.filterApplyCallback(e.value);
-				}}
-				//itemTemplate={statusItemTemplate}
-				placeholder="Seleccionar"
-				className="p-column-filter"
-				showClear
-				style={{ minWidth: "12rem" }}
-				optionLabel="lge_elemento_descripcion"
-				optionValue="lge_elemento_codigo"
-			/>
+			<>
+				<Dropdown
+					value={options.value}
+					options={radicadoTypes}
+					onChange={(e) => {
+						return options.filterApplyCallback(e.value);
+					}}
+					//itemTemplate={statusItemTemplate}
+					placeholder="Seleccionar"
+					className="p-column-filter"
+					showClear
+					style={{ minWidth: "12rem" }}
+					optionLabel="lge_elemento_descripcion"
+					optionValue="lge_elemento_codigo"
+					dropdownIcon={
+						<IconsIo5.IoChevronDown style={{ color: "#533893" }} />
+					}
+				/>
+			</>
 		);
 	};
 
@@ -119,7 +124,10 @@ const RadicadosTray = () => {
 				</span> */}
 				{/* <span className="p-float-label"> */}
 				<span className="p-input-icon-right">
-					<i className="pi pi-calendar" style={{ zIndex: "1000" }} />
+					<i
+						className="pi pi-calendar"
+						style={{ zIndex: "1000", color: "#533893" }}
+					/>
 					<Calendar
 						style={{ minWidth: "10rem" }}
 						inputId="date"
