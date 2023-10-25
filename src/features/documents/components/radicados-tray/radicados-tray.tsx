@@ -213,6 +213,10 @@ const RadicadosTray = () => {
 			header: "Tipo de documento",
 			sortable: true,
 			style: { minWidth: "6rem" },
+			renderCell: (row) => {
+				//TODO: cambiar al por los verdaderos tipos
+				return "Tipo 1";
+			},
 		},
 		{
 			fieldName: "dra_asunto",
