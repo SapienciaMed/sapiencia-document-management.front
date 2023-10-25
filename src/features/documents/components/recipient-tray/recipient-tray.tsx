@@ -227,14 +227,6 @@ const RecipientTray = () => {
 			},
 		},
 		{
-			fieldName: "dra_asunto",
-			header: "Asunto",
-			sortable: true,
-			renderCell: (row) => {
-				return "Nombre asunto";
-			},
-		},
-		{
 			fieldName: "dra_referencia",
 			header: "Referencia",
 			sortable: true,
