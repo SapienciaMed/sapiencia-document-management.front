@@ -340,7 +340,7 @@ export default React.memo(() => {
                 for (const key in item) {
                   if (item[key] && item[key].toString().toLowerCase().includes(search.toLowerCase())) {
                     return true;
-                  }
+                  }                  
                 }
                 return false;
               }
