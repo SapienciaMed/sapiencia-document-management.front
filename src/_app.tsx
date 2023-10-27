@@ -17,6 +17,7 @@ import DocumentsReceived from "./features/documents/pages/documents-received";
 import RadicadosTray from "./features/documents/components/radicados-tray/radicados-tray";
 import RecipientTray from "./features/documents/components/recipient-tray/recipient-tray";
 import RecipientTrayPage from "./features/recipient-tray/recipient-tray.page";
+import RadicadoMovements from "./features/documents/components/radicados-movements/radicado-movements";
 
 function App() {
 	const { publish } = useAppCominicator();
@@ -65,6 +66,12 @@ function App() {
 									"/gestion-documental/consultas/historico-destinatarios"
 								}
 								element={<RecipientTrayPage />}
+							/>
+							<Route
+								path={
+									"/gestion-documental/consultas/movimientos"
+								}
+								element={<RadicadoMovements />}
 							/>
 							<Route
 								path={
