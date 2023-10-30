@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	ButtonComponent,
 	FormComponent,
@@ -7,8 +7,166 @@ import {
 import { EDirection } from "../../../../common/constants/input.enum";
 import styles from "./styles.module.scss";
 import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
+import useCrudService from "../../../../common/hooks/crud-service.hook";
+import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
+import { MenuItem } from "primereact/menuitem";
+import { Tooltip } from "primereact/tooltip";
+import * as IconsIo5 from "react-icons/io5";
+import * as IconsFi from "react-icons/fi";
+import * as IconsBs from "react-icons/bs";
+import * as IconsAi from "react-icons/ai";
+import SpeedDialCircle from "../../../../common/components/speed-dial";
+import { Dialog } from "primereact/dialog";
+import ActivateReverseDocuments from "./activate-reverse-documents";
 
 const RadicadoMovements = () => {
+	const REVERSE = "Reversar";
+	const ACTIVATE = "Activar";
+	const [isActivateModal, setIsActivateModal] = useState<boolean>(false);
+	const [isReverseModal, setIsReverseModal] = useState<boolean>(false);
+	const [typeModal, setTypeModal] = useState<string>("");
+	const baseURL: string =
+		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+	const { get } = useCrudService(baseURL);
+
+	const columnMovementsTable = [
+		{
+			fieldName: "dra_radicado",
+			header: "N.° Radicado",
+			style: { minWidth: "10rem" },
+		},
+		{
+			fieldName: "dra_tipo_radicado",
+			header: "Clase",
+		},
+		{
+			fieldName: "dra_tipo_radicado",
+			header: "Tipo",
+		},
+		{
+			fieldName: "dra_fecha_radicado",
+			header: "Fecha",
+		},
+		{
+			fieldName: "rn_radicado_remitente_to_entity.fullName",
+			header: "Remitente",
+			sortable: true,
+			style: { minWidth: "10rem" },
+		},
+		{
+			fieldName: "rn_radicado_destinatario_to_entity.fullName",
+			header: "Gestor Actual",
+			sortable: true,
+			style: { minWidth: "11rem" },
+		},
+		{
+			fieldName: "dra_tipo_asunto",
+			header: "Dependencia",
+		},
+		{
+			fieldName: "dra_asunto",
+			header: "Fecha de Entrada",
+			sortable: true,
+		},
+		{
+			fieldName: "dra_referencia",
+			header: "Enviado por",
+			sortable: true,
+		},
+		{
+			fieldName: "dra_radicado_origen",
+			header: "Fecha de Salida",
+			sortable: true,
+		},
+		{
+			fieldName: "dra_fecha_radicado",
+			header: "Estado",
+		},
+		{
+			fieldName: "dra_prioridad_asunto",
+			header: "Asunto",
+		},
+		{
+			fieldName: "tipo_doc",
+			header: "Tipo documento",
+		},
+		{
+			fieldName: "ref",
+			header: "Referencia",
+		},
+		,
+		{
+			fieldName: "check",
+			header: "Acciones",
+			style: { minWidth: "16rem" },
+			renderCell: (row) => {
+				return <SpeedDialCircle dialItems={items} />;
+			},
+		},
+	];
+
+	const items: MenuItem[] = [
+		{
+			label: "Ver Comentario",
+			template: () => (
+				<>
+					<Tooltip target=".ver-comentario" />
+					<a
+						href="#"
+						role="menuitem"
+						className="p-speeddial-action ver-comentario"
+						data-pr-tooltip="Ver comentario"
+						onClick={() => {
+							console.log("ver comentario");
+						}}
+					>
+						<IconsBs.BsChat className="button grid-button button-link" />
+					</a>
+				</>
+			),
+		},
+		{
+			label: "Reversar Documento",
+			template: () => (
+				<>
+					<Tooltip target=".reversar-documento" />
+					<a
+						href="#"
+						role="menuitem"
+						className="p-speeddial-action reversar-documento"
+						data-pr-tooltip="Reversar Documento"
+						onClick={() => {
+							setTypeModal(REVERSE);
+							setIsActivateModal(true);
+						}}
+					>
+						<IconsFi.FiFile className="button grid-button button-link" />
+					</a>
+				</>
+			),
+		},
+		{
+			label: "Activar documento",
+			template: () => (
+				<>
+					<Tooltip target=".activar-documento" />
+					<a
+						href="#"
+						role="menuitem"
+						className="p-speeddial-action activar-documento"
+						data-pr-tooltip="Activar documento"
+						onClick={() => {
+							setTypeModal(ACTIVATE);
+							setIsActivateModal(true);
+						}}
+					>
+						<IconsAi.AiOutlineFolderOpen className="button grid-button button-link" />
+					</a>
+				</>
+			),
+		},
+	];
+
 	return (
 		<>
 			<div className="spc-common-table expansible card-table mt-40 mx-24">
@@ -113,13 +271,74 @@ const RadicadoMovements = () => {
 				</FormComponent>
 				<div className="spc-common-table expansible card-table">
 					<TableExpansibleComponent
-						columns={[]}
-						data={[]}
-						actions={[]}
+						columns={columnMovementsTable}
+						data={[
+							{
+								dra_radicado: 123456789,
+								dra_tipo_radicado: "tipo",
+								dra_fecha_radicado: "20/10/2023",
+								"rn_radicado_remitente_to_entity.fullName":
+									"Mi Nombre",
+								"rn_radicado_destinatario_to_entity.fullName":
+									"Mi Nombre 2",
+								dra_tipo_asunto: "Tipo Asunto",
+								dra_asunto: "14/10/2023",
+								dra_referencia: "Enviado por",
+								dra_radicado_origen: "14/10/2023",
+								dra_prioridad_asunto: "Ya",
+								tipo_doc: "Recibido",
+								ref: "Referencia",
+							},
+							{
+								dra_radicado: 987654321,
+								dra_tipo_radicado: "tipo",
+								dra_fecha_radicado: "20/10/2023",
+								"rn_radicado_remitente_to_entity.fullName":
+									"Mi Nombre",
+								"rn_radicado_destinatario_to_entity.fullName":
+									"Mi Nombre 2",
+								dra_tipo_asunto: "Tipo Asunto",
+								dra_asunto: "14/10/2023",
+								dra_referencia: "Enviado por",
+								dra_radicado_origen: "14/10/2023",
+								dra_prioridad_asunto: "Ya",
+								tipo_doc: "Recibido",
+								ref: "Referencia",
+							},
+						]}
 						tableTitle="Consulta de Movimientos - Resultado"
+						//style={{ maxWidth: "100%", width: "100%" }}
+					/>
+				</div>
+				<div
+					className={`flex gap-20`}
+					style={{ justifyContent: "flex-end" }}
+				>
+					<ButtonComponent
+						className={`${styles.btnPurpleBorder} ${styles.btnSizeBorder} hover-three py-12 px-16`}
+						value="Volver a la bandeja"
+						type="button"
+						action={null}
+					/>
+					<ButtonComponent
+						className={`button-main hover-three py-12 px-16 font-size-16`}
+						value="Guardar archivo"
+						type="button"
+						action={() => {}}
+						disabled={false}
 					/>
 				</div>
 			</div>
+			{/**
+			 * Modals
+			 * */}
+			<ActivateReverseDocuments
+				onCloseModal={() => {
+					setIsActivateModal(false);
+				}}
+				visible={isActivateModal}
+				typeModal={typeModal}
+			/>
 		</>
 	);
 };
