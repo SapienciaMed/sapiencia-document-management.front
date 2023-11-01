@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { Rating } from 'primereact/rating';
+//import { Controller, useForm } from "react-hook-form";
+//import { Rating } from 'primereact/rating';
 import { FileUpload } from 'primereact/fileupload';
 import styles from "./massive-style.module.scss";
-import { ProgressBar } from 'primereact/progressbar';
+//import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import 'primeicons/primeicons.css';
 
-import { ProgressSpinner } from 'primereact/progressspinner';
-        
+//import { ProgressSpinner } from 'primereact/progressspinner';
+
 
 import useCrudService from "../../../common/hooks/crud-service.hook";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+//import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Tooltip } from "primereact/tooltip";
 import { ButtonComponent } from "../../../common/components/Form";
 import axios from "axios";
@@ -23,7 +23,7 @@ export default React.memo(() => {
   const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
   const { get, post } = useCrudService(baseURL);
 
-  const {
+  /*const {
     register,
     control,
     setValue,
@@ -32,66 +32,103 @@ export default React.memo(() => {
     formState: { errors },
   } = useForm<any>({
     mode: "all",
-  });
+  });¨*/
 
   const { setMessage } = useContext(AppContext);
-  const [documents, setdocuments] = useState([]);
-  const [totalUpload, setTotalUpload] = useState<number[]>([]);
-  console.log("Total Upload",totalUpload)
+  //const [documents, setdocuments] = useState([]);
+  //const [totalUpload, setTotalUpload] = useState<number[]>([]);
 
-  const ondocumentsChange = (e) => {
+  /*const ondocumentsChange = (e) => {
     let _documents = [...documents];
-    console.log("documentos",documents)
     if (e.checked)
       _documents.push(e.value);
     else
       _documents.splice(_documents.indexOf(e.value), 1);
 
     setdocuments(_documents);
-  }
+  }*/
 
-  const toast = useRef(null);
   const [totalSize, setTotalSize] = useState(0);
   const [fileUpload, setfileUpload] = useState<any[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const fileUploadRef = useRef(null);
   
   const onTemplateSelect = (e) => {
     let _totalSize = totalSize;
     let files = e.files;
     let fileDoc = fileUpload;
+    let validFiles = [];
+
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+      if (file.type === 'application/pdf') {
+        validFiles.push(file);
+      }
+    }
+
+    if (validFiles.length === 0) {
+      setMessage({
+        title: "Error",
+        description: "Solo se permiten archivos PDF",
+        show: true,
+        background: true,
+        okTitle: "Aceptar",
+        onOk: () => {
+          setMessage({});
+        }
+      })
+    }
+
+    e.files = validFiles;
+    _totalSize = validFiles.reduce((total, file) => total + (file.size || 0), 0);
+    setTotalSize(_totalSize);
+    setSelectedFiles(validFiles);
+
     Object.keys(files).forEach((key) => {
       _totalSize += files[key].size || 0;
-      console.log(files[key])
       fileDoc.push(files[key])
     });
     setfileUpload(fileDoc)
     setTotalSize(_totalSize);
   };
-  console.log("archivo file",fileUpload)
-
-  const [loading, setLoading] = useState(false)
 
   const onTemplateUpload = async (e) => {
-    console.log("entré")
+    let _totalSize = 0;
+    let remainingFiles = [];
+    console.log("Archivos entre")
+    /*selectedFiles.forEach((file) => {
+      if (!e.files.includes(file)) {
+        remainingFiles.push(file);
+        _totalSize += file.size || 0;
+      }
+    });*/
+
+    setTotalSize(_totalSize);
+    setSelectedFiles(remainingFiles);
+
+    console.log("Archivos", fileUpload)
     try {
       const apiUrl = 'https://sapiencia-document-management-api-ukyunq2uxa-uc.a.run.app/api/v1/document-management/radicado-details/massiveIndexing';
       
       const promises = fileUpload.map(async (file) => {
-        setLoading(true)
-        console.log("archivo234", file)
+        
+        console.log("archivos file",file)
         try {
+          console.log("entro al try")
           const formData = new FormData();
-          formData.append('uploadedFile', file); // Asegúrate de que 'pdfFile' coincida con el nombre esperado por la API
-  
+          console.log("File to be appended:", file);
+
+          formData.append('files', file); // Asegúrate de que 'pdfFile' coincida con el nombre esperado por la API
+
+          console.log("formdata", formData)
+
           const response = await axios.post(apiUrl, formData, {
             headers: {
               'Content-Type': 'multipart/form-data', // Establece el tipo de contenido adecuado
             },
           });
-          setfileUpload([]);
-          setTotalSize(0);
-          
           // La respuesta de la API estará en response.data
+          console.log("response",response)
           setMessage({
             title: "Carga exitosa",
             description: "Cargue realizado con éxito",
@@ -99,64 +136,63 @@ export default React.memo(() => {
             background: true,
             okTitle: "Aceptar",
             onOk: () => {
-                setMessage({});
+              setMessage({});
             }
-        })
-          console.log(`Archivo ${file.name} cargado con éxito. Respuesta de la API:`, response.data);
+          })
           
-          setLoading(false)
+          
+          console.log(`Archivo ${file.name} cargado con éxito. Respuesta de la API:`, response.data);
+
+          
           return { file, success: true };
         } catch (error) {
           setMessage({
             title: "Error",
-            description: `El numero de radicado ${file.name}: no se encuentra, por favor verifique`,
+            description: `El numero de radicado: ${file.name} no se encuentra, por favor verifique`,
             show: true,
             background: true,
             okTitle: "Aceptar",
             onOk: () => {
-                setMessage({});
+              setMessage({});
             }
           })
-          console.error(`Error al cargar el archivo ${file.name}:`, error);
+          console.error(`Error al cargar el archivo: ${file.name}`, error);
+          fileUploadRef.current.clear();
           return { file, success: false };
         }
       });
-  
+
       const results = await Promise.all(promises);
-  
-      // Puedes utilizar la información de 'results' para manejar los resultados de la carga, por ejemplo, mostrar mensajes de éxito o error.
+   
+      setfileUpload([])
+     
     } catch (error) {
       console.error('Error al cargar archivos:', error);
     }
   };
 
-  const [count, setcount] = useState<number>(0)
-  console.log("contador",count)
-
+  const [count, setCount] = useState(0)
+  
   const onTemplateRemove = (file, callback) => {
     let newCount;
-    if (count === 0){
+    if (count === 0) {
       newCount = fileUpload.length;
-    }else{
+    } else {
       newCount = count
     }
-    console.log("nuevo",newCount)
-    let nuevoCount = newCount-1
-    console.log("cont2",nuevoCount)
-    setcount(nuevoCount)
+    let nuevoCount = newCount - 1
+    setCount(count - 1);
     const fileIndexToRemove = fileUpload.findIndex((item) => item.id === file.id);
-    console.log("file index", fileIndexToRemove);
-    
+
     if (fileIndexToRemove !== -1) {
       const arrayUpdate = [...fileUpload];
       //arrayUpdate.splice(fileIndexToRemove, 1); // Elimina el archivo por su índice
       arrayUpdate.pop()
-      //setcount(arrayUpdate.length)
-      console.log("Array actualizado", arrayUpdate);
-      console.log("sisa", file.size);
-      
+      //setCount(arrayUpdate.length)
+
       setTotalSize(totalSize - file.size);
-     //setfileUpload([...arrayUpdate]); // Actualiza el estado con el nuevo array
+      setSelectedFiles(selectedFiles.filter(f => f !== file));
+
       callback();
     }
   };
@@ -164,11 +200,10 @@ export default React.memo(() => {
   const onTemplateClear = () => {
     setTotalSize(0);
   };
-  console.log("total size", totalSize)
 
   const headerTemplate = (options) => {
     const { className, chooseButton, uploadButton, cancelButton } = options;
-    const value = totalSize / 10000;
+    //const value = totalSize / 10000;
     const formatedValue = fileUploadRef && fileUploadRef.current ? fileUploadRef.current.formatSize(totalSize) : '0 B';
 
     return (
@@ -177,15 +212,21 @@ export default React.memo(() => {
         {uploadButton}
         {cancelButton}
         {<div className="flex align-items-center gap-3 ml-auto">
-                  {/* <span>{formatedValue} / 1 MB</span>
+          {/* <span>{formatedValue} / 1 MB</span>
                   <ProgressBar value={value} showValue={false} style={{ width: '10rem', height: '12px' }}></ProgressBar> */}
-                  
-              </div> }
+
+        </div>}
       </div>
     );
   };
 
+ 
+
+ 
+
   const itemTemplate = (file, props) => {
+    
+    
     return (
       <div className="flex align-items-center flex-wrap">
         <div className="flex align-items-center" style={{ width: '40%' }}>
@@ -207,9 +248,11 @@ export default React.memo(() => {
         )} className="p-button-outlined p-button-rounded p-button-danger ml-auto" style={{ marginLeft: '20px' }} onClick={() => onTemplateRemove(file, props.onRemove)} />
       </div>
     );
+    
   };
 
   const emptyTemplate = () => {
+    
     return (
       <div className="flex align-items-center flex-column justify-center">
         <span style={{ fontSize: "1.2em", color: "var(--text-color-secondary)" }} className="flex-column">
@@ -253,7 +296,7 @@ export default React.memo(() => {
       </svg>
     ),
     iconOnly: true,
-    className: "custom-upload-btn p-button-success p-button-rounded p-button-outlined", onClick: onTemplateUpload
+    className: "custom-upload-btn p-button-success p-button-rounded p-button-outlined", 
   };
   const cancelOptions = {
     icon: (<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -266,9 +309,9 @@ export default React.memo(() => {
     </svg>
     ), iconOnly: true, className: 'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined'
   };
-  
+
   const classes = `${styles.container} spc-common-table expansible card-table massive-index`
-  
+
 
   return (
     <>
@@ -285,19 +328,20 @@ export default React.memo(() => {
             <Tooltip target=".custom-upload-btn" content="Subir" position="bottom" />
             <Tooltip target=".custom-cancel-btn" content="Eliminar" position="bottom" />
 
-            {loading && <div className={styles.spinner}>
-            <ProgressSpinner />
-            </div>}
-            <FileUpload ref={fileUploadRef} name="demo[]" url="/api/upload" multiple accept="image/*" maxFileSize={1000000}
+           
+            <FileUpload  name="files"   multiple accept="pdf/*" maxFileSize={1000000}
               onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
               headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
               chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions} />
 
             <div>
-              <p>Total archivos subidos: {count}</p> <button onClick={onTemplateUpload}>enviar</button>
+              <p>Total archivos subidos: {count}</p>
+              <button onClick={onTemplateUpload}>enviar</button>
+            
+             
             </div>
           </div>
-          
+
           <div className={styles.btnBack}>
             <ButtonComponent
               className="button-main huge hover-three"
