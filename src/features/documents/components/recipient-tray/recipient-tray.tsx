@@ -20,6 +20,7 @@ import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
 import { AppContext } from "../../../../common/contexts/app.context";
+import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const RecipientTray = () => {
 	const { authorization } = useContext(AppContext);
@@ -36,6 +37,8 @@ const RecipientTray = () => {
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
+
+	useBreadCrumb({ isPrimaryPage: false, name: "Bandeja de Destinatarios", url: "/gestion-documental/radicacion/bandeja-destinatarios" });
 
 	useEffect(() => {
 		const getRadicadoList = async () => {

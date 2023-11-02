@@ -11,17 +11,21 @@ import 'primeicons/primeicons.css';
 //import { ProgressSpinner } from 'primereact/progressspinner';
 
 
+
 import useCrudService from "../../../common/hooks/crud-service.hook";
 //import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Tooltip } from "primereact/tooltip";
 import { ButtonComponent } from "../../../common/components/Form";
 import axios from "axios";
 import { AppContext } from "../../../common/contexts/app.context";
+import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 
 
 export default React.memo(() => {
   const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
   const { get, post } = useCrudService(baseURL);
+
+  useBreadCrumb({ isPrimaryPage: false, name: "Indexación masiva", url: "/gestion-documental/radicacion/indexacion-masiva" });
 
   /*const {
     register,
