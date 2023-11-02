@@ -79,7 +79,13 @@ export default React.memo(() => {
                       <div className="w-100 d-flex jusitfy-content-center align-items-center" style={{ textAlign: 'center', flexDirection: 'column', padding: '0 7px' }}>
                         <div className="card-table" style={{ borderRadius: 29, width: 202, height: 217, padding: '20px 10px', marginBottom: 20, color: 'black' }}>
                           <p style={{ fontFamily: 'Rubik', fontSize: 25, fontWeight: 500 }}>Total de documentos:</p>
-                          <p style={{ fontFamily: 'Rubik', fontWeight: 500, fontSize: 40 }}>{dataSummaryRecipients?.total || 0}</p>
+                          <p style={{ fontFamily: 'Rubik', fontWeight: 500, fontSize: 40 }}>{
+                          (dataSummaryRecipients?.documentos_en_fase_inicial_de_tramite || 0)
+                          + (dataSummaryRecipients?.documentos_a_tramitar_prontamente || 0)
+                          + (dataSummaryRecipients?.documentos_proximos_a_vencerse || 0)
+                          + (dataSummaryRecipients?.documentos_vencidos_sin_tramitar || 0)
+                          
+                          }</p>
                         </div>
                       
                         

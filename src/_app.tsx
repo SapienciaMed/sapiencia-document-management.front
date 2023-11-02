@@ -22,14 +22,9 @@ import RadicadoMovements from "./features/documents/components/radicados-movemen
 function App() {
 	const { publish } = useAppCominicator();
 	const HomePage = lazy(() => import("./common/components/home.page"));
-	const GeneralConfigurationPage = lazy(
-		() =>
-			import(
-				"./features/general-configuration/pages/general-configuration.page"
-			)
-	);
+	const MassiveIndex = lazy(() => import("./features/massive-index/pages/massive-index.page"));
+	const GeneralConfigurationPage = lazy( () => import( "./features/general-configuration/pages/general-configuration.page"));
 
-	// Effect que comunica la aplicacion actual
 	useEffect(() => {
 		localStorage.setItem("currentAplication", process.env.aplicationId);
 		setTimeout(
@@ -78,6 +73,12 @@ function App() {
 									"/gestion-documental/radicacion/documento-recibido"
 								}
 								element={<DocumentsReceived />}
+							/>
+							<Route
+								path={
+									"/gestion-documental/radicacion/indexacion-masiva"
+								}
+								element={<MassiveIndex />}
 							/>
 							<Route
 								path={
