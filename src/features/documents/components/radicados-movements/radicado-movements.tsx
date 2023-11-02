@@ -26,6 +26,7 @@ import { InputNumberComponent } from "../../../../common/components/Form/input-n
 import { InputTextNumberComponent } from "../input-text-number";
 import { Link } from "react-router-dom";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
+import { FilterMatchMode } from "primereact/api";
 
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
@@ -35,20 +36,34 @@ const RadicadoMovements = () => {
 	const [isReverseModal, setIsReverseModal] = useState<boolean>(false);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [dataForModal, setDataForModal] = useState<any>({});
+	const [isNotActiveDateInput, setIsNotActiveDateInput] =
+		useState<boolean>(true);
+	const [filters, setFilters] = useState({
+		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
+		dra_fecha_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
+		dra_fecha_entrada: { value: null, matchMode: FilterMatchMode.EQUALS },
+	});
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
-	useBreadCrumb({ isPrimaryPage: false, name: "Consulta de Movimientos - Parámetros", url: "/gestion-documental/consultas/movimientos" });
+	useBreadCrumb({
+		isPrimaryPage: false,
+		name: "Consulta de Movimientos - Parámetros",
+		url: "/gestion-documental/consultas/movimientos",
+	});
 
 	const columnMovementsTable = [
 		{
 			fieldName: "dra_radicado",
 			header: "N.° Radicado",
+			sortable: true,
 			style: { minWidth: "10rem" },
 		},
 		{
 			fieldName: "dra_tipo_radicado",
 			header: "Clase",
+			sortable: true,
 		},
 		{
 			fieldName: "dra_tipo_radicado",
@@ -61,7 +76,6 @@ const RadicadoMovements = () => {
 		{
 			fieldName: "rn_radicado_remitente_to_entity.fullName",
 			header: "Remitente",
-			sortable: true,
 			style: { minWidth: "10rem" },
 		},
 		{
@@ -92,6 +106,7 @@ const RadicadoMovements = () => {
 		{
 			fieldName: "dra_fecha_radicado",
 			header: "Estado",
+			sortable: true,
 		},
 		{
 			fieldName: "dra_prioridad_asunto",
@@ -247,7 +262,7 @@ const RadicadoMovements = () => {
 									idInput="dra_radicado"
 									label="N.° documento"
 									className="input-basic"
-									classNameLabel="text-black text-required custom-label"
+									classNameLabel="text-black custom-label"
 									control={control}
 									errors={errors}
 									disabled={false}
@@ -263,6 +278,7 @@ const RadicadoMovements = () => {
 									classNameLabel="text-black custom-label"
 									direction={EDirection.column}
 									errors={null}
+									disabled={isNotActiveDateInput}
 								/>
 								<InputComponentOriginal
 									idInput="start"
@@ -273,42 +289,29 @@ const RadicadoMovements = () => {
 									classNameLabel="text-black custom-label"
 									direction={EDirection.column}
 									errors={null}
+									disabled={isNotActiveDateInput}
 								/>
 							</div>
 							<div
 								className="mt-30"
 								style={{ alignSelf: "center" }}
 							>
-								<input type="checkbox" />
+								<input
+									type="checkbox"
+									onClick={() => {
+										setIsNotActiveDateInput(
+											!isNotActiveDateInput
+										);
+									}}
+								/>
 							</div>
 						</div>
 					</div>
 					<div
 						className="flex gap-20 mt-30"
-						style={{ maxWidth: "90%" }}
+						style={{ maxWidth: "80%", justifyContent: "flex-end" }}
 					>
-						<div
-							className="text-black font-size-24 pr-40 pl-24"
-							style={{ flexBasis: "40%" }}
-						>
-							Ordenar Resultados por:
-						</div>
-						<div>
-							<InputComponentOriginal
-								idInput="days"
-								typeInput="number"
-								className={`input-basic text-center ${styles.inputSize}`}
-								register={null}
-								label="Ordenar por"
-								classNameLabel="text-black custom-label"
-								direction={EDirection.column}
-								errors={null}
-							/>
-						</div>
-						<div
-							className={`flex gap-20`}
-							style={{ alignItems: "flex-end" }}
-						>
+						<div className={`flex gap-20`}>
 							{!watch("dra_radicado") && (
 								<Link
 									className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
@@ -335,10 +338,12 @@ const RadicadoMovements = () => {
 				{movementsList.length != 0 ? (
 					<>
 						<div className="spc-common-table expansible card-table">
-							<TableExpansibleComponent
+							<TableExpansibleDialComponent
 								columns={columnMovementsTable}
 								data={movementsList}
 								tableTitle="Consulta de Movimientos - Resultado"
+								//filters={filters}
+								scrollable={true}
 								//style={{ maxWidth: "100%", width: "100%" }}
 							/>
 						</div>
