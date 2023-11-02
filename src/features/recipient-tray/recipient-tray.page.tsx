@@ -22,8 +22,10 @@ import { Tooltip } from "primereact/tooltip";
 // import useYupValidationResolver from "../../../common/hooks/form-validator.hook";
 // import { consecutiveNumberValidator } from "../../../common/schemas/general-configuration-schemas";
 import useCrudService from "../../common/hooks/crud-service.hook";
+import useBreadCrumb from "../../common/hooks/bread-crumb.hook";
 
 export default React.memo(() => {
+  useBreadCrumb({ isPrimaryPage: false, name: "Histórico destinatarios", url: "/gestion-documental/consultas/historico-destinatarios" });
   // const resolver = useYupValidationResolver(consecutiveNumberValidator);
   const [search, setSearch] = useState("");
   const [data, setData] = useState<any>([]);

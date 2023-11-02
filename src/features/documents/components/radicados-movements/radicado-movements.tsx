@@ -7,8 +7,10 @@ import {
 import { EDirection } from "../../../../common/constants/input.enum";
 import styles from "./styles.module.scss";
 import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
+import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const RadicadoMovements = () => {
+	useBreadCrumb({ isPrimaryPage: false, name: "Consulta de Movimientos - Parámetros", url: "/gestion-documental/consultas/movimientos" });
 	return (
 		<>
 			<div className="spc-common-table expansible card-table mt-40 mx-24">

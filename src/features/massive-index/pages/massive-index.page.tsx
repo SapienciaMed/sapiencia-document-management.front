@@ -7,7 +7,6 @@ import 'primeicons/primeicons.css';
 
 
 
-
 import useCrudService from "../../../common/hooks/crud-service.hook";
 import { Tooltip } from "primereact/tooltip";
 import { ButtonComponent } from "../../../common/components/Form";
@@ -16,11 +15,23 @@ import { AppContext } from "../../../common/contexts/app.context";
 import { trashIcon } from "../../../common/components/icons/trash";
 import { imagesicon } from "../../../common/components/icons/images";
 import { clip } from "../../../common/components/icons/clip";
+import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 
 
 export default React.memo(() => {
-    const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-    const { get, post } = useCrudService(baseURL);
+  const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+  const { get, post } = useCrudService(baseURL);
+
+  /*const {
+    register,
+    control,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm<any>({
+    mode: "all",
+  });¨*/
 
     const { setMessage } = useContext(AppContext);
     //const [documents, setdocuments] = useState([]);
