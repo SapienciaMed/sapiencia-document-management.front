@@ -25,6 +25,7 @@ import { InputTextComponent } from "../../../../common/components/Form/input-tex
 import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
 import { InputTextNumberComponent } from "../input-text-number";
 import { Link } from "react-router-dom";
+import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
@@ -37,6 +38,7 @@ const RadicadoMovements = () => {
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
+	useBreadCrumb({ isPrimaryPage: false, name: "Consulta de Movimientos - Parámetros", url: "/gestion-documental/consultas/movimientos" });
 
 	const columnMovementsTable = [
 		{

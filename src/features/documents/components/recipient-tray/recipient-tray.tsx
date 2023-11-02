@@ -23,6 +23,7 @@ import { AppContext } from "../../../../common/contexts/app.context";
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
 import ActivateReverseDocuments from "../radicados-movements/activate-reverse-documents";
+import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const RecipientTray = () => {
 	const REVERSE = "devolucion";
@@ -47,6 +48,8 @@ const RecipientTray = () => {
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
+
+	useBreadCrumb({ isPrimaryPage: false, name: "Bandeja de Destinatarios", url: "/gestion-documental/radicacion/bandeja-destinatarios" });
 
 	useEffect(() => {
 		const getRadicadoList = async () => {

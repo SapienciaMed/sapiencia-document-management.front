@@ -20,6 +20,7 @@ import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
 import { calculateBusinessDays } from "../../../../common/utils/helpers";
+import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const RadicadosTray = () => {
 	const [radicadosList, setRadicadosList] = useState<any>([]);
@@ -42,6 +43,8 @@ const RadicadosTray = () => {
 		"negotiation",
 		"renewal",
 	]);
+
+	useBreadCrumb({ isPrimaryPage: false, name: "Bandeja de Radicados", url: "/gestion-documental/radicacion/bandeja-radicado" });
 
 	useEffect(() => {
 		const getRadicadoList = async () => {
