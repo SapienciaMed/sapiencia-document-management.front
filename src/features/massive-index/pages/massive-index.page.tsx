@@ -25,7 +25,7 @@ export default React.memo(() => {
   const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
   const { get, post } = useCrudService(baseURL);
 
-  useBreadCrumb({ isPrimaryPage: false, name: "Indexación masiva", url: "/gestion-documental/radicacion/indexacion-masiva" });
+  useBreadCrumb({ isPrimaryPage: true, name: "Indexación masiva", url: "/gestion-documental/radicacion/indexacion-masiva" });
 
   /*const {
     register,

@@ -49,7 +49,7 @@ const RecipientTray = () => {
 	const { get } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 
-	useBreadCrumb({ isPrimaryPage: false, name: "Bandeja de Destinatarios", url: "/gestion-documental/radicacion/bandeja-destinatarios" });
+	useBreadCrumb({ isPrimaryPage: true, name: "Bandeja de Destinatarios", url: "/gestion-documental/radicacion/bandeja-destinatarios" });
 
 	useEffect(() => {
 		const getRadicadoList = async () => {

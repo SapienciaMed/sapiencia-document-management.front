@@ -38,7 +38,7 @@ const RadicadoMovements = () => {
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
-	useBreadCrumb({ isPrimaryPage: false, name: "Consulta de Movimientos - Parámetros", url: "/gestion-documental/consultas/movimientos" });
+	useBreadCrumb({ isPrimaryPage: true, name: "Consulta de Movimientos - Parámetros", url: "/gestion-documental/consultas/movimientos" });
 
 	const columnMovementsTable = [
 		{
