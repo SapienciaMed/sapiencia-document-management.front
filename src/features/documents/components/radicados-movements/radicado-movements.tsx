@@ -18,13 +18,22 @@ import * as IconsAi from "react-icons/ai";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
 import { Dialog } from "primereact/dialog";
 import ActivateReverseDocuments from "./activate-reverse-documents";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
+import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
+import { InputTextNumberComponent } from "../input-text-number";
+import { Link } from "react-router-dom";
 
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
 	const ACTIVATE = "Activar";
+	const [movementsList, setMovementsList] = useState<any>([]);
 	const [isActivateModal, setIsActivateModal] = useState<boolean>(false);
 	const [isReverseModal, setIsReverseModal] = useState<boolean>(false);
 	const [typeModal, setTypeModal] = useState<string>("");
+	const [dataForModal, setDataForModal] = useState<any>({});
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -100,72 +109,118 @@ const RadicadoMovements = () => {
 			header: "Acciones",
 			style: { minWidth: "16rem" },
 			renderCell: (row) => {
-				return <SpeedDialCircle dialItems={items} />;
+				return (
+					<SpeedDialCircle
+						dialItems={[
+							{
+								label: "Ver Comentario",
+								template: () => (
+									<>
+										<Tooltip target=".ver-comentario" />
+										<a
+											href="#"
+											role="menuitem"
+											className="p-speeddial-action ver-comentario"
+											data-pr-tooltip="Ver comentario"
+											onClick={() => {
+												console.log(
+													row.dra_radicado,
+													"ver comentario"
+												);
+											}}
+										>
+											<IconsBs.BsChat className="button grid-button button-link" />
+										</a>
+									</>
+								),
+							},
+							{
+								label: "Reversar Documento",
+								template: () => (
+									<>
+										<Tooltip target=".reversar-documento" />
+										<a
+											href="#"
+											role="menuitem"
+											className="p-speeddial-action reversar-documento"
+											data-pr-tooltip="Reversar Documento"
+											onClick={() => {
+												setDataForModal({
+													dra_tipo_radicado:
+														row.dra_tipo_radicado,
+													dra_radicado:
+														row.dra_radicado,
+												});
+												setTypeModal(REVERSE);
+												setIsActivateModal(true);
+											}}
+										>
+											<IconsFi.FiFile className="button grid-button button-link" />
+										</a>
+									</>
+								),
+							},
+							{
+								label: "Activar documento",
+								template: () => (
+									<>
+										<Tooltip target=".activar-documento" />
+										<a
+											href="#"
+											role="menuitem"
+											className="p-speeddial-action activar-documento"
+											data-pr-tooltip="Activar documento"
+											onClick={() => {
+												setDataForModal({
+													dra_tipo_radicado:
+														row.dra_tipo_radicado,
+													dra_radicado:
+														row.dra_radicado,
+												});
+												setTypeModal(ACTIVATE);
+												setIsActivateModal(true);
+											}}
+										>
+											<IconsAi.AiOutlineFolderOpen className="button grid-button button-link" />
+										</a>
+									</>
+								),
+							},
+						]}
+						key={row.dra_radicado}
+					/>
+				);
 			},
 		},
 	];
 
-	const items: MenuItem[] = [
-		{
-			label: "Ver Comentario",
-			template: () => (
-				<>
-					<Tooltip target=".ver-comentario" />
-					<a
-						href="#"
-						role="menuitem"
-						className="p-speeddial-action ver-comentario"
-						data-pr-tooltip="Ver comentario"
-						onClick={() => {
-							console.log("ver comentario");
-						}}
-					>
-						<IconsBs.BsChat className="button grid-button button-link" />
-					</a>
-				</>
-			),
-		},
-		{
-			label: "Reversar Documento",
-			template: () => (
-				<>
-					<Tooltip target=".reversar-documento" />
-					<a
-						href="#"
-						role="menuitem"
-						className="p-speeddial-action reversar-documento"
-						data-pr-tooltip="Reversar Documento"
-						onClick={() => {
-							setTypeModal(REVERSE);
-							setIsActivateModal(true);
-						}}
-					>
-						<IconsFi.FiFile className="button grid-button button-link" />
-					</a>
-				</>
-			),
-		},
-		{
-			label: "Activar documento",
-			template: () => (
-				<>
-					<Tooltip target=".activar-documento" />
-					<a
-						href="#"
-						role="menuitem"
-						className="p-speeddial-action activar-documento"
-						data-pr-tooltip="Activar documento"
-						onClick={() => {
-							setTypeModal(ACTIVATE);
-							setIsActivateModal(true);
-						}}
-					>
-						<IconsAi.AiOutlineFolderOpen className="button grid-button button-link" />
-					</a>
-				</>
-			),
-		},
-	];
+	/**
+	 * FUNCTIONS
+	 */
+
+	const schema = yup.object({
+		dra_radicado: yup
+			.string()
+			.max(15, "Solo se permiten 15 caracteres")
+			.required("El campo es obligatorio"),
+	});
+
+	const {
+		register,
+		control,
+		getValues,
+		watch,
+		formState: { errors },
+	} = useForm<IMovementsDataForm>({
+		resolver: yupResolver(schema),
+		mode: "all",
+	});
+
+	const getMovementsByID = async (radicadoId: string) => {
+		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
+		const dataList = await get(`${endpoint}`);
+		setMovementsList(Array.isArray(dataList?.data) ? dataList?.data : []);
+	};
 
 	return (
 		<>
@@ -186,15 +241,14 @@ const RadicadoMovements = () => {
 								Datos documentos:
 							</div>
 							<div>
-								<InputComponentOriginal
-									idInput="days"
-									typeInput="number"
-									className={`input-basic text-center ${styles.inputSize}`}
-									register={null}
-									label="N.° Radicado"
+								<InputTextComponent
+									idInput="dra_radicado"
+									label="N.° documento"
+									className="input-basic"
 									classNameLabel="text-black text-required custom-label"
-									direction={EDirection.column}
-									errors={null}
+									control={control}
+									errors={errors}
+									disabled={false}
 								/>
 							</div>
 							<div className="flex flex-column">
@@ -244,7 +298,7 @@ const RadicadoMovements = () => {
 								className={`input-basic text-center ${styles.inputSize}`}
 								register={null}
 								label="Ordenar por"
-								classNameLabel="text-black text-required custom-label"
+								classNameLabel="text-black custom-label"
 								direction={EDirection.column}
 								errors={null}
 							/>
@@ -253,91 +307,72 @@ const RadicadoMovements = () => {
 							className={`flex gap-20`}
 							style={{ alignItems: "flex-end" }}
 						>
+							{!watch("dra_radicado") && (
+								<Link
+									className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
+									to={
+										"/gestion-documental/radicacion/bandeja-radicado"
+									}
+								>
+									Volver a la Bandeja
+								</Link>
+							)}
+
 							<ButtonComponent
-								className={`${styles.btnPurpleBorder} ${styles.btnSizeBorder} hover-three py-12 px-16`}
-								value="Volver a la bandeja"
+								className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
+								value="Buscar"
 								type="button"
-								action={null}
-							/>
-							<ButtonComponent
-								className={`button-main ${styles.btnPurpleSize} hover-three py-12 px-16 font-size-16`}
-								value="Cerrar"
-								type="button"
-								action={() => {}}
-								disabled={false}
+								action={() =>
+									getMovementsByID(getValues("dra_radicado"))
+								}
+								disabled={watch("dra_radicado") ? false : true}
 							/>
 						</div>
 					</div>
 				</FormComponent>
-				<div className="spc-common-table expansible card-table">
-					<TableExpansibleComponent
-						columns={columnMovementsTable}
-						data={[
-							{
-								dra_radicado: 123456789,
-								dra_tipo_radicado: "tipo",
-								dra_fecha_radicado: "20/10/2023",
-								"rn_radicado_remitente_to_entity.fullName":
-									"Mi Nombre",
-								"rn_radicado_destinatario_to_entity.fullName":
-									"Mi Nombre 2",
-								dra_tipo_asunto: "Tipo Asunto",
-								dra_asunto: "14/10/2023",
-								dra_referencia: "Enviado por",
-								dra_radicado_origen: "14/10/2023",
-								dra_prioridad_asunto: "Ya",
-								tipo_doc: "Recibido",
-								ref: "Referencia",
-							},
-							{
-								dra_radicado: 987654321,
-								dra_tipo_radicado: "tipo",
-								dra_fecha_radicado: "20/10/2023",
-								"rn_radicado_remitente_to_entity.fullName":
-									"Mi Nombre",
-								"rn_radicado_destinatario_to_entity.fullName":
-									"Mi Nombre 2",
-								dra_tipo_asunto: "Tipo Asunto",
-								dra_asunto: "14/10/2023",
-								dra_referencia: "Enviado por",
-								dra_radicado_origen: "14/10/2023",
-								dra_prioridad_asunto: "Ya",
-								tipo_doc: "Recibido",
-								ref: "Referencia",
-							},
-						]}
-						tableTitle="Consulta de Movimientos - Resultado"
-						//style={{ maxWidth: "100%", width: "100%" }}
-					/>
-				</div>
-				<div
-					className={`flex gap-20`}
-					style={{ justifyContent: "flex-end" }}
-				>
-					<ButtonComponent
-						className={`${styles.btnPurpleBorder} ${styles.btnSizeBorder} hover-three py-12 px-16`}
-						value="Volver a la bandeja"
-						type="button"
-						action={null}
-					/>
-					<ButtonComponent
-						className={`button-main hover-three py-12 px-16 font-size-16`}
-						value="Guardar archivo"
-						type="button"
-						action={() => {}}
-						disabled={false}
-					/>
-				</div>
+				{movementsList.length != 0 ? (
+					<>
+						<div className="spc-common-table expansible card-table">
+							<TableExpansibleComponent
+								columns={columnMovementsTable}
+								data={movementsList}
+								tableTitle="Consulta de Movimientos - Resultado"
+								//style={{ maxWidth: "100%", width: "100%" }}
+							/>
+						</div>
+						<div
+							className={`flex gap-20`}
+							style={{ justifyContent: "flex-end" }}
+						>
+							<Link
+								className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
+								to={
+									"/gestion-documental/radicacion/bandeja-radicado"
+								}
+							>
+								Volver a la Bandeja
+							</Link>
+						</div>
+					</>
+				) : (
+					<></>
+				)}
 			</div>
 			{/**
 			 * Modals
 			 * */}
 			<ActivateReverseDocuments
+				title={
+					typeModal == ACTIVATE
+						? "Datos de Activación"
+						: "Datos de Devolución"
+				}
 				onCloseModal={() => {
 					setIsActivateModal(false);
 				}}
 				visible={isActivateModal}
 				typeModal={typeModal}
+				dataForModal={dataForModal}
 			/>
 		</>
 	);

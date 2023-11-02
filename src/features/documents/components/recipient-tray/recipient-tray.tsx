@@ -20,9 +20,20 @@ import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
 import { AppContext } from "../../../../common/contexts/app.context";
+import { TreeNode } from "primereact/treenode";
+import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
+import ActivateReverseDocuments from "../radicados-movements/activate-reverse-documents";
 
 const RecipientTray = () => {
+	const REVERSE = "devolucion";
+	const ACTIVATE = "asignar";
 	const { authorization } = useContext(AppContext);
+	const [typeModal, setTypeModal] = useState<string>("");
+	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
+	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
+	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
+	const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true);
 	const [radicadosList, setRadicadosList] = useState<any>([]);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -60,6 +71,7 @@ const RecipientTray = () => {
 			e.key === "Enter" &&
 			(e.target.value !== null || e.target.value !== "")
 		) {
+			setIsDisabledSelect(true);
 			getRadicadosByID(e.target.value);
 		}
 		if (
@@ -128,10 +140,17 @@ const RecipientTray = () => {
 		);
 	};
 
+	const handleCheckboxChange = (event) => {
+		setIsDisabledSelect(false);
+		setSelectedNodeKey("");
+		setSelectedCheckbox(event.target.value);
+		//setIsDisableSendButton(event.target.value ? false : true);
+	};
+
 	const columnSenderTable = [
 		{
 			fieldName: "dra_prioridad_asunto",
-			header: "Fase",
+			header: "Seleccione",
 			style: {
 				position: "relative",
 			},
@@ -144,7 +163,19 @@ const RecipientTray = () => {
 								? "circle--orange"
 								: "circle--green"
 						}`}
-					></div>
+						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+						}}
+					>
+						<input
+							type="checkbox"
+							value={row?.dra_radicado}
+							checked={selectedCheckbox == row?.dra_radicado}
+							onChange={handleCheckboxChange}
+						/>
+					</div>
 				);
 			},
 		},
@@ -388,6 +419,33 @@ const RecipientTray = () => {
 		},
 	];
 
+	const nodesOptions = [
+		{
+			key: "0",
+			label: "Gestión",
+			data: "gestion",
+			icon: "",
+			children: [
+				{
+					key: "asignar",
+					label: "Asignar a",
+					data: "asignar",
+					icon: "",
+				},
+				{
+					key: "devolucion",
+					label: "Devolución",
+					data: "devolucion",
+					icon: "",
+				},
+			],
+		},
+	];
+
+	useEffect(() => {
+		setNodes(nodesOptions);
+	}, []);
+
 	const radicadoTypesList = (code: string | number) =>
 		radicadoTypes.find((item) => {
 			return (
@@ -404,6 +462,29 @@ const RecipientTray = () => {
 						<div className="title-area">
 							<div className="text-black bold font-size-30 mb-40">
 								Bandeja de Destinatarios
+							</div>
+							<div>
+								<TreeSelect
+									value={selectedNodeKey}
+									onChange={(e: TreeSelectChangeEvent) => {
+										console.log(e.value);
+										setSelectedNodeKey(e.value);
+										if (e.value == REVERSE) {
+											setTypeModal(REVERSE);
+											setIsOpenModal(true);
+										}
+
+										if (e.value == ACTIVATE) {
+											setTypeModal(ACTIVATE);
+											setIsOpenModal(true);
+										}
+									}}
+									options={nodes}
+									className="md:w-20rem w-full"
+									placeholder="Seleccionar"
+									style={{ width: "16.75rem" }}
+									disabled={isDisabledSelect}
+								></TreeSelect>
 							</div>
 						</div>
 						<TableExpansibleDialComponent
@@ -438,6 +519,21 @@ const RecipientTray = () => {
 					</div>
 				</div>
 			</div>
+			{/**
+			 * Modals
+			 * */}
+			<ActivateReverseDocuments
+				title={
+					typeModal == "asignar"
+						? "Datos de Asignación"
+						: "Datos de Devolución"
+				}
+				onCloseModal={() => {
+					setIsOpenModal(false);
+				}}
+				visible={isOpenModal}
+				typeModal={typeModal}
+			/>
 		</>
 	);
 };
