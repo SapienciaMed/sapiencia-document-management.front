@@ -36,8 +36,6 @@ const RadicadoMovements = () => {
 	const [isReverseModal, setIsReverseModal] = useState<boolean>(false);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [dataForModal, setDataForModal] = useState<any>({});
-	const [isNotActiveDateInput, setIsNotActiveDateInput] =
-		useState<boolean>(true);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -164,9 +162,11 @@ const RadicadoMovements = () => {
 											onClick={() => {
 												setDataForModal({
 													dra_tipo_radicado:
-														row.dra_tipo_radicado,
+														row?.dra_tipo_radicado,
 													dra_radicado:
-														row.dra_radicado,
+														row?.dra_radicado,
+													dra_radicado_por:
+														row?.dra_radicado_por,
 												});
 												setTypeModal(REVERSE);
 												setIsActivateModal(true);
@@ -190,9 +190,9 @@ const RadicadoMovements = () => {
 											onClick={() => {
 												setDataForModal({
 													dra_tipo_radicado:
-														row.dra_tipo_radicado,
+														row?.dra_tipo_radicado,
 													dra_radicado:
-														row.dra_radicado,
+														row?.dra_radicado,
 												});
 												setTypeModal(ACTIVATE);
 												setIsActivateModal(true);
@@ -260,49 +260,12 @@ const RadicadoMovements = () => {
 							<div>
 								<InputTextComponent
 									idInput="dra_radicado"
-									label="N.° documento"
+									label="N.° Radicado"
 									className="input-basic"
-									classNameLabel="text-black custom-label"
+									classNameLabel="text-black custom-label text-required"
 									control={control}
 									errors={errors}
 									disabled={false}
-								/>
-							</div>
-							<div className="flex flex-column">
-								<InputComponentOriginal
-									idInput="start"
-									typeInput="date"
-									className={`input-basic ${styles.inputSize}`}
-									register={null}
-									label="Fecha de radicación"
-									classNameLabel="text-black custom-label"
-									direction={EDirection.column}
-									errors={null}
-									disabled={isNotActiveDateInput}
-								/>
-								<InputComponentOriginal
-									idInput="start"
-									typeInput="date"
-									className={`input-basic ${styles.inputSize}`}
-									register={null}
-									label=" "
-									classNameLabel="text-black custom-label"
-									direction={EDirection.column}
-									errors={null}
-									disabled={isNotActiveDateInput}
-								/>
-							</div>
-							<div
-								className="mt-30"
-								style={{ alignSelf: "center" }}
-							>
-								<input
-									type="checkbox"
-									onClick={() => {
-										setIsNotActiveDateInput(
-											!isNotActiveDateInput
-										);
-									}}
 								/>
 							</div>
 						</div>

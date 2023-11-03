@@ -35,6 +35,7 @@ const RecipientTray = () => {
 	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true);
+	const [dataForModal, setDataForModal] = useState<any>({});
 	const [radicadosList, setRadicadosList] = useState<any>([]);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -49,7 +50,11 @@ const RecipientTray = () => {
 	const { get } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 
-	useBreadCrumb({ isPrimaryPage: false, name: "Bandeja de Destinatarios", url: "/gestion-documental/radicacion/bandeja-destinatarios" });
+	useBreadCrumb({
+		isPrimaryPage: false,
+		name: "Bandeja de Destinatarios",
+		url: "/gestion-documental/radicacion/bandeja-destinatarios",
+	});
 
 	useEffect(() => {
 		const getRadicadoList = async () => {
@@ -143,7 +148,8 @@ const RecipientTray = () => {
 		);
 	};
 
-	const handleCheckboxChange = (event) => {
+	const handleCheckboxChange = (data, event) => {
+		setDataForModal(data);
 		setIsDisabledSelect(false);
 		setSelectedNodeKey("");
 		setSelectedCheckbox(event.target.value);
@@ -176,7 +182,14 @@ const RecipientTray = () => {
 							type="checkbox"
 							value={row?.dra_radicado}
 							checked={selectedCheckbox == row?.dra_radicado}
-							onChange={handleCheckboxChange}
+							onChange={(e) => {
+								const data = {
+									dra_radicado: row?.dra_radicado,
+									dra_tipo_radicado: row?.dra_tipo_radicado,
+									dra_radicado_por: row?.dra_radicado_por,
+								};
+								return handleCheckboxChange(data, e);
+							}}
 						/>
 					</div>
 				);
@@ -536,6 +549,7 @@ const RecipientTray = () => {
 				}}
 				visible={isOpenModal}
 				typeModal={typeModal}
+				dataForModal={dataForModal}
 			/>
 		</>
 	);

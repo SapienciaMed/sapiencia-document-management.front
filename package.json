@@ -71,6 +71,7 @@
 		"react-hook-form": "^7.44.2",
 		"react-icons": "^4.9.0",
 		"react-router-dom": "^6.12.1",
+		"react-search-autocomplete": "^8.5.2",
 		"single-spa": "^5.9.3",
 		"single-spa-react": "^4.3.1",
 		"url-loader": "^4.1.1",

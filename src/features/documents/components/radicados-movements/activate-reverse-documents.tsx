@@ -6,6 +6,7 @@ import {
 	FormComponent,
 	InputComponent,
 	InputComponentOriginal,
+	LabelComponent,
 } from "../../../../common/components/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
@@ -18,6 +19,7 @@ import {
 } from "primereact/autocomplete";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
 interface IProps {
 	title?: string;
@@ -35,7 +37,7 @@ const ActivateReverseDocuments = ({
 	dataForModal,
 }: IProps) => {
 	const { setMessage } = useContext(AppContext);
-	const [value, setValue] = useState<string>("");
+	//const [value, setValue] = useState<string>("");
 	const [items, setItems] = useState<string[]>([]);
 	const [dataModal, setDataModal] = useState<any>({});
 	const baseURL: string =
@@ -45,8 +47,14 @@ const ActivateReverseDocuments = ({
 	const schema = yup.object({
 		dra_radicado: yup.string().max(15, "Solo se permiten 15 caracteres"),
 		dra_tipo_radicado: yup.string(),
+		dra_destinatario: yup.string().required("El campo es obligatorio"),
+		comentario: yup
+			.string()
+			.max(200, "Solo se permiten 200 caracteres")
+			.required("El campo es obligatorio"),
 	});
 	console.log(dataForModal, "dataForModal");
+
 	const {
 		register: registerActRevDocuments,
 		control: controlActRevDocuments,
@@ -57,15 +65,30 @@ const ActivateReverseDocuments = ({
 		formState: { errors: errorsActRevDocuments },
 	} = useForm<IModalActivateReverse>({
 		resolver: yupResolver(schema),
-		defaultValues: {
-			dra_radicado: dataForModal?.dra_radicado,
-			dra_tipo_radicado: dataForModal?.dra_tipo_radicado,
-			dra_destinatario:
-				typeModal == "Reversar" ? dataForModal?.dra_destinatario : "",
-		},
-		values: dataForModal,
+		// values: dataForModal,
 		mode: "all",
 	});
+
+	useEffect(() => {
+		if (dataForModal) {
+			setValueActRevDocuments("dra_radicado", dataForModal?.dra_radicado);
+			setValueActRevDocuments(
+				"dra_tipo_radicado",
+				dataForModal?.dra_tipo_radicado
+			);
+			console.log(typeModal, "typeModal");
+			// setValueActRevDocuments(
+			// 	"dra_destinatario",
+			// 	typeModal == "Reversar" ? dataForModal?.dra_destinatario : "14"
+			// );
+			if (typeModal == "devolucion") {
+				setValueActRevDocuments(
+					"dra_destinatario",
+					dataForModal?.dra_radicado_por
+				);
+			}
+		}
+	}, [dataForModal]);
 
 	console.log(
 		getValuesActRevDocuments("dra_radicado"),
@@ -87,14 +110,17 @@ const ActivateReverseDocuments = ({
 	};
 
 	const storeComment = async (data) => {
-		const endpoint: string = `/radicado/comentarios`;
+		console.log(data, "data");
+		const endpoint: string = `/radicado/comment`;
 		const entityData = await post(`${endpoint}`, data);
 		return entityData;
 	};
 
 	const onSubmit = async (data) => {
-		storeComment(data).then(async ({ data, message }: any) => {
-			if (data !== null) {
+		storeComment(data).then(async ({ data, operation }: any) => {
+			console.log(data, "data");
+			console.log(operation, "message");
+			if (operation.code == "OK") {
 				setMessage({
 					title: "Consulta de Movimientos",
 					description: typeModal + ", guardado exitosamente.",
@@ -107,8 +133,34 @@ const ActivateReverseDocuments = ({
 						onCloseModal();
 					},
 				});
+			} else {
+				setMessage({
+					title: "Consulta de Movimientos",
+					description: "Ocurrió un error al guardar los datos",
+					show: true,
+					background: true,
+					okTitle: "Aceptar",
+					style: "z-index-2300",
+					onOk: () => {
+						setMessage({});
+						onCloseModal();
+					},
+				});
 			}
 		});
+	};
+
+	const formatResult = (item) => {
+		return (
+			<>
+				<span style={{ display: "block", textAlign: "left" }}>
+					id: {item.id}
+				</span>
+				<span style={{ display: "block", textAlign: "left" }}>
+					name: {item.name}
+				</span>
+			</>
+		);
 	};
 
 	return (
@@ -128,7 +180,20 @@ const ActivateReverseDocuments = ({
 		>
 			<div className="spc-common-table expansible card-table">
 				<FormComponent action={handleSubmitActRevDocuments(onSubmit)}>
-					<div className="flex gap-14 flex-justify-between">
+					<div
+						className={`flex gap-14 ${
+							typeModal == "devolucion"
+								? "flex-center"
+								: "flex-justify-between"
+						}`}
+					>
+						<input
+							id="dra_destinatario"
+							type="hidden"
+							{...registerActRevDocuments("dra_destinatario", {
+								required: true,
+							})}
+						/>
 						<InputTextComponent
 							idInput="dra_radicado"
 							label="Documento"
@@ -147,15 +212,72 @@ const ActivateReverseDocuments = ({
 							errors={errorsActRevDocuments}
 							disabled={true}
 						/>
-						<InputTextComponent
-							idInput="fecha_radicado"
-							label="Asignar a"
-							className="input-basic"
-							classNameLabel="text--black text-required"
-							control={controlActRevDocuments}
-							errors={errorsActRevDocuments}
-							disabled={false}
-						/>
+
+						{typeModal !== "devolucion" && (
+							// <InputTextComponent
+							// 	idInput="dra_destinatario"
+							// 	label="Asignar a"
+							// 	className="input-basic"
+							// 	classNameLabel="text--black text-required"
+							// 	control={controlActRevDocuments}
+							// 	errors={errorsActRevDocuments}
+							// 	disabled={false}
+							// />
+
+							<div
+								style={{
+									width: 200,
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "flex-end",
+									gap: "0.5rem",
+								}}
+							>
+								<LabelComponent
+									//htmlFor={idInput}
+									className="text--black text-required"
+									value="Asignar a"
+								/>
+								<ReactSearchAutocomplete
+									items={[
+										{
+											id: 1047365247,
+											name: "Francisco Gaviria",
+										},
+										{ id: 2, name: "Item 2" },
+									]}
+									onSelect={(item) => {
+										setValueActRevDocuments(
+											"dra_destinatario",
+											item.id
+										);
+										console.log(item);
+									}}
+									autoFocus
+									formatResult={formatResult}
+									className="input-basic-autocomplete"
+									styling={{
+										hoverBackgroundColor: "none",
+										backgroundColor: "none",
+										border: "none",
+										boxShadow: "none",
+										borderRadius: "none",
+									}}
+								/>
+							</div>
+						)}
+						{typeModal == "devolucion" && (
+							<input
+								id="dra_radicado_por"
+								type="hidden"
+								{...registerActRevDocuments(
+									"dra_radicado_por",
+									{
+										required: true,
+									}
+								)}
+							/>
+						)}
 						{/* <AutoComplete
 						value={value}
 						suggestions={items}
@@ -165,13 +287,13 @@ const ActivateReverseDocuments = ({
 					</div>
 					<div className={`flex flex-column mt-28`}>
 						<Controller
-							name="comentarios"
+							name="comentario"
 							control={controlActRevDocuments}
 							render={({ field }) => (
 								<TextAreaComponent
-									id="comentarios"
-									idInput="comentarios"
-									label="Comentarios"
+									id="comentario"
+									idInput="comentario"
+									label="Comentario"
 									className={styles.inputTextarea}
 									classNameLabel="text--black text-required"
 									register={registerActRevDocuments}
@@ -196,8 +318,8 @@ const ActivateReverseDocuments = ({
 						<ButtonComponent
 							className={`${styles.btnTextBlack} ${styles.btnGray} py-12 px-16 font-size-16`}
 							value="Aceptar"
-							type="button"
-							action={onClicSave}
+							type="submit"
+							//action={onClicSave}
 							disabled={false}
 						/>
 					</div>

@@ -1,6 +1,5 @@
 @import "./mixins.scss";
 
-
 // .weight-form {
 // 	min-height: 900px;
 // }
@@ -75,6 +74,14 @@ input:disabled {
 
 .select-placeholder::placeholder {
 	font-size: 0.5rem !important;
+}
+
+.input-basic-autocomplete {
+	width: 100%;
+	max-height: 41px;
+	border-radius: 6px;
+	border: 1px solid #b5bac5;
+	font-size: 15px;
 }
 
 /***************************/
