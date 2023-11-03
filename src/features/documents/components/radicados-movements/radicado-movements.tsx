@@ -45,7 +45,11 @@ const RadicadoMovements = () => {
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
-	useBreadCrumb({ isPrimaryPage: true, name: "Consulta de Movimientos - Parámetros", url: "/gestion-documental/consultas/movimientos" });
+	useBreadCrumb({
+		isPrimaryPage: true,
+		name: "Consulta de Movimientos - Parámetros",
+		url: "/gestion-documental/consultas/movimientos",
+	});
 
 	const columnMovementsTable = [
 		{
@@ -65,7 +69,7 @@ const RadicadoMovements = () => {
 		},
 		{
 			fieldName: "dra_fecha_radicado",
-			header: "Fecha",
+			header: "Fecha de Radicado",
 		},
 		{
 			fieldName: "rn_radicado_remitente_to_entity.fullName",
