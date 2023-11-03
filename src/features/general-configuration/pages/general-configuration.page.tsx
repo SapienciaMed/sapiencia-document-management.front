@@ -20,7 +20,7 @@ import ZIPProcessFormComponent from "../components/zip-process-form.component";
 import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 
 export default React.memo(() => {
-    useBreadCrumb({ isPrimaryPage: false, name: "Configuración General", url: "/gestion-documental/administracion/configuracion-general" });
+    useBreadCrumb({ isPrimaryPage: true, name: "Configuración General", url: "/gestion-documental/administracion/configuracion-general" });
     const navigate = useNavigate();
     const { setMessage } = useContext(AppContext);
     const [data, setData] = useState<any>({});

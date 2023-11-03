@@ -51,7 +51,7 @@ const RecipientTray = () => {
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 
 	useBreadCrumb({
-		isPrimaryPage: false,
+		isPrimaryPage: true,
 		name: "Bandeja de Destinatarios",
 		url: "/gestion-documental/radicacion/bandeja-destinatarios",
 	});

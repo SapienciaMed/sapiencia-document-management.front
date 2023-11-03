@@ -44,7 +44,7 @@ const RadicadosTray = () => {
 		"renewal",
 	]);
 
-	useBreadCrumb({ isPrimaryPage: false, name: "Bandeja de Radicados", url: "/gestion-documental/radicacion/bandeja-radicado" });
+	useBreadCrumb({ isPrimaryPage: true, name: "Bandeja de Radicados", url: "/gestion-documental/radicacion/bandeja-radicado" });
 
 	useEffect(() => {
 		const getRadicadoList = async () => {
