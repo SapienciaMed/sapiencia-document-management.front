@@ -187,7 +187,7 @@ export default React.memo(() => {
                 {files.length === 0 && <div className="flex align-items-center flex-column justify-center" style={{height:'339px'}}>
                   <span style={{ fontSize: "1.2em", color: "var(--text-color-secondary)", display: 'flex', alignItems: 'center', justifyContent: 'center', height: '339px'}} className="flex-column">
                     <i style={{ display: 'flex', justifyContent: 'center', marginTop: '3% !important' }}>{imagesicon}</i>
-                    <p className={styles.txtDrop}>Arrastra los archivos aquí</p>
+                    <p className={styles.txtDrop}>Arrastra y suelta los archivos aquí</p>
                   </span>
                 </div>}
               </div>
