@@ -13,7 +13,7 @@ import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({ prioridad: "2" });
-	useBreadCrumb({ isPrimaryPage: false, name: "Documento recibido", url: "/gestion-documental/radicacion/documento-recibido" });
+	useBreadCrumb({ isPrimaryPage: true, name: "Documento recibido", url: "/gestion-documental/radicacion/documento-recibido" });
 
 	const onChange = async (newData: any) => {
 		try {

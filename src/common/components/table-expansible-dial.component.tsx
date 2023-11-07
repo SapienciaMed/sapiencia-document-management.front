@@ -33,6 +33,7 @@ interface IProps<T> {
 	filterDisplay?: "menu" | "row";
 	scrollable?: boolean;
 	renderTitle?: any;
+	style?: any;
 }
 
 const TableExpansibleDialComponent = ({
@@ -46,6 +47,7 @@ const TableExpansibleDialComponent = ({
 	filterDisplay,
 	scrollable,
 	renderTitle,
+	style,
 }: IProps<any>): React.JSX.Element => {
 	const [first, setFirst] = useState<number>(0);
 	const [perPage, setPerPage] = useState<number>(10);
@@ -293,10 +295,12 @@ const TableExpansibleDialComponent = ({
 					filters={filters}
 					filterDisplay={filterDisplay}
 					//tableStyle={{ minWidth: "10rem" }}
-					style={{
-						minHeight: "100%",
-						display: "inline-flex",
-					}}
+					style={
+						style || {
+							minHeight: "100%",
+							display: "inline-flex",
+						}
+					}
 				>
 					{isSelectionMode && (
 						<Column

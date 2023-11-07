@@ -21,7 +21,7 @@ export default React.memo(() => {
   const classes = `${styles.container} spc-common-table expansible card-table massive-index`;
   const classesUpload = `${styles.fileMassive} files`;
 
-  useBreadCrumb({ isPrimaryPage: false, name: "Indexación masiva", url: "/gestion-documental/radicacion/indexacion-masiva" });
+  useBreadCrumb({ isPrimaryPage: true, name: "Indexación masiva", url: "/gestion-documental/radicacion/indexacion-masiva" });
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(event.target.files as FileList).filter(

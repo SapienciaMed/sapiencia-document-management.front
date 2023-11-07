@@ -24,6 +24,21 @@ interface ISenderDataForm {
 	municipio: string;
 }
 
+interface IMovementsDataForm {
+	dra_radicado: string;
+}
+
+interface IModalActivateReverse {
+	dra_radicado: string | number;
+	dra_tipo_radicado: string | number;
+	dra_destinatario: string | number | null;
+	dra_radicado_por: string | number;
+	comentario: string;
+	dra_estado_radicado: string | number;
+	typeModal: string;
+	dra_usuario: string | number;
+}
+
 interface ISenderSearchForm {
 	doc_identidad: string;
 	entidad: string;
