@@ -55,6 +55,7 @@ const ActivateReverseDocuments = ({
 		watch: watchActRevDocuments,
 		handleSubmit: handleSubmitActRevDocuments,
 		formState: { errors: errorsActRevDocuments },
+		reset: resetActRevDocuments,
 	} = useForm<IModalActivateReverse>({
 		resolver: yupResolver(schema),
 		// values: dataForModal,
@@ -108,6 +109,15 @@ const ActivateReverseDocuments = ({
 					okTitle: "Aceptar",
 					style: "z-index-2300",
 					onOk: () => {
+						resetActRevDocuments({
+							dra_destinatario: "",
+							comentario: "",
+							dra_estado_radicado: "",
+							dra_radicado: "",
+							dra_radicado_por: "",
+							dra_tipo_radicado: "",
+							dra_usuario: "",
+						});
 						setMessage({});
 						onCloseModal();
 					},
@@ -121,6 +131,15 @@ const ActivateReverseDocuments = ({
 					okTitle: "Aceptar",
 					style: "z-index-2300",
 					onOk: () => {
+						resetActRevDocuments({
+							dra_destinatario: "",
+							comentario: "",
+							dra_estado_radicado: "",
+							dra_radicado: "",
+							dra_radicado_por: "",
+							dra_tipo_radicado: "",
+							dra_usuario: "",
+						});
 						setMessage({});
 						onCloseModal();
 					},
@@ -295,7 +314,18 @@ const ActivateReverseDocuments = ({
 							className={`${styles.btnNoBackground} py-12 px-16 font-size-16`}
 							value="Cancelar"
 							type="button"
-							action={onCloseModal}
+							action={() => {
+								resetActRevDocuments({
+									dra_destinatario: "",
+									comentario: "",
+									dra_estado_radicado: "",
+									dra_radicado: "",
+									dra_radicado_por: "",
+									dra_tipo_radicado: "",
+									dra_usuario: "",
+								});
+								onCloseModal();
+							}}
 						/>
 						<ButtonComponent
 							className={`${styles.btnTextBlack} ${styles.btnGray} py-12 px-16 font-size-16`}
