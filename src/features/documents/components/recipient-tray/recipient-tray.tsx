@@ -136,7 +136,7 @@ const RecipientTray = () => {
 						placeholder="DD/MM/AAAA"
 						onChange={(e) => {
 							const myDate: Date = new Date(e.value.toString());
-							console.log(myDate, "myDate");
+
 							const date = moment(myDate)
 								.format("DD/MM/YYYY")
 								.toString();
@@ -158,7 +158,7 @@ const RecipientTray = () => {
 
 	const columnSenderTable = [
 		{
-			fieldName: "dra_prioridad_asunto",
+			fieldName: "",
 			header: "Seleccione",
 			style: {
 				position: "relative",
@@ -483,7 +483,6 @@ const RecipientTray = () => {
 								<TreeSelect
 									value={selectedNodeKey}
 									onChange={(e: TreeSelectChangeEvent) => {
-										console.log(e.value);
 										setSelectedNodeKey(e.value);
 										if (e.value == REVERSE) {
 											setTypeModal(REVERSE);

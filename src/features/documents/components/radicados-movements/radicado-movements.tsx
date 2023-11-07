@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	ButtonComponent,
 	FormComponent,
@@ -31,8 +31,11 @@ import { FilterMatchMode } from "primereact/api";
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
 	const ACTIVATE = "Activar";
+	const EVACUADO = "Evacuado";
+	const PENDIENTE = "Pendiente";
 	const [movementsList, setMovementsList] = useState<any>([]);
 	const [isActivateModal, setIsActivateModal] = useState<boolean>(false);
+	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [isReverseModal, setIsReverseModal] = useState<boolean>(false);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [dataForModal, setDataForModal] = useState<any>({});
@@ -59,13 +62,18 @@ const RadicadoMovements = () => {
 			style: { minWidth: "10rem" },
 		},
 		{
-			fieldName: "dra_tipo_radicado",
+			fieldName: "",
 			header: "Clase",
 			sortable: true,
+			renderCell: (row) => "Original",
 		},
 		{
 			fieldName: "dra_tipo_radicado",
 			header: "Tipo",
+			renderCell: (row) => {
+				const texto = typeRadicadoName(row?.dra_tipo_radicado);
+				return texto?.lge_elemento_descripcion || "";
+			},
 		},
 		{
 			fieldName: "dra_fecha_radicado",
@@ -83,39 +91,43 @@ const RadicadoMovements = () => {
 			style: { minWidth: "11rem" },
 		},
 		{
-			fieldName: "dra_tipo_asunto",
+			fieldName: "dependencia",
 			header: "Dependencia",
+			renderCell: (row) => "Dependencia 1",
 		},
 		{
-			fieldName: "dra_asunto",
+			fieldName: "dra_fecha_entrada",
 			header: "Fecha de Entrada",
 			sortable: true,
 		},
 		{
-			fieldName: "dra_referencia",
+			fieldName: "",
 			header: "Enviado por",
 			sortable: true,
+			renderCell: (row) => "Por Definir",
 		},
 		{
-			fieldName: "dra_radicado_origen",
+			fieldName: "dra_fecha_salida",
 			header: "Fecha de Salida",
 			sortable: true,
 		},
 		{
-			fieldName: "dra_fecha_radicado",
+			fieldName: "dra_estado_radicado",
 			header: "Estado",
 			sortable: true,
 		},
 		{
-			fieldName: "dra_prioridad_asunto",
+			fieldName: "dra_codigo_asunto",
 			header: "Asunto",
+			renderCell: (row) => "Asunto por definir",
 		},
 		{
-			fieldName: "tipo_doc",
+			fieldName: "dra_tipo_asunto",
 			header: "Tipo documento",
+			renderCell: (row) => "Tipo asunto por definir",
 		},
 		{
-			fieldName: "ref",
+			fieldName: "dra_referencia",
 			header: "Referencia",
 		},
 		,
@@ -160,19 +172,35 @@ const RadicadoMovements = () => {
 											className="p-speeddial-action reversar-documento"
 											data-pr-tooltip="Reversar Documento"
 											onClick={() => {
-												setDataForModal({
-													dra_tipo_radicado:
-														row?.dra_tipo_radicado,
-													dra_radicado:
-														row?.dra_radicado,
-													dra_radicado_por:
-														row?.dra_radicado_por,
-												});
-												setTypeModal(REVERSE);
-												setIsActivateModal(true);
+												const texto = typeRadicadoName(
+													row?.dra_tipo_radicado
+												);
+
+												if (
+													row.dra_estado_radicado !=
+													EVACUADO
+												) {
+													setDataForModal({
+														dra_tipo_radicado:
+															texto?.lge_elemento_descripcion,
+														dra_radicado:
+															row?.dra_radicado,
+														dra_radicado_por:
+															row?.dra_radicado_por,
+													});
+													setTypeModal(REVERSE);
+													setIsActivateModal(true);
+												}
 											}}
 										>
-											<IconsFi.FiFile className="button grid-button button-link" />
+											<IconsFi.FiFile
+												className={`button grid-button button-link ${
+													row.dra_estado_radicado ==
+													EVACUADO
+														? "p-disabled"
+														: ""
+												}`}
+											/>
 										</a>
 									</>
 								),
@@ -188,17 +216,32 @@ const RadicadoMovements = () => {
 											className="p-speeddial-action activar-documento"
 											data-pr-tooltip="Activar documento"
 											onClick={() => {
-												setDataForModal({
-													dra_tipo_radicado:
-														row?.dra_tipo_radicado,
-													dra_radicado:
-														row?.dra_radicado,
-												});
-												setTypeModal(ACTIVATE);
-												setIsActivateModal(true);
+												const texto = typeRadicadoName(
+													row?.dra_tipo_radicado
+												);
+												if (
+													row.dra_estado_radicado ==
+													EVACUADO
+												) {
+													setDataForModal({
+														dra_tipo_radicado:
+															texto?.lge_elemento_descripcion,
+														dra_radicado:
+															row?.dra_radicado,
+													});
+													setTypeModal(ACTIVATE);
+													setIsActivateModal(true);
+												}
 											}}
 										>
-											<IconsAi.AiOutlineFolderOpen className="button grid-button button-link" />
+											<IconsAi.AiOutlinePoweroff
+												className={`button grid-button button-link ${
+													row.dra_estado_radicado ==
+													EVACUADO
+														? styles.activateGreen
+														: "p-disabled"
+												}`}
+											/>
 										</a>
 									</>
 								),
@@ -214,6 +257,22 @@ const RadicadoMovements = () => {
 	/**
 	 * FUNCTIONS
 	 */
+
+	useEffect(() => {
+		if (movementsList.length != 0) {
+			get(`/generic-list/type-radicado-list`).then((data) => {
+				setRadicadoTypes(data);
+			});
+		}
+	}, [movementsList]);
+
+	const typeRadicadoName = (code: string | number) =>
+		radicadoTypes.find((item) => {
+			return (
+				item.lge_agrupador == "TIPOS_RADICADOS" &&
+				item.lge_elemento_codigo == code
+			);
+		});
 
 	const schema = yup.object({
 		dra_radicado: yup
@@ -268,33 +327,40 @@ const RadicadoMovements = () => {
 									disabled={false}
 								/>
 							</div>
-						</div>
-					</div>
-					<div
-						className="flex gap-20 mt-30"
-						style={{ maxWidth: "80%", justifyContent: "flex-end" }}
-					>
-						<div className={`flex gap-20`}>
-							{!watch("dra_radicado") && (
-								<Link
-									className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
-									to={
-										"/gestion-documental/radicacion/bandeja-radicado"
-									}
-								>
-									Volver a la Bandeja
-								</Link>
-							)}
+							<div
+								className="flex gap-20 mt-30"
+								style={{
+									maxWidth: "80%",
+									justifyContent: "flex-end",
+								}}
+							>
+								<div className={`flex gap-20`}>
+									{!watch("dra_radicado") && (
+										<Link
+											className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
+											to={
+												"/gestion-documental/radicacion/bandeja-radicado"
+											}
+										>
+											Volver a la Bandeja
+										</Link>
+									)}
 
-							<ButtonComponent
-								className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
-								value="Buscar"
-								type="button"
-								action={() =>
-									getMovementsByID(getValues("dra_radicado"))
-								}
-								disabled={watch("dra_radicado") ? false : true}
-							/>
+									<ButtonComponent
+										className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
+										value="Buscar"
+										type="button"
+										action={() =>
+											getMovementsByID(
+												getValues("dra_radicado")
+											)
+										}
+										disabled={
+											watch("dra_radicado") ? false : true
+										}
+									/>
+								</div>
+							</div>
 						</div>
 					</div>
 				</FormComponent>
@@ -335,7 +401,7 @@ const RadicadoMovements = () => {
 				title={
 					typeModal == ACTIVATE
 						? "Datos de Activación"
-						: "Datos de Devolución"
+						: "Datos de Activación"
 				}
 				onCloseModal={() => {
 					setIsActivateModal(false);

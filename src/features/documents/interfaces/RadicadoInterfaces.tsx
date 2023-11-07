@@ -34,6 +34,9 @@ interface IModalActivateReverse {
 	dra_destinatario: string | number | null;
 	dra_radicado_por: string | number;
 	comentario: string;
+	dra_estado_radicado: string | number;
+	typeModal: string;
+	dra_usuario: string | number;
 }
 
 interface ISenderSearchForm {

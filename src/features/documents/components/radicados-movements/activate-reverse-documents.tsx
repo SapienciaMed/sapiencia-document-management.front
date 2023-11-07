@@ -1,11 +1,9 @@
 import { Dialog } from "primereact/dialog";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import * as yup from "yup";
 import {
 	ButtonComponent,
 	FormComponent,
-	InputComponent,
-	InputComponentOriginal,
 	LabelComponent,
 } from "../../../../common/components/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -13,10 +11,6 @@ import { Controller, useForm } from "react-hook-form";
 import { TextAreaComponent } from "../../../../common/components/Form/input-text-area.component";
 import styles from "./styles.module.scss";
 import { AppContext } from "../../../../common/contexts/app.context";
-import {
-	AutoComplete,
-	AutoCompleteCompleteEvent,
-} from "primereact/autocomplete";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
@@ -36,10 +30,9 @@ const ActivateReverseDocuments = ({
 	title,
 	dataForModal,
 }: IProps) => {
-	const { setMessage } = useContext(AppContext);
-	//const [value, setValue] = useState<string>("");
-	const [items, setItems] = useState<string[]>([]);
-	const [dataModal, setDataModal] = useState<any>({});
+	const EVACUADO = "Evacuado";
+	const PENDIENTE = "Pendiente";
+	const { authorization, setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
@@ -53,7 +46,6 @@ const ActivateReverseDocuments = ({
 			.max(200, "Solo se permiten 200 caracteres")
 			.required("El campo es obligatorio"),
 	});
-	console.log(dataForModal, "dataForModal");
 
 	const {
 		register: registerActRevDocuments,
@@ -76,41 +68,27 @@ const ActivateReverseDocuments = ({
 				"dra_tipo_radicado",
 				dataForModal?.dra_tipo_radicado
 			);
-			console.log(typeModal, "typeModal");
-			// setValueActRevDocuments(
-			// 	"dra_destinatario",
-			// 	typeModal == "Reversar" ? dataForModal?.dra_destinatario : "14"
-			// );
+
+			setValueActRevDocuments(
+				"dra_estado_radicado",
+				typeModal == "Activar" ? PENDIENTE : EVACUADO
+			);
+
 			if (typeModal == "devolucion") {
 				setValueActRevDocuments(
 					"dra_destinatario",
 					dataForModal?.dra_radicado_por
 				);
 			}
+			setValueActRevDocuments("typeModal", typeModal);
+			setValueActRevDocuments(
+				"dra_usuario",
+				authorization?.user?.numberDocument
+			);
 		}
-	}, [dataForModal]);
-
-	console.log(
-		getValuesActRevDocuments("dra_radicado"),
-		"watchActRevDocuments"
-	);
-	const onClicSave = () => {
-		setMessage({
-			title: "Consulta de Movimientos",
-			description: typeModal + ", guardado exitosamente.",
-			show: true,
-			background: true,
-			okTitle: "Aceptar",
-			style: "z-index-2300",
-			onOk: () => {
-				setMessage({});
-				onCloseModal();
-			},
-		});
-	};
+	}, [dataForModal, typeModal]);
 
 	const storeComment = async (data) => {
-		console.log(data, "data");
 		const endpoint: string = `/radicado/comment`;
 		const entityData = await post(`${endpoint}`, data);
 		return entityData;
@@ -118,12 +96,13 @@ const ActivateReverseDocuments = ({
 
 	const onSubmit = async (data) => {
 		storeComment(data).then(async ({ data, operation }: any) => {
-			console.log(data, "data");
-			console.log(operation, "message");
 			if (operation.code == "OK") {
 				setMessage({
 					title: "Consulta de Movimientos",
-					description: typeModal + ", guardado exitosamente.",
+					description:
+						typeModal == "Reversar"
+							? "Documento Reversado con Éxito"
+							: "Documento Activado con Éxito",
 					show: true,
 					background: true,
 					okTitle: "Aceptar",
@@ -194,6 +173,27 @@ const ActivateReverseDocuments = ({
 								required: true,
 							})}
 						/>
+						<input
+							id="dra_usuario"
+							type="hidden"
+							{...registerActRevDocuments("dra_usuario", {
+								required: true,
+							})}
+						/>
+						<input
+							id="typeModal"
+							type="hidden"
+							{...registerActRevDocuments("typeModal", {
+								required: true,
+							})}
+						/>
+						<input
+							id="dra_estado_radicado"
+							type="hidden"
+							{...registerActRevDocuments("dra_estado_radicado", {
+								required: true,
+							})}
+						/>
 						<InputTextComponent
 							idInput="dra_radicado"
 							label="Documento"
@@ -214,16 +214,6 @@ const ActivateReverseDocuments = ({
 						/>
 
 						{typeModal !== "devolucion" && (
-							// <InputTextComponent
-							// 	idInput="dra_destinatario"
-							// 	label="Asignar a"
-							// 	className="input-basic"
-							// 	classNameLabel="text--black text-required"
-							// 	control={controlActRevDocuments}
-							// 	errors={errorsActRevDocuments}
-							// 	disabled={false}
-							// />
-
 							<div
 								style={{
 									width: 200,
@@ -234,7 +224,6 @@ const ActivateReverseDocuments = ({
 								}}
 							>
 								<LabelComponent
-									//htmlFor={idInput}
 									className="text--black text-required"
 									value="Asignar a"
 								/>
@@ -251,7 +240,6 @@ const ActivateReverseDocuments = ({
 											"dra_destinatario",
 											item.id
 										);
-										console.log(item);
 									}}
 									autoFocus
 									formatResult={formatResult}
@@ -278,12 +266,6 @@ const ActivateReverseDocuments = ({
 								)}
 							/>
 						)}
-						{/* <AutoComplete
-						value={value}
-						suggestions={items}
-						completeMethod={(e) => {}}
-						onChange={(e) => setValue(e.value)}
-					/> */}
 					</div>
 					<div className={`flex flex-column mt-28`}>
 						<Controller
