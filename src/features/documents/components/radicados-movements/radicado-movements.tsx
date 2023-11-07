@@ -96,7 +96,7 @@ const RadicadoMovements = () => {
 			renderCell: (row) => "Dependencia 1",
 		},
 		{
-			fieldName: "dra_fecha_entrada",
+			fieldName: "dra_fecha_evacuacion_entrada",
 			header: "Fecha de Entrada",
 			sortable: true,
 		},
@@ -107,7 +107,7 @@ const RadicadoMovements = () => {
 			renderCell: (row) => "Por Definir",
 		},
 		{
-			fieldName: "dra_fecha_salida",
+			fieldName: "dra_fecha_evacuacion_salida",
 			header: "Fecha de Salida",
 			sortable: true,
 		},
