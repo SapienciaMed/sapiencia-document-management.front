@@ -72,7 +72,7 @@ export default React.memo(() => {
         } catch (error) {
           setMessage({
             title: "Error",
-            description: `Error al cargar el archivo: ${file.name}`,
+            description: `El número de radicado ${file.name} no se encuentra, por favor verifique`,
             show: true,
             background: true,
             okTitle: "Aceptar",
