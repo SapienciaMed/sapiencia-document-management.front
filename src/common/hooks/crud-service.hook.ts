@@ -113,6 +113,33 @@ function useCrudService<T>(baseUrl: string) {
     }
   };
 
-  return { post, get, put, deleted };
+  const upload = async <T>(
+    endpoint: string,
+    data: Object = {},
+    params: Object = {}
+  ): Promise<ApiResponse<T>> => {
+    try {
+      return await api({
+        method: "post",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+          permissions: authorization.encryptedAccess,
+        },
+        url: `${endpoint}`,
+        params: params,
+        data: data,
+      });
+    } catch (error: any) {
+      return new ApiResponse(
+        {} as T,
+        EResponseCodes.FAIL,
+        JSON.parse(error?.response?.request?.response)?.operation?.message ||
+          errorMessage
+      );
+    }
+  };
+
+  return { post, get, put, deleted, upload };
 }
 export default useCrudService;

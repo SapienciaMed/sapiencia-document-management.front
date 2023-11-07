@@ -6,11 +6,13 @@
     padding-right: 10px;
 }
 
-.checkGroup{
-    margin-top: 40px;
-    margin-bottom: 50px;
-    padding-left: 5%;
-    column-gap: 48px;
+¨/*-----File upload-----*/
+
+.fileMassive{
+    width: 100%;
+    max-width: 1025px;
+    height: 340px;
+    border: solid 1px #6C757D;
 }
 .txtDrop{
     margin-top: 3%;
@@ -19,6 +21,9 @@
     color: #6C757D;
     font-weight: normal;
 }
+
+¨/*-----End File upload-----*/
+
 .btnBack{
     display: flex;
     justify-content: flex-end;
