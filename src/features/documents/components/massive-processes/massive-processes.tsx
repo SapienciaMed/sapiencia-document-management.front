@@ -1,6 +1,6 @@
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	ButtonComponent,
 	InputComponentOriginal,
@@ -11,21 +11,23 @@ import TableExpansibleDialComponent from "../../../../common/components/table-ex
 import { FilterMatchMode } from "primereact/api";
 import { Calendar } from "primereact/calendar";
 import moment from "moment";
-import TimeElapsed from "../time-elapsed.component";
-import { IoWarningOutline } from "react-icons/io5";
 import styles from "./styles.module.scss";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const MassiveProcesses = () => {
 	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
 	const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
+	const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
 	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
 	const [radicadosList, setRadicadosList] = useState<any[]>([]);
 	const [dataForModal, setDataForModal] = useState<any>({});
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
+	const [searchParam, setSearchParam] = useState<any>("");
+	const { authorization, setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-	const { get } = useCrudService(baseURL);
+	const { get, post } = useCrudService(baseURL);
 
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -34,7 +36,14 @@ const MassiveProcesses = () => {
 		dra_fecha_entrada: { value: null, matchMode: FilterMatchMode.EQUALS },
 	});
 
-	const checkAllRowFilterTemplate = () => <input type="checkbox" />;
+	//const checkAllRowFilterTemplate = () => <input type="checkbox" />;
+	const checkAllRowFilterTemplate = () => (
+		<input
+			type="checkbox"
+			checked={selectedCheckboxes.length === radicadosList.length}
+			onChange={handleSelectAll}
+		/>
+	);
 
 	const columnMassiveTable = [
 		{
@@ -59,15 +68,12 @@ const MassiveProcesses = () => {
 						<input
 							type="checkbox"
 							value={row?.dra_radicado}
-							checked={selectedCheckbox == row?.dra_radicado}
-							onChange={(e) => {
-								const data = {
-									dra_radicado: row?.dra_radicado,
-									dra_tipo_radicado: row?.dra_tipo_radicado,
-									dra_radicado_por: row?.dra_radicado_por,
-								};
-								return handleCheckboxChange(data, e);
-							}}
+							checked={selectedCheckboxes.includes(
+								row?.dra_radicado
+							)}
+							onChange={() =>
+								handleCheckboxChange(row?.dra_radicado)
+							}
 						/>
 					</div>
 				);
@@ -86,7 +92,6 @@ const MassiveProcesses = () => {
 			style: { minWidth: "13rem" },
 			renderCell: (row) => {
 				const texto = radicadoTypesList(row?.dra_tipo_radicado);
-				console.log(texto, "TEXTO");
 				return texto?.lge_elemento_descripcion || "";
 			},
 			//filterField: "dra_tipo_radicado",
@@ -167,6 +172,72 @@ const MassiveProcesses = () => {
 	 * Functions
 	 */
 
+	const handleCheckboxChange = (value) => {
+		const updatedCheckboxes = [...selectedCheckboxes];
+		if (updatedCheckboxes.includes(value)) {
+			updatedCheckboxes.splice(updatedCheckboxes.indexOf(value), 1);
+		} else {
+			updatedCheckboxes.push(value);
+		}
+		setSelectedCheckboxes(updatedCheckboxes);
+		setIsDisabledSelect(updatedCheckboxes.length === 0);
+		setSelectedNodeKey("");
+	};
+
+	const handleSelectAll = () => {
+		if (selectedCheckboxes.length === radicadosList.length) {
+			setSelectedCheckboxes([]);
+			setIsDisabledSelect(true);
+		} else {
+			const allRadicados = radicadosList.map((row) => row?.dra_radicado);
+			setSelectedCheckboxes(allRadicados);
+			setIsDisabledSelect(false);
+		}
+	};
+
+	const handleSendSelected = async () => {
+		const selectedData = radicadosList.filter((row) =>
+			selectedCheckboxes.includes(row.dra_radicado)
+		);
+
+		// Extrae los valores de 'dra_radicado' de los elementos seleccionados.
+		const selectedRadicados = selectedData.map((item) => item.dra_radicado);
+		// Convierte los valores en una cadena separada por comas.
+		//const selectedRadicadosString = selectedRadicados.join(", ");
+		// Extrae y formatea los valores de 'dra_radicado' en cadena con comillas.
+		const selectedRadicadosString = selectedData
+			.map((item) => `"${item.dra_radicado}"`)
+			.join(", ");
+
+		//Solicitud Post
+		console.log(selectedRadicadosString, "SELECTEDDATA");
+		await storeMassive(selectedRadicadosString);
+
+		//Mensaje de Exito
+		setMessage({
+			title: "Evacuación exitosa",
+			description: "La información ha sido evacuada exitosamente",
+			show: true,
+			background: true,
+			okTitle: "Aceptar",
+			style: "z-index-2300",
+			onOk: () => {
+				setMessage({});
+				//Llamar tabla
+				getRadicadosByID(searchParam);
+			},
+		});
+	};
+
+	const storeMassive = async (data) => {
+		const endpoint: string = `/gestion/processes-massive`;
+		const entityData = await post(`${endpoint}`, {
+			data: data,
+			dra_usuario: authorization?.user?.numberDocument,
+		});
+		return entityData;
+	};
+
 	const radicadoTypesList = (code: string | number) =>
 		radicadoTypes.find((item) => {
 			return (
@@ -175,13 +246,13 @@ const MassiveProcesses = () => {
 			);
 		});
 
-	const handleCheckboxChange = (data, event) => {
-		setDataForModal(data);
-		setIsDisabledSelect(false);
-		setSelectedNodeKey("");
-		setSelectedCheckbox(event.target.value);
-		//setIsDisableSendButton(event.target.value ? false : true);
-	};
+	// const handleCheckboxChange = (data, event) => {
+	// 	setDataForModal(data);
+	// 	setIsDisabledSelect(false);
+	// 	setSelectedNodeKey("");
+	// 	setSelectedCheckbox(event.target.value);
+	// 	//setIsDisableSendButton(event.target.value ? false : true);
+	// };
 
 	const getRadicadosByID = async (radicadoId: string) => {
 		const endpoint: string = `/radicado-details/massive-by-id/${radicadoId}`;
@@ -194,6 +265,7 @@ const MassiveProcesses = () => {
 			e.key === "Enter" &&
 			(e.target.value !== null || e.target.value !== "")
 		) {
+			setSearchParam(e.target.value);
 			setIsDisabledSelect(true);
 			getRadicadosByID(e.target.value);
 		}
@@ -328,28 +400,13 @@ const MassiveProcesses = () => {
 					/>
 					<ButtonComponent
 						className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
-						value="Buscar"
+						value="Evacuar"
 						type="button"
-						action={() => {}}
+						action={handleSendSelected}
+						disabled={isDisabledSelect}
 					/>
 				</div>
 			</div>
-			{/**
-			 * Modals
-			 * */}
-			{/* <ActivateReverseDocuments
-				title={
-					typeModal == "asignar"
-						? "Datos de Asignación"
-						: "Datos de Devolución"
-				}
-				onCloseModal={() => {
-					setIsOpenModal(false);
-				}}
-				visible={isOpenModal}
-				typeModal={typeModal}
-				dataForModal={dataForModal}
-			/> */}
 		</>
 	);
 };
