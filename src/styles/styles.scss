@@ -383,3 +383,15 @@ input:disabled {
 /***************************/
 /* End General reusable components */
 /***************************/
+
+.error-message-autocomplete {
+	font-size: 0.7rem;
+	color: red;
+	text-align: left;
+	font-family: "RubikMedium";
+}
+
+.not-margin-padding-autocomplete {
+	margin: 0;
+	padding: 0;
+}

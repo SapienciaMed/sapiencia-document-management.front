@@ -1,5 +1,5 @@
 import { Dialog } from "primereact/dialog";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as yup from "yup";
 import {
 	ButtonComponent,
@@ -14,6 +14,9 @@ import { AppContext } from "../../../../common/contexts/app.context";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
+
+import axios from "axios";
+import { ErrorMessage } from "@hookform/error-message";
 
 interface IProps {
 	title?: string;
@@ -33,6 +36,9 @@ const ActivateReverseDocuments = ({
 	const EVACUADO = "Evacuado";
 	const PENDIENTE = "Pendiente";
 	const { authorization, setMessage } = useContext(AppContext);
+	const [selectedOption, setSelectedOption] = useState(null);
+	const [suggestedValues, setSuggestedValues] = useState([]);
+	const [dataSuggested, setDataSuggested] = useState([]);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
@@ -121,6 +127,29 @@ const ActivateReverseDocuments = ({
 		}
 	};
 
+	useEffect(() => {
+		setDataSuggested(suggestedValues);
+	}, []);
+
+	const handleSearch = (value) => {
+		// Realizar una solicitud a la API cuando el usuario escriba más de 3 caracteres
+		if (value.length > 3) {
+			// URL real de la API
+			axios
+				.get(
+					`http://127.0.0.1:4208/api/v1/document-management/entities/get-by-name/param?entidad=${value}`
+				)
+				.then((response) => {
+					setSuggestedValues(response.data);
+				})
+				.catch((error) => {
+					console.error("Error al obtener datos de la API", error);
+				});
+		} else {
+			setSuggestedValues([]);
+		}
+	};
+	console.log(suggestedValues);
 	const onSubmit = async (data) => {
 		storeComment(data).then(async ({ data, operation }: any) => {
 			if (operation.code == "OK") {
@@ -172,13 +201,11 @@ const ActivateReverseDocuments = ({
 	};
 
 	const formatResult = (item) => {
+		console.log(item, "IYEM");
 		return (
 			<>
 				<span style={{ display: "block", textAlign: "left" }}>
-					id: {item.id}
-				</span>
-				<span style={{ display: "block", textAlign: "left" }}>
-					name: {item.name}
+					{item.name}
 				</span>
 			</>
 		);
@@ -212,7 +239,7 @@ const ActivateReverseDocuments = ({
 							id="dra_destinatario"
 							type="hidden"
 							{...registerActRevDocuments("dra_destinatario", {
-								required: true,
+								required: "El campo es obligatorio",
 							})}
 						/>
 						<input
@@ -255,6 +282,57 @@ const ActivateReverseDocuments = ({
 							disabled={true}
 						/>
 
+						{/* {typeModal !== "devolucion" && (
+							<div
+								style={{
+									width: 200,
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "flex-end",
+									gap: "0.5rem",
+								}}
+							>
+								<LabelComponent
+									className="text--black text-required"
+									value="Asignar a"
+								/>
+								<ReactSearchAutocomplete
+									items={[
+										{
+											id: "1047365247",
+											fullName: "Francisco Gaviria",
+										},
+									]}
+									onSelect={(item) => {
+										console.log(item, "2ITEM");
+										setSelectedOption(item);
+										setValueActRevDocuments(
+											"dra_destinatario",
+											item.id
+										);
+									}}
+									onSearch={handleSearch}
+									autoFocus
+									formatResult={formatResult}
+									className="input-basic-autocomplete"
+									styling={{
+										hoverBackgroundColor: "none",
+										backgroundColor: "none",
+										border: "none",
+										boxShadow: "none",
+										borderRadius: "none",
+									}}
+								/>
+								{selectedOption &&
+									selectedOption.id &&
+									errorsActRevDocuments.dra_destinatario && (
+										<div className="text--error">
+											Este campo es obligatorio
+										</div>
+									)}
+							</div>
+						)} */}
+
 						{typeModal !== "devolucion" && (
 							<div
 								style={{
@@ -275,7 +353,9 @@ const ActivateReverseDocuments = ({
 											id: 1047365247,
 											name: "Francisco Gaviria",
 										},
-										{ id: 2, name: "Item 2" },
+										{ id: 123456789, name: "EPM" },
+										{ id: 32243290, name: "Leidy Sanchez" },
+										{ id: 32243295, name: "Laura Torres" },
 									]}
 									onSelect={(item) => {
 										setValueActRevDocuments(
@@ -294,6 +374,21 @@ const ActivateReverseDocuments = ({
 										borderRadius: "none",
 									}}
 								/>
+								<div
+									style={{
+										alignSelf: "flex-start",
+									}}
+								>
+									<ErrorMessage
+										errors={errorsActRevDocuments}
+										name="dra_destinatario"
+										render={({ message }) => (
+											<div className="error-message-autocomplete not-margin-padding-autocomplete">
+												{message}
+											</div>
+										)}
+									/>
+								</div>
 							</div>
 						)}
 						{typeModal == "devolucion" && (
