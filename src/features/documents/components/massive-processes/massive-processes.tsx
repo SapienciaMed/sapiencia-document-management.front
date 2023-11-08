@@ -232,6 +232,7 @@ const MassiveProcesses = () => {
 			style: "z-index-2300",
 			onOk: () => {
 				setMessage({});
+				setIsDisabledSelect(true);
 				//Llamar tabla
 				!calendarDate
 					? getRadicadosByID(searchParam)

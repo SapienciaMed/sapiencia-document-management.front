@@ -39,6 +39,7 @@ const ActivateReverseDocuments = ({
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [suggestedValues, setSuggestedValues] = useState([]);
 	const [dataSuggested, setDataSuggested] = useState([]);
+	//const [notValidForm, setNotValidForm] = useState<boolean>(true);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
@@ -60,13 +61,30 @@ const ActivateReverseDocuments = ({
 		getValues: getValuesActRevDocuments,
 		watch: watchActRevDocuments,
 		handleSubmit: handleSubmitActRevDocuments,
-		formState: { errors: errorsActRevDocuments },
+		formState: {
+			errors: errorsActRevDocuments,
+			isValid: isValidActRevDocuments,
+		},
 		reset: resetActRevDocuments,
 	} = useForm<IModalActivateReverse>({
 		resolver: yupResolver(schema),
 		// values: dataForModal,
 		mode: "all",
 	});
+
+	// useEffect(() => {
+	// 	setNotValidForm(
+	// 		!watchActRevDocuments("dra_destinatario") ||
+	// 			!watchActRevDocuments("comentario")
+	// 	);
+	// }, [
+	// 	watchActRevDocuments("comentario"),
+	// 	watchActRevDocuments("dra_destinatario"),
+	// ]);
+
+	let notValidForm =
+		!watchActRevDocuments("dra_destinatario") ||
+		!watchActRevDocuments("comentario");
 
 	useEffect(() => {
 		if (dataForModal) {
@@ -149,7 +167,7 @@ const ActivateReverseDocuments = ({
 			setSuggestedValues([]);
 		}
 	};
-	console.log(suggestedValues);
+
 	const onSubmit = async (data) => {
 		storeComment(data).then(async ({ data, operation }: any) => {
 			if (operation.code == "OK") {
@@ -201,7 +219,6 @@ const ActivateReverseDocuments = ({
 	};
 
 	const formatResult = (item) => {
-		console.log(item, "IYEM");
 		return (
 			<>
 				<span style={{ display: "block", textAlign: "left" }}>
@@ -216,7 +233,18 @@ const ActivateReverseDocuments = ({
 			header={title}
 			visible={visible}
 			style={{ width: "40vw" }}
-			onHide={onCloseModal}
+			onHide={() => {
+				resetActRevDocuments({
+					dra_destinatario: "",
+					comentario: "",
+					dra_estado_radicado: "",
+					dra_radicado: "",
+					dra_radicado_por: "",
+					dra_tipo_radicado: "",
+					dra_usuario: "",
+				});
+				onCloseModal();
+			}}
 			pt={{
 				headerTitle: {
 					className: "text-title-modal text--black text-center",
@@ -363,6 +391,12 @@ const ActivateReverseDocuments = ({
 											item.id
 										);
 									}}
+									onClear={() => {
+										setValueActRevDocuments(
+											"dra_destinatario",
+											""
+										);
+									}}
 									autoFocus
 									formatResult={formatResult}
 									className="input-basic-autocomplete"
@@ -379,6 +413,14 @@ const ActivateReverseDocuments = ({
 										alignSelf: "flex-start",
 									}}
 								>
+									{/* {!watchActRevDocuments(
+										"dra_destinatario"
+									) && (
+										<div className="error-message-autocomplete not-margin-padding-autocomplete">
+											Debe seleccionar una opción
+										</div>
+									)} */}
+
 									<ErrorMessage
 										errors={errorsActRevDocuments}
 										name="dra_destinatario"
@@ -446,11 +488,20 @@ const ActivateReverseDocuments = ({
 							}}
 						/>
 						<ButtonComponent
-							className={`${styles.btnTextBlack} ${styles.btnGray} py-12 px-16 font-size-16`}
+							className={`${
+								notValidForm
+									? styles.btnTextBlack
+									: "button-main"
+							} ${
+								notValidForm && styles.btnGray
+							} py-12 px-16 font-size-16 cursor-pointer`}
 							value="Aceptar"
 							type="submit"
 							//action={onClicSave}
-							disabled={false}
+							disabled={
+								!watchActRevDocuments("dra_destinatario") ||
+								!watchActRevDocuments("comentario")
+							}
 						/>
 					</div>
 				</FormComponent>
