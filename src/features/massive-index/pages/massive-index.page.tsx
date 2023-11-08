@@ -199,7 +199,7 @@ export default React.memo(() => {
               className="button-main huge hover-three"
               value="Volver a la bandeja"
               type="button"
-              action={null}
+              action={() => window.location.href = "https://sapiencia-root-ukyunq2uxa-uc.a.run.app/gestion-documental/radicacion/bandeja-radicado"}
             />
           </div>
         </div>
