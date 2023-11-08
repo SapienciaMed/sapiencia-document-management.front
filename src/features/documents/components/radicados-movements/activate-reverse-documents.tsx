@@ -95,15 +95,38 @@ const ActivateReverseDocuments = ({
 		return entityData;
 	};
 
+	const titleModal = () => {
+		if (typeModal == "asignar") {
+			return "Asignación de documentos";
+		}
+
+		if (typeModal == "devolucion") {
+			return "Documento Devuelto con Éxito";
+		}
+	};
+
+	const descriptionModal = () => {
+		if (typeModal == "asignar") {
+			return "Documento Asignado con Éxito";
+		}
+
+		if (typeModal == "devolucion") {
+			return "Se ha devuelto el documento exitosamente";
+		}
+
+		if (typeModal == "Reversar") {
+			return "Documento Reversado con Éxito";
+		} else {
+			return "Documento Activado con Éxito";
+		}
+	};
+
 	const onSubmit = async (data) => {
 		storeComment(data).then(async ({ data, operation }: any) => {
 			if (operation.code == "OK") {
 				setMessage({
-					title: "Consulta de Movimientos",
-					description:
-						typeModal == "Reversar"
-							? "Documento Reversado con Éxito"
-							: "Documento Activado con Éxito",
+					title: titleModal() || "Consulta de Movimientos",
+					description: descriptionModal(),
 					show: true,
 					background: true,
 					okTitle: "Aceptar",

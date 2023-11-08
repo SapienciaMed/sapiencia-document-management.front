@@ -183,9 +183,13 @@ const RecipientTray = () => {
 							value={row?.dra_radicado}
 							checked={selectedCheckbox == row?.dra_radicado}
 							onChange={(e) => {
+								const texto = radicadoTypesList(
+									row?.dra_tipo_radicado
+								);
 								const data = {
 									dra_radicado: row?.dra_radicado,
-									dra_tipo_radicado: row?.dra_tipo_radicado,
+									dra_tipo_radicado:
+										texto?.lge_elemento_descripcion,
 									dra_radicado_por: row?.dra_radicado_por,
 								};
 								return handleCheckboxChange(data, e);
