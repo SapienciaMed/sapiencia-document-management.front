@@ -9,33 +9,55 @@ export interface IBreadCrumb {
   extraParams?: string;
 }
 
+export interface ISetPageContext {
+  stringifyContext: string;
+  url: string;
+}
+
 function useBreadCrumb(data: IBreadCrumb): {
   stringifyContext: string;
-  updateContext: (stringifyContext: string) => void;
+  updateContext: (data: ISetPageContext) => void;
 } {
   // Servicios
   const { publish, subscribe, unsubscribe } = useAppCominicator();
 
   // State
-  const [context, setContext] = useState<string>();
+  const [context, setContext] = useState<string | null>(null);
 
   // Effect que publica la miga de pan y escucha el contexto
   useEffect(() => {
-    setTimeout(() => publish("add-bread-crumb", data), 100);
+    if (data.isPrimaryPage && process.env.urlRoot) {
+      publish("add-bread-crumb", {
+        name: process.env.aplicationName,
+        url: process.env.urlRoot,
+        isPrimaryPage: true,
+      });
+    }
+
+    setTimeout(() => {
+      publish("add-bread-crumb", {
+        ...data,
+        isPrimaryPage: false,
+      });
+    }, 100);
 
     if (data.useContext) {
-      subscribe("page-context", (data) => {
-        setContext(data.detail);
+      subscribe("current-page-context", (context) => {
+        if (context) setContext(context.detail);
       });
 
       return () => {
-        unsubscribe("page-context", () => {});
+        unsubscribe("current-page-context", () => {});
       };
+    } else {
+      setContext(null);
     }
   }, []);
 
   // Metodo actualiza el contexto
-  function updateContext(stringifyContext: string) {}
+  function updateContext(data: ISetPageContext): void {
+    publish("set-page-context", data);
+  }
 
   return { stringifyContext: context, updateContext };
 }

@@ -6,7 +6,7 @@ import useCrudService from "../../common/hooks/crud-service.hook";
 import useBreadCrumb from "../hooks/bread-crumb.hook";
 
 export default React.memo(() => {
-  useBreadCrumb({ isPrimaryPage: true, name: "Gestión documental", url: "/gestion-documental" });
+  useBreadCrumb({ isPrimaryPage: true, name: "", url: "" });
 
   const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
   const { get } = useCrudService(baseURL);

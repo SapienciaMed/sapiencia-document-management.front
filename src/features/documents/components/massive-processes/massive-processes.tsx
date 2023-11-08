@@ -14,6 +14,7 @@ import moment from "moment";
 import styles from "./styles.module.scss";
 import { AppContext } from "../../../../common/contexts/app.context";
 import { Link } from "react-router-dom";
+import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const MassiveProcesses = () => {
 	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
@@ -30,6 +31,12 @@ const MassiveProcesses = () => {
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
+
+	useBreadCrumb({
+		isPrimaryPage: true,
+		name: "Procesos masivos de documentos",
+		url: "/gestion-documental/gestion/procesos-masivos",
+	});
 
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
