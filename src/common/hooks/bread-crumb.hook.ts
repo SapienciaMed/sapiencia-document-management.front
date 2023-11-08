@@ -26,7 +26,7 @@ function useBreadCrumb(data: IBreadCrumb): {
 
   // Effect que publica la miga de pan y escucha el contexto
   useEffect(() => {
-    if (data.isPrimaryPage && process.env.urlRoot) {
+    if (data.isPrimaryPage && String(process.env.urlRoot).length > 0) {
       publish("add-bread-crumb", {
         name: process.env.aplicationName,
         url: process.env.urlRoot,
@@ -37,7 +37,8 @@ function useBreadCrumb(data: IBreadCrumb): {
     setTimeout(() => {
       publish("add-bread-crumb", {
         ...data,
-        isPrimaryPage: false,
+        isPrimaryPage:
+          String(process.env.urlRoot).length > 0 ? data.isPrimaryPage : false,
       });
     }, 100);
 
