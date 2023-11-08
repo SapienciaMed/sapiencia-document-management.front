@@ -1,17 +1,28 @@
 import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
 import React, { useEffect, useState } from "react";
-import { InputComponentOriginal } from "../../../../common/components/Form";
+import {
+	ButtonComponent,
+	InputComponentOriginal,
+} from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
 import { FilterMatchMode } from "primereact/api";
+import { Calendar } from "primereact/calendar";
+import moment from "moment";
+import TimeElapsed from "../time-elapsed.component";
+import { IoWarningOutline } from "react-icons/io5";
+import styles from "./styles.module.scss";
 
 const MassiveProcesses = () => {
 	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
 	const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true);
+	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
 	const [radicadosList, setRadicadosList] = useState<any[]>([]);
+	const [dataForModal, setDataForModal] = useState<any>({});
+	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -23,163 +34,97 @@ const MassiveProcesses = () => {
 		dra_fecha_entrada: { value: null, matchMode: FilterMatchMode.EQUALS },
 	});
 
+	const checkAllRowFilterTemplate = () => <input type="checkbox" />;
+
 	const columnMassiveTable = [
-		// {
-		// 	fieldName: "",
-		// 	header: "Seleccione",
-		// 	style: {
-		// 		position: "relative",
-		// 	},
-		// 	renderCell: (row) => {
-		// 		//TODO: cambiar al original si el documento es vigente ó vencido
-		// 		return (
-		// 			<div
-		// 				className={`circle ${
-		// 					row?.dra_prioridad_asunto == 1
-		// 						? "circle--orange"
-		// 						: "circle--green"
-		// 				}`}
-		// 				style={{
-		// 					display: "flex",
-		// 					alignItems: "center",
-		// 					justifyContent: "center",
-		// 				}}
-		// 			>
-		// 				<input
-		// 					type="checkbox"
-		// 					value={row?.dra_radicado}
-		// 					checked={selectedCheckbox == row?.dra_radicado}
-		// 					onChange={(e) => {
-		// 						const data = {
-		// 							dra_radicado: row?.dra_radicado,
-		// 							dra_tipo_radicado: row?.dra_tipo_radicado,
-		// 							dra_radicado_por: row?.dra_radicado_por,
-		// 						};
-		// 						return handleCheckboxChange(data, e);
-		// 					}}
-		// 				/>
-		// 			</div>
-		// 		);
-		// 	},
-		// },
-		// {
-		// 	fieldName: "dra_radicado",
-		// 	header: "N.° Radicado",
-		// 	sortable: true,
-		// 	//filterPlaceholder: "Radicado",
-		// 	//filter: true,
-		// 	//filterField: "dra_radicado",
-		// 	//showFilterMenu: false,
-		// 	style: { minWidth: "12rem" },
-		// },
-		// {
-		// 	fieldName: "dra_tipo_radicado",
-		// 	header: "Origen",
-		// 	sortable: true,
-		// 	filter: true,
-		// 	filterElement: statusRowFilterTemplate,
-		// 	showFilterMenu: false,
-		// 	style: { minWidth: "13rem" },
-		// 	renderCell: (row) => {
-		// 		const texto = radicadoTypesList(row?.dra_tipo_radicado);
-		// 		return texto?.lge_elemento_descripcion || "";
-		// 	},
-		// 	filterMenuStyle: { width: "14rem" },
-		// 	//filterField: "dra_tipo_radicado",
-		// },
-		// {
-		// 	fieldName: "dra_radicado_origen",
-		// 	header: "Fecha radicación",
-		// 	sortable: true,
-		// 	filter: true,
-		// 	filterElement: dateRowFilterTemplate,
-		// 	showFilterMenu: false,
-		// 	style: { minWidth: "15rem" },
-		// },
-		// {
-		// 	fieldName: "dra_fecha_radicado",
-		// 	header: "Fecha radicación",
-		// 	sortable: true,
-		// 	filter: true,
-		// 	filterElement: dateRowFilterTemplate,
-		// 	showFilterMenu: false,
-		// 	style: { minWidth: "15rem" },
-		// },
-		// {
-		// 	fieldName: "dra_fecha_entrada",
-		// 	header: "Fecha Entrada",
-		// 	sortable: true,
-		// 	filter: true,
-		// 	filterElement: dateRowFilterTemplate,
-		// 	showFilterMenu: false,
-		// 	filterPlaceholder: "DD/MM/AAAA",
-		// 	style: { minWidth: "15rem" },
-		// },
-		// {
-		// 	fieldName: "rn_radicado_remitente_to_entity.fullName",
-		// 	header: "Remitente",
-		// 	sortable: true,
-		// 	style: { minWidth: "10rem" },
-		// },
-		// {
-		// 	fieldName: "rn_radicado_destinatario_to_entity.fullName",
-		// 	header: "Destinatario",
-		// 	sortable: true,
-		// 	style: { minWidth: "10rem" },
-		// },
-		// {
-		// 	fieldName: "dra_tipo_asunto",
-		// 	header: "Tipo de documento",
-		// 	sortable: true,
-		// 	style: { minWidth: "6rem" },
-		// 	renderCell: (row) => {
-		// 		//TODO: cambiar al por los verdaderos tipos
-		// 		return "Tipo 1";
-		// 	},
-		// },
-		// {
-		// 	fieldName: "dra_referencia",
-		// 	header: "Referencia",
-		// 	sortable: true,
-		// },
-		// {
-		// 	fieldName: "dra_radicado_origen",
-		// 	header: "Radicado Origen",
-		// 	sortable: true,
-		// },
-		// {
-		// 	fieldName: "dra_fecha_radicado",
-		// 	header: "Tiempo",
-		// 	style: { minWidth: "8rem" },
-		// 	renderCell: (row) => {
-		// 		const dateRadicado = moment(
-		// 			row?.dra_fecha_radicado,
-		// 			"DD/MM/YYYY"
-		// 		);
-		// 		return <TimeElapsed fecha={dateRadicado} />;
-		// 	},
-		// },
-		// {
-		// 	fieldName: "dra_prioridad_asunto",
-		// 	header: "Prioridad",
-		// 	sortable: true,
-		// 	renderCell: (row) => {
-		// 		return (
-		// 			<IoWarningOutline
-		// 				color={COLORS[row.dra_prioridad_asunto]}
-		// 				size={35}
-		// 			/>
-		// 		);
-		// 	},
-		// },
-		// {
-		// 	fieldName: "check",
-		// 	header: "Acciones",
-		// 	style: { minWidth: "16rem" },
-		// 	renderCell: (row) => {
-		// 		return <SpeedDialCircle dialItems={items} />;
-		// 	},
-		// },
+		{
+			fieldName: "",
+			header: "Seleccione",
+			style: {
+				position: "relative",
+			},
+			filter: true,
+			filterElement: checkAllRowFilterTemplate,
+			showFilterMenu: false,
+			renderCell: (row) => {
+				//TODO: cambiar al original si el documento es vigente ó vencido
+				return (
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+						}}
+					>
+						<input
+							type="checkbox"
+							value={row?.dra_radicado}
+							checked={selectedCheckbox == row?.dra_radicado}
+							onChange={(e) => {
+								const data = {
+									dra_radicado: row?.dra_radicado,
+									dra_tipo_radicado: row?.dra_tipo_radicado,
+									dra_radicado_por: row?.dra_radicado_por,
+								};
+								return handleCheckboxChange(data, e);
+							}}
+						/>
+					</div>
+				);
+			},
+		},
+		{
+			fieldName: "dra_radicado",
+			header: "N.° Radicado",
+			sortable: true,
+			style: { minWidth: "12rem" },
+		},
+		{
+			fieldName: "dra_tipo_radicado",
+			header: "Origen",
+			sortable: true,
+			style: { minWidth: "13rem" },
+			renderCell: (row) => {
+				const texto = radicadoTypesList(row?.dra_tipo_radicado);
+				console.log(texto, "TEXTO");
+				return texto?.lge_elemento_descripcion || "";
+			},
+			//filterField: "dra_tipo_radicado",
+		},
+		{
+			fieldName: "dra_radicado_origen",
+			header: "Radicado Origen",
+			sortable: true,
+			style: { minWidth: "15rem" },
+		},
+		{
+			fieldName: "dra_fecha_radicado",
+			header: "Fecha radicación",
+			sortable: true,
+			style: { minWidth: "15rem" },
+		},
+		{
+			fieldName: "dra_tipo_asunto",
+			header: "Tipo documento",
+			sortable: true,
+			style: { minWidth: "15rem" },
+			renderCell: (row) => {
+				//TODO: cambiar al por los verdaderos tipos
+				return "Por definir Tipo Doc";
+			},
+		},
+		{
+			fieldName: "rn_radicado_remitente_to_entity.fullName",
+			header: "Remitente",
+			sortable: true,
+			style: { minWidth: "10rem" },
+		},
+		{
+			fieldName: "rn_radicado_destinatario_to_entity.fullName",
+			header: "Destinatario",
+			sortable: true,
+			style: { minWidth: "10rem" },
+		},
 	];
 
 	const nodesOptions = [
@@ -212,6 +157,9 @@ const MassiveProcesses = () => {
 	];
 
 	useEffect(() => {
+		get(`/generic-list/type-radicado-list`).then((data) => {
+			setRadicadoTypes(data);
+		});
 		setNodes(nodesOptions);
 	}, []);
 
@@ -219,8 +167,24 @@ const MassiveProcesses = () => {
 	 * Functions
 	 */
 
+	const radicadoTypesList = (code: string | number) =>
+		radicadoTypes.find((item) => {
+			return (
+				item.lge_agrupador == "TIPOS_RADICADOS" &&
+				item.lge_elemento_codigo == code
+			);
+		});
+
+	const handleCheckboxChange = (data, event) => {
+		setDataForModal(data);
+		setIsDisabledSelect(false);
+		setSelectedNodeKey("");
+		setSelectedCheckbox(event.target.value);
+		//setIsDisableSendButton(event.target.value ? false : true);
+	};
+
 	const getRadicadosByID = async (radicadoId: string) => {
-		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
+		const endpoint: string = `/radicado-details/massive-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
@@ -282,7 +246,7 @@ const MassiveProcesses = () => {
 								></TreeSelect>
 							</div>
 						</div>
-						<div style={{ width: "17rem" }}>
+						<div className="ml-20 mb-28" style={{ width: "17rem" }}>
 							<InputComponentOriginal
 								idInput="search"
 								typeInput="text"
@@ -309,21 +273,65 @@ const MassiveProcesses = () => {
 											marginLeft: "20px",
 										}}
 									>
-										<InputComponentOriginal
-											idInput="search"
-											typeInput="text"
-											className="input-basic background-textArea custom-placeholder"
-											label="Buscar documento en la bandeja:"
-											classNameLabel="text-black big custom-label"
-											direction={EDirection.column}
-											placeholder="Buscar"
-											onKeyPress={handleKeyPress}
-										/>
+										<div className="text-black big custom-label">
+											Buscar por fecha
+										</div>
+										<span className="p-input-icon-right">
+											<i
+												className="pi pi-calendar"
+												style={{
+													zIndex: "1000",
+													color: "#533893",
+												}}
+											/>
+											<Calendar
+												style={{ minWidth: "17rem" }}
+												inputId="date"
+												//value={options.value}
+												dateFormat="dd/mm/yy"
+												placeholder="DD/MM/AAAA"
+												onChange={(e) => {
+													const myDate: Date =
+														new Date(
+															e.value.toString()
+														);
+													console.log(
+														myDate,
+														"myDate"
+													);
+													const date = moment(myDate)
+														.format("DD/MM/YYYY")
+														.toString();
+													return date;
+												}}
+											/>
+										</span>
 									</div>
 								);
 							}}
 						/>
 					</div>
+				</div>
+				<div
+					className={`mt-22`}
+					style={{
+						display: "flex",
+						justifyContent: "flex-end",
+						gap: "2rem",
+					}}
+				>
+					<ButtonComponent
+						className={`button-main py-12 px-16 font-size-16`}
+						value="Volver a la bandeja"
+						type="button"
+						action={() => {}}
+					/>
+					<ButtonComponent
+						className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
+						value="Buscar"
+						type="button"
+						action={() => {}}
+					/>
 				</div>
 			</div>
 			{/**
