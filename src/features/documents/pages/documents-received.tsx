@@ -56,7 +56,6 @@ const DocumentsReceived = () => {
 			content: <AddRecipient data={data} onChange={onChange} />,
 			disabled: false,
 		},
-		,
 		{
 			id: 6,
 			name: "Asunto",
