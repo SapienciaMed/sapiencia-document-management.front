@@ -18,12 +18,20 @@ import RadicadosTray from "./features/documents/components/radicados-tray/radica
 import RecipientTray from "./features/documents/components/recipient-tray/recipient-tray";
 import RecipientTrayPage from "./features/recipient-tray/recipient-tray.page";
 import RadicadoMovements from "./features/documents/components/radicados-movements/radicado-movements";
+import MassiveProcesses from "./features/documents/components/massive-processes/massive-processes";
 
 function App() {
 	const { publish } = useAppCominicator();
 	const HomePage = lazy(() => import("./common/components/home.page"));
-	const MassiveIndex = lazy(() => import("./features/massive-index/pages/massive-index.page"));
-	const GeneralConfigurationPage = lazy( () => import( "./features/general-configuration/pages/general-configuration.page"));
+	const MassiveIndex = lazy(
+		() => import("./features/massive-index/pages/massive-index.page")
+	);
+	const GeneralConfigurationPage = lazy(
+		() =>
+			import(
+				"./features/general-configuration/pages/general-configuration.page"
+			)
+	);
 
 	useEffect(() => {
 		localStorage.setItem("currentAplication", process.env.aplicationId);
@@ -91,6 +99,12 @@ function App() {
 									"/gestion-documental/radicacion/bandeja-destinatarios"
 								}
 								element={<RecipientTray />}
+							/>
+							<Route
+								path={
+									"/gestion-documental/gestion/procesos-masivos"
+								}
+								element={<MassiveProcesses />}
 							/>
 						</Routes>
 					</Suspense>
