@@ -24,6 +24,7 @@ const MassiveProcesses = () => {
 	const [dataForModal, setDataForModal] = useState<any>({});
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [searchParam, setSearchParam] = useState<any>("");
+	const [calendarDate, setCalendarDate] = useState<any>(null);
 	const { authorization, setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
@@ -210,7 +211,7 @@ const MassiveProcesses = () => {
 			.join(", ");
 
 		//Solicitud Post
-		console.log(selectedRadicadosString, "SELECTEDDATA");
+		//console.log(selectedRadicadosString, "SELECTEDDATA");
 		await storeMassive(selectedRadicadosString);
 
 		//Mensaje de Exito
@@ -224,7 +225,9 @@ const MassiveProcesses = () => {
 			onOk: () => {
 				setMessage({});
 				//Llamar tabla
-				getRadicadosByID(searchParam);
+				!calendarDate
+					? getRadicadosByID(searchParam)
+					: getRadicadosByDate(searchParam);
 			},
 		});
 	};
@@ -260,6 +263,13 @@ const MassiveProcesses = () => {
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
 
+	const getRadicadosByDate = async (date: string) => {
+		console.log(date, "FECHA");
+		const endpoint: string = `/radicado-details/massive-by-date/${date}`;
+		const dataList = await get(`${endpoint}`);
+		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
+	};
+
 	const handleKeyPress = (e) => {
 		if (
 			e.key === "Enter" &&
@@ -282,6 +292,14 @@ const MassiveProcesses = () => {
 				);
 			};
 			getRadicadoList();
+		}
+	};
+
+	const handleFindByDate = (date) => {
+		if (date) {
+			setSearchParam(date);
+			setIsDisabledSelect(true);
+			getRadicadosByDate(date);
 		}
 	};
 
@@ -367,15 +385,13 @@ const MassiveProcesses = () => {
 														new Date(
 															e.value.toString()
 														);
-													console.log(
-														myDate,
-														"myDate"
-													);
 													const date = moment(myDate)
-														.format("DD/MM/YYYY")
+														.format("YYYY-MM-DD")
 														.toString();
-													return date;
+													setCalendarDate(date);
+													handleFindByDate(date);
 												}}
+												//onSelect={}
 											/>
 										</span>
 									</div>
