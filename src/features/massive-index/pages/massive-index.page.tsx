@@ -198,8 +198,8 @@ export default React.memo(() => {
             <ButtonComponent
               className="button-main huge hover-three"
               value="Volver a la bandeja"
-              type="button"
-              action={null}
+              type="route"
+              url={"/gestion-documental/radicacion/bandeja-radicado"}
             />
           </div>
         </div>

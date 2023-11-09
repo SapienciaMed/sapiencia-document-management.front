@@ -10,6 +10,8 @@ import AddRecipient from "../components/document-received/add-recipient";
 import Subject from "../components/document-received/subject";
 import OptionalFields from "../components/document-received/optional-fields";
 import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
+import "./documents-received.scss";
+
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({ prioridad: "2" });
@@ -56,15 +58,8 @@ const DocumentsReceived = () => {
 			content: <AddRecipient data={data} onChange={onChange} />,
 			disabled: false,
 		},
-		,
 		{
 			id: 6,
-			name: "Asunto",
-			content: <Subject data={data} onChange={onChange} />,
-			disabled: false,
-		},
-		{
-			id: 7,
 			name: "Campos Opcionales",
 			content: <OptionalFields />,
 			disabled: false,
@@ -90,6 +85,61 @@ const DocumentsReceived = () => {
 				</div>
 			</div>
 			<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
+
+				<ButtonComponent
+					className="button-main huge hover-three"
+					value="Volver a la bandeja"
+					type="button"
+					action={null}
+				/>
+				<ButtonComponent
+					className="button-main huge hover-three buttonThird"
+					value="Cancelar"
+					type="button"
+					action={null}
+				/>
+				<ButtonComponent
+					className="button-main huge hover-three buttonDisableDM"
+					value="Guardar y continuar"
+					type="button"
+					action={null}
+					disabled={true}
+				/>
+			</div>
+			<div className="main-page container-docs-received">
+				<div className="card-table shadow-none">
+					<div className="title-area">
+						<div className="text-black extra-large bold">
+							Asunto
+						</div>
+					</div>
+					<Subject data={data} onChange={onChange} />
+				</div>
+			</div>
+			<div className="main-page container-docs-received">
+				<div className="card-table shadow-none">
+					<div className="title-area">
+						<div className="text-black extra-large bold center-txt">
+							Indexar un nuevo documento
+						</div>
+					</div>
+					<div className="buttonContent">
+						<ButtonComponent
+							className="button-main huge hover-three buttonSecondary"
+							value="Indexar un nuevo archivo"
+							type="button"
+							action={null}
+						/>
+						<ButtonComponent
+							className="button-main huge hover-three"
+							value="Generar sticker "
+							type="button"
+							action={null}
+						/>
+					</div>
+				</div>
+			</div>
+			<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
 				<ButtonComponent
 					className="button-main huge hover-three"
 					value="Volver a la bandeja"
@@ -98,8 +148,8 @@ const DocumentsReceived = () => {
 				/>
 
 				<ButtonComponent
-					className="button-main huge hover-three"
-					value="Guardar"
+					className="button-main huge hover-three buttonDisableDM"
+					value="Finalizar"
 					type="button"
 					action={null}
 					disabled={true}
