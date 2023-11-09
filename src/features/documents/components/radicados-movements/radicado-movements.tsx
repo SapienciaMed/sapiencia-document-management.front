@@ -2,31 +2,24 @@ import React, { useEffect, useState } from "react";
 import {
 	ButtonComponent,
 	FormComponent,
-	InputComponentOriginal,
 } from "../../../../common/components/Form";
-import { EDirection } from "../../../../common/constants/input.enum";
 import styles from "./styles.module.scss";
-import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
-import { MenuItem } from "primereact/menuitem";
 import { Tooltip } from "primereact/tooltip";
-import * as IconsIo5 from "react-icons/io5";
 import * as IconsFi from "react-icons/fi";
 import * as IconsBs from "react-icons/bs";
 import * as IconsAi from "react-icons/ai";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
-import { Dialog } from "primereact/dialog";
 import ActivateReverseDocuments from "./activate-reverse-documents";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
-import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
-import { InputTextNumberComponent } from "../input-text-number";
 import { Link } from "react-router-dom";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 import { FilterMatchMode } from "primereact/api";
+import CommentsById from "./comments";
 
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
@@ -36,7 +29,8 @@ const RadicadoMovements = () => {
 	const [movementsList, setMovementsList] = useState<any>([]);
 	const [isActivateModal, setIsActivateModal] = useState<boolean>(false);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
-	const [isReverseModal, setIsReverseModal] = useState<boolean>(false);
+	const [isActivateModalComment, setIsActivateModalComment] =
+		useState<boolean>(false);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [dataForModal, setDataForModal] = useState<any>({});
 	const [filters, setFilters] = useState({
@@ -150,10 +144,11 @@ const RadicadoMovements = () => {
 											className="p-speeddial-action ver-comentario"
 											data-pr-tooltip="Ver comentario"
 											onClick={() => {
-												console.log(
-													row.dra_radicado,
-													"ver comentario"
-												);
+												setDataForModal({
+													dra_radicado:
+														row?.dra_radicado,
+												});
+												setIsActivateModalComment(true);
 											}}
 										>
 											<IconsBs.BsChat className="button grid-button button-link" />
@@ -409,6 +404,14 @@ const RadicadoMovements = () => {
 				visible={isActivateModal}
 				typeModal={typeModal}
 				dataForModal={dataForModal}
+			/>
+			<CommentsById
+				title="Comentarios"
+				onCloseModal={() => {
+					setIsActivateModalComment(false);
+				}}
+				visible={isActivateModalComment}
+				radicado={dataForModal.dra_radicado}
 			/>
 		</>
 	);
