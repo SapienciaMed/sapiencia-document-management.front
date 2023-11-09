@@ -10,7 +10,12 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextNumberComponent } from "../input-text-number";
 
-const OptionalFields = () => {
+interface IProps {
+	onChange: (data: any) => void,
+	data: any
+}
+
+const OptionalFields = ({ data: allData, onChange }: IProps) => {
 	const schema = yup.object({
 		observaciones: yup.string().max(2000).optional(),
 		numero_anexos: yup
@@ -33,7 +38,10 @@ const OptionalFields = () => {
 	} = useForm<IOptionalFieldsForm>({
 		resolver: yupResolver(schema),
 		mode: "all",
+		defaultValues: { ...allData },
 	});
+
+
 	return (
 		<>
 			<FormComponent action={null}>

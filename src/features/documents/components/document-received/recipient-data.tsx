@@ -72,14 +72,22 @@ const RecipientData = ({ data, onChange }: IProps) => {
 			setGeographicData(data);
 		});
 
-		getApiAuth(`/api/v1/dependency`).then((response: any) => {
-			setDependencies(response.data);
-		});
+		// getApiAuth(`/api/v1/dependency`).then((response: any) => {
+		// 	setDependencies(response.data);
+		// });
 
-		getApiAuth(`/api/v1/charge`).then((response: any) => {
-			setCharges(response.data);
-		});
+		// getApiAuth(`/api/v1/charge`).then((response: any) => {
+		// 	setCharges(response.data);
+		// });
 	}, []);
+
+	useEffect(() => {
+		if (data && data?.dirigido_a) {
+			setValue('dirigido_a', data?.dirigido_a)
+			onBlurData()
+			console.log('calling onBlurdata')
+		}
+	}, [])
 
 	const elementoBuscado = (agrupador: string, codigo: string | number) =>
 		geographicData.find((item) => {
@@ -496,30 +504,30 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											</>
 										),
 									},
-									{
-										fieldName: "usr_dependencia",
-										header: "Dependencia",
-										renderCell: (row) => (
-											<>
-												{dependencies?.find(
-													(d) =>
-														d.id ==
-														row.usr_dependencia
-												)?.description || ""}
-											</>
-										),
-									},
-									{
-										fieldName: "usr_cargo",
-										header: "Cargo",
-										renderCell: (row) => (
-											<>
-												{charges?.find(
-													(c) => c.id == row.usr_cargo
-												)?.description || ""}
-											</>
-										),
-									},
+									// {
+									// 	fieldName: "usr_dependencia",
+									// 	header: "Dependencia",
+									// 	renderCell: (row) => (
+									// 		<>
+									// 			{dependencies?.find(
+									// 				(d) =>
+									// 					d.id ==
+									// 					row.usr_dependencia
+									// 			)?.description || ""}
+									// 		</>
+									// 	),
+									// },
+									// {
+									// 	fieldName: "usr_cargo",
+									// 	header: "Cargo",
+									// 	renderCell: (row) => (
+									// 		<>
+									// 			{charges?.find(
+									// 				(c) => c.id == row.usr_cargo
+									// 			)?.description || ""}
+									// 		</>
+									// 	),
+									// },
 								]}
 								data={addressees}
 							/>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -101,6 +101,7 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 		const data = await get(`${endpoint}`);
 		return data;
 	};
+
 
 	return (
 		<FormComponent action={undefined}>

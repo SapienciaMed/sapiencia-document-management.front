@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { ButtonComponent } from "../../../common/components/Form";
 import AccordionsComponent from "../../../common/components/accordions.component";
 import { IAccordionTemplate } from "../../../common/interfaces/accordions.interfaces";
@@ -12,22 +12,84 @@ import OptionalFields from "../components/document-received/optional-fields";
 import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 import "./documents-received.scss";
 import MassiveFileUploader from "../components/document-received/index-file";
-import { Dialog } from "primereact/dialog";
+import { Dialog } from "primereact/dialog";	
 import RadicadoSticker from "../components/radicado-sticker";
+import useCrudService from "../../../common/hooks/crud-service.hook";
+import moment from "moment";
+import { AppContext } from "../../../common/contexts/app.context";
 
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
-	const [data, setData] = useState<any>({ prioridad: "2" });
+	const [data, setData] = useState<any>({
+		prioridad: "2"
+	});
 	const [hideElement, setHideElement] = useState<boolean>(false);
 	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
 	const [hideModalIndex, setHideModalIndex] = useState<boolean>(false);
 	const [visiblemodal, setVisibleModal] = useState<boolean>(false);
+	const baseURL: string =
+	process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+	const { get, post } = useCrudService(baseURL);
+	const { authorization } = useContext(AppContext);
+
+	useEffect(() => {
+		getRadicadoIncompleto();
+	}, [])
+
+	const getRadicadoIncompleto = () => {
+		get(`/radicado-details/find-by-create-by/${JSON.parse(localStorage.getItem('credentials'))?.numberDocument}`).then((data: any) => {
+			if (JSON.stringify(data?.radicado) !== '{}') {
+				setData({
+					...data,
+					radicado: data?.radicado?.DRA_RADICADO,
+					radicado_origen: Number(data?.radicado?.DRA_RADICADO_ORIGEN) || 0,
+					fecha_origen: moment(data?.radicado?.DRA_FECHA_RADICADO).format("DD/MM/YYYY").toString(),
+					radicado_por: data?.radicado?.DRA_RADICADO_POR,
+					enviado_por: data?.radicado?.DRA_ID_REMITENTE.trim() || '',
+					codigo_asunto: data?.radicado?.DRA_CODIGO_ASUNTO || '',
+					tipo: data?.radicado?.DRA_TIPO_ASUNTO,
+					prioridad: String(data?.radicado?.DRA_PRIORIDAD.trim()) || null,
+					dirigido_a: data?.radicado?.DRA_ID_DESTINATARIO.trim() || '',
+					copias: data?.copias,
+					observaciones: data?.radicado?.DRA_OBSERVACION,
+					numero_anexos: data?.radicado?.DRA_NUM_ANEXOS,
+					numero_folios: data?.radicado?.DRA_NUM_FOLIOS,
+					numero_cajas: data?.radicado?.DRA_NUM_CAJAS,
+				})
+
+				setHideElement(true);
+				setHideButtonsSave(false);
+			}
+		});
+	}
 
 	useBreadCrumb({ isPrimaryPage: true, name: "Documento recibido", url: "/gestion-documental/radicacion/documento-recibido" });
 
 	const handleSave = () => {
-		setHideElement(true);
-		setHideButtonsSave(false);
+		post(`/radicado-details/create`, {
+			"DRA_FECHA_RADICADO": moment(new Date()).format("YYYY-MM-DD").toString() ,
+			"DRA_TIPO_RADICADO": 1,
+			"DRA_RADICADO_ORIGEN": data.radicado_origen || '',
+			"DRA_RADICADO_POR": data.radicado_por || '',
+			"DRA_NOMBRE_RADICADOR": `${ authorization.user.names + " " + authorization.user.lastNames }` || '',
+			"DRA_ID_REMITENTE": data.enviado_por || '',
+			"DRA_ID_DESTINATARIO": data.dirigido_a || '',
+			"DRA_CODIGO_ASUNTO": data.codigo_asunto || 1,
+			"DRA_TIPO_ASUNTO": 1,
+			"DRA_PRIORIDAD_ASUNTO": 1,
+			"DRA_OBSERVACION": data.observaciones || '',
+			"DRA_NUM_ANEXOS": data.numero_anexos || 0,
+			"DRA_NUM_FOLIOS": data.numero_folios || 0,
+			"DRA_NUM_CAJAS": data.numero_cajas || 0,
+			"DRA_USUARIO": authorization.user.numberDocument || '',
+			"DRA_TIPO_DOCUMENTO_RADICADO": "Recibido",
+			"DRA_PRIORIDAD": data.prioridad || '',
+			"DRA_CREADO_POR": authorization.user.numberDocument || '',
+			"DRA_ESTADO": "INCOMPLETO",
+			"copies": data?.add_recipient_data?.map((r) => { return {RCD_ID_DESTINATARIO: r.ent_numero_identidad} }) || []
+		}).then(() => {
+			getRadicadoIncompleto()
+		});
 	}
 
 
@@ -75,7 +137,7 @@ const DocumentsReceived = () => {
 		{
 			id: 6,
 			name: "Campos Opcionales",
-			content: <OptionalFields />,
+			content: <OptionalFields data={data} onChange={onChange} />,
 			disabled: false,
 		},
 	];

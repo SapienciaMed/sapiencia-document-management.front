@@ -26,6 +26,7 @@ const AddRecipientCopyForm = ({
 	onHideCreateForm,
 	geographicData,
 	chargingNewData,
+	loadedData
 }) => {
 	const [data, setData] = useState<any>([])
 	const [showTable, setShowTable] = useState(false)
@@ -58,6 +59,31 @@ const AddRecipientCopyForm = ({
 		resolver: yupResolver(schemaFindSender),
 		mode: "all",
 	});
+
+	useEffect(() => {
+		console.log('loadedData', loadedData)
+		if (loadedData && loadedData?.copias?.length > 0) {
+			const endpoint: string = `/entities/search`;
+			let params = '';
+			params += `&ent_tipo_documento=` 
+			params += `&ent_numero_identidad=` 
+			params += `&ent_nombres=`
+
+			get(`${endpoint}?${params}`).then((rd: any) => {
+				const copies = []
+				console.log(loadedData.copias)
+				rd.data.map((d) => {
+					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.ent_numero_identidad )) {
+						copies.push(d)
+					}
+				})
+
+				setData(copies)
+				chargingNewData(copies)
+
+			});
+		}
+	}, [])
 
 	const search = async () => {
 		const endpoint: string = `/entities/search`;

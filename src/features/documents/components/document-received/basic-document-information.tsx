@@ -60,6 +60,15 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		mode: "all",
 	});
 
+
+	useEffect(() => {
+		if (data && data?.enviado_por) {
+			onBlurData()
+			setValue("tipo", data?.tipo)
+			setValue("prioridad", data?.prioridad)
+		}
+	}, [])
+
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
 		setSelectedSubject(idAsunto)

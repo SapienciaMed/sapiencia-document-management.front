@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FormComponent, InputComponentOriginal, SelectComponent } from "../../../common/components/Form";
 import { EDirection } from "../../../common/constants/input.enum";
 import { useForm } from "react-hook-form";
 import { IGeneralConfiguration, } from "../interfaces/GeneralConfigurationInterfaces";
 import copyIcon from "../../../public/images/icons/copy.png";
+import { Toast } from "primereact/toast";
 
 interface IProps {
   onChange: (data: any) => void,
@@ -19,9 +20,12 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
     mode: "all",
   });
 
+  const toast = useRef<Toast>(null);
+
 
   const copy = (text: string) => {
     navigator.clipboard.writeText(text);
+    toast.current.show({ severity: 'success', summary: '', detail: 'Copiado con éxito' });
   }
   
   return (
@@ -44,6 +48,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
             disabled
           />
           <div style={{ position: 'relative'}}>
+            <Toast ref={toast} />
             <img onClick={() => copy(data.route_creator_path)} style={{ position: 'absolute', marginLeft: '-25px', marginTop: '6px', cursor: 'pointer'  }} width={15} src={copyIcon} />
           </div>
         </div>
@@ -61,6 +66,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
             disabled
           />
           <div style={{ position: 'relative'}}>
+            <Toast ref={toast} />
             <img onClick={() => copy(data.pdf_temporary_path)} style={{ position: 'absolute', marginLeft: '-25px', marginTop: '6px', cursor: 'pointer'  }} width={15} src={copyIcon} />
           </div>
         </div>

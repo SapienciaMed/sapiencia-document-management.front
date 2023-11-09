@@ -46,6 +46,16 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const [editData, setEditData] = useState<any>([]);
 	const [visibleEditForm, setVisibleEditForm] = useState<boolean>(false);
 
+
+	useEffect(() => {
+		console.log('allData', allData)
+		if (allData && allData?.enviado_por) {
+			setValue('enviado_por', allData?.enviado_por)
+			onBlurData()
+			console.log('calling onBlurdata')
+		}
+	}, [])
+
 	const columnSenderTable = [
 		{
 			fieldName: "check",
@@ -249,6 +259,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
+
+		console.log('idNumber', idNumber)
 
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {

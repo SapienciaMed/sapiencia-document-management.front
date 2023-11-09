@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
 	InputComponent,
 } from "../../../../common/components/Form";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 import { FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
@@ -17,6 +18,7 @@ interface IProps {
 }
 
 const AddRecipient = ({ data: payload, onChange }: IProps) => {
+	const { setMessage } = useContext(AppContext);
 	const [show, setShow] = useState(false);
 	const [data, setData] = useState<any>([]);
 
@@ -24,6 +26,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 		if (payload.add_recipient_data) {
 			setData(payload.add_recipient_data)
 		}
+
 	}, [])
 
 	const newData = (newData: any[]) => {
@@ -31,12 +34,31 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 		const d = Array.from(new Set(mergeData.map(m => m.ent_numero_identidad))).map(ent_numero_identidad => mergeData.find(obj => obj.ent_numero_identidad === ent_numero_identidad))
 		setData(d);
 		onChange({ ...payload, add_recipient_data: d})
+
 	}
 
 	const remove = (ent_numero_identidad: string) => {
-		const d = data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad)
-		setData(d)
-		onChange({ ...payload, add_recipient_data: d})
+		setMessage({
+			title: "Eliminar copia destinatario",
+			description:
+				"¿Esta seguro que desea  eliminar el destinatario en copia?",
+			show: true,
+			background: true,
+			okTitle: "Aceptar",
+			cancelTitle: "Cancelar",
+			style: "z-index-1300",
+			onOk: () => {
+				const d = data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad)
+				setData(d)
+				onChange({ ...payload, add_recipient_data: d})
+				setMessage({});
+			},
+			onCancel: () => {
+				setMessage({});
+			},
+		});
+
+		
 	}
 
 	return (
@@ -58,6 +80,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 				onHideCreateForm={() =>  setShow(false) }
 				geographicData={() => {} }
 				chargingNewData={newData}
+				loadedData={payload}
 			/>
 			
 
