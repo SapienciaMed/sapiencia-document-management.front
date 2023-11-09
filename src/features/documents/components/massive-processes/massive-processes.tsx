@@ -13,6 +13,7 @@ import { Calendar } from "primereact/calendar";
 import moment from "moment";
 import styles from "./styles.module.scss";
 import { AppContext } from "../../../../common/contexts/app.context";
+import { Link } from "react-router-dom";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 
 const MassiveProcesses = () => {
@@ -31,7 +32,11 @@ const MassiveProcesses = () => {
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
 
-	useBreadCrumb({ isPrimaryPage: true, name: "Procesos masivos de documentos", url: "/gestion-documental/gestion/procesos-masivos" });
+	useBreadCrumb({
+		isPrimaryPage: true,
+		name: "Procesos masivos de documentos",
+		url: "/gestion-documental/gestion/procesos-masivos",
+	});
 
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -227,6 +232,7 @@ const MassiveProcesses = () => {
 			style: "z-index-2300",
 			onOk: () => {
 				setMessage({});
+				setIsDisabledSelect(true);
 				//Llamar tabla
 				!calendarDate
 					? getRadicadosByID(searchParam)
@@ -350,57 +356,103 @@ const MassiveProcesses = () => {
 								placeholder="Buscar"
 								onKeyPress={handleKeyPress}
 							/>
-						</div>
-						<TableExpansibleDialComponent
-							columns={columnMassiveTable}
-							data={radicadosList}
-							tableTitle=""
-							filters={filters}
-							filterDisplay={"row"}
-							scrollable={true}
-							renderTitle={() => {
-								return (
-									<div
-										style={{
-											marginTop: "-40px",
-											marginLeft: "20px",
-										}}
-									>
-										<div className="text-black big custom-label">
-											Buscar por fecha
-										</div>
-										<span className="p-input-icon-right">
-											<i
-												className="pi pi-calendar"
-												style={{
-													zIndex: "1000",
-													color: "#533893",
-												}}
-											/>
-											<Calendar
-												style={{ minWidth: "17rem" }}
-												inputId="date"
-												//value={options.value}
-												dateFormat="dd/mm/yy"
-												placeholder="DD/MM/AAAA"
-												onChange={(e) => {
-													const myDate: Date =
-														new Date(
-															e.value.toString()
-														);
-													const date = moment(myDate)
-														.format("YYYY-MM-DD")
-														.toString();
-													setCalendarDate(date);
-													handleFindByDate(date);
-												}}
-												//onSelect={}
-											/>
-										</span>
+							{!radicadosList.length && (
+								<div style={{ marginTop: "20px" }}>
+									<div className="text-black big custom-label">
+										Buscar por fecha
 									</div>
-								);
-							}}
-						/>
+									<span className="p-input-icon-right">
+										<i
+											className="pi pi-calendar"
+											style={{
+												zIndex: "1000",
+												color: "#533893",
+											}}
+										/>
+										<Calendar
+											style={{
+												minWidth: "17rem",
+											}}
+											inputId="date"
+											//value={options.value}
+											dateFormat="dd/mm/yy"
+											placeholder="DD/MM/AAAA"
+											onChange={(e) => {
+												const myDate: Date = new Date(
+													e.value.toString()
+												);
+												const date = moment(myDate)
+													.format("YYYY-MM-DD")
+													.toString();
+												setCalendarDate(date);
+												handleFindByDate(date);
+											}}
+											//onSelect={}
+										/>
+									</span>
+								</div>
+							)}
+						</div>
+						{radicadosList.length != 0 ? (
+							<TableExpansibleDialComponent
+								columns={columnMassiveTable}
+								data={radicadosList}
+								tableTitle=""
+								filters={filters}
+								filterDisplay={"row"}
+								scrollable={true}
+								renderTitle={() => {
+									return (
+										<div
+											style={{
+												marginTop: "-40px",
+												marginLeft: "20px",
+											}}
+										>
+											<div className="text-black big custom-label">
+												Buscar por fecha
+											</div>
+											<span className="p-input-icon-right">
+												<i
+													className="pi pi-calendar"
+													style={{
+														zIndex: "1000",
+														color: "#533893",
+													}}
+												/>
+												<Calendar
+													style={{
+														minWidth: "17rem",
+													}}
+													inputId="date"
+													//value={options.value}
+													dateFormat="dd/mm/yy"
+													placeholder="DD/MM/AAAA"
+													onChange={(e) => {
+														const myDate: Date =
+															new Date(
+																e.value.toString()
+															);
+														const date = moment(
+															myDate
+														)
+															.format(
+																"YYYY-MM-DD"
+															)
+															.toString();
+														setCalendarDate(date);
+														handleFindByDate(date);
+													}}
+													//onSelect={}
+												/>
+											</span>
+										</div>
+									);
+								}}
+							/>
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 				<div
@@ -411,12 +463,13 @@ const MassiveProcesses = () => {
 						gap: "2rem",
 					}}
 				>
-					<ButtonComponent
-						className={`button-main py-12 px-16 font-size-16`}
-						value="Volver a la bandeja"
-						type="button"
-						action={() => {}}
-					/>
+					<Link
+						className={`button-main py-12 px-16 font-size-16 ${styles.btnPurpleText}`}
+						to={"/gestion-documental/radicacion/bandeja-radicado"}
+					>
+						Volver a la Bandeja
+					</Link>
+
 					<ButtonComponent
 						className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
 						value="Evacuar"
