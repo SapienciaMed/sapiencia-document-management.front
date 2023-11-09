@@ -11,11 +11,23 @@ import Subject from "../components/document-received/subject";
 import OptionalFields from "../components/document-received/optional-fields";
 import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 import "./documents-received.scss";
+import MassiveFileUploader from "../components/document-received/index-file";
+import { Dialog } from "primereact/dialog";
 
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({ prioridad: "2" });
+	const [hideElement, setHideElement] = useState<boolean>(false);
+	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
+	const [hideModalIndex, setHideModalIndex] = useState<boolean>(false);
 	useBreadCrumb({ isPrimaryPage: true, name: "Documento recibido", url: "/gestion-documental/radicacion/documento-recibido" });
+
+	const handleSave = () => {
+		setTimeout(() => { alert("Guardado") }, 2000)
+		setHideElement(true);
+		setHideButtonsSave(false);
+	}
+
 
 	const onChange = async (newData: any) => {
 		try {
@@ -84,7 +96,32 @@ const DocumentsReceived = () => {
 					/>
 				</div>
 			</div>
-			<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
+			<div>
+				<Dialog
+					visible={hideModalIndex}
+					style={{ width: "100%", maxWidth: "1280px" }}
+					header="Indexación Masiva"
+					onHide={() => setHideModalIndex(false)}
+					className="p-fluid"
+				>
+					<MassiveFileUploader
+						handleUpload={() => { }}
+					/>
+				</Dialog>
+			</div>
+			<div>
+				<Dialog
+					visible={hideModalIndex}
+					style={{ width: "100%", maxWidth: "1280px" }}
+					header="Indexación Masiva"
+					onHide={() => setHideModalIndex(false)}
+					className="p-fluid"
+				>
+					
+				</Dialog>
+			</div>
+
+			{hideButtonsSave && <><div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
 
 				<ButtonComponent
 					className="button-main huge hover-three"
@@ -102,11 +139,11 @@ const DocumentsReceived = () => {
 					className="button-main huge hover-three buttonDisableDM"
 					value="Guardar y continuar"
 					type="button"
-					action={null}
-					disabled={true}
+					action={handleSave}
+				//disabled={true}
 				/>
-			</div>
-			<div className="main-page container-docs-received">
+			</div></>}
+			{hideElement && <><div className="main-page container-docs-received">
 				<div className="card-table shadow-none">
 					<div className="title-area">
 						<div className="text-black extra-large bold">
@@ -116,45 +153,46 @@ const DocumentsReceived = () => {
 					<Subject data={data} onChange={onChange} />
 				</div>
 			</div>
-			<div className="main-page container-docs-received">
-				<div className="card-table shadow-none">
-					<div className="title-area">
-						<div className="text-black extra-large bold center-txt">
-							Indexar un nuevo documento
+				<div className="main-page container-docs-received">
+					<div className="card-table shadow-none">
+						<div className="title-area-second">
+							<div className="text-black extra-large bold center-txt">
+								Indexar un nuevo archivo
+							</div>
+						</div>
+						<div className="buttonContent">
+							<ButtonComponent
+								className="button-main huge hover-three buttonSecondary"
+								value="Indexar un nuevo archivo"
+								type="button"
+								action={() => { setHideModalIndex(true) }}
+							/>
+							<ButtonComponent
+								className="button-main huge hover-three"
+								value="Generar sticker "
+								type="button"
+								action={null}
+							/>
 						</div>
 					</div>
-					<div className="buttonContent">
-						<ButtonComponent
-							className="button-main huge hover-three buttonSecondary"
-							value="Indexar un nuevo archivo"
-							type="button"
-							action={null}
-						/>
-						<ButtonComponent
-							className="button-main huge hover-three"
-							value="Generar sticker "
-							type="button"
-							action={null}
-						/>
-					</div>
 				</div>
-			</div>
-			<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
-				<ButtonComponent
-					className="button-main huge hover-three"
-					value="Volver a la bandeja"
-					type="button"
-					action={null}
-				/>
 
-				<ButtonComponent
-					className="button-main huge hover-three buttonDisableDM"
-					value="Finalizar"
-					type="button"
-					action={null}
-					disabled={true}
-				/>
-			</div>
+				<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
+					<ButtonComponent
+						className="button-main huge hover-three"
+						value="Volver a la bandeja"
+						type="button"
+						action={null}
+					/>
+
+					<ButtonComponent
+						className="button-main huge hover-three buttonDisableDM"
+						value="Finalizar"
+						type="button"
+						action={null}
+						disabled={true}
+					/>
+				</div></>}
 		</div>
 	);
 };

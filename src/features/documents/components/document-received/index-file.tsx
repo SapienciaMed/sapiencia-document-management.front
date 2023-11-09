@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Button } from 'primereact/button';
 import { Tooltip } from "primereact/tooltip";
 import { clip } from "../../../../common/components/icons/clip";
@@ -9,17 +9,113 @@ import "./MassiveFileUploader.css";
 
 
 const MassiveFileUploader = ({
-  files,
-  handleFileSelect,
-  handleFileRemove,
-  handleRemoveAll,
-  handleUpload,
-  handleDragOver,
-  handleDrop,
-  inputRef,
+    handleUpload,
 }) => {
+    const [files, setFiles] = useState<File[]>([]);
+    //const { setMessage } = useContext(AppContext);
+    const inputRef = useRef<HTMLInputElement>(null);
+    //const classes = `${styles.container} spc-common-table expansible card-table massive-index`;
+    //const classesUpload = `${styles.fileMassive} files`;
 
-    const handleClick = () => {
+    const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newFiles = Array.from(event.target.files as FileList).filter(
+          (file) => file.type === "application/pdf"
+        );
+        setFiles([...files, ...newFiles]);
+      };
+    
+      const handleFileRemove = (file: File) => {
+        const updatedFiles = files.filter((f) => f !== file);
+        setFiles(updatedFiles);
+    
+        if (inputRef.current) {
+          inputRef.current.value = '';
+        }
+      };
+    
+      const handleRemoveAll = () => {
+        setFiles([]);
+        if (inputRef.current) {
+          inputRef.current.value = '';
+        }
+      };
+    
+      /*const handleUpload = async () => {
+        try {
+          if (files.length === 0) {
+            alert("No hay archivos para subir.");
+            return;
+          }
+    
+          const apiUrl = 'https://sapiencia-document-management-api-ukyunq2uxa-uc.a.run.app/api/v1/document-management/radicado-details/massiveIndexing';
+    
+          const promises = files.map(async (file) => {
+            try {
+              const formData = new FormData();
+              formData.append('files', file);
+    
+              const response = await axios.post(apiUrl, formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+    
+              console.log(`Archivo ${file.name} cargado con éxito. Respuesta de la API:`, response.data);
+    
+              return { file, success: true };
+            } catch (error) {
+              setMessage({
+                title: "Error",
+                description: `El número de radicado ${file.name} no se encuentra, por favor verifique`,
+                show: true,
+                background: true,
+                okTitle: "Aceptar",
+                onOk: () => {
+                  setMessage({});
+                }
+              });
+              console.error(`Error al cargar el archivo: ${file.name}`, error);
+              return { file, success: false };
+            }
+          });
+    
+          const results = await Promise.all(promises);
+    
+          const uploadedFiles = results.filter(result => result.success).map(result => result.file.name);
+    
+          if (uploadedFiles.length > 0) {
+            setMessage({
+              title: "Carga exitosa",
+              description: `Los siguientes archivos se cargaron con éxito: ${uploadedFiles.join(", ")}`,
+              show: true,
+              background: true,
+              okTitle: "Aceptar",
+              onOk: () => {
+                setMessage({});
+              }
+            });
+          }
+    
+          setFiles([]); // Limpiar los archivos después de la carga
+        } catch (error) {
+    
+          console.error('Error al cargar archivos:', error);
+        }
+      };*/
+    
+      const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+      };
+    
+      const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const newFiles = Array.from(event.dataTransfer.files).filter(
+          (file) => file.type === "application/pdf"
+        );
+        setFiles([...files, ...newFiles]);
+      };
+    
+      const handleClick = () => {
         const inputField = document.querySelector(".input-field") as HTMLInputElement;
         inputField.click();
     
@@ -84,7 +180,7 @@ const MassiveFileUploader = ({
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </div>
         </>
