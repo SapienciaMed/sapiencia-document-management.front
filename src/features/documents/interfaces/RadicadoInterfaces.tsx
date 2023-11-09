@@ -107,3 +107,11 @@ interface IOptionalFieldsForm {
 	numero_folios: number;
 	numero_cajas: number;
 }
+
+interface ICommentsById {
+	radicado: string;
+	title: string;
+	onCloseModal: () => void;
+	visible: boolean;
+	//dataForModal: any;
+}

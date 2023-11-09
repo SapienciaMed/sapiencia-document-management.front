@@ -322,28 +322,7 @@ const MassiveProcesses = () => {
 								Bandeja de Radicación
 								<div>Procesos masivos de documentos</div>
 							</div>
-							<div>
-								<TreeSelect
-									value={selectedNodeKey}
-									// onChange={(e: TreeSelectChangeEvent) => {
-									// 	setSelectedNodeKey(e.value);
-									// 	if (e.value == REVERSE) {
-									// 		setTypeModal(REVERSE);
-									// 		setIsOpenModal(true);
-									// 	}
-
-									// 	if (e.value == ACTIVATE) {
-									// 		setTypeModal(ACTIVATE);
-									// 		setIsOpenModal(true);
-									// 	}
-									// }}
-									options={nodes}
-									className="md:w-20rem w-full"
-									placeholder="Seleccionar"
-									style={{ width: "16.75rem" }}
-									//disabled={isDisabledSelect}
-								></TreeSelect>
-							</div>
+							<div></div>
 						</div>
 						<div className="ml-20 mb-28" style={{ width: "17rem" }}>
 							<InputComponentOriginal
