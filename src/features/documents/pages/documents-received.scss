@@ -1,0 +1,28 @@
+.center-txt{
+    text-align: center;
+}
+.buttonContent {
+    display: flex;
+    justify-content: center;
+    column-gap: 63px;
+    margin-top: 60px;
+}
+.buttonSecondary{
+    max-width: 260px;
+    background-color: transparent;
+    color: #000;
+    border: solid 1px #000;
+}
+.buttonThird{
+    background-color: transparent;
+    color: #000;
+    border: solid 1px #000;
+}
+.buttonDisableDM:disabled{
+    background-color: #e2e2e2 !important;
+    color: #000;
+}
+.buttonSecondary:hover, .buttonThird:hover{
+    background-color: #533893;
+    color: #fff;
+}
