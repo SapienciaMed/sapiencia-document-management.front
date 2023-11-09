@@ -13,6 +13,7 @@ import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 import "./documents-received.scss";
 import MassiveFileUploader from "../components/document-received/index-file";
 import { Dialog } from "primereact/dialog";
+import RadicadoSticker from "../components/radicado-sticker";
 
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
@@ -20,10 +21,11 @@ const DocumentsReceived = () => {
 	const [hideElement, setHideElement] = useState<boolean>(false);
 	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
 	const [hideModalIndex, setHideModalIndex] = useState<boolean>(false);
+	const [visiblemodal, setVisibleModal] = useState<boolean>(false);
+
 	useBreadCrumb({ isPrimaryPage: true, name: "Documento recibido", url: "/gestion-documental/radicacion/documento-recibido" });
 
 	const handleSave = () => {
-		setTimeout(() => { alert("Guardado") }, 2000)
 		setHideElement(true);
 		setHideButtonsSave(false);
 	}
@@ -99,26 +101,45 @@ const DocumentsReceived = () => {
 			<div>
 				<Dialog
 					visible={hideModalIndex}
-					style={{ width: "100%", maxWidth: "1280px" }}
-					header="Indexación Masiva"
+					style={{ width: "100%", maxWidth: "690px" }}
+					header="Indexar archivo"
 					onHide={() => setHideModalIndex(false)}
-					className="p-fluid"
-				>
+					pt={{
+						headerTitle: {
+							className: "text-title-modal text--black text-center",
+						},
+						closeButtonIcon: {
+							className: "color--primary close-button-modal",
+						},
+					}}>
 					<MassiveFileUploader
 						handleUpload={() => { }}
 					/>
+					<div className="mt-10 flex flex-center">
+					<ButtonComponent
+						className={`button-main buttonTop py-12 px-16 font-size-16`}
+						value="Cancelar"
+						type="button"
+						action={() => setHideModalIndex(false)}
+						disabled={false}
+					/>
+				</div>
 				</Dialog>
 			</div>
 			<div>
-				<Dialog
-					visible={hideModalIndex}
-					style={{ width: "100%", maxWidth: "1280px" }}
-					header="Indexación Masiva"
-					onHide={() => setHideModalIndex(false)}
-					className="p-fluid"
-				>
-					
-				</Dialog>
+				<RadicadoSticker
+					data={{
+						radicado: "123456789",
+						fechaRadicado: "04/10/2023 11:00:00",
+						tipo: "Recibido",
+						destinatario: "Francisco Gaviria R",
+						radicadoPor: "Juan Perez J",
+					}}
+					formatCode={"code39"}
+					title={"Sticker"}
+					visible={visiblemodal}
+					onCloseModal={() => { setVisibleModal(false) }}
+				/>
 			</div>
 
 			{hideButtonsSave && <><div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
@@ -126,8 +147,8 @@ const DocumentsReceived = () => {
 				<ButtonComponent
 					className="button-main huge hover-three"
 					value="Volver a la bandeja"
-					type="button"
-					action={null}
+					type="route"
+					url={"/gestion-documental/radicacion/bandeja-radicado"}
 				/>
 				<ButtonComponent
 					className="button-main huge hover-three buttonThird"
@@ -171,7 +192,7 @@ const DocumentsReceived = () => {
 								className="button-main huge hover-three"
 								value="Generar sticker "
 								type="button"
-								action={null}
+								action={() => { setVisibleModal(true) }}
 							/>
 						</div>
 					</div>
@@ -181,8 +202,8 @@ const DocumentsReceived = () => {
 					<ButtonComponent
 						className="button-main huge hover-three"
 						value="Volver a la bandeja"
-						type="button"
-						action={null}
+						type="route"
+						url={"/gestion-documental/radicacion/bandeja-radicado"}
 					/>
 
 					<ButtonComponent
