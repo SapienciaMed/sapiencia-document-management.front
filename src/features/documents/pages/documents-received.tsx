@@ -17,6 +17,7 @@ import RadicadoSticker from "../components/radicado-sticker";
 import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
+import axios from "axios";
 
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
@@ -31,6 +32,8 @@ const DocumentsReceived = () => {
 	process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
 	const { authorization } = useContext(AppContext);
+	const [filingComplete, setFilingComplete] = useState(false);
+	const { setMessage } = useContext(AppContext);
 
 	useEffect(() => {
 		getRadicadoIncompleto();
@@ -91,6 +94,41 @@ const DocumentsReceived = () => {
 			getRadicadoIncompleto()
 		});
 	}
+
+	const handleEnd = () => {
+		const radicadoId = data.radicado;
+	  
+		axios.put(`/radicado-details/complete/${radicadoId}`)
+		  .then(() => {
+			setFilingComplete(true);
+			setMessage({
+				title: "Finalización exitosa",
+				description: `El radicado se completo de manera exitosa`,
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+				onOk: () => {
+				  setMessage({});
+				}
+			  });
+		  })
+		  .catch(error => {
+			setFilingComplete(true);
+			setMessage({
+				title: "Error",
+				description: `El radicado no se ha completado`,
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+				onOk: () => {
+				  setMessage({});
+				}
+			  });
+			// Handle error
+			console.error('Error al marcar el radicado como completado:', error);
+		  });
+	  }
+	  
 
 
 	const onChange = async (newData: any) => {
@@ -191,11 +229,11 @@ const DocumentsReceived = () => {
 			<div>
 				<RadicadoSticker
 					data={{
-						radicado: "123456789",
-						fechaRadicado: "04/10/2023 11:00:00",
+						radicado: data.radicado,
+						fechaRadicado: data.fecha_origen,
 						tipo: "Recibido",
-						destinatario: "Francisco Gaviria R",
-						radicadoPor: "Juan Perez J",
+						destinatario: data.dirigido_a,
+						radicadoPor: data.radicado_por,
 					}}
 					formatCode={"code39"}
 					title={"Sticker"}
@@ -272,8 +310,8 @@ const DocumentsReceived = () => {
 						className="button-main huge hover-three buttonDisableDM"
 						value="Finalizar"
 						type="button"
-						action={null}
-						disabled={true}
+						action={handleEnd}
+						disabled={!filingComplete}
 					/>
 				</div></>}
 		</div>
