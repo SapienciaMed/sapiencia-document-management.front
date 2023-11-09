@@ -18,7 +18,7 @@ interface IProps {
 }
 
 const Subject = ({ data, onChange }: IProps) => {
-	const MAX_LENGTH_TEXT = 2000;
+	const MAX_LENGTH_TEXT = 1000;
 	const [isVisibleRelatedAnswersModal, setIsVisibleRelatedAnswersModal] =
 		useState<boolean>(false);
 	const [textoLength, setTextoLength] = useState(0);
@@ -27,7 +27,7 @@ const Subject = ({ data, onChange }: IProps) => {
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 	const schema = yup.object({
-		referencia: yup.string().max(2000).required("El campo es obligatorio"),
+		referencia: yup.string().max(1000).required("El campo es obligatorio"),
 		tipo_asunto: yup.string().required("El campo es obligatorio"),
 	});
 	const {
@@ -116,6 +116,19 @@ const Subject = ({ data, onChange }: IProps) => {
 							);
 						}}
 					/>
+					<div className={`${styles["button-wrapper"]}`}>
+					<div className={`${styles["button-item"]}`}></div>
+					<button
+						className={`${styles["btn"]} ${styles["btn--gray"]}`}
+						onClick={(e) => {
+							e.preventDefault();
+							setIsVisibleRelatedAnswersModal(true);
+						}}
+						disabled={getValuesSubjectForm("tipo_asunto") !== "2"}
+					>
+						Respuestas Relacionadas
+					</button>
+				</div>
 				</div>
 				<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
 					<div className={`${styles["input-wrapper"]}`}>
@@ -148,23 +161,11 @@ const Subject = ({ data, onChange }: IProps) => {
 						<span
 							className={`${styles["input-icon"]} ${styles["referencia"]}`}
 						>
-							{MAX_LENGTH_TEXT - textoLength}
+							Max 1000 caracteres
 						</span>
 					</div>
 				</div>
-				<div className={`${styles["button-wrapper"]}`}>
-					<div className={`${styles["button-item"]}`}></div>
-					<button
-						className={`${styles["btn"]} ${styles["btn--gray"]}`}
-						onClick={(e) => {
-							e.preventDefault();
-							setIsVisibleRelatedAnswersModal(true);
-						}}
-						disabled={getValuesSubjectForm("tipo_asunto") !== "2"}
-					>
-						Respuestas Relacionadas
-					</button>
-				</div>
+				
 			</FormComponent>
 
 			<RelatedAnswers

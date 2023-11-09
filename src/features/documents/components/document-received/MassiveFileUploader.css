@@ -1,0 +1,71 @@
+.file-uploader {
+    border: solid 1px #dee2e6;
+    width: 100%;
+    max-width: 1280px;
+    height: 430px;
+    border-radius: 6px;
+  }
+  
+  .headerMassive {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    gap: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .custom-choose-btn,
+  .custom-upload-btn,
+  .custom-cancel-btn {
+    background: none;
+    border: 1px solid;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    padding: 0.75rem 0;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .custom-choose-btn {
+    border-color: #533893;
+  }
+  
+  .custom-upload-btn {
+    border-color: #22c55e;
+  }
+  
+  .custom-cancel-btn {
+    border-color: #ef4444;
+  }
+  
+  .file-list {
+    height: 300px;
+    overflow-y: auto;
+    width: 100%;
+  }
+  
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5%;
+  }
+  
+  .file-tag {
+    background: #533893;
+    font-weight: normal;
+    font-size: 14px;
+    width: 150px;
+    height: 30px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+  
+  .remove-button {
+    margin-right: 5%;
+  }
+  
