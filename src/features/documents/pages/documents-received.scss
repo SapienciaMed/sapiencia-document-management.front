@@ -1,5 +1,5 @@
 .center-txt{
-    text-align: center;
+    text-align: center !important;
 }
 .buttonContent {
     display: flex;
@@ -25,4 +25,9 @@
 .buttonSecondary:hover, .buttonThird:hover{
     background-color: #533893;
     color: #fff;
+    border: none;
+}
+
+.buttonTop{
+    margin-top: 4%;
 }

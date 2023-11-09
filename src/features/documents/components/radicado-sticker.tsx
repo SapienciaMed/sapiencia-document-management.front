@@ -36,7 +36,10 @@ const RadicadoSticker = ({
 						height: "188px",
 						display: "flex",
 						flexDirection: "row",
+						alignItems: "center",
+						justifyContent: "space-between",
 						gap: "20px",
+						marginBottom: "5%",
 					}}
 				>
 					<div
@@ -47,28 +50,28 @@ const RadicadoSticker = ({
 							flexDirection: "column",
 						}}
 					>
-						<div>Radicado: {data.radicado}</div>
-						<div>Fecha: {data.fechaRadicado}</div>
-						<div>Tipo: {data.tipo}</div>
-						<div>Destino:{data.destinatario.toUpperCase()}</div>
-						<div>Radicado Por: {data.radicadoPor}</div>
+						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Radicado: {data.radicado}</div>
+						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Fecha: {data.fechaRadicado}</div>
+						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Tipo: {data.tipo}</div>
+						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Destino:{data.destinatario.toUpperCase()}</div>
+						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Radicado Por: {data.radicadoPor}</div>
 					</div>
 					<div style={{ alignSelf: "flex-end" }}>
 						<Barcode
 							value={data.radicado}
 							options={{
 								format: formatCode,
-								width: 2,
+								width: 1.5,
 								height: 60,
 							}}
-							//renderer={"svg" as Renderer}
+						//renderer={"svg" as Renderer}
 						/>
 					</div>
 				</div>
 				<div className="mt-10 flex flex-center">
 					<ButtonComponent
 						className={`button-main py-12 px-16 font-size-16`}
-						value="Buscar"
+						value="Aceptar"
 						type="button"
 						action={() => onCloseModal()}
 						disabled={false}

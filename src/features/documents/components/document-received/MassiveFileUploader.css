@@ -1,8 +1,7 @@
 .file-uploader {
-    border: solid 1px #dee2e6;
     width: 100%;
     max-width: 1280px;
-    height: 430px;
+    height: 330px;
     border-radius: 6px;
   }
   
@@ -43,6 +42,7 @@
     height: 300px;
     overflow-y: auto;
     width: 100%;
+    padding-left: 2%;
   }
   
   .file-item {
@@ -67,5 +67,49 @@
   
   .remove-button {
     margin-right: 5%;
+    background: none;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    padding: 0.75rem 0;
+    cursor: pointer;
+    border: 1px solid #f00;
   }
   
+  .clip-ico {
+    display: flex;
+    justify-content: center;
+    padding-top: 3px;
+  }
+
+  .files-zone{
+    font-size: 1.2em;
+    color: var(--text-color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 339px;
+  }
+
+  .txtDrop{
+    margin-top: 3%;
+    font-family: "RubikRegular",sans-serif !important;
+    font-size: 14px;
+    color: #6c757d;
+    font-weight: normal;
+  }
+
+  .file-container{
+    padding: 0;
+  }
+
+  .file-name{
+    width: 160px;
+  }
+
+  .name-file-date{
+    display: flex;
+    flex-direction: column;
+    color: #000;
+    font-size: 14px;
+  }
