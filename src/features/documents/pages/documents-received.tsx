@@ -34,6 +34,8 @@ const DocumentsReceived = () => {
 	const { authorization } = useContext(AppContext);
 	const [filingComplete, setFilingComplete] = useState(false);
 	const { setMessage } = useContext(AppContext);
+	const [uploadedFiles, setUploadedFiles] = useState([]);
+	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
 	useEffect(() => {
 		getRadicadoIncompleto();
@@ -95,41 +97,85 @@ const DocumentsReceived = () => {
 		});
 	}
 
-	const handleEnd = () => {
-		const radicadoId = data.radicado;
+	const getUploadedFile = () => {
+		return uploadedFile;
+	  };
+
+	const handleUpload = (file) => {
+
+		setUploadedFile(file);
 	  
-		axios.put(`/radicado-details/complete/${radicadoId}`)
+		setMessage({
+		  title: "Éxito",
+		  description: `Archivo adjunto: ${file.name}`,
+		  show: true,
+		  background: true,
+		  okTitle: "Aceptar",
+		  onOk: () => {
+			setMessage({});
+		  },
+		});
+	  };
+
+	  const handleEnd = () => {
+		const radicadoId = data.radicado;
+		const uploadedFile = getUploadedFile();
+		const formData = new FormData();
+	  
+		formData.append("uploadedFile", uploadedFile);
+		formData.append("DRA_FECHA_RADICADO", moment(new Date()).format("YYYY-MM-DD").toString());
+		formData.append("DRA_TIPO_RADICADO", "1");
+		formData.append("DRA_RADICADO_ORIGEN", data.radicado_origen || "");
+		formData.append("DRA_RADICADO_POR", data.radicado_por || "");
+		formData.append("DRA_NOMBRE_RADICADOR", `${authorization.user.names} ${authorization.user.lastNames}` || "");
+		formData.append("DRA_ID_REMITENTE", data.enviado_por || "");
+		formData.append("DRA_CODIGO_ASUNTO", data.codigo_asunto || "1");
+		formData.append("DRA_TIPO_ASUNTO", "1");
+		formData.append("DRA_PRIORIDAD_ASUNTO", "1");
+		formData.append("DRA_ID_DESTINATARIO", data.dirigido_a || "");
+		formData.append("DRA_OBSERVACION", data.observaciones || "");
+		formData.append("DRA_NUM_ANEXOS", data.numero_anexos || "0");
+		formData.append("DRA_NUM_FOLIOS", data.numero_folios || "0");
+		formData.append("DRA_NUM_CAJAS", data.numero_cajas || "0");
+		formData.append("DRA_PRIORIDAD", data.prioridad || "");
+		formData.append("DRA_ESTADO", "COMPLETO");
+	  
+		// Adjuntar datos de copias si están disponibles
+		if (data?.add_recipient_data?.length > 0) {
+		  data.add_recipient_data.forEach((recipient, index) => {
+			formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.ent_numero_identidad || "");
+		  });
+		}
+	  
+		axios.put(`/radicado-details/complete/${radicadoId}`, formData)
 		  .then(() => {
 			setFilingComplete(true);
 			setMessage({
-				title: "Finalización exitosa",
-				description: `El radicado se completo de manera exitosa`,
-				show: true,
-				background: true,
-				okTitle: "Aceptar",
-				onOk: () => {
-				  setMessage({});
-				}
-			  });
+			  title: "Finalización exitosa",
+			  description: "El radicado se completó de manera exitosa",
+			  show: true,
+			  background: true,
+			  okTitle: "Aceptar",
+			  onOk: () => {
+				setMessage({});
+			  },
+			});
 		  })
 		  .catch(error => {
 			setFilingComplete(true);
 			setMessage({
-				title: "Error",
-				description: `El radicado no se ha completado`,
-				show: true,
-				background: true,
-				okTitle: "Aceptar",
-				onOk: () => {
-				  setMessage({});
-				}
-			  });
-			// Handle error
+			  title: "Error",
+			  description: "El radicado no se ha completado",
+			  show: true,
+			  background: true,
+			  okTitle: "Aceptar",
+			  onOk: () => {
+				setMessage({});
+			  },
+			});
 			console.error('Error al marcar el radicado como completado:', error);
 		  });
-	  }
-	  
-
+	  };	  
 
 	const onChange = async (newData: any) => {
 		try {
@@ -213,7 +259,7 @@ const DocumentsReceived = () => {
 						},
 					}}>
 					<MassiveFileUploader
-						handleUpload={() => { }}
+						handleUpload={handleUpload}
 					/>
 					<div className="mt-10 flex flex-center">
 					<ButtonComponent

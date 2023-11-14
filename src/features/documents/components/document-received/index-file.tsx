@@ -142,7 +142,7 @@ const MassiveFileUploader = ({
                             <input className="input-field file-input" type="file" hidden accept="application/pdf" multiple ref={inputRef} onChange={handleFileSelect} />
                             <span className="clip-ico">{clip}</span>
                         </span>
-                        <button className="custom-upload-btn upload-button" onClick={handleUpload} disabled={files.length === 0}>{uploadIcon}</button>
+                        <button className="custom-upload-btn upload-button" onClick={() => handleUpload(files[0])} disabled={files.length === 0}>{uploadIcon}</button>
                         <button className="custom-cancel-btn remove-all-button" onClick={handleRemoveAll} disabled={files.length === 0}>{trashIcon}</button>
                     </div>
                     <div className="file-uploader" onDragOver={handleDragOver} onDrop={handleDrop}>
