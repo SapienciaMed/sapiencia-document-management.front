@@ -55,7 +55,7 @@ const RecipientTray = () => {
 
 	useEffect(() => {
 		const getRadicadoList = async () => {
-			const endpoint: string = `/radicado-details/find-all`;
+			const endpoint: string = `/radicado-details/find-all-pending`;
 			const dataList = await get(`${endpoint}`);
 			setRadicadosList(dataList?.data);
 		};
@@ -471,7 +471,7 @@ const RecipientTray = () => {
 		});
 
 	const getRadicadoList = async () => {
-		const endpoint: string = `/radicado-details/find-all`;
+		const endpoint: string = `/radicado-details/find-all-pending`;
 		const dataList = await get(`${endpoint}`);
 
 		setRadicadosList(
