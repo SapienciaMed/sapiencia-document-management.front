@@ -1,12 +1,9 @@
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
 import React, { useContext, useEffect, useState } from "react";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
 import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { Dropdown } from "primereact/dropdown";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
-import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
 import { IoWarningOutline } from "react-icons/io5";
 import moment from "moment";
@@ -28,7 +25,7 @@ import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 const RecipientTray = () => {
 	const REVERSE = "devolucion";
 	const ACTIVATE = "asignar";
-	const { authorization } = useContext(AppContext);
+	const { authorization, setMessage } = useContext(AppContext);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
@@ -37,6 +34,7 @@ const RecipientTray = () => {
 	const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true);
 	const [dataForModal, setDataForModal] = useState<any>({});
 	const [radicadosList, setRadicadosList] = useState<any>([]);
+	const [searchParam, setSearchParam] = useState<string>(null);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -44,10 +42,9 @@ const RecipientTray = () => {
 		dra_fecha_entrada: { value: null, matchMode: FilterMatchMode.EQUALS },
 	});
 	const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
-
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-	const { get } = useCrudService(baseURL);
+	const { get, post } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 
 	useBreadCrumb({
@@ -69,6 +66,7 @@ const RecipientTray = () => {
 	}, []);
 
 	const getRadicadosByID = async (radicadoId: string) => {
+		setSearchParam(radicadoId);
 		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
@@ -86,14 +84,6 @@ const RecipientTray = () => {
 			e.key === "Enter" &&
 			(e.target.value == null || e.target.value == "")
 		) {
-			const getRadicadoList = async () => {
-				const endpoint: string = `/radicado-details/find-all`;
-				const dataList = await get(`${endpoint}`);
-
-				setRadicadosList(
-					Array.isArray(dataList?.data) ? dataList?.data : []
-				);
-			};
 			getRadicadoList();
 		}
 	};
@@ -458,6 +448,12 @@ const RecipientTray = () => {
 					data: "devolucion",
 					icon: "",
 				},
+				{
+					key: "evacuacion",
+					label: "Evacuación",
+					data: "evacuacion",
+					icon: "",
+				},
 			],
 		},
 	];
@@ -473,6 +469,69 @@ const RecipientTray = () => {
 				item.lge_elemento_codigo == code
 			);
 		});
+
+	const getRadicadoList = async () => {
+		const endpoint: string = `/radicado-details/find-all`;
+		const dataList = await get(`${endpoint}`);
+
+		setRadicadosList(
+			Array.isArray(dataList?.data) ? dataList?.data : []
+		);
+	};
+
+	const onClickEvacuation = async () => {
+    console.log("evacuacion", dataForModal);
+    //Solicitud Post
+    await storeMassive(dataForModal.dra_radicado)
+      .then((response) => {
+		console.log("response", response);
+		if(searchParam){
+			console.log("searchParam", searchParam);
+			getRadicadosByID(searchParam);
+			setSelectedCheckbox("");
+			setSearchParam(null);
+		} else {
+			getRadicadoList();
+			setSelectedCheckbox("");
+			console.log("getRadicadoList");
+		}
+        //Mensaje de Éxito
+        setMessage({
+          title: "Evacuación exitosa",
+          description: "La información ha sido evacuada exitosamente",
+          show: true,
+          background: true,
+          okTitle: "Aceptar",
+          onOk: () => {
+            setMessage({});
+          },
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        setMessage({
+          title: "Error",
+          description: "Hubo un error al evacuear el radicado",
+          show: true,
+          background: true,
+          okTitle: "Aceptar",
+          onOk: () => {
+            setMessage({});
+          },
+        });
+      });
+
+    //Actualizar Tabla después de evacuar.
+  };
+
+	const storeMassive = async (data) => {
+		const endpoint: string = `/gestion/processes-massive`;
+		const entityData = await post(`${endpoint}`, {
+			data: data,
+			dra_usuario: authorization?.user?.numberDocument,
+		});
+		return entityData;
+	};
 
 	return (
 		<>
@@ -496,6 +555,10 @@ const RecipientTray = () => {
 										if (e.value == ACTIVATE) {
 											setTypeModal(ACTIVATE);
 											setIsOpenModal(true);
+										}
+
+										if(e.value == "evacuacion"){
+											onClickEvacuation();
 										}
 									}}
 									options={nodes}

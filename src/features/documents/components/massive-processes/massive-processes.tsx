@@ -19,11 +19,9 @@ import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 const MassiveProcesses = () => {
 	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
 	const [isDisabledSelect, setIsDisabledSelect] = useState<boolean>(true);
-	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
 	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
 	const [radicadosList, setRadicadosList] = useState<any[]>([]);
-	const [dataForModal, setDataForModal] = useState<any>({});
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [searchParam, setSearchParam] = useState<any>("");
 	const [calendarDate, setCalendarDate] = useState<any>(null);
@@ -222,7 +220,7 @@ const MassiveProcesses = () => {
 		//console.log(selectedRadicadosString, "SELECTEDDATA");
 		await storeMassive(selectedRadicadosString);
 
-		//Mensaje de Exito
+		//Mensaje de Éxito
 		setMessage({
 			title: "Evacuación exitosa",
 			description: "La información ha sido evacuada exitosamente",
