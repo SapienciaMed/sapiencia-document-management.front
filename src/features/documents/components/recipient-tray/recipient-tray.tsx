@@ -450,7 +450,7 @@ const RecipientTray = () => {
 				},
 				{
 					key: "evacuacion",
-					label: "Evacuación",
+					label: "Evacuar",
 					data: "evacuacion",
 					icon: "",
 				},
