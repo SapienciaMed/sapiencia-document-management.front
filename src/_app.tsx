@@ -19,6 +19,7 @@ import RecipientTray from "./features/documents/components/recipient-tray/recipi
 import RecipientTrayPage from "./features/recipient-tray/recipient-tray.page";
 import RadicadoMovements from "./features/documents/components/radicados-movements/radicado-movements";
 import MassiveProcesses from "./features/documents/components/massive-processes/massive-processes";
+import PrivateRoute from "./common/utils/auth-private-guard";
 
 function App() {
 	const { publish } = useAppCominicator();
@@ -61,50 +62,79 @@ function App() {
 								path={
 									"/gestion-documental/administracion/configuracion-general"
 								}
-								element={<GeneralConfigurationPage />}
+								element={<PrivateRoute
+									element={<GeneralConfigurationPage />}
+									allowedAction={"CONFIGURACION_GENERAL"}
+								/>}
 							/>
 							;
 							<Route
 								path={
 									"/gestion-documental/consultas/historico-destinatarios"
 								}
-								element={<RecipientTrayPage />}
+								element={<PrivateRoute
+									element={<RecipientTrayPage />}
+									allowedAction={"HISTORICO_DESTINATARIOS"}
+								/>}
 							/>
 							<Route
 								path={
 									"/gestion-documental/consultas/movimientos"
 								}
-								element={<RadicadoMovements />}
+								element={<PrivateRoute
+									element={<RadicadoMovements />}
+									allowedAction={"MOVIMIENTOS"}
+								/>}
 							/>
 							<Route
 								path={
 									"/gestion-documental/radicacion/documento-recibido"
 								}
-								element={<DocumentsReceived />}
+								element={<PrivateRoute
+									element={<DocumentsReceived />}
+									allowedAction={"DOCUMENTO_RECIBIDO"}
+								/>}
 							/>
 							<Route
 								path={
 									"/gestion-documental/radicacion/indexacion-masiva"
 								}
-								element={<MassiveIndex />}
+								element={<PrivateRoute
+									element={<MassiveIndex />}
+									allowedAction={"INDEXACION_MASIVA"}
+								/>}
+								
 							/>
 							<Route
 								path={
 									"/gestion-documental/radicacion/bandeja-radicado"
 								}
-								element={<RadicadosTray />}
+								element={<PrivateRoute
+									element={<RadicadosTray />}
+									allowedAction={"BANDEJA_RADICADOS"}
+									/>
+								}
 							/>
 							<Route
 								path={
 									"/gestion-documental/radicacion/bandeja-destinatarios"
 								}
-								element={<RecipientTray />}
+								element={<PrivateRoute
+									element={<RecipientTray />}
+									allowedAction={"BANDEJA_DESTINATARIOS"}
+									/>
+								}
+								
 							/>
 							<Route
 								path={
 									"/gestion-documental/gestion/procesos-masivos"
 								}
-								element={<MassiveProcesses />}
+								element={<PrivateRoute
+									element={<MassiveProcesses />}
+									allowedAction={"PROCESOS_MASIVOS"}
+									/>
+								}
 							/>
 						</Routes>
 					</Suspense>
