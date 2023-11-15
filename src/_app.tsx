@@ -53,7 +53,6 @@ function App() {
 								path={"/gestion-documental/"}
 								element={<HomePage />}
 							/>
-							;
 							<Route
 								path={"/gestion-documental/documentos/*"}
 								element={<DocumentsRoutes />}
@@ -67,7 +66,6 @@ function App() {
 									allowedAction={"CONFIGURACION_GENERAL"}
 								/>}
 							/>
-							;
 							<Route
 								path={
 									"/gestion-documental/consultas/historico-destinatarios"
