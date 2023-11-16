@@ -4,9 +4,11 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import { ButtonComponent } from "./Form";
 import useCrudService from "../../common/hooks/crud-service.hook";
 import useBreadCrumb from "../hooks/bread-crumb.hook";
+import { AppContext } from "../contexts/app.context";
 
 export default React.memo(() => {
   useBreadCrumb({ isPrimaryPage: true, name: "", url: "" });
+  const { validateActionAccess } = useContext(AppContext);
 
   const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
   const { get } = useCrudService(baseURL);
@@ -27,8 +29,13 @@ export default React.memo(() => {
   })
 
   useEffect(() => {
-    getSummaryRecipients();
-    getSummaryFileds();
+    if (validateActionAccess('BANDEJA_DESTINATARIOS')) {
+      getSummaryRecipients();
+    }
+
+    if (validateActionAccess('BANDEJA_RADICADOS')) {
+      getSummaryFileds();
+    }
   }, [])
 
 
@@ -49,7 +56,10 @@ export default React.memo(() => {
                 <h2 className="biggest bold" style={{ fontSize: 29, fontFamily: 'Rubik', color: 'black', marginTop: 0 }}>Resumen documentos pendientes de gestión</h2>
 
                 <TabView>
-                  <TabPanel header="Bandeja Destinarios" style={{ margin: 0, padding: 0}}>
+
+                  {
+                    validateActionAccess('BANDEJA_DESTINATARIOS') && (
+                      <TabPanel header="Bandeja Destinarios" style={{ margin: 0, padding: 0}}>
                     
                     <div className="grid-form-2-container" style={{ marginTop: 100 }}>
                       <div className="" style={{ padding: '0 7px' }}>
@@ -101,7 +111,12 @@ export default React.memo(() => {
                       </div>
                     </div>
                   </TabPanel>
-                  <TabPanel header="Bandeja Radicados">
+                    )
+                  }
+                  
+                  {
+                    validateActionAccess('BANDEJA_RADICADOS') && (
+                      <TabPanel header="Bandeja Radicados">
                     <div className="grid-form-2-container" style={{ marginTop: 100 }}>
                       <div className="" style={{ padding: '0 7px' }}>
                         <div className="grid-form-4-container card-table" style={{ padding: 15, textAlign: 'center', color: 'white', borderRadius: 29, columnGap: 54 }}>
@@ -145,7 +160,10 @@ export default React.memo(() => {
                         />
                       </div>
                     </div>
-                  </TabPanel>                 
+                  </TabPanel>  
+                    )
+                  }
+                                 
               </TabView>
 
             </div>
