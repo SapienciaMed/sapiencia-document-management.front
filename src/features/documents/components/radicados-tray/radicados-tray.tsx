@@ -1,6 +1,6 @@
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
 import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
@@ -21,6 +21,7 @@ import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
 import { calculateBusinessDays } from "../../../../common/utils/helpers";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const RadicadosTray = () => {
 	const [radicadosList, setRadicadosList] = useState<any>([]);
@@ -31,7 +32,8 @@ const RadicadosTray = () => {
 		dra_fecha_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
 	});
 	const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
-
+	const { authorization } = useContext(AppContext);
+	console.log(authorization, "authorization");
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
@@ -47,8 +49,14 @@ const RadicadosTray = () => {
 	useBreadCrumb({ isPrimaryPage: true, name: "Bandeja de Radicados", url: "/gestion-documental/radicacion/bandeja-radicado" });
 
 	useEffect(() => {
+		let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}`;
+		const listAuthActions = authorization.allowedActions;
+
+		if (listAuthActions.includes("ADMIN_ROL")) {
+			let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}&role=${"ADMIN_ROL"}`;
+		  }
+
 		const getRadicadoList = async () => {
-			const endpoint: string = `/radicado-details/find-all`;
 			const dataList = await get(`${endpoint}`);
 			setRadicadosList(dataList?.data);
 		};
@@ -75,8 +83,15 @@ const RadicadosTray = () => {
 			e.key === "Enter" &&
 			(e.target.value == null || e.target.value == "")
 		) {
+			let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}`;
+			const listAuthActions = authorization.allowedActions;
+
+			if (listAuthActions.includes("ADMIN_ROL")) {
+				let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}&role=${"ADMIN_ROL"}`;
+			}
+
 			const getRadicadoList = async () => {
-				const endpoint: string = `/radicado-details/find-all`;
+				//const endpoint: string = `/radicado-details/find-all`;
 				const dataList = await get(`${endpoint}`);
 
 				setRadicadosList(
