@@ -19,7 +19,7 @@ interface IProps {
 	data: any;
 }
 
-const RadicadoDetails = ({ data, onChange }: IProps) => {
+const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 	const { setMessage } = useContext(AppContext);
 	const { authorization } = useContext(AppContext);
 
@@ -61,17 +61,22 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 		getValues,
 		formState: { errors },
 	} = useForm<IRadicadoDetailsForm>({
-		resolver: yupResolver(data.tipo == 2 ? schema2 : schema),
-		defaultValues: { ...data },
+		resolver: yupResolver(allData.tipo == 2 ? schema2 : schema),
+		defaultValues: { ...allData },
 		mode: "all",
 	});
+
+	useEffect(() => {
+		if (allData && allData?.radicado_origen) {
+			onBlurData();
+		}
+	}, [])
 
 	const onBlurData = () => {
 		const radicadoOrigen = getValues("radicado_origen");
 		onChange({
-			...data,
-			radicado_origen:
-				Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen),
+			...allData,
+			radicado_origen: Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen),
 		});
 		if (radicadoOrigen) {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
@@ -141,7 +146,7 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 						label="Radicado Origen"
 						className="input-basic"
 						classNameLabel={`text--black ${
-							data.tipo == 2 ? "text-required" : ""
+							allData.tipo == 2 ? "text-required" : ""
 						}`}
 						errors={errors}
 						disabled={false}
@@ -149,7 +154,7 @@ const RadicadoDetails = ({ data, onChange }: IProps) => {
 						max={12}
 						type={"number"}
 					/>
-					{data.tipo == 2 && data.radicado_origen == null ? (
+					{allData.tipo == 2 && allData.radicado_origen == null ? (
 						<span className="error-message not-margin-padding">
 							El campo es obligatorio
 						</span>

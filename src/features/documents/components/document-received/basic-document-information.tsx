@@ -64,14 +64,12 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	useEffect(() => {
 		if (data && data?.enviado_por) {
 			onBlurData()
-			setValue("tipo", data?.tipo)
-			setValue("prioridad", data?.prioridad)
 		}
 	}, [])
 
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
-		setSelectedSubject(idAsunto)
+		setSelectedSubject(idAsunto, true)
 		onChange({
 			...data,
 			codigo_asunto: idAsunto
@@ -79,26 +77,41 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	};
 
 	
-	const setSelectedSubject = (idAsunto: string) => {
+	const setSelectedSubject = (idAsunto: string , setDefaults?: boolean ) => {
 		if (idAsunto) {
 
 			checkIdInDB(idAsunto).then(async ({ data: response, message }: any) => {
 
 				if (response) {
-					
-					onChange({
-						...data,
-						nombre_asunto: response.inf_nombre_asunto,
-						tiempo_respuesta: response.inf_timepo_respuesta,
-						unidad: response.inf_unidad,
-						codigo_asunto: idAsunto,
-						tipo: "",
-					})
 					setValue("nombre_asunto", response.inf_nombre_asunto);
 					setValue("tiempo_respuesta", response.inf_timepo_respuesta);
 					setValue("unidad", response.inf_unidad);
 					setValue("codigo_asunto", idAsunto)
-					setValue("tipo", "")
+
+					if (setDefaults) {
+						setValue("tipo", data?.tipo)
+						setValue("prioridad", data?.prioridad)
+
+						onChange({
+							...data,
+							nombre_asunto: response.inf_nombre_asunto,
+							tiempo_respuesta: response.inf_timepo_respuesta,
+							unidad: response.inf_unidad,
+							codigo_asunto: idAsunto,
+							tipo: data?.tipo,
+							prioridad: data?.prioridad
+						})
+					} else {
+						setValue("tipo", "")
+						onChange({
+							...data,
+							nombre_asunto: response.inf_nombre_asunto,
+							tiempo_respuesta: response.inf_timepo_respuesta,
+							unidad: response.inf_unidad,
+							codigo_asunto: idAsunto,
+							tipo: "",
+						})
+					}
 				} else {
 					setMessage({
 						title: "Información básica del documento",
@@ -144,6 +157,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const handleCheckboxChange = (event) => {
 		setSelectedCheckbox(event.target.value)
 	}
+
+
+	console.log('data', data)
 
 	return (
 		<FormComponent action={undefined}>

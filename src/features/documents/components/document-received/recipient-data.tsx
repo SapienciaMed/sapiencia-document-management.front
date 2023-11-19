@@ -68,26 +68,19 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	});
 
 	useEffect(() => {
-		get(`/generic-list/geographic-list`).then((data) => {
-			setGeographicData(data);
+		get(`/generic-list/geographic-list`).then((g) => {
+			setGeographicData(g);
 		});
 
-		// getApiAuth(`/api/v1/dependency`).then((response: any) => {
-		// 	setDependencies(response.data);
-		// });
-
-		// getApiAuth(`/api/v1/charge`).then((response: any) => {
-		// 	setCharges(response.data);
-		// });
 	}, []);
 
 	useEffect(() => {
-		if (data && data?.dirigido_a) {
+		if (data && data?.enviado_por && geographicData.length > 0 ) {
 			setValue('dirigido_a', data?.dirigido_a)
 			onBlurData()
-			console.log('calling onBlurdata')
 		}
-	}, [])
+	}, [geographicData])
+
 
 	const elementoBuscado = (agrupador: string, codigo: string | number) =>
 		geographicData.find((item) => {
@@ -125,7 +118,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 
 					onChange({
 						...data,
-						dirigido_a: selectedCheckbox,
+						dirigido_a: selectedCheckbox || data?.dirigido_a,
 						nombres_apellidos_destinatario:
 							payload?.usr_nombre + " " + payload?.usr_apellidos,
 						pais_destinatario:
@@ -504,30 +497,6 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											</>
 										),
 									},
-									// {
-									// 	fieldName: "usr_dependencia",
-									// 	header: "Dependencia",
-									// 	renderCell: (row) => (
-									// 		<>
-									// 			{dependencies?.find(
-									// 				(d) =>
-									// 					d.id ==
-									// 					row.usr_dependencia
-									// 			)?.description || ""}
-									// 		</>
-									// 	),
-									// },
-									// {
-									// 	fieldName: "usr_cargo",
-									// 	header: "Cargo",
-									// 	renderCell: (row) => (
-									// 		<>
-									// 			{charges?.find(
-									// 				(c) => c.id == row.usr_cargo
-									// 			)?.description || ""}
-									// 		</>
-									// 	),
-									// },
 								]}
 								data={addressees}
 							/>

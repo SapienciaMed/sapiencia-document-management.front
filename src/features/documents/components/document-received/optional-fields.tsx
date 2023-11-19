@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -31,15 +31,27 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 			.max(3, "Solo se permiten 3 dígitos")
 			.optional(),
 	});
+
 	const {
 		register,
 		control,
 		formState: { errors },
+		setValue
 	} = useForm<IOptionalFieldsForm>({
 		resolver: yupResolver(schema),
 		mode: "all",
 		defaultValues: { ...allData },
 	});
+
+
+	useEffect(() => {
+		if (allData && allData.numero_anexos) {
+			setValue('numero_anexos',  allData?.numero_anexos)
+			setValue('numero_cajas',  allData?.numero_cajas)
+			setValue('numero_folios',  allData?.numero_folios)
+			setValue('observaciones',  allData?.observaciones)
+		}
+	}, [])
 
 
 	return (

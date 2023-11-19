@@ -18,7 +18,7 @@ import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
-
+import { isEmpty } from 'lodash'; 
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
@@ -46,12 +46,11 @@ const DocumentsReceived = () => {
 					...data,
 					radicado: data?.radicado?.DRA_RADICADO,
 					radicado_origen: Number(data?.radicado?.DRA_RADICADO_ORIGEN) || 0,
-					fecha_origen: moment(data?.radicado?.DRA_FECHA_RADICADO).format("DD/MM/YYYY").toString(),
 					radicado_por: data?.radicado?.DRA_RADICADO_POR,
 					enviado_por: data?.radicado?.DRA_ID_REMITENTE.trim() || '',
 					codigo_asunto: data?.radicado?.DRA_CODIGO_ASUNTO || '',
-					tipo: data?.radicado?.DRA_TIPO_ASUNTO,
-					prioridad: String(data?.radicado?.DRA_PRIORIDAD.trim()) || null,
+					tipo: String(data?.radicado?.DRA_TIPO_ASUNTO) || '1',
+					prioridad: String(data?.radicado?.DRA_PRIORIDAD_ASUNTO) || '1',
 					dirigido_a: data?.radicado?.DRA_ID_DESTINATARIO.trim() || '',
 					copias: data?.copias,
 					observaciones: data?.radicado?.DRA_OBSERVACION,
@@ -260,8 +259,14 @@ const DocumentsReceived = () => {
 					className="button-main huge hover-three buttonDisableDM"
 					value="Guardar y continuar"
 					type="button"
+					disabled={
+						isEmpty(data.enviado_por) ||
+						isEmpty(data.dirigido_a) ||
+						isEmpty(data.codigo_asunto) ||
+						isEmpty(data.tipo) ||
+						isEmpty(data.prioridad)
+					}
 					action={handleSave}
-				//disabled={true}
 				/>
 			</div></>}
 			{hideElement && <><div className="main-page container-docs-received">
