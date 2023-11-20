@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
 	ButtonComponent,
 	FormComponent,
@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 import { FilterMatchMode } from "primereact/api";
 import CommentsById from "./comments";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
@@ -33,6 +34,7 @@ const RadicadoMovements = () => {
 		useState<boolean>(false);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [dataForModal, setDataForModal] = useState<any>({});
+	const { authorization } = useContext(AppContext);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -288,7 +290,11 @@ const RadicadoMovements = () => {
 	});
 
 	const getMovementsByID = async (radicadoId: string) => {
-		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
+		const listAuthActions = authorization.allowedActions;
+		const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
+		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setMovementsList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};

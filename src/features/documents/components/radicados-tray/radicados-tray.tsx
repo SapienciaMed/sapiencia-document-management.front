@@ -33,32 +33,30 @@ const RadicadosTray = () => {
 	});
 	const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
 	const { authorization } = useContext(AppContext);
-	console.log(authorization, "authorization");
+
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get } = useCrudService(baseURL);
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
-	const [statuses] = useState([
-		"Recibido",
-		"2",
-		"new",
-		"negotiation",
-		"renewal",
-	]);
 
-	useBreadCrumb({ isPrimaryPage: true, name: "Bandeja de Radicados", url: "/gestion-documental/radicacion/bandeja-radicado" });
+	useBreadCrumb({
+		isPrimaryPage: true,
+		name: "Bandeja de Radicados",
+		url: "/gestion-documental/radicacion/bandeja-radicado",
+	});
 
 	useEffect(() => {
-		let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}`;
 		const listAuthActions = authorization.allowedActions;
 
-		if (listAuthActions.includes("ADMIN_ROL")) {
-			let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}&role=${"ADMIN_ROL"}`;
-		  }
+		const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}`;
 
 		const getRadicadoList = async () => {
 			const dataList = await get(`${endpoint}`);
-			setRadicadosList(dataList?.data);
+			setRadicadosList(
+				Array.isArray(dataList?.data) ? dataList?.data : []
+			);
 		};
 		get(`/generic-list/type-radicado-list`).then((data) => {
 			setRadicadoTypes(data);
@@ -67,7 +65,12 @@ const RadicadosTray = () => {
 	}, []);
 
 	const getRadicadosByID = async (radicadoId: string) => {
-		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
+		const listAuthActions = authorization.allowedActions;
+		const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
+
+		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
@@ -83,12 +86,11 @@ const RadicadosTray = () => {
 			e.key === "Enter" &&
 			(e.target.value == null || e.target.value == "")
 		) {
-			let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}`;
 			const listAuthActions = authorization.allowedActions;
 
-			if (listAuthActions.includes("ADMIN_ROL")) {
-				let endpoint: string = `/radicado-details/find-all?id=${authorization.user.typeDocument}&role=${"ADMIN_ROL"}`;
-			}
+			const endpoint: string = listAuthActions.includes("ADM_ROL")
+				? `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+				: `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}`;
 
 			const getRadicadoList = async () => {
 				//const endpoint: string = `/radicado-details/find-all`;
@@ -129,18 +131,6 @@ const RadicadosTray = () => {
 	const dateRowFilterTemplate = (options) => {
 		return (
 			<>
-				{/* <span className="p-input-icon-right">
-					<i className="pi pi-calendar" />
-					<InputText
-						value={options.value}
-						onChange={(e) => {
-							return options.filterApplyCallback(
-								e.currentTarget.value
-							);
-						}}
-					/>
-				</span> */}
-				{/* <span className="p-float-label"> */}
 				<span className="p-input-icon-right">
 					<i
 						className="pi pi-calendar"
@@ -154,7 +144,7 @@ const RadicadosTray = () => {
 						placeholder="DD/MM/AAAA"
 						onChange={(e) => {
 							const myDate: Date = new Date(e.value.toString());
-							console.log(myDate, "myDate");
+
 							const date = moment(myDate)
 								.format("DD/MM/YYYY")
 								.toString();
@@ -162,21 +152,6 @@ const RadicadosTray = () => {
 						}}
 					/>
 				</span>
-				{/* <label htmlFor="date">DD/MM/AAAA</label> */}
-				{/* </span> */}
-				{/* <Dropdown
-					value={options.value}
-					options={statuses}
-					onChange={(e) => {
-						console.log(e.value, "eeee");
-						return options.filterApplyCallback(e.value);
-					}}
-					//itemTemplate={statusItemTemplate}
-					placeholder="Seleccionar"
-					className="p-column-filter"
-					showClear
-					style={{ minWidth: "12rem" }}
-				/> */}
 			</>
 		);
 	};
