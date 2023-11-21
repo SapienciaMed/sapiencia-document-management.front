@@ -32,7 +32,7 @@ const MassiveProcesses = () => {
 
 	useBreadCrumb({
 		isPrimaryPage: true,
-		name: "Procesos masivos de documentos",
+		name: "Procesos masivos evacuacion de documentos",
 		url: "/gestion-documental/gestion/procesos-masivos",
 	});
 
@@ -318,7 +318,7 @@ const MassiveProcesses = () => {
 						<div className="title-area">
 							<div className="text-black bold font-size-30 mb-40">
 								Bandeja de Radicación
-								<div>Procesos masivos de documentos</div>
+								<div>Procesos masivos - Evacuación de documentos</div>
 							</div>
 							<div></div>
 						</div>

@@ -122,7 +122,6 @@ function App() {
 									allowedAction={"BANDEJA_DESTINATARIOS"}
 									/>
 								}
-								
 							/>
 							<Route
 								path={

@@ -54,10 +54,17 @@ const RecipientTray = () => {
 	});
 
 	useEffect(() => {
+		const listAuthActions = authorization.allowedActions;
+
+		const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/find-all-pending?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/find-all-pending?numberDocument=${authorization.user.numberDocument}`;
+
 		const getRadicadoList = async () => {
-			const endpoint: string = `/radicado-details/find-all-pending`;
 			const dataList = await get(`${endpoint}`);
-			setRadicadosList(dataList?.data);
+			setRadicadosList(
+				Array.isArray(dataList?.data) ? dataList?.data : []
+			);
 		};
 		get(`/generic-list/type-radicado-list`).then((data) => {
 			setRadicadoTypes(data);
@@ -67,7 +74,11 @@ const RecipientTray = () => {
 
 	const getRadicadosByID = async (radicadoId: string) => {
 		setSearchParam(radicadoId);
-		const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
+		const listAuthActions = authorization.allowedActions;
+		const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
+		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
@@ -471,58 +482,56 @@ const RecipientTray = () => {
 		});
 
 	const getRadicadoList = async () => {
-		const endpoint: string = `/radicado-details/find-all-pending`;
+		const listAuthActions = authorization.allowedActions;
+
+		const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/find-all-pending?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/find-all-pending?numberDocument=${authorization.user.numberDocument}`;
 		const dataList = await get(`${endpoint}`);
 
-		setRadicadosList(
-			Array.isArray(dataList?.data) ? dataList?.data : []
-		);
+		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
 
 	const onClickEvacuation = async () => {
-    console.log("evacuacion", dataForModal);
-    //Solicitud Post
-    await storeMassive(dataForModal.dra_radicado)
-      .then((response) => {
-		console.log("response", response);
-		if(searchParam){
-			console.log("searchParam", searchParam);
-			getRadicadosByID(searchParam);
-			setSelectedCheckbox("");
-			setSearchParam(null);
-		} else {
-			getRadicadoList();
-			setSelectedCheckbox("");
-			console.log("getRadicadoList");
-		}
-        //Mensaje de Éxito
-        setMessage({
-          title: "Evacuación exitosa",
-          description: "La información ha sido evacuada exitosamente",
-          show: true,
-          background: true,
-          okTitle: "Aceptar",
-          onOk: () => {
-            setMessage({});
-          },
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-        setMessage({
-          title: "Error",
-          description: "Hubo un error al evacuear el radicado",
-          show: true,
-          background: true,
-          okTitle: "Aceptar",
-          onOk: () => {
-            setMessage({});
-          },
-        });
-      });
+		//Solicitud Post
+		await storeMassive(dataForModal.dra_radicado)
+			.then((response) => {
+				if (searchParam) {
+					getRadicadosByID(searchParam);
+					setSelectedCheckbox("");
+					setSearchParam(null);
+				} else {
+					getRadicadoList();
+					setSelectedCheckbox("");
+				}
+				//Mensaje de Éxito
+				setMessage({
+					title: "Evacuación exitosa",
+					description: "La información ha sido evacuada exitosamente",
+					show: true,
+					background: true,
+					okTitle: "Aceptar",
+					onOk: () => {
+						setMessage({});
+					},
+				});
+			})
+			.catch((error) => {
+				console.error(error);
+				setMessage({
+					title: "Error",
+					description: "Hubo un error al evacuear el radicado",
+					show: true,
+					background: true,
+					okTitle: "Aceptar",
+					onOk: () => {
+						setMessage({});
+					},
+				});
+			});
 
-    //Actualizar Tabla después de evacuar.
-  };
+		//Actualizar Tabla después de evacuar.
+	};
 
 	const storeMassive = async (data) => {
 		const endpoint: string = `/gestion/processes-massive`;
@@ -557,7 +566,7 @@ const RecipientTray = () => {
 											setIsOpenModal(true);
 										}
 
-										if(e.value == "evacuacion"){
+										if (e.value == "evacuacion") {
 											onClickEvacuation();
 										}
 									}}
