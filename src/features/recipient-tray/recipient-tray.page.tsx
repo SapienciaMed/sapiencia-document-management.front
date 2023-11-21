@@ -5,6 +5,7 @@ import * as Icons from "react-icons/fa";
 import { IoWarningOutline } from "react-icons/io5";
 import arrows from "../../public/images/icons/arrows.icon.png";
 import firm from "../../public/images/icons/firm.icon.png";
+import { AppContext } from "../../common/contexts/app.context";
 
 import moment from 'moment';
 // import { useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ export default React.memo(() => {
   useBreadCrumb({ isPrimaryPage: true, name: "Histórico destinatarios", url: "/gestion-documental/consultas/historico-destinatarios" });
   // const resolver = useYupValidationResolver(consecutiveNumberValidator);
   const [search, setSearch] = useState("");
+  const { authorization } = useContext(AppContext);
   const [data, setData] = useState<any>([]);
   const [showTable, setShowTable] = useState(false);
   const COLORS = ["", "#FFCC00", "#00CC00", "#CC0000"];
@@ -48,10 +50,14 @@ export default React.memo(() => {
   });
 
   const searchInDB = async () => {
-		const endpoint: string = `/radicado-details/searchByRecipient`;
+		const endpoint: string = `/radicado-details/searchByRecipient`;;
+    const listAuthActions = authorization.allowedActions;
 
 		const response = await get(
-      `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}`
+      listAuthActions.includes("ADM_ROL")
+        ? `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}&role=ADM_ROL`
+        : `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}`
+      
       );
     console.log(response.data)
 		setData(response.data)
