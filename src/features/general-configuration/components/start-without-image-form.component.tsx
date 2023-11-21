@@ -20,7 +20,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
     <FormComponent action={undefined} className="accordion-item-container w-100">
       <div className="w-100" style={{ padding: '20px 10px'}}>
         <div className="w-100">
-            <p className="color-black" style={{ minHeight: 20, fontSize: 17, fontWeight: 400 }}> Configura si se envían o no correos de C/S mediente la utilidad de web</p>
+            <p className="color-black" style={{ minHeight: 20, fontSize: 17, fontWeight: 400 }}> Configura si se envían o no correos de C/S mediante la utilidad de web</p>
             <div className="d-flex space-between switch-md w-100">
               
               <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>INTERNO</p>

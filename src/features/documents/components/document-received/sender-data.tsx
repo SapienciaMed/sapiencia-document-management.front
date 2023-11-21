@@ -46,102 +46,6 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const [editData, setEditData] = useState<any>([]);
 	const [visibleEditForm, setVisibleEditForm] = useState<boolean>(false);
 
-
-	useEffect(() => {
-		console.log('allData', allData)
-		if (allData && allData?.enviado_por) {
-			setValue('enviado_por', allData?.enviado_por)
-			onBlurData()
-			console.log('calling onBlurdata')
-		}
-	}, [])
-
-	const columnSenderTable = [
-		{
-			fieldName: "check",
-			header: "Seleccione",
-			renderCell: (row) => {
-				return (
-					<input
-						type="checkbox"
-						value={row?.ent_numero_identidad}
-						checked={selectedCheckbox == row?.ent_numero_identidad}
-						onChange={handleCheckboxChange}
-					/>
-				);
-			},
-		},
-		{
-			fieldName: "ent_numero_identidad",
-			header: "Doc. Identidad",
-		},
-		{
-			fieldName: "fullName",
-			header: "Nombre entidad",
-			renderCell: (row) => {
-				// if (selectedCheckbox == row?.ent_numero_identidad) {
-				// 	setGetNombreEntidad(row?.fullName);
-				// }
-				return row?.fullName || "";
-			},
-		},
-		{
-			fieldName: "ent_pais",
-			header: "País",
-			renderCell: (row) => {
-				const texto = elementoBuscado("PAISES", row?.ent_pais);
-				// if (selectedCheckbox == row?.ent_numero_identidad) {
-				// 	setGetPais(texto?.lge_elemento_descripcion || "");
-				// }
-				return texto?.lge_elemento_descripcion || "";
-			},
-		},
-		{
-			fieldName: "ent_departamento",
-			header: "Departamento",
-			renderCell: (row) => {
-				const texto = elementoBuscado(
-					"DEPARTAMENTOS",
-					row?.ent_departamento
-				);
-				// if (selectedCheckbox == row?.ent_numero_identidad) {
-				// 	setGetDepartamento(texto?.lge_elemento_descripcion || "");
-				// }
-				return texto?.lge_elemento_descripcion || "";
-			},
-		},
-		{
-			fieldName: "ent_municipio",
-			header: "Municipio",
-			renderCell: (row) => {
-				const texto = elementoBuscado("MUNICIPIOS", row?.ent_municipio);
-				// if (selectedCheckbox == row?.ent_numero_identidad) {
-				// 	setGetMunicipio(texto?.lge_elemento_descripcion || "");
-				// }
-				return texto?.lge_elemento_descripcion || "";
-			},
-		},
-		{
-			fieldName: "ent_direccion",
-			header: "Dirección",
-		},
-		{
-			fieldName: "ent_abreviatura",
-			header: "Abreviatura",
-		},
-		{
-			fieldName: "ent_tipo_entidad",
-			header: "Tipo entidad",
-			renderCell: (row) => {
-				const texto = tipoEntidad(
-					"TIPOS_ENTIDAD",
-					row?.ent_tipo_entidad
-				);
-				return texto?.lge_elemento_descripcion || "";
-			},
-		},
-	];
-
 	const EntitySearchActions: ITableAction<any>[] = [
 		{
 			icon: "Edit",
@@ -173,6 +77,17 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		});
 	}, []);
 
+
+	useEffect(() => {
+		if (allData && allData?.enviado_por && geographicData.length > 0 && typeEntityData.length > 0 ) {
+			setValue('enviado_por', allData?.enviado_por)
+			onBlurData()
+		}
+	}, [geographicData, typeEntityData])
+
+
+	
+
 	useEffect(() => {
 		setGetNombreEntidad("");
 		setGetPais("");
@@ -181,13 +96,16 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		setDeleteInputs(false);
 	}, [deleteInputs]);
 
-	const elementoBuscado = (agrupador: string, codigo: string | number) =>
-		geographicData.find((item) => {
+	const elementoBuscado = (agrupador: string, codigo: string | number, data?: any[]) => {
+		console.log('elementoBuscado',geographicData, agrupador, codigo)
+		return (data ? data : geographicData).find((item) => {
 			return (
 				item.lge_agrupador == agrupador &&
 				item.lge_elemento_codigo == codigo
 			);
 		});
+	}
+		
 
 	const tipoEntidad = (agrupador: string, codigo: string | number) =>
 		typeEntityData.find((item) => {
@@ -232,8 +150,11 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	//const hasUndefinedValues = watchSearchInputs.every((x) => x === undefined);
 
 	const setAllData = (data) => {
+		console.log('setAllData', data)
 		//ToDO: Se puede Optimizar
 		const paisData = elementoBuscado("PAISES", data?.ent_pais);
+
+		console.log('paisData', paisData)
 		const departamentoData = elementoBuscado(
 			"DEPARTAMENTOS",
 			data?.ent_departamento
@@ -264,6 +185,9 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
+
+				console.log('checkIdInDB', data)
+
 				const paisData = elementoBuscado("PAISES", data?.ent_pais);
 				const departamentoData = elementoBuscado(
 					"DEPARTAMENTOS",
@@ -384,6 +308,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		setGetDepartamento(departamentoData?.lge_elemento_descripcion || "");
 		setGetMunicipio(municipioData?.lge_elemento_descripcion || "");
 	};
+
+	console.log(geographicData)
 
 	return (
 		<>
@@ -507,7 +433,93 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 				<div className="card-table shadow-none mt-20">
 					{/* Expansible Table */}
 					<TableExpansibleComponent
-						columns={columnSenderTable}
+						columns={
+							[
+								{
+									fieldName: "check",
+									header: "Seleccione",
+									renderCell: (row) => {
+										return (
+											<input
+												type="checkbox"
+												value={row?.ent_numero_identidad}
+												checked={selectedCheckbox == row?.ent_numero_identidad}
+												onChange={handleCheckboxChange}
+											/>
+										);
+									},
+								},
+								{
+									fieldName: "ent_numero_identidad",
+									header: "Doc. Identidad",
+								},
+								{
+									fieldName: "fullName",
+									header: "Nombre entidad",
+									renderCell: (row) => {
+										// if (selectedCheckbox == row?.ent_numero_identidad) {
+										// 	setGetNombreEntidad(row?.fullName);
+										// }
+										return row?.fullName || "";
+									},
+								},
+								{
+									fieldName: "ent_pais",
+									header: "País",
+									renderCell: (row) => {
+										const texto = elementoBuscado("PAISES", row?.ent_pais);
+										// if (selectedCheckbox == row?.ent_numero_identidad) {
+										// 	setGetPais(texto?.lge_elemento_descripcion || "");
+										// }
+										return texto?.lge_elemento_descripcion || "";
+									},
+								},
+								{
+									fieldName: "ent_departamento",
+									header: "Departamento",
+									renderCell: (row) => {
+										const texto = elementoBuscado(
+											"DEPARTAMENTOS",
+											row?.ent_departamento
+										);
+										// if (selectedCheckbox == row?.ent_numero_identidad) {
+										// 	setGetDepartamento(texto?.lge_elemento_descripcion || "");
+										// }
+										return texto?.lge_elemento_descripcion || "";
+									},
+								},
+								{
+									fieldName: "ent_municipio",
+									header: "Municipio",
+									renderCell: (row) => {
+										const texto = elementoBuscado("MUNICIPIOS", row?.ent_municipio);
+										// if (selectedCheckbox == row?.ent_numero_identidad) {
+										// 	setGetMunicipio(texto?.lge_elemento_descripcion || "");
+										// }
+										return texto?.lge_elemento_descripcion || "";
+									},
+								},
+								{
+									fieldName: "ent_direccion",
+									header: "Dirección",
+								},
+								{
+									fieldName: "ent_abreviatura",
+									header: "Abreviatura",
+								},
+								{
+									fieldName: "ent_tipo_entidad",
+									header: "Tipo entidad",
+									renderCell: (row) => {
+										const texto = tipoEntidad(
+											"TIPOS_ENTIDAD",
+											row?.ent_tipo_entidad
+										);
+										return texto?.lge_elemento_descripcion || "";
+									},
+								},
+							]
+						}
 						data={findSenderData}
 						actions={EntitySearchActions}
 					/>
