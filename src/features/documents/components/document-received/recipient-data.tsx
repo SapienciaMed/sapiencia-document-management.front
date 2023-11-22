@@ -110,6 +110,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	
 	
 					if (payload[0] !== null) {
+						setValue("dirigido_a", idNumber);
 						setValue(
 							"nombres_apellidos_destinatario",
 							payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS
@@ -124,7 +125,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	
 						onChange({
 							...data,
-							dirigido_a: selectedCheckbox || data?.dirigido_a,
+							dirigido_a: idNumber,
 							nombres_apellidos_destinatario:
 								payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS,
 							pais_destinatario:
