@@ -139,7 +139,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 				} else {
 					setMessage({
 						title: "Datos del destinatario",
-						description: message.error,
+						description: 'Entidad no encontrada',
 						show: true,
 						background: true,
 						okTitle: "Aceptar",
