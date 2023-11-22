@@ -93,41 +93,49 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	const setSelectedAddressee = (idNumber: string) => {
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data: payload, message }: any) => {
-				const paisData = elementoBuscado("PAISES", payload?.usr_pais);
-				const departamentoData = elementoBuscado(
-					"DEPARTAMENTOS",
-					payload?.usr_departamento
-				);
-				const municipioData = elementoBuscado(
-					"MUNICIPIOS",
-					payload?.usr_municipio
-				);
 
-				if (payload !== null) {
-					setValue(
-						"nombres_apellidos_destinatario",
-						payload?.usr_nombre + " " + payload?.usr_apellidos
+				if (payload.length > 0) {
+					console.log('payload', payload[0])
+					const departamentoData = elementoBuscado(
+						"DEPARTAMENTOS",
+						payload[0]?.USR_CODIGO_DEPARTAMENTO
 					);
-					setGetPais(paisData?.lge_elemento_descripcion || "");
-					setGetDepartamento(
-						departamentoData?.lge_elemento_descripcion || ""
+					
+					const paisData = elementoBuscado("PAISES", departamentoData?.lge_campos_adicionales?.countryId);
+	
+					const municipioData = elementoBuscado(
+						"MUNICIPIOS",
+						payload[0]?.USR_CODIGO_MUNICIPIO
 					);
-					setGetMunicipio(
-						municipioData?.lge_elemento_descripcion || ""
-					);
+	
+	
+					if (payload[0] !== null) {
+						setValue(
+							"nombres_apellidos_destinatario",
+							payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS
+						);
+						setGetPais(paisData?.lge_elemento_descripcion || "");
+						setGetDepartamento(
+							departamentoData?.lge_elemento_descripcion || ""
+						);
+						setGetMunicipio(
+							municipioData?.lge_elemento_descripcion || ""
+						);
+	
+						onChange({
+							...data,
+							dirigido_a: selectedCheckbox || data?.dirigido_a,
+							nombres_apellidos_destinatario:
+								payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS,
+							pais_destinatario:
+								paisData?.lge_elemento_descripcion || "",
+							departamento_destinatario:
+								departamentoData?.lge_elemento_descripcion || "",
+							municipio_destinatario:
+								municipioData?.lge_elemento_descripcion || "",
+						});
+				}
 
-					onChange({
-						...data,
-						dirigido_a: selectedCheckbox || data?.dirigido_a,
-						nombres_apellidos_destinatario:
-							payload?.usr_nombre + " " + payload?.usr_apellidos,
-						pais_destinatario:
-							paisData?.lge_elemento_descripcion || "",
-						departamento_destinatario:
-							departamentoData?.lge_elemento_descripcion || "",
-						municipio_destinatario:
-							municipioData?.lge_elemento_descripcion || "",
-					});
 				} else {
 					setMessage({
 						title: "Datos del destinatario",
@@ -473,18 +481,18 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											<input
 												type="checkbox"
 												value={
-													row?.usr_numero_identidad
+													row?.USR_NUMERO_DOCUMENTO
 												}
 												checked={
 													selectedCheckbox ==
-													row?.usr_numero_identidad
+													row?.USR_NUMERO_DOCUMENTO
 												}
 												onChange={handleCheckboxChange}
 											/>
 										),
 									},
 									{
-										fieldName: "usr_numero_identidad",
+										fieldName: "USR_NUMERO_DOCUMENTO",
 										header: "Usuario",
 									},
 									{
@@ -492,8 +500,8 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										header: "Nombres y apellidos",
 										renderCell: (row) => (
 											<>
-												{row.usr_nombre}{" "}
-												{row.usr_apellidos}{" "}
+												{row.USR_NOMBRES}{" "}
+												{row.USR_APELLIDOS}{" "}
 											</>
 										),
 									},
