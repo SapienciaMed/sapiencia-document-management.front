@@ -12,13 +12,13 @@ import OptionalFields from "../components/document-received/optional-fields";
 import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 import "./documents-received.scss";
 import MassiveFileUploader from "../components/document-received/index-file";
-import { Dialog } from "primereact/dialog";	
+import { Dialog } from "primereact/dialog";
 import RadicadoSticker from "../components/radicado-sticker";
 import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
-import { isEmpty } from 'lodash'; 
+import { isEmpty } from 'lodash';
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
@@ -28,14 +28,16 @@ const DocumentsReceived = () => {
 	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
 	const [hideModalIndex, setHideModalIndex] = useState<boolean>(false);
 	const [visiblemodal, setVisibleModal] = useState<boolean>(false);
+	const [messageFileIndex, setMessageFileIndex] = useState<boolean>(false);
 	const baseURL: string =
-	process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
 	const { get, post } = useCrudService(baseURL);
 	const { authorization } = useContext(AppContext);
 	const [filingComplete, setFilingComplete] = useState(false);
 	const { setMessage } = useContext(AppContext);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
 
 	useEffect(() => {
 		getRadicadoIncompleto();
@@ -71,11 +73,11 @@ const DocumentsReceived = () => {
 
 	const handleSave = () => {
 		post(`/radicado-details/create`, {
-			"DRA_FECHA_RADICADO": moment(new Date()).format("YYYY-MM-DD").toString() ,
+			"DRA_FECHA_RADICADO": moment(new Date()).format("YYYY-MM-DD").toString(),
 			"DRA_TIPO_RADICADO": 1,
 			"DRA_RADICADO_ORIGEN": data.radicado_origen || '',
 			"DRA_RADICADO_POR": data.radicado_por || '',
-			"DRA_NOMBRE_RADICADOR": `${ authorization.user.names + " " + authorization.user.lastNames }` || '',
+			"DRA_NOMBRE_RADICADOR": `${authorization.user.names + " " + authorization.user.lastNames}` || '',
 			"DRA_ID_REMITENTE": data.enviado_por || '',
 			"DRA_ID_DESTINATARIO": data.dirigido_a || '',
 			"DRA_CODIGO_ASUNTO": data.codigo_asunto || 1,
@@ -90,7 +92,7 @@ const DocumentsReceived = () => {
 			"DRA_PRIORIDAD": data.prioridad || '',
 			"DRA_CREADO_POR": authorization.user.numberDocument || '',
 			"DRA_ESTADO": "INCOMPLETO",
-			"copies": data?.add_recipient_data?.map((r) => { return {RCD_ID_DESTINATARIO: r.ent_numero_identidad} }) || []
+			"copies": data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.ent_numero_identidad } }) || []
 		}).then(() => {
 			getRadicadoIncompleto()
 		});
@@ -98,29 +100,19 @@ const DocumentsReceived = () => {
 
 	const getUploadedFile = () => {
 		return uploadedFile;
-	  };
+	};
 
 	const handleUpload = (file) => {
 
 		setUploadedFile(file);
-	  
-		setMessage({
-		  title: "Éxito",
-		  description: `Archivo adjunto: ${file.name}`,
-		  show: true,
-		  background: true,
-		  okTitle: "Aceptar",
-		  onOk: () => {
-			setMessage({});
-		  },
-		});
-	  };
+		setMessageFileIndex(true);
+	};
 
-	  const handleEnd = () => {
+	const handleEnd = () => {
 		const radicadoId = data.radicado;
 		const uploadedFile = getUploadedFile();
 		const formData = new FormData();
-	  
+		console.log('RadicadoID', radicadoId);
 		formData.append("uploadedFile", uploadedFile);
 		formData.append("DRA_FECHA_RADICADO", moment(new Date()).format("YYYY-MM-DD").toString());
 		formData.append("DRA_TIPO_RADICADO", "1");
@@ -138,43 +130,43 @@ const DocumentsReceived = () => {
 		formData.append("DRA_NUM_CAJAS", data.numero_cajas || "0");
 		formData.append("DRA_PRIORIDAD", data.prioridad || "");
 		formData.append("DRA_ESTADO", "COMPLETO");
-	  
+
 		// Adjuntar datos de copias si están disponibles
 		if (data?.add_recipient_data?.length > 0) {
-		  data.add_recipient_data.forEach((recipient, index) => {
-			formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.ent_numero_identidad || "");
-		  });
+			data.add_recipient_data.forEach((recipient, index) => {
+				formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.ent_numero_identidad || "");
+			});
 		}
-	  
+
 		axios.put(`/radicado-details/complete/${radicadoId}`, formData)
-		  .then(() => {
-			setFilingComplete(true);
-			setMessage({
-			  title: "Finalización exitosa",
-			  description: "El radicado se completó de manera exitosa",
-			  show: true,
-			  background: true,
-			  okTitle: "Aceptar",
-			  onOk: () => {
-				setMessage({});
-			  },
+			.then(() => {
+				setFilingComplete(true);
+				setMessage({
+					title: "Finalización exitosa",
+					description: "El radicado se completó de manera exitosa",
+					show: true,
+					background: true,
+					okTitle: "Aceptar",
+					onOk: () => {
+						setMessage({});
+					},
+				});
+			})
+			.catch(error => {
+				setFilingComplete(true);
+				setMessage({
+					title: "Error",
+					description: "El radicado no se ha completado",
+					show: true,
+					background: true,
+					okTitle: "Aceptar",
+					onOk: () => {
+						setMessage({});
+					},
+				});
+				console.error('Error al marcar el radicado como completado:', error);
 			});
-		  })
-		  .catch(error => {
-			setFilingComplete(true);
-			setMessage({
-			  title: "Error",
-			  description: "El radicado no se ha completado",
-			  show: true,
-			  background: true,
-			  okTitle: "Aceptar",
-			  onOk: () => {
-				setMessage({});
-			  },
-			});
-			console.error('Error al marcar el radicado como completado:', error);
-		  });
-	  };	  
+	};
 
 	const onChange = async (newData: any) => {
 		try {
@@ -259,16 +251,18 @@ const DocumentsReceived = () => {
 					}}>
 					<MassiveFileUploader
 						handleUpload={handleUpload}
+						messageFileIndex={messageFileIndex}
+						setHideModalIndex={setHideModalIndex}
 					/>
 					<div className="mt-10 flex flex-center">
-					<ButtonComponent
-						className={`button-main buttonTop py-12 px-16 font-size-16`}
-						value="Cancelar"
-						type="button"
-						action={() => setHideModalIndex(false)}
-						disabled={false}
-					/>
-				</div>
+						<ButtonComponent
+							className={`button-main buttonTop py-12 px-16 font-size-16`}
+							value="Cancelar"
+							type="button"
+							action={() => setHideModalIndex(false)}
+							disabled={false}
+						/>
+					</div>
 				</Dialog>
 			</div>
 			<div>
@@ -362,7 +356,6 @@ const DocumentsReceived = () => {
 						value="Finalizar"
 						type="button"
 						action={handleEnd}
-						disabled={!filingComplete}
 					/>
 				</div></>}
 		</div>

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button } from 'primereact/button';
 import { Tooltip } from "primereact/tooltip";
 import { clip } from "../../../../common/components/icons/clip";
@@ -6,14 +6,21 @@ import { uploadIcon } from "../../../../common/components/icons/upload";
 import { trashIcon } from "../../../../common/components/icons/trash";
 import { imagesicon } from "../../../../common/components/icons/images";
 import "./MassiveFileUploader.css";
+import { AppContext } from "../../../../common/contexts/app.context";
 
 
 const MassiveFileUploader = ({
     handleUpload,
+    messageFileIndex,
+    setHideModalIndex,
 }) => {
     const [files, setFiles] = useState<File[]>([]);
+    const [hideMessage, setHideMessage] = useState<any>(messageFileIndex);
+    console.log("hideMessage", hideMessage);
+    console.log("messageFileIndex", messageFileIndex);
     //const { setMessage } = useContext(AppContext);
     const inputRef = useRef<HTMLInputElement>(null);
+    const { setMessage } = useContext(AppContext);
     //const classes = `${styles.container} spc-common-table expansible card-table massive-index`;
     //const classesUpload = `${styles.fileMassive} files`;
 
@@ -23,6 +30,12 @@ const MassiveFileUploader = ({
         );
         setFiles([...files, ...newFiles]);
     };
+
+    useEffect(() => {
+        if (messageFileIndex) {
+            setHideMessage(true);
+        }
+    }, [messageFileIndex]);
 
     const handleFileRemove = (file: File) => {
         const updatedFiles = files.filter((f) => f !== file);
@@ -154,7 +167,7 @@ const MassiveFileUploader = ({
                                             <li key={index} className="file-item">
                                                 <div className="flex align-items-center file-name">
                                                     <span className="name-file-date">{file.name}
-                                                    <small>{new Date().toLocaleDateString()}</small>
+                                                        <small>{new Date().toLocaleDateString()}</small>
                                                     </span>
                                                 </div>
                                                 <span className="file-tag">{Math.round(file.size / 1024)} KB</span>
@@ -174,6 +187,16 @@ const MassiveFileUploader = ({
                             </div>
                         )}
                     </div>
+                    {hideMessage && <div className="modalMessageOk">
+                        <div className="containerMessageOk">
+                            <div>
+                            <button className="closeMessage" onClick={() => {setHideMessage(false);}}>X</button>
+                            </div>
+                            <span className="titleMessage">Archivo adjunto</span>
+                            <p className="textMessage">Archivo adjuntado exitosamente</p>
+                            <button className="buttonMessageOk" onClick={() => { setHideMessage(false); setHideModalIndex(false); }}>Aceptar</button>
+                        </div>
+                    </div>}
                 </div>
             </div>
         </>

@@ -40,7 +40,7 @@ const Subject = ({ data, onChange }: IProps) => {
 		defaultValues: { ...data },
 		mode: "all",
 	});
-
+	console.log("valuesFOrm", getValuesSubjectForm("tipo_asunto"));
 	useEffect(() => {
 		const data = async () =>
 			await get(`/generic-list/type-radicado-list`).then((data) => {
@@ -117,18 +117,21 @@ const Subject = ({ data, onChange }: IProps) => {
 						}}
 					/>
 					<div className={`${styles["button-wrapper"]}`}>
-					<div className={`${styles["button-item"]}`}></div>
-					<button
-						className={`${styles["btn"]} ${styles["btn--gray"]}`}
+						<div className={`${styles["button-item"]}`}></div>
+						<button
+						style={{
+							backgroundColor: getValuesSubjectForm("tipo_asunto") == "2" ? '#533893' : '#E2E2E2',borderRadius: '30px', border: 'none', height: '55px', fontSize: '1rem', fontFamily: '"RubikRegular"', width: '100%',  cursor: getValuesSubjectForm("tipo_asunto") === "2" ? 'pointer' : 'default', color: getValuesSubjectForm("tipo_asunto") === "2" ? '#fff' : '#000',
+							// Otros estilos según sea necesario
+						}}
 						onClick={(e) => {
 							e.preventDefault();
 							setIsVisibleRelatedAnswersModal(true);
 						}}
 						disabled={getValuesSubjectForm("tipo_asunto") !== "2"}
-					>
+						>
 						Respuestas Relacionadas
-					</button>
-				</div>
+						</button>
+					</div>
 				</div>
 				<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
 					<div className={`${styles["input-wrapper"]}`}>
@@ -165,7 +168,7 @@ const Subject = ({ data, onChange }: IProps) => {
 						</span>
 					</div>
 				</div>
-				
+
 			</FormComponent>
 
 			<RelatedAnswers
