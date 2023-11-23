@@ -212,7 +212,7 @@ const RadicadosTray = () => {
 			},
 		},
 		{
-			fieldName: "dra_asunto",
+			fieldName: "rn_radicado_to_asunto.inf_nombre_asunto",
 			header: "Asunto",
 			sortable: true,
 		},
