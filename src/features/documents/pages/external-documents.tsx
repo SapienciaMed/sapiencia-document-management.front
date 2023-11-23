@@ -2,16 +2,16 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { ButtonComponent } from "../../../common/components/Form";
 import AccordionsComponent from "../../../common/components/accordions.component";
 import { IAccordionTemplate } from "../../../common/interfaces/accordions.interfaces";
-import RadicadoDetails from "../components/document-received/radicado-details";
-import SenderData from "../components/document-received/sender-data";
-import BasicDocumentInformation from "../components/document-received/basic-document-information";
-import RecipientData from "../components/document-received/recipient-data";
-import AddRecipient from "../components/document-received/add-recipient";
-import Subject from "../components/document-received/subject";
-import OptionalFields from "../components/document-received/optional-fields";
+import RadicadoDetails from "../components/external-documents/radicado-details";
+import SenderData from "../components/external-documents/sender-data";
+import BasicDocumentInformation from "../components/external-documents/basic-document-information";
+import RecipientData from "../components/external-documents/recipient-data";
+import AddRecipient from "../components/external-documents/add-recipient";
+import Subject from "../components/external-documents/subject";
+import OptionalFields from "../components/external-documents/optional-fields";
 import useBreadCrumb from "../../../common/hooks/bread-crumb.hook";
 import "./documents-received.scss";
-import MassiveFileUploader from "../components/document-received/index-file";
+import MassiveFileUploader from "../components/external-documents/index-file";
 import { Dialog } from "primereact/dialog";
 import RadicadoSticker from "../components/radicado-sticker";
 import useCrudService from "../../../common/hooks/crud-service.hook";
@@ -19,7 +19,7 @@ import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
 import { isEmpty } from 'lodash';
-const DocumentsReceived = () => {
+const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
 		prioridad: "2"
@@ -69,7 +69,7 @@ const DocumentsReceived = () => {
 		});
 	}
 
-	useBreadCrumb({ isPrimaryPage: true, name: "Documento recibido", url: "/gestion-documental/radicacion/documento-recibido" });
+	useBreadCrumb({ isPrimaryPage: true, name: "Documento externo", url: "/gestion-documental/radicacion/documento-externo" });
 
 	const handleSave = () => {
 		post(`/radicado-details/create`, {
@@ -222,11 +222,11 @@ const DocumentsReceived = () => {
 				<div className="card-table shadow-none">
 					<div className="title-area">
 						<div className="text-black extra-large bold">
-							Documentos recibidos
+							Documentos externos
 						</div>
 					</div>
 					<h2 className="text--black bold">
-						Ficha de radicación de documento recibido
+						Ficha de radicación de documento externo
 					</h2>
 
 					<AccordionsComponent
@@ -362,4 +362,4 @@ const DocumentsReceived = () => {
 	);
 };
 
-export default DocumentsReceived;
+export default DocumentsExternal;
