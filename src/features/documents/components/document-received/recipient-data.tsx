@@ -95,7 +95,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 			checkIdInDB(idNumber).then(async ({ data: payload, message }: any) => {
 
 				if (payload.length > 0) {
-					console.log('payload', payload[0])
+		
 					const departamentoData = elementoBuscado(
 						"DEPARTAMENTOS",
 						payload[0]?.USR_CODIGO_DEPARTAMENTO

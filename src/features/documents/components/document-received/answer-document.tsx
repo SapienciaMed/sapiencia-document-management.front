@@ -112,15 +112,6 @@ const AnswerDocument = ({
 			);
 		});
 
-	// useEffect(() => {
-	// 	getAnswerDocumentByID("966496264426", "1").then( //TODO: CAMBIAR IDs POR VARIABLES
-	// 		async ({ data, operation }) => {
-	// 			console.log(data, "data1");
-	// 			setRelatedAnswers(data);
-	// 		}
-	// 	);
-	// }, []);
-
 	const getAnswerDocumentByID = async (radicadoId: string, type: string) => {
 		const endpoint: string = `/answer-document/${radicadoId}/type/${type}`;
 		const dataList = await get(`${endpoint}`);

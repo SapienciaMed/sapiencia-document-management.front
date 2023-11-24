@@ -271,7 +271,6 @@ const MassiveProcesses = () => {
 	};
 
 	const getRadicadosByDate = async (date: string) => {
-		console.log(date, "FECHA");
 		const endpoint: string = `/radicado-details/massive-by-date/${date}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
