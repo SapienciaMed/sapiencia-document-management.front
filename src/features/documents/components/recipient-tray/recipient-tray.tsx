@@ -248,7 +248,7 @@ const RecipientTray = () => {
 			style: { minWidth: "15rem" },
 		},
 		{
-			fieldName: "dra_fecha_entrada",
+			fieldName: "dra_fecha_evacuacion_entrada",
 			header: "Fecha Entrada",
 			sortable: true,
 			filter: true,

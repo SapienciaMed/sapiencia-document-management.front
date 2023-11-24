@@ -29,13 +29,8 @@ export default React.memo(() => {
   })
 
   useEffect(() => {
-    if (validateActionAccess('BANDEJA_DESTINATARIOS')) {
-      getSummaryRecipients();
-    }
-
-    if (validateActionAccess('BANDEJA_RADICADOS')) {
-      getSummaryFileds();
-    }
+    getSummaryRecipients();
+    getSummaryFileds();
   }, [])
 
 

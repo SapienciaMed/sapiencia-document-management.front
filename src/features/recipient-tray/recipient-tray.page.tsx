@@ -59,7 +59,7 @@ export default React.memo(() => {
         : `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}`
       
       );
-    console.log(response.data)
+
 		setData(response.data)
 		setShowTable(true)
 	}

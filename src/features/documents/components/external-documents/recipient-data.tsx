@@ -97,7 +97,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	}, [deleteInputs]);
 
 	const elementoBuscado = (agrupador: string, codigo: string | number, data?: any[]) => {
-		
+		console.log('elementoBuscado',geographicData, agrupador, codigo)
 		return (data ? data : geographicData).find((item) => {
 			return (
 				item.lge_agrupador == agrupador &&
@@ -150,9 +150,11 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	//const hasUndefinedValues = watchSearchInputs.every((x) => x === undefined);
 
 	const setAllData = (data) => {
-		
+		console.log('setAllData', data)
 		//ToDO: Se puede Optimizar
 		const paisData = elementoBuscado("PAISES", data?.ent_pais);
+
+		console.log('paisData', paisData)
 		const departamentoData = elementoBuscado(
 			"DEPARTAMENTOS",
 			data?.ent_departamento
@@ -179,8 +181,12 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
 
+		console.log('idNumber', idNumber)
+
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
+
+				console.log('checkIdInDB', data)
 
 				const paisData = elementoBuscado("PAISES", data?.ent_pais);
 				const departamentoData = elementoBuscado(
@@ -303,6 +309,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		setGetMunicipio(municipioData?.lge_elemento_descripcion || "");
 	};
 
+	console.log(geographicData)
+
 	return (
 		<>
 			<FormComponent action={null}>
@@ -312,9 +320,9 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 					>
 						<div>
 							<InputTextIconComponent
-								idInput="enviado_por"
+								idInput="dirigido_a"
 								control={control}
-								label="Enviado por"
+								label="Dirigido a"
 								className="input-basic"
 								classNameLabel="text--black text-required"
 								errors={errors}

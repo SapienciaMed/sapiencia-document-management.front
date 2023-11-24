@@ -95,7 +95,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 			checkIdInDB(idNumber).then(async ({ data: payload, message }: any) => {
 
 				if (payload.length > 0) {
-		
+					console.log('payload', payload[0])
 					const departamentoData = elementoBuscado(
 						"DEPARTAMENTOS",
 						payload[0]?.USR_CODIGO_DEPARTAMENTO
@@ -209,9 +209,9 @@ const RecipientData = ({ data, onChange }: IProps) => {
 				>
 					<div>
 						<InputTextIconComponent
-							idInput="dirigido_a"
+							idInput="enviado_por"
 							control={control}
-							label="Dirigido a"
+							label="Enviado por"
 							className="input-basic"
 							classNameLabel="text--black text-required"
 							errors={errors}
@@ -331,7 +331,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 								fontWeight: 500,
 							}}
 						>
-							Parámetros destinario
+							Parámetros remitente
 						</h2>
 						<FormComponent action={undefined}>
 							<div className="grid-form-1-container">
@@ -341,7 +341,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										typeInput="number"
 										className="input-basic background-textArea"
 										register={register}
-										label="Código"
+										label="Usuario"
 										classNameLabel="text-black big"
 										direction={EDirection.column}
 										errors={errors}
@@ -359,7 +359,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										typeInput="text"
 										className="input-basic background-textArea"
 										register={register}
-										label="Nombre"
+										label="Nombres"
 										classNameLabel="text-black big"
 										direction={EDirection.column}
 										errors={errors}

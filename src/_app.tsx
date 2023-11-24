@@ -13,6 +13,7 @@ import ApplicationProvider from "./application-provider";
 import useAppCominicator from "./common/hooks/app-communicator.hook";
 import DocumentsRoutes from "./features/documents/documents-routes";
 import DocumentsReceived from "./features/documents/pages/documents-received";
+import DocumentsExternal from "./features/documents/pages/external-documents";
 
 import RadicadosTray from "./features/documents/components/radicados-tray/radicados-tray";
 import RecipientTray from "./features/documents/components/recipient-tray/recipient-tray";
@@ -92,6 +93,12 @@ function App() {
 									element={<DocumentsReceived />}
 									allowedAction={"DOCUMENTO_RECIBIDO"}
 								/>}
+							/>
+							<Route
+								path={
+									"/gestion-documental/radicacion/documento-externo"
+								}
+								element={<DocumentsExternal />}
 							/>
 							<Route
 								path={
