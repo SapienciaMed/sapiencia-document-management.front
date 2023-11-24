@@ -88,7 +88,7 @@ const DocumentsExternal = () => {
 			"DRA_NUM_FOLIOS": data.numero_folios || 0,
 			"DRA_NUM_CAJAS": data.numero_cajas || 0,
 			"DRA_USUARIO": authorization.user.numberDocument || '',
-			"DRA_TIPO_DOCUMENTO_RADICADO": "Recibido",
+			"DRA_TIPO_DOCUMENTO_RADICADO": "Externo",
 			"DRA_PRIORIDAD": data.prioridad || '',
 			"DRA_CREADO_POR": authorization.user.numberDocument || '',
 			"DRA_ESTADO": "INCOMPLETO",
