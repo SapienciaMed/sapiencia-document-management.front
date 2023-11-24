@@ -31,7 +31,7 @@ const DocumentsReceived = () => {
 	const [messageFileIndex, setMessageFileIndex] = useState<boolean>(false);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-	const { get, post } = useCrudService(baseURL);
+	const { get, post, put } = useCrudService(baseURL);
 	const { authorization } = useContext(AppContext);
 	const [filingComplete, setFilingComplete] = useState(false);
 	const { setMessage } = useContext(AppContext);
@@ -108,7 +108,7 @@ const DocumentsReceived = () => {
 		setMessageFileIndex(true);
 	};
 
-	const handleEnd = () => {
+	const handleEnd = async () => {
 		const radicadoId = data.radicado;
 		const uploadedFile = getUploadedFile();
 		const formData = new FormData();
@@ -138,34 +138,37 @@ const DocumentsReceived = () => {
 			});
 		}
 
-		axios.put(`${process.env.urlApiDocumentManagement}/api/v1/document-management/radicado-details/complete/${radicadoId}`, formData)
-			.then(() => {
-				setFilingComplete(true);
-				setMessage({
-					title: "Finalización exitosa",
-					description: "El radicado se completó de manera exitosa",
-					show: true,
-					background: true,
-					okTitle: "Aceptar",
-					onOk: () => {
-						setMessage({});
-					},
-				});
-			})
-			.catch(error => {
-				setFilingComplete(true);
-				setMessage({
-					title: "Error",
-					description: "El radicado no se ha completado",
-					show: true,
-					background: true,
-					okTitle: "Aceptar",
-					onOk: () => {
-						setMessage({});
-					},
-				});
-				console.error('Error al marcar el radicado como completado:', error);
+		try {
+			const response = await put(
+				`${process.env.urlApiDocumentManagement}/api/v1/document-management/radicado-details/complete/${radicadoId}`,
+				formData
+			);
+			setFilingComplete(true);
+			setMessage({
+				title: "Finalización exitosa",
+				description: "El radicado se completó de manera exitosa",
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+				onOk: () => {
+					setMessage({});
+				},
 			});
+			return response;
+		} catch (error) {
+			setFilingComplete(true);
+			setMessage({
+				title: "Error",
+				description: "El radicado no se ha completado",
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+				onOk: () => {
+					setMessage({});
+				},
+			});
+			console.error('Error al marcar el radicado como completado:', error);
+		}
 	};
 
 	const onChange = async (newData: any) => {
