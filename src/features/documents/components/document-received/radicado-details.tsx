@@ -70,13 +70,14 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 		if (allData && allData?.radicado_origen) {
 			onBlurData();
 		}
-	}, [])
+	}, []);
 
 	const onBlurData = () => {
 		const radicadoOrigen = getValues("radicado_origen");
 		onChange({
 			...allData,
-			radicado_origen: Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen),
+			radicado_origen:
+				Number(radicadoOrigen) == 0 ? null : Number(radicadoOrigen),
 		});
 		if (radicadoOrigen) {
 			checkRadicadoOrigenInDB(radicadoOrigen).then(
@@ -106,7 +107,6 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 		const data = await get(`${endpoint}`);
 		return data;
 	};
-
 
 	return (
 		<FormComponent action={undefined}>
@@ -214,7 +214,7 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 							register={register}
 							onChange={null}
 							errors={errors}
-							disabled={false}
+							disabled={true}
 						/>
 					)}
 				/>
