@@ -9,6 +9,7 @@ import { AppContext } from "../contexts/app.context";
 export default React.memo(() => {
   useBreadCrumb({ isPrimaryPage: true, name: "", url: "" });
   const { validateActionAccess } = useContext(AppContext);
+  const { authorization } = useContext(AppContext);
 
   const baseURL: string = process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
   const { get } = useCrudService(baseURL);
@@ -35,7 +36,7 @@ export default React.memo(() => {
 
 
   const getSummaryRecipients = async () => {
-    const response: any = await get(`/radicado-details/getSummaryRecipients?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }`);
+    const response: any = await get(`/radicado-details/getSummaryRecipients?id-destinatario=${authorization.user.numberDocument}`);
     setDataSummaryRecipients(response.data)
   }
 

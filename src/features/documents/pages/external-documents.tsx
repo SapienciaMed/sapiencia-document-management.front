@@ -44,7 +44,7 @@ const DocumentsExternal = () => {
 	}, [])
 
 	const getRadicadoIncompleto = () => {
-		get(`/radicado-details/find-by-create-by/${JSON.parse(localStorage.getItem('credentials'))?.numberDocument}`).then((data: any) => {
+		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}`).then((data: any) => {
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,
