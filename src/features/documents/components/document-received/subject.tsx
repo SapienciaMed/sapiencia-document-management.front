@@ -40,7 +40,7 @@ const Subject = ({ data, onChange }: IProps) => {
 		defaultValues: { ...data },
 		mode: "all",
 	});
-	console.log("valuesFOrm", getValuesSubjectForm("tipo_asunto"));
+
 	useEffect(() => {
 		const data = async () =>
 			await get(`/generic-list/type-radicado-list`).then((data) => {

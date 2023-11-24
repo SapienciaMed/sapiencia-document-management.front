@@ -16,8 +16,6 @@ const MassiveFileUploader = ({
 }) => {
     const [files, setFiles] = useState<File[]>([]);
     const [hideMessage, setHideMessage] = useState<any>(messageFileIndex);
-    console.log("hideMessage", hideMessage);
-    console.log("messageFileIndex", messageFileIndex);
     //const { setMessage } = useContext(AppContext);
     const inputRef = useRef<HTMLInputElement>(null);
     const { setMessage } = useContext(AppContext);

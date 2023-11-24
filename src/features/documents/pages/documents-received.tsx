@@ -112,7 +112,7 @@ const DocumentsReceived = () => {
 		const radicadoId = data.radicado;
 		const uploadedFile = getUploadedFile();
 		const formData = new FormData();
-		console.log('RadicadoID', radicadoId);
+
 		formData.append("uploadedFile", uploadedFile);
 		formData.append("DRA_FECHA_RADICADO", moment(new Date()).format("YYYY-MM-DD").toString());
 		formData.append("DRA_TIPO_RADICADO", "1");
