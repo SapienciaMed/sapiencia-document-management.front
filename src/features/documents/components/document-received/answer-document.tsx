@@ -70,7 +70,7 @@ const AnswerDocument = ({
 			header: "Destinatario",
 		},
 		{
-			fieldName: "dra_codigo_asunto",
+			fieldName: "rn_radicado_to_asunto.inf_nombre_asunto",
 			header: "Asunto",
 		},
 		{
