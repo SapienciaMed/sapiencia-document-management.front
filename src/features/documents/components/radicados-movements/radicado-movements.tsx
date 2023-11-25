@@ -113,9 +113,8 @@ const RadicadoMovements = () => {
 			sortable: true,
 		},
 		{
-			fieldName: "dra_codigo_asunto",
+			fieldName: "rn_radicado_to_asunto.inf_nombre_asunto",
 			header: "Asunto",
-			renderCell: (row) => "Asunto por definir",
 		},
 		{
 			fieldName: "dra_tipo_asunto",
