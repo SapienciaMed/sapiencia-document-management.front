@@ -30,7 +30,9 @@ export default React.memo(() => {
   })
 
   useEffect(() => {
+    // test
     getSummaryRecipients();
+
     getSummaryFileds();
   }, [])
 

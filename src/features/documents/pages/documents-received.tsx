@@ -92,7 +92,7 @@ const DocumentsReceived = () => {
 			"DRA_PRIORIDAD": data.prioridad || '',
 			"DRA_CREADO_POR": authorization.user.numberDocument || '',
 			"DRA_ESTADO": "INCOMPLETO",
-			"copies": data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.ent_numero_identidad } }) || []
+			"copies": data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.USR_NUMERO_DOCUMENTO } }) || []
 		}).then(() => {
 			getRadicadoIncompleto()
 		});
@@ -134,7 +134,7 @@ const DocumentsReceived = () => {
 		// Adjuntar datos de copias si están disponibles
 		if (data?.add_recipient_data?.length > 0) {
 			data.add_recipient_data.forEach((recipient, index) => {
-				formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.ent_numero_identidad || "");
+				formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.USR_NUMERO_DOCUMENTO || "");
 			});
 		}
 
