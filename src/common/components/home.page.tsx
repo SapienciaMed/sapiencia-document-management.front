@@ -30,8 +30,10 @@ export default React.memo(() => {
   })
 
   useEffect(() => {
-    getSummaryRecipients();
-  }, [authorization.user.numberDocument])
+    if (authorization?.user?.numberDocument) {
+      getSummaryRecipients();
+    }
+  }, [authorization?.user?.numberDocument])
   
   useEffect(() => {
     getSummaryFileds();
