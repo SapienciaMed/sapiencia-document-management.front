@@ -30,13 +30,13 @@ export default React.memo(() => {
   })
 
   useEffect(() => {
-    // test
     getSummaryRecipients();
-
+  }, [authorization.user.numberDocument])
+  
+  useEffect(() => {
     getSummaryFileds();
   }, [])
-
-
+  
   const getSummaryRecipients = async () => {
     const response: any = await get(`/radicado-details/getSummaryRecipients?id-destinatario=${authorization.user.numberDocument}`);
     setDataSummaryRecipients(response.data)
