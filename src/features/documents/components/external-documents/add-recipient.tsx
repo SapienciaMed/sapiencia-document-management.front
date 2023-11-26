@@ -31,13 +31,13 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 
 	const newData = (newData: any[]) => {
 		const mergeData = [...data, ...newData];
-		const d = Array.from(new Set(mergeData.map(m => m.ent_numero_identidad))).map(ent_numero_identidad => mergeData.find(obj => obj.ent_numero_identidad === ent_numero_identidad))
+		const d = Array.from(new Set(mergeData.map(m => m.USR_NUMERO_DOCUMENTO))).map(USR_NUMERO_DOCUMENTO => mergeData.find(obj => obj.USR_NUMERO_DOCUMENTO === USR_NUMERO_DOCUMENTO))
 		setData(d);
 		onChange({ ...payload, add_recipient_data: d})
 
 	}
 
-	const remove = (ent_numero_identidad: string) => {
+	const remove = (USR_NUMERO_DOCUMENTO: string) => {
 		setMessage({
 			title: "Eliminar copia destinatario",
 			description:
@@ -48,7 +48,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 			cancelTitle: "Cancelar",
 			style: "z-index-1300",
 			onOk: () => {
-				const d = data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad)
+				const d = data.filter((d) => d.USR_NUMERO_DOCUMENTO !== USR_NUMERO_DOCUMENTO)
 				setData(d)
 				onChange({ ...payload, add_recipient_data: d})
 				setMessage({});
@@ -86,14 +86,14 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 
 			{
 				data.map((d) => (
-					<FormComponent key={d.ent_numero_identidad} action={null}>
+					<FormComponent key={d.USR_NUMERO_DOCUMENTO} action={null}>
 						<div
 							className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 						>
 							<InputComponent
 								id="documento"
 								idInput="documento"
-								value={d.ent_numero_identidad}
+								value={d.USR_NUMERO_DOCUMENTO}
 								label="Documento"
 								className="input-basic"
 								classNameLabel="text--black"
@@ -107,7 +107,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 							<InputComponent
 								id="nombre_destinatario_copia"
 								idInput="nombre_destinatario_copia"
-								value={d.ent_tipo_documento == "CC" ? `${d.ent_nombres} ${d.ent_apellidos}`: d.ent_razon_social}
+								value={`${d.USR_NOMBRES || ''} ${d.USR_APELLIDOS || ''}`}
 								label="Nombre"
 								className="input-basic"
 								classNameLabel="text--black"
@@ -118,11 +118,11 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 								disabled={true}
 							/>
 
-							<div className="d-flex align-items-center" style={{ cursor: 'pointer'}} onClick={() => remove(d.ent_numero_identidad)}>
+							<div className="d-flex align-items-center" style={{ cursor: 'pointer'}} onClick={() => remove(d.USR_NUMERO_DOCUMENTO)}>
 								<InputComponent
 									id="correo_destinatario_copia"
 									idInput="correo_destinatario_copia"
-									value={d.ent_email}
+									value={d.USR_CORREO}
 									label="Correo"
 									className="input-basic"
 									classNameLabel="text--black"
