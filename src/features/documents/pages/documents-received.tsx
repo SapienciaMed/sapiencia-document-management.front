@@ -46,7 +46,7 @@ const DocumentsReceived = () => {
 	}, [])
 
 	const getRadicadoIncompleto = () => {
-		get(`/radicado-details/find-by-create-by/${JSON.parse(localStorage.getItem('credentials'))?.numberDocument}`).then((data: any) => {
+		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}`).then((data: any) => {
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,
@@ -83,8 +83,8 @@ const DocumentsReceived = () => {
 			"DRA_ID_REMITENTE": data.enviado_por || '',
 			"DRA_ID_DESTINATARIO": data.dirigido_a || '',
 			"DRA_CODIGO_ASUNTO": data.codigo_asunto || 1,
-			"DRA_TIPO_ASUNTO": 1,
-			"DRA_PRIORIDAD_ASUNTO": 1,
+			"DRA_TIPO_ASUNTO": data.tipo || 1,
+			"DRA_PRIORIDAD_ASUNTO": data.prioridad || 1,
 			"DRA_OBSERVACION": data.observaciones || '',
 			"DRA_NUM_ANEXOS": data.numero_anexos || 0,
 			"DRA_NUM_FOLIOS": data.numero_folios || 0,
@@ -94,7 +94,7 @@ const DocumentsReceived = () => {
 			"DRA_PRIORIDAD": data.prioridad || '',
 			"DRA_CREADO_POR": authorization.user.numberDocument || '',
 			"DRA_ESTADO": "INCOMPLETO",
-			"copies": data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.ent_numero_identidad } }) || []
+			"copies": data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.USR_NUMERO_DOCUMENTO } }) || []
 		}).then(() => {
 			getRadicadoIncompleto()
 		});
@@ -149,7 +149,7 @@ const DocumentsReceived = () => {
 		// Adjuntar datos de copias si están disponibles
 		if (data?.add_recipient_data?.length > 0) {
 			data.add_recipient_data.forEach((recipient, index) => {
-				formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.ent_numero_identidad || "");
+				formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.USR_NUMERO_DOCUMENTO || "");
 			});
 		}
 

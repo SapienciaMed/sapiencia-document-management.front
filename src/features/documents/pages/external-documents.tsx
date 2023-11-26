@@ -45,7 +45,7 @@ const DocumentsExternal = () => {
 	}, [])
 
 	const getRadicadoIncompleto = () => {
-		get(`/radicado-details/find-by-create-by/${JSON.parse(localStorage.getItem('credentials'))?.numberDocument}`).then((data: any) => {
+		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}`).then((data: any) => {
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,
@@ -82,14 +82,14 @@ const DocumentsExternal = () => {
 			"DRA_ID_REMITENTE": data.enviado_por || '',
 			"DRA_ID_DESTINATARIO": data.dirigido_a || '',
 			"DRA_CODIGO_ASUNTO": data.codigo_asunto || 1,
-			"DRA_TIPO_ASUNTO": 1,
-			"DRA_PRIORIDAD_ASUNTO": 1,
+			"DRA_TIPO_ASUNTO": data.tipo || 1,
+			"DRA_PRIORIDAD_ASUNTO": data.prioridad || 1,
 			"DRA_OBSERVACION": data.observaciones || '',
 			"DRA_NUM_ANEXOS": data.numero_anexos || 0,
 			"DRA_NUM_FOLIOS": data.numero_folios || 0,
 			"DRA_NUM_CAJAS": data.numero_cajas || 0,
 			"DRA_USUARIO": authorization.user.numberDocument || '',
-			"DRA_TIPO_DOCUMENTO_RADICADO": "Recibido",
+			"DRA_TIPO_DOCUMENTO_RADICADO": "Externo",
 			"DRA_PRIORIDAD": data.prioridad || '',
 			"DRA_CREADO_POR": authorization.user.numberDocument || '',
 			"DRA_ESTADO": "INCOMPLETO",
