@@ -73,7 +73,7 @@ const AddRecipientCopyForm = ({
 				const copies = []
 				console.log(loadedData.copias)
 				rd.data.map((d) => {
-					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.ent_numero_identidad )) {
+					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.USR_NUMERO_DOCUMENTO )) {
 						copies.push(d)
 					}
 				})
@@ -109,13 +109,13 @@ const AddRecipientCopyForm = ({
 
 
 	const handleCheckboxChange = (e) => {
-		const entIndex = data.findIndex((d) => d.ent_numero_identidad === e.target.value);
+		const entIndex = data.findIndex((d) => d.USR_NUMERO_DOCUMENTO === e.target.value);
 	  
 		if (e.target.checked) {
 		  setSelectedCheckboxs((prevSelectedCheckboxs) => [...prevSelectedCheckboxs, data[entIndex]]);
 		} else {
 		  setSelectedCheckboxs((prevSelectedCheckboxs) =>
-			prevSelectedCheckboxs.filter((s) => s.ent_numero_identidad !== e.target.value)
+			prevSelectedCheckboxs.filter((s) => s.USR_NUMERO_DOCUMENTO !== e.target.value)
 		  );
 		}
 	  };
@@ -227,27 +227,24 @@ const AddRecipientCopyForm = ({
 												<input
 													type="checkbox"
 													value={
-														row?.ent_numero_identidad
+														row?.USR_NUMERO_DOCUMENTO
 													}
 													checked={
-														selectedCheckboxs.find((s) => s.ent_numero_identidad == row?.ent_numero_identidad)
+														selectedCheckboxs.find((s) => s.USR_NUMERO_DOCUMENTO == row?.USR_NUMERO_DOCUMENTO)
 													}
 													onChange={handleCheckboxChange}
 												/>
 											),
 										},
 										{
-											fieldName: "ent_numero_identidad",
+											fieldName: "USR_NUMERO_DOCUMENTO",
 											header: "Documento",
 										},
 										{
 											fieldName: "Nombres y apellidos ",
 											header: "Nombres y apellidos",
 											renderCell: (row) => (
-												<>
-													{row.ent_tipo_documento == "CC" ? (<>{row.ent_nombres}{" "}{row.ent_apellidos}{" "}</>) : null}
-													{row.ent_tipo_documento == "NIT" ? (<>{row.ent_razon_social}{" "}</>) : null}											
-												</>
+												<>{row.USR_NOMBRES}{" "}{row.USR_APELLIDOS}{" "}</>
 											),
 										},
 									]}
