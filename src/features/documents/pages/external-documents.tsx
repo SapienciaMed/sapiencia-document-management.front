@@ -19,6 +19,7 @@ import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
 import { isEmpty } from 'lodash';
+import { clip } from "../../../common/components/icons/clip";
 const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
@@ -108,6 +109,19 @@ const DocumentsExternal = () => {
 		setMessageFileIndex(true);
 	};
 
+	const resetForm = () => {
+		setData({
+			prioridad: "2"
+		});
+		setHideElement(false);
+		setHideButtonsSave(true);
+		setHideModalIndex(false);
+		setVisibleModal(false);
+		setMessageFileIndex(false);
+		setUploadedFiles([]);
+		setUploadedFile(null);
+	};
+
 	const handleEnd = async () => {
 		const radicadoId = data.radicado;
 		const uploadedFile = getUploadedFile();
@@ -152,6 +166,7 @@ const DocumentsExternal = () => {
 				okTitle: "Aceptar",
 				onOk: () => {
 					setMessage({});
+					resetForm(); 
 				},
 			});
 			return response;
@@ -330,12 +345,7 @@ const DocumentsExternal = () => {
 							</div>
 						</div>
 						<div className="buttonContent">
-							<ButtonComponent
-								className="button-main huge hover-three buttonSecondary"
-								value="Indexar un nuevo archivo"
-								type="button"
-								action={() => { setHideModalIndex(true) }}
-							/>
+							<button className="button-main huge hover-three buttonSecondary buttonClip" onClick={() => { setHideModalIndex(true) }}>Indexar un nuevo archivo  {clip}</button>
 							<ButtonComponent
 								className="button-main huge hover-three"
 								value="Generar sticker "
