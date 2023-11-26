@@ -38,7 +38,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 
 	}
 
-	const remove = (ent_numero_identidad: string) => {
+	const remove = (USR_NUMERO_DOCUMENTO: string) => {
 		setMessage({
 			title: "Eliminar copia destinatario",
 			description:
@@ -49,7 +49,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 			cancelTitle: "Cancelar",
 			style: "z-index-1300",
 			onOk: () => {
-				const d = data.filter((d) => d.ent_numero_identidad !== ent_numero_identidad)
+				const d = data.filter((d) => d.USR_NUMERO_DOCUMENTO !== USR_NUMERO_DOCUMENTO)
 				setData(d)
 				onChange({ ...payload, add_recipient_data: d})
 				setMessage({});
@@ -108,7 +108,7 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 							<InputComponent
 								id="nombre_destinatario_copia"
 								idInput="nombre_destinatario_copia"
-								value={`${d.USR_APELLIDOS} ${d.USR_NOMBRES}`}
+								value={`${d.USR_NOMBRES || ''} ${d.USR_APELLIDOS || ''}`}
 								label="Nombre"
 								className="input-basic"
 								classNameLabel="text--black"
