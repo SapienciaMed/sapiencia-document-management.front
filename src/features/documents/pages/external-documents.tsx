@@ -19,6 +19,7 @@ import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
 import { isEmpty } from 'lodash';
+
 const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
