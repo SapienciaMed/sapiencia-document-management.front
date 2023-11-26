@@ -179,7 +179,7 @@ const AddRecipientCopyForm = ({
 											},
 											{
 												name: "Entidad",
-												value: "NIT",
+												value: "Entidad",
 											},
 										]}
 									/>
