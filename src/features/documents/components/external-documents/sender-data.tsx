@@ -506,14 +506,14 @@ const RecipientData = ({ data, onChange }: IProps) => {
 											</>
 										),
 									},
-									{
+									/*{
 										fieldName: "USR_DEPENDENCIA",
 										header: "Dependencia",
 									},
 									{
 										fieldName: "USR_CARGO",
 										header: "Cargo",
-									},
+									},*/
 								]}
 								data={addressees}
 							/>
