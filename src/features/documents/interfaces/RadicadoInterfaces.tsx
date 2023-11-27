@@ -24,6 +24,14 @@ interface ISenderDataForm {
 	municipio: string;
 }
 
+interface IRecipientExternalDataForm {
+	dirigido_a: string;
+	nombres_apellidos: string;
+	pais: string;
+	departamento: string;
+	municipio: string;
+}
+
 interface IMovementsDataForm {
 	dra_radicado: string;
 }

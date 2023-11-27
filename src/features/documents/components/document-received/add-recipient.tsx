@@ -23,14 +23,16 @@ const AddRecipient = ({ data: payload, onChange }: IProps) => {
 	const [data, setData] = useState<any>([]);
 
 	useEffect(() => {
+		console.log(payload.add_recipient_data)
+		console.log(payload)
 		if (payload.add_recipient_data) {
 			setData(payload.add_recipient_data)
 		}
-
 	}, [])
 	
 
 	const newData = (newData: any[]) => {
+		console.log(newData)
 		const mergeData = [...data, ...newData];
 		const d = Array.from(new Set(mergeData.map(m => m.USR_NUMERO_DOCUMENTO))).map(USR_NUMERO_DOCUMENTO => mergeData.find(obj => obj.USR_NUMERO_DOCUMENTO === USR_NUMERO_DOCUMENTO))
 		setData(d);
