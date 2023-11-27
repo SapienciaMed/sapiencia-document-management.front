@@ -495,7 +495,7 @@ const ActionComponent = (props: {
 	row: any;
 	actions: ITableAction<any>[];
 }): React.JSX.Element => {
-	console.log(props);
+	//console.log(props);
 	return (
 		<div className="spc-table-action-button">
 			{props.actions.map((action) => (

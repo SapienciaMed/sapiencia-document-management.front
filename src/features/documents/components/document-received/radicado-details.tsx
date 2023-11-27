@@ -8,10 +8,8 @@ import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useCurrentDateTime from "../current-date-time";
-import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { AppContext } from "../../../../common/contexts/app.context";
-import { InputNumberComponent } from "../../../../common/components/Form/input-number.component";
 import { InputTextNumberComponent } from "../input-text-number";
 
 interface IProps {
