@@ -237,7 +237,7 @@ const EditEntityForm = ({
 	return (
 		<>
 			<Dialog
-				header="Editar Entidad"
+				header="Editar Destinatario"
 				visible={visible}
 				style={{ width: "60vw" }}
 				onHide={() => onHideEditForm(true)}
