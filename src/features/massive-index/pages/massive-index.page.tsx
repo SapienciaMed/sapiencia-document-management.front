@@ -64,7 +64,7 @@ export default React.memo(() => {
             headers: {
               'Content-Type': 'multipart/form-data',
               permissions: authorization.encryptedAccess,
-              Authorization: `Bearer ${authorization.encryptedAccess}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
 
