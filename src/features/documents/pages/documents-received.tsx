@@ -194,7 +194,7 @@ const DocumentsReceived = () => {
 			console.log(err);
 		}
 	};
-
+	console.log("datos_sticker",data);
 	const accordionsData: IAccordionTemplate[] = [
 		{
 			id: 1,

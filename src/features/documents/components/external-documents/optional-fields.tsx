@@ -77,7 +77,7 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 						)}
 					/>
 					<div className="text-right">
-						<span>Máx. 2000 caracteres</span>
+						<span>Máx. 1000 caracteres</span>
 					</div>
 				</div>
 
