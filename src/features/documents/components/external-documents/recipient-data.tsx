@@ -204,7 +204,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 					setAllData(data);
 				} else {
 					setMessage({
-						title: "Datos del remitente",
+						title: "Datos del destinatario",
 						description: message.error,
 						show: true,
 						background: true,
