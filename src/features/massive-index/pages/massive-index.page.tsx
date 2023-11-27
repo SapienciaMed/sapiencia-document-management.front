@@ -20,7 +20,7 @@ export default React.memo(() => {
   const inputRef = useRef<HTMLInputElement>(null);
   const classes = `${styles.container} spc-common-table expansible card-table massive-index`;
   const classesUpload = `${styles.fileMassive} files`;
-
+  const { authorization } = useContext(AppContext);
   useBreadCrumb({ isPrimaryPage: true, name: "Indexación masiva", url: "/gestion-documental/radicacion/indexacion-masiva" });
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +53,7 @@ export default React.memo(() => {
         return;
       }
 
-      const apiUrl = 'https://sapiencia-document-management-api-ukyunq2uxa-uc.a.run.app/api/v1/document-management/radicado-details/massiveIndexing';
+      const apiUrl = `${process.env.urlApiDocumentManagement}/api/v1/document-management/radicado-details/massiveIndexing`;
 
       const promises = files.map(async (file) => {
         try {
@@ -63,6 +63,8 @@ export default React.memo(() => {
           const response = await axios.post(apiUrl, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
+              permissions: authorization.encryptedAccess,
+              Authorization: `Bearer ${authorization.encryptedAccess}`,
             },
           });
 
