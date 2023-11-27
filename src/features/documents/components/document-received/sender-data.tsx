@@ -190,6 +190,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 					data?.ent_municipio
 				);
 				if (data !== null) {
+					console.log("data", data);
 					setValue(
 						"nombres_apellidos",
 						data?.ent_nombres + " " + data?.ent_apellidos

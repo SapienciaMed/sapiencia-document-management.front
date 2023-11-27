@@ -171,8 +171,8 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		}`;
 		const response: any = await get(`${endpoint}`);
 		setAddressees(response?.data);
-
-		if (response?.data?.length <= 0) {
+	
+		if (!response?.data || Object.keys(response?.data).length === 0 || response?.data?.length <= 0) {
 			setMessage({
 				title: "Error",
 				description: "El destinatario no existe",
@@ -192,7 +192,31 @@ const RecipientData = ({ data, onChange }: IProps) => {
 
 	const onBlurData = () => {
 		const idNumber = getValues("dirigido_a");
-		setSelectedAddressee(idNumber);
+	
+		if (idNumber && idNumber.length <= 15) {
+			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
+				if (data !== null) {
+					setSelectedAddressee(idNumber);
+				} else {
+					setMessage({
+						title: "Error",
+						description: "El documento no existe en la base de datos",
+						show: true,
+						background: true,
+						okTitle: "Aceptar",
+						onOk: () => {
+							setMessage({});
+						},
+					});
+					reset({
+						nombres_apellidos_destinatario: "",
+						pais_destinatario: "",
+						departamento_destinatario: "",
+						municipio_destinatario: "",
+					});
+				}
+			});
+		}
 	};
 
 	const checkIdInDB = async (idNumber: string) => {
