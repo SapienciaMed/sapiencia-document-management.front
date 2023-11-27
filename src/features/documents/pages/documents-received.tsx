@@ -78,7 +78,7 @@ const DocumentsReceived = () => {
 			"DRA_FECHA_RADICADO": moment(new Date()).format("YYYY-MM-DD").toString(),
 			"DRA_TIPO_RADICADO": 1,
 			"DRA_RADICADO_ORIGEN": data.radicado_origen || '',
-			"DRA_RADICADO_POR": data.radicado_por || '',
+			"DRA_RADICADO_POR": authorization.user.numberDocument || '',
 			"DRA_NOMBRE_RADICADOR": `${authorization.user.names + " " + authorization.user.lastNames}` || '',
 			"DRA_ID_REMITENTE": data.enviado_por || '',
 			"DRA_ID_DESTINATARIO": data.dirigido_a || '',
@@ -132,7 +132,7 @@ const DocumentsReceived = () => {
 		formData.append("DRA_FECHA_RADICADO", moment(new Date()).format("YYYY-MM-DD").toString());
 		formData.append("DRA_TIPO_RADICADO", "1");
 		formData.append("DRA_RADICADO_ORIGEN", data.radicado_origen || "");
-		formData.append("DRA_RADICADO_POR", data.radicado_por || "");
+		formData.append("DRA_RADICADO_POR", authorization.user.numberDocument || "");
 		formData.append("DRA_NOMBRE_RADICADOR", `${authorization.user.names} ${authorization.user.lastNames}` || "");
 		formData.append("DRA_ID_REMITENTE", data.enviado_por || "");
 		formData.append("DRA_CODIGO_ASUNTO", data.codigo_asunto || "1");
