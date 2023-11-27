@@ -65,7 +65,24 @@ const AddRecipientCopyForm = ({
 		if (loadedData && loadedData?.copias?.length > 0) {
 			const endpoint: string = `/entities/search`;
 			let params = '';
-			params += `&ent_tipo_documento=` 
+			params += `&ent_tipo_documento=CC` 
+			params += `&ent_numero_identidad=` 
+			params += `&ent_nombres=`
+
+			get(`${endpoint}?${params}`).then((rd: any) => {
+				const copies = []				
+				rd.data.map((d) => {
+					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.USR_NUMERO_DOCUMENTO )) {
+						copies.push(d)
+					}
+				})
+				setData([...copies, ...data])
+				chargingNewData([...copies, ...data])
+
+			});
+			
+			params = '';
+			params += `&ent_tipo_documento=Entidad` 
 			params += `&ent_numero_identidad=` 
 			params += `&ent_nombres=`
 
@@ -73,13 +90,13 @@ const AddRecipientCopyForm = ({
 				const copies = []
 				
 				rd.data.map((d) => {
-					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.ent_numero_identidad )) {
+					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.USR_NUMERO_DOCUMENTO )) {
 						copies.push(d)
 					}
 				})
 
-				setData(copies)
-				chargingNewData(copies)
+				setData([...copies, ...data])
+				chargingNewData([...copies, ...data])
 
 			});
 		}
