@@ -257,7 +257,7 @@ const CreateEntityForm = ({
 	return (
 		<>
 			<Dialog
-				header="Crear Entidad"
+				header="Crear Destinatario"
 				visible={visible}
 				style={{ width: "7 0vw" }}
 				onHide={() => onHideCreateForm(true)}
