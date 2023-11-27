@@ -32,12 +32,10 @@ export default React.memo(() => {
   useEffect(() => {
     if (authorization?.user?.numberDocument) {
       getSummaryRecipients();
+      getSummaryFileds();
     }
   }, [authorization?.user?.numberDocument])
   
-  useEffect(() => {
-    getSummaryFileds();
-  }, [])
   
   const getSummaryRecipients = async () => {
     const response: any = await get(`/radicado-details/getSummaryRecipients?id-destinatario=${authorization.user.numberDocument}`);
@@ -45,7 +43,11 @@ export default React.memo(() => {
   }
 
   const getSummaryFileds = async () => {
-    const response: any = await get('/radicado-details/getSummaryFileds');
+    const listAuthActions = authorization.allowedActions;
+    const endpoint: string = listAuthActions.includes("ADM_ROL")
+			? `/radicado-details/getSummaryFileds?id=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/getSummaryFileds`;
+    const response: any = await get(endpoint);
     setDataSummaryFileds(response.data)
   }
 
