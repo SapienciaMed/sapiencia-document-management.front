@@ -1,5 +1,3 @@
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
 import React, { useContext, useEffect, useState } from "react";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
 import TableExpansibleDialComponent from "../../../../common/components/table-expansible-dial.component";
@@ -19,7 +17,6 @@ import * as IconsAi from "react-icons/ai";
 import { Tooltip } from "primereact/tooltip";
 import { InputComponentOriginal } from "../../../../common/components/Form";
 import { EDirection } from "../../../../common/constants/input.enum";
-import { calculateBusinessDays } from "../../../../common/utils/helpers";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 import { AppContext } from "../../../../common/contexts/app.context";
 
@@ -49,8 +46,8 @@ const RadicadosTray = () => {
 		const listAuthActions = authorization.allowedActions;
 
 		const endpoint: string = listAuthActions.includes("ADM_ROL")
-			? `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
-			: `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}`;
+			? `/radicado-details/all-radicators?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/all-radicators?numberDocument=${authorization.user.numberDocument}`;
 
 		const getRadicadoList = async () => {
 			const dataList = await get(`${endpoint}`);
@@ -67,8 +64,8 @@ const RadicadosTray = () => {
 	const getRadicadosByID = async (radicadoId: string) => {
 		const listAuthActions = authorization.allowedActions;
 		const endpoint: string = listAuthActions.includes("ADM_ROL")
-			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
-			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
+			? `/radicado-details/by-radicator/radicado/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+			: `/radicado-details/by-radicator/radicado/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
 
 		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
@@ -89,8 +86,8 @@ const RadicadosTray = () => {
 			const listAuthActions = authorization.allowedActions;
 
 			const endpoint: string = listAuthActions.includes("ADM_ROL")
-				? `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
-				: `/radicado-details/find-all?numberDocument=${authorization.user.numberDocument}`;
+				? `/radicado-details/all-radicators?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
+				: `/radicado-details/all-radicators?numberDocument=${authorization.user.numberDocument}`;
 
 			const getRadicadoList = async () => {
 				//const endpoint: string = `/radicado-details/find-all`;
