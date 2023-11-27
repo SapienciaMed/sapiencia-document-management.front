@@ -46,7 +46,7 @@ export default React.memo(() => {
     const listAuthActions = authorization.allowedActions;
     const endpoint: string = listAuthActions.includes("ADM_ROL")
 			? `/radicado-details/getSummaryFileds?id=${authorization.user.numberDocument}&role=ADM_ROL`
-			: `/radicado-details/getSummaryFileds`;
+			: `/radicado-details/getSummaryFileds?id=${authorization.user.numberDocument}&role=`;
     const response: any = await get(endpoint);
     setDataSummaryFileds(response.data)
   }
