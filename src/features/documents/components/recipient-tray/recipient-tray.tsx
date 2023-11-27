@@ -166,13 +166,21 @@ const RecipientTray = () => {
 			},
 			renderCell: (row) => {
 				//TODO: cambiar al original si el documento es vigente ó vencido
+				let color = "";
+				switch (row?.dra_estado) {
+					case "documentos_vencidos_sin_tramitar":
+						color = "circle--red";
+					case "documentos_proximos_a_vencerse":
+						color = "circle--orange";
+					case "documentos_a_tramitar_prontamente":
+						color = "circle--yellow";
+					default:
+						color = "circle--green";
+				}
+				console.log(row?.dra_estado);
 				return (
 					<div
-						className={`circle ${
-							row?.dra_prioridad_asunto == 1
-								? "circle--orange"
-								: "circle--green"
-						}`}
+						className={`circle ${color}`}
 						style={{
 							display: "flex",
 							alignItems: "center",
