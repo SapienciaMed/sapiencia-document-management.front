@@ -23,7 +23,8 @@ import { clip } from "../../../common/components/icons/clip";
 const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
-		prioridad: "2"
+		prioridad: "2",
+		ent_tipo_entidad: "CC"
 	});
 	const [hideElement, setHideElement] = useState<boolean>(false);
 	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
@@ -41,11 +42,13 @@ const DocumentsExternal = () => {
 
 
 	useEffect(() => {
-		getRadicadoIncompleto();
-	}, [])
+		if (authorization?.user?.numberDocument) {
+			getRadicadoIncompleto();
+		}
+	}, [authorization?.user?.numberDocument])
 
 	const getRadicadoIncompleto = () => {
-		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}`).then((data: any) => {
+		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}?tipo=Externo`).then((data: any) => {
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,
@@ -77,7 +80,7 @@ const DocumentsExternal = () => {
 			"DRA_FECHA_RADICADO": moment(new Date()).format("YYYY-MM-DD").toString(),
 			"DRA_TIPO_RADICADO": 1,
 			"DRA_RADICADO_ORIGEN": data.radicado_origen || '',
-			"DRA_RADICADO_POR": data.radicado_por || '',
+			"DRA_RADICADO_POR": authorization.user.numberDocument || '',
 			"DRA_NOMBRE_RADICADOR": `${authorization.user.names + " " + authorization.user.lastNames}` || '',
 			"DRA_ID_REMITENTE": data.enviado_por || '',
 			"DRA_ID_DESTINATARIO": data.dirigido_a || '',

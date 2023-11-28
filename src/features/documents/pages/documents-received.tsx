@@ -24,7 +24,8 @@ import { clip } from "../../../common/components/icons/clip";
 const DocumentsReceived = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
-		prioridad: "2"
+		prioridad: "2",
+		ent_tipo_entidad: "CC"
 	});
 	const [hideElement, setHideElement] = useState<boolean>(false);
 	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
@@ -42,11 +43,13 @@ const DocumentsReceived = () => {
 
 
 	useEffect(() => {
-		getRadicadoIncompleto();
-	}, [])
+		if (authorization?.user?.numberDocument) {
+			getRadicadoIncompleto();
+		}
+	}, [authorization?.user?.numberDocument])
 
 	const getRadicadoIncompleto = () => {
-		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}`).then((data: any) => {
+		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}?tipo=Recibido`).then((data: any) => {
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,

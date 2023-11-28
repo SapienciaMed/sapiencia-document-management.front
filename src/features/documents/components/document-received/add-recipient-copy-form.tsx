@@ -61,6 +61,8 @@ const AddRecipientCopyForm = ({
 	});
 
 	useEffect(() => {
+
+		setValue("ent_tipo_entidad", "CC");
 		
 		if (loadedData && loadedData?.copias?.length > 0) {
 			const endpoint: string = `/entities/search`;
@@ -185,7 +187,7 @@ const AddRecipientCopyForm = ({
 										className="select-basic select-placeholder"
 										control={control}
 										errors={errors}
-										label="Tipo Entidad"
+										label="Tipo"
 										classNameLabel="text--black text-required"
 										direction={EDirection.column}
 										placeholder="Seleccionar"

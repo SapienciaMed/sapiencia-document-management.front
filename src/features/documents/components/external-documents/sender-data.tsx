@@ -61,7 +61,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		getValues,
 		reset,
 		formState: { errors },
-	} = useForm<IRecipientDataForm>({
+	} = useForm<any>({
 		resolver: yupResolver(schema),
 		defaultValues: { ...data },
 		mode: "all",
