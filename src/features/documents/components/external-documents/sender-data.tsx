@@ -139,8 +139,8 @@ const RecipientData = ({ data, onChange }: IProps) => {
 
 				} else {
 					setMessage({
-						title: "Datos del destinatario",
-						description: 'Entidad no encontrada',
+						title: "Datos del remitente",
+						description: 'No existe el documento',
 						show: true,
 						background: true,
 						okTitle: "Aceptar",
