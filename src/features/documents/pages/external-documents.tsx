@@ -65,6 +65,7 @@ const DocumentsExternal = () => {
 					numero_anexos: data?.radicado?.DRA_NUM_ANEXOS,
 					numero_folios: data?.radicado?.DRA_NUM_FOLIOS,
 					numero_cajas: data?.radicado?.DRA_NUM_CAJAS,
+					dra_tipo_documento_radicado: data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
 				})
 
 				setHideElement(true);
@@ -77,26 +78,27 @@ const DocumentsExternal = () => {
 
 	const handleSave = () => {
 		post(`/radicado-details/create`, {
-			"DRA_FECHA_RADICADO": moment(new Date()).format("YYYY-MM-DD").toString(),
-			"DRA_TIPO_RADICADO": 1,
-			"DRA_RADICADO_ORIGEN": data.radicado_origen || '',
-			"DRA_RADICADO_POR": authorization.user.numberDocument || '',
-			"DRA_NOMBRE_RADICADOR": `${authorization.user.names + " " + authorization.user.lastNames}` || '',
-			"DRA_ID_REMITENTE": data.enviado_por || '',
-			"DRA_ID_DESTINATARIO": data.dirigido_a || '',
-			"DRA_CODIGO_ASUNTO": data.codigo_asunto || 1,
-			"DRA_TIPO_ASUNTO": data.tipo || 1,
-			"DRA_PRIORIDAD_ASUNTO": data.prioridad || 1,
-			"DRA_OBSERVACION": data.observaciones || '',
-			"DRA_NUM_ANEXOS": data.numero_anexos || 0,
-			"DRA_NUM_FOLIOS": data.numero_folios || 0,
-			"DRA_NUM_CAJAS": data.numero_cajas || 0,
-			"DRA_USUARIO": authorization.user.numberDocument || '',
-			"DRA_TIPO_DOCUMENTO_RADICADO": "Externo",
-			"DRA_PRIORIDAD": data.prioridad || '',
-			"DRA_CREADO_POR": authorization.user.numberDocument || '',
-			"DRA_ESTADO": "INCOMPLETO",
-			"copies": data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.ent_numero_identidad } }) || []
+			DRA_FECHA_RADICADO: moment(new Date()).format("YYYY-MM-DD").toString(),
+			DRA_TIPO_RADICADO: 1,
+			DRA_RADICADO_ORIGEN: data.radicado_origen || '',
+			DRA_RADICADO_POR: authorization.user.numberDocument || '',
+			DRA_NOMBRE_RADICADOR: `${authorization.user.names + " " + authorization.user.lastNames}` || '',
+			DRA_ID_REMITENTE: data.enviado_por || '',
+			DRA_ID_DESTINATARIO: data.dirigido_a || '',
+			DRA_CODIGO_ASUNTO: data.codigo_asunto || 1,
+			DRA_TIPO_ASUNTO: data.tipo || 1,
+			DRA_PRIORIDAD_ASUNTO: data.prioridad || 1,
+			DRA_OBSERVACION: data.observaciones || '',
+			DRA_NUM_ANEXOS: data.numero_anexos || 0,
+			DRA_NUM_FOLIOS: data.numero_folios || 0,
+			DRA_NUM_CAJAS: data.numero_cajas || 0,
+			DRA_USUARIO: authorization.user.numberDocument || '',
+			DRA_TIPO_DOCUMENTO_RADICADO: "Externo",
+			DRA_PRIORIDAD: data.prioridad || '',
+			DRA_CREADO_POR: authorization.user.numberDocument || '',
+			DRA_ESTADO: "INCOMPLETO",
+			DRA_MOVIMIENTO: "Asignado",
+			copies: data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.USR_NUMERO_DOCUMENTO } }) || []
 		}).then(() => {
 			getRadicadoIncompleto()
 		});
