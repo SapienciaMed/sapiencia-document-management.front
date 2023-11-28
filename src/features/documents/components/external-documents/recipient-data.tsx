@@ -423,6 +423,11 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 				<div className="card-table shadow-none mt-20">
 					{/* Expansible Table */}
 					<TableExpansibleComponent
+						styles={{
+							display: "inline-flex",
+							maxWidth: "100%",
+							width: "100%",
+						}}
 						columns={[
 							{
 								fieldName: "check",
