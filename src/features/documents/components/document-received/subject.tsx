@@ -174,7 +174,7 @@ const Subject = ({ data, onChange }: IProps) => {
 			<RelatedAnswers
 				visible={isVisibleRelatedAnswersModal}
 				onCloseModal={() => setIsVisibleRelatedAnswersModal(false)}
-				idRadicado={data?.dra_radicado || "190867804547"}
+				idRadicado={data?.dra_radicado}
 				idTypeRadicado={"Recibido"}
 			/>
 		</>
