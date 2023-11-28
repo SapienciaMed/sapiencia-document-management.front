@@ -154,28 +154,46 @@ const Subject = ({ data, onChange }: IProps) => {
 					<div className={`${styles["button-wrapper"]}`}>
 						<div className={`${styles["button-item"]}`}></div>
 						<button
-						style={{
-							backgroundColor: getValuesSubjectForm("tipo_asunto") == "2" ? '#533893' : '#E2E2E2',borderRadius: '30px', border: 'none', height: '55px', fontSize: '1rem', fontFamily: '"RubikRegular"', width: '100%',  cursor: getValuesSubjectForm("tipo_asunto") === "2" ? 'pointer' : 'default', color: getValuesSubjectForm("tipo_asunto") === "2" ? '#fff' : '#000',
-							// Otros estilos según sea necesario
-						}}
-						onClick={(e) => {
-							e.preventDefault();
-							setIsVisibleRelatedAnswersModal(true);
-						}}
-						disabled={getValuesSubjectForm("tipo_asunto") !== "2"}
+							style={{
+								backgroundColor:
+									getValuesSubjectForm("tipo_asunto") == "2"
+										? "#533893"
+										: "#E2E2E2",
+								borderRadius: "30px",
+								border: "none",
+								height: "55px",
+								fontSize: "1rem",
+								fontFamily: '"RubikRegular"',
+								width: "100%",
+								cursor:
+									getValuesSubjectForm("tipo_asunto") === "2"
+										? "pointer"
+										: "default",
+								color:
+									getValuesSubjectForm("tipo_asunto") === "2"
+										? "#fff"
+										: "#000",
+								// Otros estilos según sea necesario
+							}}
+							onClick={(e) => {
+								e.preventDefault();
+								setIsVisibleRelatedAnswersModal(true);
+							}}
+							disabled={
+								getValuesSubjectForm("tipo_asunto") !== "2"
+							}
 						>
-						Respuestas Relacionadas
+							Respuestas Relacionadas
 						</button>
 					</div>
 				</div>
-
 			</FormComponent>
 
 			<RelatedAnswers
 				visible={isVisibleRelatedAnswersModal}
 				onCloseModal={() => setIsVisibleRelatedAnswersModal(false)}
-				idRadicado={data?.dra_radicado || "190867804547"}
-				idTypeRadicado={"Recibido"}
+				idRadicado={data?.radicado}
+				idTypeRadicado={data?.dra_tipo_documento_radicado}
 			/>
 		</>
 	);

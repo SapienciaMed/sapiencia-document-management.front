@@ -70,6 +70,7 @@ const Subject = ({ data, onChange }: IProps) => {
 		return data?.lge_elemento_descripcion;
 	};
 
+	console.log('subject', data)
 	return (
 		<>
 			<FormComponent action={null}>
@@ -174,8 +175,8 @@ const Subject = ({ data, onChange }: IProps) => {
 			<RelatedAnswers
 				visible={isVisibleRelatedAnswersModal}
 				onCloseModal={() => setIsVisibleRelatedAnswersModal(false)}
-				idRadicado={data?.dra_radicado || "190867804547"}
-				idTypeRadicado={"Recibido"}
+				idRadicado={data?.radicado}
+				idTypeRadicado={data?.dra_tipo_documento_radicado}
 			/>
 		</>
 	);
