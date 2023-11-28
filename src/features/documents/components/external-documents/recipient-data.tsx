@@ -244,6 +244,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const handleClickHideForm = () => {
 		setIsVisibleSearchForm(!isVisibleSearchForm);
 		setIsVisibleTable(false);
+		setSelectedCheckbox("");
+		setIsDisableSendButton(true);
 	};
 
 	const onclickSenderIdValue = () => {
