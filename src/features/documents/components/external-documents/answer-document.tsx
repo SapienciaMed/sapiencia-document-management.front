@@ -30,6 +30,7 @@ const AnswerDocument = ({
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
 	const [isVisibleTable, setIsVisibleTable] = useState<boolean>(false);
 	const [answerDocumentList, setAnswerDocumentList] = useState<any>([]);
+	const [select, setSelect] = useState<any>([]);
 	const [radicadoCodeId, setRadicadoCodeId] = useState<number>(2);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
@@ -160,6 +161,22 @@ const AnswerDocument = ({
 		//setIsDisableSendButton(event.target.value ? false : true);
 	};
 
+	useEffect(() => {
+		console.log(idTypeRadicado)
+
+		if (idTypeRadicado == 'Recibido') {
+			setSelect(['Externo'])
+		}
+
+		if (idTypeRadicado == 'Externo') {
+			setSelect(['Recibido'])
+		}
+
+		if (idTypeRadicado == 'Interno') {
+			setSelect(['Recibido', 'Externo'])
+		}
+	}, [idTypeRadicado])
+
 	return (
 		<>
 			<Dialog
@@ -204,7 +221,9 @@ const AnswerDocument = ({
 								label="Clase de documento"
 								classNameLabel="text--black"
 								placeholder="Seleccionar"
-								data={radicadoTypesList() || []}
+								data={radicadoTypesList().filter((item) => {
+									return select.includes(item.name);
+								}) || []}
 							/>
 
 							<div className={`px-26 pt-24`}>

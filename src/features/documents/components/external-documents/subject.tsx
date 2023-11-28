@@ -192,8 +192,8 @@ const Subject = ({ data, onChange }: IProps) => {
 			<RelatedAnswers
 				visible={isVisibleRelatedAnswersModal}
 				onCloseModal={() => setIsVisibleRelatedAnswersModal(false)}
-				idRadicado={data?.dra_radicado}
-				idTypeRadicado={"Recibido"}
+				idRadicado={data?.radicado}
+				idTypeRadicado={data?.dra_tipo_documento_radicado}
 			/>
 		</>
 	);

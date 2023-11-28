@@ -37,7 +37,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	const [charges, setCharges] = useState([]);
 
 	const schema = yup.object({
-		dirigido_a: yup
+		enviado_por: yup
 			.string()
 			.max(15, "Solo se permiten 15 caracteres")
 			.required("El campo es obligatorio"),
@@ -61,7 +61,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		getValues,
 		reset,
 		formState: { errors },
-	} = useForm<IRecipientDataForm>({
+	} = useForm<any>({
 		resolver: yupResolver(schema),
 		defaultValues: { ...data },
 		mode: "all",
@@ -76,7 +76,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 
 	useEffect(() => {
 		if (data && data?.enviado_por && geographicData.length > 0 ) {
-			setValue('dirigido_a', data?.dirigido_a)
+			setValue('enviado_por', data?.enviado_por)
 			onBlurData()
 		}
 	}, [geographicData])
@@ -110,7 +110,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	
 	
 					if (payload[0] !== null) {
-						setValue("dirigido_a", idNumber);
+						setValue("enviado_por", idNumber);
 						setValue(
 							"nombres_apellidos_destinatario",
 							payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS
@@ -125,7 +125,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	
 						onChange({
 							...data,
-							dirigido_a: idNumber,
+							enviado_por: idNumber,
 							nombres_apellidos_destinatario:
 								payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS,
 							pais_destinatario:
@@ -139,8 +139,8 @@ const RecipientData = ({ data, onChange }: IProps) => {
 
 				} else {
 					setMessage({
-						title: "Datos del destinatario",
-						description: 'Entidad no encontrada',
+						title: "Datos del remitente",
+						description: 'No existe el documento',
 						show: true,
 						background: true,
 						okTitle: "Aceptar",
@@ -191,7 +191,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 	};
 
 	const onBlurData = () => {
-		const idNumber = getValues("dirigido_a");
+		const idNumber = getValues("enviado_por");
 	
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data, message }: any) => {
@@ -574,7 +574,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										setAddressees([]);
 										setShowSearch(false);
 										setValue(
-											"dirigido_a",
+											"enviado_por",
 											selectedCheckbox
 										);
 										onChange({

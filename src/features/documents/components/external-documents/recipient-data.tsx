@@ -205,7 +205,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 				} else {
 					setMessage({
 						title: "Datos del destinatario",
-						description: message.error,
+						description: 'No existe el documento',
 						show: true,
 						background: true,
 						okTitle: "Aceptar",
