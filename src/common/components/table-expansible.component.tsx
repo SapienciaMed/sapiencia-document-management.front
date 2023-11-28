@@ -32,6 +32,7 @@ interface IProps<T> {
 	isExpander?: boolean;
 	tableTitle?: string;
 	renderTitle?: any;
+	styles?: any;
 }
 
 const TableExpansibleComponent = ({
@@ -42,6 +43,7 @@ const TableExpansibleComponent = ({
 	isExpander,
 	tableTitle,
 	renderTitle,
+	styles,
 }: IProps<any>): React.JSX.Element => {
 	const [first, setFirst] = useState<number>(0);
 	const [perPage, setPerPage] = useState<number>(10);
@@ -309,7 +311,7 @@ const TableExpansibleComponent = ({
 
 			{width > 830 ? (
 				<DataTable
-					style={{ maxWidth: "100%", width: "100%" }}
+					style={styles}
 					value={data.slice(page * perPage, page * perPage + perPage)}
 					// sortField={sortField}
 					// sortOrder={sortOrder as any}
