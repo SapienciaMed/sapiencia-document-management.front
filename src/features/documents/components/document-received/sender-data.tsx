@@ -190,6 +190,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 					data?.ent_municipio
 				);
 				if (data !== null) {
+					console.log("data", data);
 					setValue(
 						"nombres_apellidos",
 						data?.ent_nombres + " " + data?.ent_apellidos
@@ -244,6 +245,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const handleClickHideForm = () => {
 		setIsVisibleSearchForm(!isVisibleSearchForm);
 		setIsVisibleTable(false);
+		setSelectedCheckbox("");
+		setIsDisableSendButton(true);
 	};
 
 	const onclickSenderIdValue = () => {
@@ -255,6 +258,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		setFocus("enviado_por");
 		setIsVisibleSearchForm(!isVisibleSearchForm);
 		setIsVisibleTable(false);
+		setIsDisableSendButton(true);
 	};
 
 	const handleHideEntityForm = (isModalOption) => {
@@ -531,7 +535,12 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 
 					<div className="flex container-docs-received justify-content--end px-20 py-20 gap-20">
 						<ButtonComponent
-							className={`${styles["btn-blackborder"]} text--black hover-three py-12 px-22`}
+							className={`${
+								isDisableSendButton
+									? styles["btn-blackborder"] +
+									  " text--black hover-three py-12 px-22"
+									: "button-main hover-three py-12 px-16 font-size-16"
+							} `}
 							value="Aceptar"
 							type="button"
 							action={onclickSenderIdValue}
