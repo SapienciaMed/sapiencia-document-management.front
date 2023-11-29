@@ -20,6 +20,7 @@ interface IProps {
 }
 
 const RecipientData = ({ data, onChange }: IProps) => {
+	const [userSelected, setUserSelected] = useState<boolean>(!!data.enviado_por);
 	const { setMessage } = useContext(AppContext);
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
@@ -135,6 +136,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 							municipio_destinatario:
 								municipioData?.lge_elemento_descripcion || "",
 						});
+						setUserSelected(true); 
 				}
 
 				} else {
@@ -225,6 +227,20 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		return data;
 	};
 
+	const handleInputChange = (value: string) => {
+		onChange({ ...data, enviado_por: value });
+		if (!value) {
+		  setUserSelected(false);
+		  setGetPais("");
+		  setGetDepartamento("");
+		  setGetMunicipio("");
+		  setValue("nombres_apellidos_destinatario", "");
+		}
+		if (value && value !== data.enviado_por) {
+		  setUserSelected(true);
+		}
+	  };
+
 	return (
 		<FormComponent action={null}>
 			<div className="">
@@ -232,26 +248,29 @@ const RecipientData = ({ data, onChange }: IProps) => {
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
 					<div>
-						<InputTextIconComponent
-							idInput="enviado_por"
-							control={control}
-							label="Enviado por"
-							className="input-basic"
-							classNameLabel="text--black text-required"
-							errors={errors}
-							disabled={false}
-							onBlur={onBlurData}
-							min={15}
-							type={"number"}
-							handleOnSearch={() => {
-								setShowSearch(!showSearch);
-								onChange({
-									...data,
-									search_codigo_usuario: null,
-									search_nombre_usuario: "",
-									search_apellido_usuario: "",
-								});
-							}}
+					<InputTextIconComponent
+						idInput="enviado_por"
+						control={control}
+						label="Enviado por"
+						className="input-basic"
+						classNameLabel="text--black text-required"
+						errors={userSelected ? {} : errors}
+						disabled={false}
+						onBlur={onBlurData}
+						min={15}
+						type={"number"}
+						handleOnSearch={() => {
+							setShowSearch(!showSearch);
+							onChange({
+							...data,
+							search_codigo_usuario: null,
+							search_nombre_usuario: "",
+							search_apellido_usuario: "",
+							});
+						}}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleInputChange(e.target.value)
+						  }
 						/>
 					</div>
 
