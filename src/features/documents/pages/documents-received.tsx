@@ -50,6 +50,7 @@ const DocumentsReceived = () => {
 
 	const getRadicadoIncompleto = () => {
 		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}?tipo=Recibido`).then((data: any) => {
+			console.log('Fecha de origen:', data?.radicado?.DRA_FECHA_ORIGEN);
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,
@@ -240,6 +241,7 @@ const DocumentsReceived = () => {
 			disabled: false,
 		},
 	];
+	
 	return (
 		<div className="crud-page full-height recived-documents">
 			<div className="main-page container-docs-received">
@@ -277,6 +279,7 @@ const DocumentsReceived = () => {
 						handleUpload={handleUpload}
 						messageFileIndex={messageFileIndex}
 						setHideModalIndex={setHideModalIndex}
+						setMessageFileIndex={setMessageFileIndex}
 					/>
 					<div className="mt-10 flex flex-center">
 						<ButtonComponent

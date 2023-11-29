@@ -13,6 +13,7 @@ const MassiveFileUploader = ({
     handleUpload,
     messageFileIndex,
     setHideModalIndex,
+    setMessageFileIndex,
 }) => {
     const [files, setFiles] = useState<File[]>([]);
     const [hideMessage, setHideMessage] = useState<any>(messageFileIndex);
@@ -51,69 +52,6 @@ const MassiveFileUploader = ({
         }
     };
 
-    /*const handleUpload = async () => {
-      try {
-        if (files.length === 0) {
-          alert("No hay archivos para subir.");
-          return;
-        }
-  
-        const apiUrl = 'https://sapiencia-document-management-api-ukyunq2uxa-uc.a.run.app/api/v1/document-management/radicado-details/massiveIndexing';
-  
-        const promises = files.map(async (file) => {
-          try {
-            const formData = new FormData();
-            formData.append('files', file);
-  
-            const response = await axios.post(apiUrl, formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-              },
-            });
-  
-            console.log(`Archivo ${file.name} cargado con éxito. Respuesta de la API:`, response.data);
-  
-            return { file, success: true };
-          } catch (error) {
-            setMessage({
-              title: "Error",
-              description: `El número de radicado ${file.name} no se encuentra, por favor verifique`,
-              show: true,
-              background: true,
-              okTitle: "Aceptar",
-              onOk: () => {
-                setMessage({});
-              }
-            });
-            console.error(`Error al cargar el archivo: ${file.name}`, error);
-            return { file, success: false };
-          }
-        });
-  
-        const results = await Promise.all(promises);
-  
-        const uploadedFiles = results.filter(result => result.success).map(result => result.file.name);
-  
-        if (uploadedFiles.length > 0) {
-          setMessage({
-            title: "Carga exitosa",
-            description: `Los siguientes archivos se cargaron con éxito: ${uploadedFiles.join(", ")}`,
-            show: true,
-            background: true,
-            okTitle: "Aceptar",
-            onOk: () => {
-              setMessage({});
-            }
-          });
-        }
-  
-        setFiles([]); // Limpiar los archivos después de la carga
-      } catch (error) {
-  
-        console.error('Error al cargar archivos:', error);
-      }
-    };*/
-
     const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
     };
@@ -139,6 +77,12 @@ const MassiveFileUploader = ({
         handleFileSelect(event);
     };
 
+    const handleAccepted = () => {
+        setHideMessage(false);
+        setHideModalIndex(false);
+        setFiles([]); 
+    };
+
     return (
         <>
             <div className="card-table file-container">
@@ -150,7 +94,7 @@ const MassiveFileUploader = ({
                 <div className="files">
                     <div className="headerMassive">
                         <span className="custom-choose-btn" onClick={handleClick}>
-                            <input className="input-field file-input" type="file" hidden accept="application/pdf" multiple ref={inputRef} onChange={handleFileSelect} />
+                            <input className="input-field file-input" type="file" hidden accept="*" multiple ref={inputRef} onChange={handleFileSelect} onClick={() => setHideMessage(false)} />
                             <span className="clip-ico">{clip}</span>
                         </span>
                         <button className="custom-upload-btn upload-button" onClick={() => handleUpload(files[0])} disabled={files.length === 0}>{uploadIcon}</button>
@@ -188,11 +132,11 @@ const MassiveFileUploader = ({
                     {hideMessage && <div className="modalMessageOk">
                         <div className="containerMessageOk">
                             <div>
-                            <button className="closeMessage" onClick={() => {setHideMessage(false);}}>X</button>
+                                <button className="closeMessage" onClick={() => { setHideMessage(false); }}>X</button>
                             </div>
                             <span className="titleMessage">Archivo adjunto</span>
                             <p className="textMessage">Archivo adjuntado exitosamente</p>
-                            <button className="buttonMessageOk" onClick={() => { setHideMessage(false); setHideModalIndex(false); }}>Aceptar</button>
+                            <button className="buttonMessageOk" onClick={() => { setHideMessage(false); setHideModalIndex(false); setMessageFileIndex(false); }}>Aceptar</button>
                         </div>
                     </div>}
                 </div>

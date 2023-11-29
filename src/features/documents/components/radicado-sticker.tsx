@@ -10,7 +10,8 @@ const RadicadoSticker = ({
 	onCloseModal,
 }) => {
 	//const [hideModal, setHideModal] = useState<boolean>(true);
-
+	const formattedDate = data.fechaRadicado ? new Date(data.fechaRadicado).toLocaleDateString() : '';
+	console.log("Fecha recibida:", data.fechaRadicado);
 	return (
 		<Dialog
 			header={title}
@@ -51,7 +52,7 @@ const RadicadoSticker = ({
 						}}
 					>
 						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Radicado: {data.radicado}</div>
-						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Fecha: {data.fechaRadicado}</div>
+						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Fecha: {formattedDate}</div>
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Tipo: {data.tipo}</div>
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Destino:{data.destinatario? data.destinatario .toUpperCase() : ""}</div>
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Radicado Por: {data.radicadoPor}</div>
