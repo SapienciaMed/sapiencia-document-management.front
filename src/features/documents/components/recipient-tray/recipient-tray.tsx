@@ -181,7 +181,6 @@ const RecipientTray = () => {
 						color = "circle--green";
 						break;
 				}
-				console.log(row?.dra_estado);
 				return (
 					<div
 						className={`circle ${color}`}
@@ -633,6 +632,11 @@ const RecipientTray = () => {
 				}
 				onCloseModal={() => {
 					setIsOpenModal(false);
+					if (searchParam) {
+						getRadicadosByID(searchParam);
+					} else {
+						getRadicadoList();
+					}
 				}}
 				visible={isOpenModal}
 				typeModal={typeModal}
