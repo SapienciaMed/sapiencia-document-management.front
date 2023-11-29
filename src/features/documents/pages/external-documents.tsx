@@ -18,13 +18,13 @@ import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
-import { isEmpty } from 'lodash';
+import { isEmpty } from "lodash";
 import { clip } from "../../../common/components/icons/clip";
 const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
 		prioridad: "2",
-		ent_tipo_entidad: "CC"
+		ent_tipo_entidad: "CC",
 	});
 	const [hideElement, setHideElement] = useState<boolean>(false);
 	const [hideButtonsSave, setHideButtonsSave] = useState<boolean>(true);
@@ -40,83 +40,101 @@ const DocumentsExternal = () => {
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
-
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
 			getRadicadoIncompleto();
 		}
-	}, [authorization?.user?.numberDocument])
+	}, [authorization?.user?.numberDocument]);
 
 	const getRadicadoIncompleto = () => {
-		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}?tipo=Externo`).then((data: any) => {
-			if (JSON.stringify(data?.radicado) !== '{}') {
+		get(
+			`/radicado-details/find-by-create-by/${authorization.user.numberDocument}?tipo=Externo`
+		).then((data: any) => {
+			if (JSON.stringify(data?.radicado) !== "{}") {
 				setData({
 					...data,
 					radicado: data?.radicado?.DRA_RADICADO,
-					radicado_origen: Number(data?.radicado?.DRA_RADICADO_ORIGEN) || 0,
+					radicado_origen:
+						Number(data?.radicado?.DRA_RADICADO_ORIGEN) || null,
 					radicado_por: data?.radicado?.DRA_RADICADO_POR,
-					enviado_por: data?.radicado?.DRA_ID_REMITENTE.trim() || '',
-					codigo_asunto: data?.radicado?.DRA_CODIGO_ASUNTO || '',
-					tipo: String(data?.radicado?.DRA_TIPO_ASUNTO) || '1',
-					prioridad: String(data?.radicado?.DRA_PRIORIDAD_ASUNTO) || '1',
-					dirigido_a: data?.radicado?.DRA_ID_DESTINATARIO.trim() || '',
+					enviado_por: data?.radicado?.DRA_ID_REMITENTE.trim() || "",
+					codigo_asunto: data?.radicado?.DRA_CODIGO_ASUNTO || "",
+					tipo: String(data?.radicado?.DRA_TIPO_ASUNTO) || "1",
+					prioridad:
+						String(data?.radicado?.DRA_PRIORIDAD_ASUNTO) || "1",
+					dirigido_a:
+						data?.radicado?.DRA_ID_DESTINATARIO.trim() || "",
 					copias: data?.copias,
 					observaciones: data?.radicado?.DRA_OBSERVACION,
 					numero_anexos: data?.radicado?.DRA_NUM_ANEXOS,
 					numero_folios: data?.radicado?.DRA_NUM_FOLIOS,
 					numero_cajas: data?.radicado?.DRA_NUM_CAJAS,
-					dra_tipo_documento_radicado: data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
-				})
+					dra_tipo_documento_radicado:
+						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
+				});
 
 				setHideElement(true);
 				setHideButtonsSave(false);
 			}
 		});
-	}
+	};
 
-	useBreadCrumb({ isPrimaryPage: true, name: "Documento externo", url: "/gestion-documental/radicacion/documento-externo" });
+	useBreadCrumb({
+		isPrimaryPage: true,
+		name: "Documento externo",
+		url: "/gestion-documental/radicacion/documento-externo",
+	});
 
 	const handleSave = () => {
 		post(`/radicado-details/create`, {
-			DRA_FECHA_RADICADO: moment(new Date()).format("YYYY-MM-DD").toString(),
+			DRA_FECHA_RADICADO: moment(new Date())
+				.format("YYYY-MM-DD")
+				.toString(),
 			DRA_TIPO_RADICADO: 1,
-			DRA_RADICADO_ORIGEN: data.radicado_origen || '',
-			DRA_RADICADO_POR: authorization.user.numberDocument || '',
-			DRA_NOMBRE_RADICADOR: `${authorization.user.names + " " + authorization.user.lastNames}` || '',
-			DRA_ID_REMITENTE: data.enviado_por || '',
-			DRA_ID_DESTINATARIO: data.dirigido_a || '',
+			DRA_RADICADO_ORIGEN: data.radicado_origen || "",
+			DRA_RADICADO_POR: authorization.user.numberDocument || "",
+			DRA_NOMBRE_RADICADOR:
+				`${
+					authorization.user.names +
+					" " +
+					authorization.user.lastNames
+				}` || "",
+			DRA_ID_REMITENTE: data.enviado_por || "",
+			DRA_ID_DESTINATARIO: data.dirigido_a || "",
 			DRA_CODIGO_ASUNTO: data.codigo_asunto || 1,
 			DRA_TIPO_ASUNTO: data.tipo || 1,
 			DRA_PRIORIDAD_ASUNTO: data.prioridad || 1,
-			DRA_OBSERVACION: data.observaciones || '',
+			DRA_OBSERVACION: data.observaciones || "",
 			DRA_NUM_ANEXOS: data.numero_anexos || 0,
 			DRA_NUM_FOLIOS: data.numero_folios || 0,
 			DRA_NUM_CAJAS: data.numero_cajas || 0,
-			DRA_USUARIO: authorization.user.numberDocument || '',
+			DRA_USUARIO: authorization.user.numberDocument || "",
 			DRA_TIPO_DOCUMENTO_RADICADO: "Externo",
-			DRA_PRIORIDAD: data.prioridad || '',
-			DRA_CREADO_POR: authorization.user.numberDocument || '',
+			DRA_PRIORIDAD: data.prioridad || "",
+			DRA_CREADO_POR: authorization.user.numberDocument || "",
 			DRA_ESTADO: "INCOMPLETO",
 			DRA_MOVIMIENTO: "Asignado",
-			copies: data?.add_recipient_data?.map((r) => { return { RCD_ID_DESTINATARIO: r.USR_NUMERO_DOCUMENTO } }) || []
+			copies:
+				data?.add_recipient_data?.map((r) => {
+					return { RCD_ID_DESTINATARIO: r.USR_NUMERO_DOCUMENTO };
+				}) || [],
 		}).then(() => {
-			getRadicadoIncompleto()
+			getRadicadoIncompleto();
 		});
-	}
+	};
 
 	const getUploadedFile = () => {
 		return uploadedFile;
 	};
 
 	const handleUpload = (file) => {
-
 		setUploadedFile(file);
 		setMessageFileIndex(true);
 	};
 
 	const resetForm = () => {
 		setData({
-			prioridad: "2"
+			prioridad: "2",
 		});
 		setHideElement(false);
 		setHideButtonsSave(true);
@@ -131,13 +149,19 @@ const DocumentsExternal = () => {
 		const radicadoId = data.radicado;
 		const uploadedFile = getUploadedFile();
 		const formData = new FormData();
-		console.log('RadicadoID', radicadoId);
+		console.log("RadicadoID", radicadoId);
 		formData.append("uploadedFile", uploadedFile);
-		formData.append("DRA_FECHA_RADICADO", moment(new Date()).format("YYYY-MM-DD").toString());
+		formData.append(
+			"DRA_FECHA_RADICADO",
+			moment(new Date()).format("YYYY-MM-DD").toString()
+		);
 		formData.append("DRA_TIPO_RADICADO", "1");
 		formData.append("DRA_RADICADO_ORIGEN", data.radicado_origen || "");
 		formData.append("DRA_RADICADO_POR", data.radicado_por || "");
-		formData.append("DRA_NOMBRE_RADICADOR", `${authorization.user.names} ${authorization.user.lastNames}` || "");
+		formData.append(
+			"DRA_NOMBRE_RADICADOR",
+			`${authorization.user.names} ${authorization.user.lastNames}` || ""
+		);
 		formData.append("DRA_ID_REMITENTE", data.enviado_por || "");
 		formData.append("DRA_CODIGO_ASUNTO", data.codigo_asunto || "1");
 		formData.append("DRA_TIPO_ASUNTO", "1");
@@ -153,7 +177,10 @@ const DocumentsExternal = () => {
 		// Adjuntar datos de copias si están disponibles
 		if (data?.add_recipient_data?.length > 0) {
 			data.add_recipient_data.forEach((recipient, index) => {
-				formData.append(`copies[${index}][RCD_ID_DESTINATARIO]`, recipient.ent_numero_identidad || "");
+				formData.append(
+					`copies[${index}][RCD_ID_DESTINATARIO]`,
+					recipient.ent_numero_identidad || ""
+				);
 			});
 		}
 
@@ -171,7 +198,7 @@ const DocumentsExternal = () => {
 				okTitle: "Aceptar",
 				onOk: () => {
 					setMessage({});
-					resetForm(); 
+					resetForm();
 				},
 			});
 			return response;
@@ -187,7 +214,10 @@ const DocumentsExternal = () => {
 					setMessage({});
 				},
 			});
-			console.error('Error al marcar el radicado como completado:', error);
+			console.error(
+				"Error al marcar el radicado como completado:",
+				error
+			);
 		}
 	};
 
@@ -266,12 +296,14 @@ const DocumentsExternal = () => {
 					onHide={() => setHideModalIndex(false)}
 					pt={{
 						headerTitle: {
-							className: "text-title-modal text--black text-center",
+							className:
+								"text-title-modal text--black text-center",
 						},
 						closeButtonIcon: {
 							className: "color--primary close-button-modal",
 						},
-					}}>
+					}}
+				>
 					<MassiveFileUploader
 						handleUpload={handleUpload}
 						messageFileIndex={messageFileIndex}
@@ -301,82 +333,104 @@ const DocumentsExternal = () => {
 					formatCode={"code39"}
 					title={"Sticker"}
 					visible={visiblemodal}
-					onCloseModal={() => { setVisibleModal(false) }}
+					onCloseModal={() => {
+						setVisibleModal(false);
+					}}
 				/>
 			</div>
 
-			{hideButtonsSave && <><div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
-
-				<ButtonComponent
-					className="button-main huge hover-three"
-					value="Volver a la bandeja"
-					type="route"
-					url={"/gestion-documental/radicacion/bandeja-radicado"}
-				/>
-				<ButtonComponent
-					className="button-main huge hover-three buttonThird"
-					value="Cancelar"
-					type="button"
-					action={null}
-				/>
-				<ButtonComponent
-					className="button-main huge hover-three buttonDisableDM"
-					value="Guardar y continuar"
-					type="button"
-					disabled={
-						isEmpty(data.enviado_por) ||
-						isEmpty(data.dirigido_a) ||
-						isEmpty(data.codigo_asunto) ||
-						isEmpty(data.tipo) ||
-						isEmpty(data.prioridad)
-					}
-					action={handleSave}
-				/>
-			</div></>}
-			{hideElement && <><div className="main-page container-docs-received">
-				<div className="card-table shadow-none">
-					<div className="title-area">
-						<div className="text-black extra-large bold">
-						Opciones de respuesta
+			{hideButtonsSave && (
+				<>
+					<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
+						<ButtonComponent
+							className="button-main huge hover-three"
+							value="Volver a la bandeja"
+							type="route"
+							url={
+								"/gestion-documental/radicacion/bandeja-radicado"
+							}
+						/>
+						<ButtonComponent
+							className="button-main huge hover-three buttonThird"
+							value="Cancelar"
+							type="button"
+							action={null}
+						/>
+						<ButtonComponent
+							className="button-main huge hover-three buttonDisableDM"
+							value="Guardar y continuar"
+							type="button"
+							disabled={
+								isEmpty(data.enviado_por) ||
+								isEmpty(data.dirigido_a) ||
+								isEmpty(data.codigo_asunto) ||
+								isEmpty(data.tipo) ||
+								isEmpty(data.prioridad)
+							}
+							action={handleSave}
+						/>
+					</div>
+				</>
+			)}
+			{hideElement && (
+				<>
+					<div className="main-page container-docs-received">
+						<div className="card-table shadow-none">
+							<div className="title-area">
+								<div className="text-black extra-large bold">
+									Opciones de respuesta
+								</div>
+							</div>
+							<Subject data={data} onChange={onChange} />
 						</div>
 					</div>
-					<Subject data={data} onChange={onChange} />
-				</div>
-			</div>
-				<div className="main-page container-docs-received">
-					<div className="card-table shadow-none">
-						<div className="title-area-second">
-							<div className="text-black extra-large bold center-txt">
-								Indexar un nuevo archivo
+					<div className="main-page container-docs-received">
+						<div className="card-table shadow-none">
+							<div className="title-area-second">
+								<div className="text-black extra-large bold center-txt">
+									Indexar un nuevo archivo
+								</div>
+							</div>
+							<div className="buttonContent">
+								<button
+									className="button-main huge hover-three buttonSecondary buttonClip"
+									onClick={() => {
+										setHideModalIndex(true);
+									}}
+								>
+									Indexar un nuevo archivo {clip}
+								</button>
+								<ButtonComponent
+									className="button-main huge hover-three"
+									value="Generar sticker "
+									type="button"
+									action={() => {
+										setVisibleModal(true);
+									}}
+								/>
 							</div>
 						</div>
-						<div className="buttonContent">
-							<button className="button-main huge hover-three buttonSecondary buttonClip" onClick={() => { setHideModalIndex(true) }}>Indexar un nuevo archivo  {clip}</button>
-							<ButtonComponent
-								className="button-main huge hover-three"
-								value="Generar sticker "
-								type="button"
-								action={() => { setVisibleModal(true) }}
-							/>
-						</div>
 					</div>
-				</div>
 
-				<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
-					<ButtonComponent
-						className="button-main huge hover-three"
-						value="Volver a la bandeja"
-						type="route"
-						url={"/gestion-documental/radicacion/bandeja-radicado"}
-					/>
+					<div className="flex container-docs-received justify-content--end px-20 pb-20 gap-20">
+						<ButtonComponent
+							className="button-main huge hover-three"
+							value="Volver a la bandeja"
+							type="route"
+							url={
+								"/gestion-documental/radicacion/bandeja-radicado"
+							}
+						/>
 
-					<ButtonComponent
-						className="button-main huge hover-three buttonDisableDM"
-						value="Finalizar"
-						type="button"
-						action={handleEnd}
-					/>
-				</div></>}
+						<ButtonComponent
+							className="button-main huge hover-three buttonDisableDM"
+							value="Finalizar"
+							type="button"
+							action={handleEnd}
+						/>
+					</div>
+				</>
+			)}
 		</div>
 	);
 };
