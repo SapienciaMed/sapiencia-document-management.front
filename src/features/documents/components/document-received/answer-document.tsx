@@ -28,6 +28,7 @@ const AnswerDocument = ({
 }: IProps) => {
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [radicadoTypes, setRadicadoTypes] = useState<any>([]);
+	const [radicadoSelectTypes, setRadicadoSelectTypes] = useState<any>([]);
 	const [isVisibleTable, setIsVisibleTable] = useState<boolean>(false);
 	const [answerDocumentList, setAnswerDocumentList] = useState<any>([]);
 	const [select, setSelect] = useState<any>([]);
@@ -153,20 +154,26 @@ const AnswerDocument = ({
 	};
 
 	useEffect(() => {
-		console.log(idTypeRadicado)
-
-		if (idTypeRadicado == 'Recibido') {
-			setSelect(['Externo'])
+		if (idTypeRadicado == "Recibido") {
+			setValueAnswerDocument("dra_tipo_radicado_text", "Externo");
+			setValueAnswerDocument("dra_tipo_radicado", "3");
 		}
 
-		if (idTypeRadicado == 'Externo') {
-			setSelect(['Recibido'])
+		if (idTypeRadicado == "Externo") {
+			setValueAnswerDocument("dra_tipo_radicado_text", "Recibido");
+			setValueAnswerDocument("dra_tipo_radicado", "1");
 		}
 
-		if (idTypeRadicado == 'Interno') {
-			setSelect(['Recibido', 'Externo'])
+		if (idTypeRadicado == "Interno") {
+			// const tipoRadicado = radicadoTypesList().find(
+			// 	(item) => item.name === idTypeRadicado
+			// );
+			setSelect(["Recibido", "Externo"]);
 		}
-	}, [idTypeRadicado])
+
+		//Agrega el tipo radicado texto al input
+		//setValueAnswerDocument("dra_tipo_radicado", idTypeRadicado);
+	}, [idTypeRadicado]);
 
 	return (
 		<>
@@ -204,18 +211,46 @@ const AnswerDocument = ({
 								disabled={false}
 							/>
 
-							<SelectComponent
-								idInput="dra_tipo_radicado"
-								className="select-basic select-placeholder"
-								control={controlAnswerDocument}
-								errors={errorsAnswerDocument}
-								label="Clase de documento"
-								classNameLabel="text--black"
-								placeholder="Seleccionar"
-								data={radicadoTypesList().filter((item) => {
-									return select.includes(item.name);
-								}) || []}
-							/>
+							{idTypeRadicado == "Recibido" ||
+							idTypeRadicado == "Externo" ? (
+								<>
+									<input
+										id="dra_tipo_radicado"
+										type="hidden"
+										{...registerAnswerDocument(
+											"dra_tipo_radicado",
+											{
+												required:
+													"El campo es obligatorio",
+											}
+										)}
+									/>
+									<InputTextComponent
+										idInput="dra_tipo_radicado_text"
+										label="Clase de documento"
+										className={`input-basic`}
+										classNameLabel="text--black"
+										control={controlAnswerDocument}
+										errors={errorsAnswerDocument}
+										disabled={true}
+									/>
+								</>
+							) : (
+								<SelectComponent
+									idInput="dra_tipo_radicado"
+									className="select-basic select-placeholder"
+									control={controlAnswerDocument}
+									errors={errorsAnswerDocument}
+									label="Clase de documento"
+									classNameLabel="text--black"
+									placeholder="Seleccionar"
+									data={
+										radicadoTypesList().filter((item) => {
+											return select.includes(item.name);
+										}) || []
+									}
+								/>
+							)}
 
 							<div className={`px-26 pt-24`}>
 								<div>
@@ -233,7 +268,9 @@ const AnswerDocument = ({
 												)
 											);
 										}}
-										disabled={false}
+										disabled={
+											!watchAnswerDocument("dra_radicado")
+										}
 									/>
 									<ButtonComponent
 										className={`button-main hover-three py-12 px-16 font-size-16`}
@@ -275,7 +312,7 @@ const AnswerDocument = ({
 										saveAnswerDocument(selectedCheckbox);
 										onCloseModal(false);
 									}}
-									disabled={false}
+									disabled={!selectedCheckbox}
 								/>
 								<ButtonComponent
 									className="button-main hover-three py-12 px-16 font-size-16"
