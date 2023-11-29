@@ -74,6 +74,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 
 	const onBlurData = () => {
 		const idAsunto = getValues("codigo_asunto");
+		if (!idAsunto) {
+			reset();
+		}
 		setSelectedSubject(idAsunto, true);
 		onChange({
 			...data,

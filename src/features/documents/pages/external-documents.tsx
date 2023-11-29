@@ -336,7 +336,7 @@ const DocumentsExternal = () => {
 				<div className="card-table shadow-none">
 					<div className="title-area">
 						<div className="text-black extra-large bold">
-							Asunto
+						Opciones de respuesta
 						</div>
 					</div>
 					<Subject data={data} onChange={onChange} />

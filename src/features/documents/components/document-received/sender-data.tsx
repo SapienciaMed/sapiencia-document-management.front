@@ -45,6 +45,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 	const [findSenderData, setFindSenderData] = useState<any>([]);
 	const [editData, setEditData] = useState<any>([]);
 	const [visibleEditForm, setVisibleEditForm] = useState<boolean>(false);
+	const [dataLoaded, setDataLoaded] = useState(false);
 
 	const EntitySearchActions: ITableAction<any>[] = [
 		{
@@ -87,6 +88,16 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 			setValue("enviado_por", allData?.enviado_por);
 			onBlurData();
 		}
+		if (
+			allData &&
+			allData?.enviado_por &&
+			geographicData.length > 0 &&
+			typeEntityData.length > 0
+		  ) {
+			setValue("enviado_por", allData?.enviado_por);
+			onBlurData();
+			setDataLoaded(true);
+		  }
 	}, [geographicData, typeEntityData]);
 
 	useEffect(() => {
@@ -175,6 +186,17 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		});
 	};
 
+	const handleEnvioPorChange = (event) => {
+		const inputValue = event.target.value;
+		if (!inputValue) {
+		  setGetNombreEntidad("");
+		  setGetPais("");
+		  setGetDepartamento("");
+		  setGetMunicipio("");
+		  setValue("nombres_apellidos", "");
+		}
+	  };
+
 	const onBlurData = () => {
 		const idNumber = getValues("enviado_por");
 
@@ -203,6 +225,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 						municipioData?.lge_elemento_descripcion || ""
 					);
 					setAllData(data);
+					setDataLoaded(true);
 				} else {
 					setMessage({
 						title: "Datos del remitente",
@@ -221,6 +244,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 						municipio: "",
 					});
 					setDeleteInputs(true);
+					setDataLoaded(false);
 				}
 			});
 		}
@@ -319,10 +343,11 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 								label="Enviado por"
 								className="input-basic"
 								classNameLabel="text--black text-required"
-								errors={errors}
+								errors={dataLoaded ? {} : errors}
 								disabled={false}
 								onBlur={onBlurData}
 								max={12}
+								onChange={handleEnvioPorChange}
 								iconAction={handleClickHideForm}
 							/>
 						</div>
