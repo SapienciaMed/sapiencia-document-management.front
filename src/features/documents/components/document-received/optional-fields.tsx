@@ -17,7 +17,7 @@ interface IProps {
 
 const OptionalFields = ({ data: allData, onChange }: IProps) => {
 	const schema = yup.object({
-		observaciones: yup.string().max(2000).optional(),
+		observaciones: yup.string().max(1000, "Solo se permiten 1000 caracteres").optional(),
 		numero_anexos: yup
 			.string()
 			.max(3, "Solo se permiten 3 dígitos")
@@ -77,7 +77,7 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 						)}
 					/>
 					<div className="text-right">
-						<span>Máx. 2000 caracteres</span>
+						<span>Máx. 1000 caracteres</span>
 					</div>
 				</div>
 

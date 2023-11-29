@@ -96,7 +96,9 @@ const ActivateReverseDocuments = ({
 
 			setValueActRevDocuments(
 				"dra_estado_radicado",
-				typeModal == "Activar" ? PENDIENTE : EVACUADO
+				typeModal == "Activar" || typeModal == "asignar"
+					? PENDIENTE
+					: EVACUADO
 			);
 
 			if (typeModal == "devolucion") {

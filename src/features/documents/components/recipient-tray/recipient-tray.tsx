@@ -170,14 +170,17 @@ const RecipientTray = () => {
 				switch (row?.dra_estado) {
 					case "documentos_vencidos_sin_tramitar":
 						color = "circle--red";
+						break;
 					case "documentos_proximos_a_vencerse":
 						color = "circle--orange";
+						break;
 					case "documentos_a_tramitar_prontamente":
 						color = "circle--yellow";
+						break;
 					default:
 						color = "circle--green";
+						break;
 				}
-				console.log(row?.dra_estado);
 				return (
 					<div
 						className={`circle ${color}`}
@@ -629,6 +632,11 @@ const RecipientTray = () => {
 				}
 				onCloseModal={() => {
 					setIsOpenModal(false);
+					if (searchParam) {
+						getRadicadosByID(searchParam);
+					} else {
+						getRadicadoList();
+					}
 				}}
 				visible={isOpenModal}
 				typeModal={typeModal}

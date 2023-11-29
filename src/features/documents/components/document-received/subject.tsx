@@ -70,9 +70,45 @@ const Subject = ({ data, onChange }: IProps) => {
 		return data?.lge_elemento_descripcion;
 	};
 
+	console.log('subject', data)
 	return (
 		<>
 			<FormComponent action={null}>
+			<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
+					<div className={`${styles["input-wrapper"]}`}>
+						<Controller
+							name="referencia"
+							control={control}
+							render={({ field }) => (
+								<TextAreaComponent
+									id="referencia"
+									idInput="referencia"
+									label="Referencia"
+									className={`${styles["input-textarea"]} ${styles["input"]} ${styles["referencia"]}`}
+									classNameLabel="text--black text-required"
+									register={register}
+									errors={errors}
+									disabled={false}
+									rows={5}
+									placeholder="Escribe aquí"
+									onChange={(e) => {
+										field.onChange(e);
+										setTextoLength(e.target.value.length);
+										onChange({
+											...data,
+											referencia: field.value || null,
+										});
+									}}
+								/>
+							)}
+						/>
+						<span
+							className={`${styles["input-icon"]} ${styles["referencia"]}`}
+						>
+							Max 1000 caracteres
+						</span>
+					</div>
+				</div>
 				<div
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
@@ -133,49 +169,14 @@ const Subject = ({ data, onChange }: IProps) => {
 						</button>
 					</div>
 				</div>
-				<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
-					<div className={`${styles["input-wrapper"]}`}>
-						<Controller
-							name="referencia"
-							control={control}
-							render={({ field }) => (
-								<TextAreaComponent
-									id="referencia"
-									idInput="referencia"
-									label="Referencia"
-									className={`${styles["input-textarea"]} ${styles["input"]} ${styles["referencia"]}`}
-									classNameLabel="text--black text-required"
-									register={register}
-									errors={errors}
-									disabled={false}
-									rows={5}
-									placeholder="Escribe aquí"
-									onChange={(e) => {
-										field.onChange(e);
-										setTextoLength(e.target.value.length);
-										onChange({
-											...data,
-											referencia: field.value || null,
-										});
-									}}
-								/>
-							)}
-						/>
-						<span
-							className={`${styles["input-icon"]} ${styles["referencia"]}`}
-						>
-							Max 1000 caracteres
-						</span>
-					</div>
-				</div>
 
 			</FormComponent>
 
 			<RelatedAnswers
 				visible={isVisibleRelatedAnswersModal}
 				onCloseModal={() => setIsVisibleRelatedAnswersModal(false)}
-				idRadicado={data?.dra_radicado || "190867804547"}
-				idTypeRadicado={"Recibido"}
+				idRadicado={data?.radicado}
+				idTypeRadicado={data?.dra_tipo_documento_radicado}
 			/>
 		</>
 	);

@@ -405,6 +405,7 @@ const RadicadoMovements = () => {
 				}
 				onCloseModal={() => {
 					setIsActivateModal(false);
+					getMovementsByID(getValues("dra_radicado")); //TODO: refactor this
 				}}
 				visible={isActivateModal}
 				typeModal={typeModal}

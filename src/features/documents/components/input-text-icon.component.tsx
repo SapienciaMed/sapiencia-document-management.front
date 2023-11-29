@@ -31,6 +31,7 @@ interface IInputTextIcon<T> {
 	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 	iconAction?: () => void;
 	handleOnSearch?: () => void;
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 function LabelElement({ label, idInput, classNameLabel }): React.JSX.Element {
@@ -65,6 +66,7 @@ export function InputTextIconComponent({
 	onBlur,
 	iconAction,
 	handleOnSearch,
+	onChange,
 }: IInputTextIcon<any>): React.JSX.Element {
 	const messageError = () => {
 		const keysError = idInput.split(".");
@@ -104,7 +106,11 @@ export function InputTextIconComponent({
 						render={({ field }) => (
 							<InputText
 								id={field.name}
-								onChange={(e) => field.onChange(e.target.value)}
+								onChange={(e) => {
+									field.onChange(e.target.value);
+									if (onChange) {							  onChange(e);
+									}
+								  }}
 								onBlur={onBlur}
 								placeholder={placeholder}
 								value={field.value}

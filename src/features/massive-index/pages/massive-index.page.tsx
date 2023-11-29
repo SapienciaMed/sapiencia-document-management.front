@@ -105,6 +105,9 @@ export default React.memo(() => {
       }
 
       setFiles([]); // Limpiar los archivos después de la carga
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
     } catch (error) {
 
       console.error('Error al cargar archivos:', error);

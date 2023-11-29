@@ -61,25 +61,42 @@ const AddRecipientCopyForm = ({
 	});
 
 	useEffect(() => {
-		console.log('loadedData', loadedData)
+		setValue("ent_tipo_entidad", "CC");
 		if (loadedData && loadedData?.copias?.length > 0) {
 			const endpoint: string = `/entities/search`;
 			let params = '';
-			params += `&ent_tipo_documento=` 
+			params += `&ent_tipo_documento=CC` 
+			params += `&ent_numero_identidad=` 
+			params += `&ent_nombres=`
+
+			get(`${endpoint}?${params}`).then((rd: any) => {
+				const copies = []				
+				rd.data.map((d) => {
+					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.USR_NUMERO_DOCUMENTO )) {
+						copies.push(d)
+					}
+				})
+				setData([...copies, ...data])
+				chargingNewData([...copies, ...data])
+
+			});
+			
+			params = '';
+			params += `&ent_tipo_documento=Entidad` 
 			params += `&ent_numero_identidad=` 
 			params += `&ent_nombres=`
 
 			get(`${endpoint}?${params}`).then((rd: any) => {
 				const copies = []
-				console.log(loadedData.copias)
+				
 				rd.data.map((d) => {
 					if (loadedData.copias.find((c) => c.RCD_ID_DESTINATARIO == d.USR_NUMERO_DOCUMENTO )) {
 						copies.push(d)
 					}
 				})
 
-				setData(copies)
-				chargingNewData(copies)
+				setData([...copies, ...data])
+				chargingNewData([...copies, ...data])
 
 			});
 		}
@@ -168,7 +185,7 @@ const AddRecipientCopyForm = ({
 										className="select-basic select-placeholder"
 										control={control}
 										errors={errors}
-										label="Tipo Entidad"
+										label="Tipo"
 										classNameLabel="text--black text-required"
 										direction={EDirection.column}
 										placeholder="Seleccionar"

@@ -22,6 +22,7 @@ import { AppContext } from "../../../../common/contexts/app.context";
 
 const RadicadosTray = () => {
 	const [radicadosList, setRadicadosList] = useState<any>([]);
+	const [draTipoRadicadoFilter, setDraTipoRadicadoFilter] = useState<string>("");
 	const [filters, setFilters] = useState({
 		global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -125,30 +126,33 @@ const RadicadosTray = () => {
 		);
 	};
 
-	const dateRowFilterTemplate = (options) => {
+	const dateTemplate = () => {
+		const uniqueDatesSet = new Set(radicadosList.map((type) => type.dra_fecha_radicado));
+
+		const uniqueDatesArray = Array.from(uniqueDatesSet);
+
+		const selectOptions = uniqueDatesArray.map((date) => ({
+			label: date,
+			value: date,
+    	}));
+
 		return (
 			<>
-				<span className="p-input-icon-right">
-					<i
-						className="pi pi-calendar"
-						style={{ zIndex: "1000", color: "#533893" }}
-					/>
-					<Calendar
-						style={{ minWidth: "10rem" }}
-						inputId="date"
-						//value={options.value}
-						dateFormat="dd/mm/yy"
-						placeholder="DD/MM/AAAA"
-						onChange={(e) => {
-							const myDate: Date = new Date(e.value.toString());
-
-							const date = moment(myDate)
-								.format("DD/MM/YYYY")
-								.toString();
-							return options.filterApplyCallback(date);
-						}}
-					/>
-				</span>
+				 <Dropdown
+					style={{ width: '100%' }}
+					options={[
+						{
+							label: 'Seleccione',
+							value: '',
+						},
+						...selectOptions
+					]}
+					onChange={(e) => {
+						setDraTipoRadicadoFilter(e.value);
+					}}
+					placeholder="Seleccione un valor"
+					showClear
+				/>
 			</>
 		);
 	};
@@ -182,7 +186,8 @@ const RadicadosTray = () => {
 			header: "Fecha",
 			sortable: true,
 			filter: true,
-			filterElement: dateRowFilterTemplate,
+			filterElement: dateTemplate,
+			filterMatchMode: "equals",
 			showFilterMenu: false,
 			style: { minWidth: "13rem" },
 		},
@@ -394,7 +399,13 @@ const RadicadosTray = () => {
 						</div>
 						<TableExpansibleDialComponent
 							columns={columnSenderTable}
-							data={radicadosList}
+							data={radicadosList.filter((item) => {
+								if (draTipoRadicadoFilter !== "") {
+									return item.dra_fecha_radicado === draTipoRadicadoFilter;
+								}
+				  
+								return true;
+							})}
 							tableTitle=""
 							filters={filters}
 							filterDisplay={"row"}
