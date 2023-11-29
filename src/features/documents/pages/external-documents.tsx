@@ -90,7 +90,7 @@ const DocumentsExternal = () => {
 			DRA_FECHA_RADICADO: moment(new Date())
 				.format("YYYY-MM-DD")
 				.toString(),
-			DRA_TIPO_RADICADO: 1,
+			DRA_TIPO_RADICADO: 3,
 			DRA_RADICADO_ORIGEN: data.radicado_origen || "",
 			DRA_RADICADO_POR: authorization.user.numberDocument || "",
 			DRA_NOMBRE_RADICADOR:
@@ -155,7 +155,7 @@ const DocumentsExternal = () => {
 			"DRA_FECHA_RADICADO",
 			moment(new Date()).format("YYYY-MM-DD").toString()
 		);
-		formData.append("DRA_TIPO_RADICADO", "1");
+		formData.append("DRA_TIPO_RADICADO", "3");
 		formData.append("DRA_RADICADO_ORIGEN", data.radicado_origen || "");
 		formData.append("DRA_RADICADO_POR", data.radicado_por || "");
 		formData.append(
