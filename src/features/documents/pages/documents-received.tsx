@@ -50,7 +50,6 @@ const DocumentsReceived = () => {
 
 	const getRadicadoIncompleto = () => {
 		get(`/radicado-details/find-by-create-by/${authorization.user.numberDocument}?tipo=Recibido`).then((data: any) => {
-			console.log('Fecha de origen:', data?.radicado?.DRA_FECHA_ORIGEN);
 			if (JSON.stringify(data?.radicado) !== '{}') {
 				setData({
 					...data,
