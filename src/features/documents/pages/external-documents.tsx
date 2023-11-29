@@ -276,6 +276,7 @@ const DocumentsExternal = () => {
 						handleUpload={handleUpload}
 						messageFileIndex={messageFileIndex}
 						setHideModalIndex={setHideModalIndex}
+						setMessageFileIndex={setMessageFileIndex}
 					/>
 					<div className="mt-10 flex flex-center">
 						<ButtonComponent

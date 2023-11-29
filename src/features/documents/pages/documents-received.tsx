@@ -240,6 +240,7 @@ const DocumentsReceived = () => {
 			disabled: false,
 		},
 	];
+	
 	return (
 		<div className="crud-page full-height recived-documents">
 			<div className="main-page container-docs-received">
@@ -277,6 +278,7 @@ const DocumentsReceived = () => {
 						handleUpload={handleUpload}
 						messageFileIndex={messageFileIndex}
 						setHideModalIndex={setHideModalIndex}
+						setMessageFileIndex={setMessageFileIndex}
 					/>
 					<div className="mt-10 flex flex-center">
 						<ButtonComponent
