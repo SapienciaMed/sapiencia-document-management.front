@@ -20,6 +20,8 @@ import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { clip } from "../../../common/components/icons/clip";
+import { useForm } from 'react-hook-form';
+
 const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
 	const [data, setData] = useState<any>({
@@ -39,6 +41,9 @@ const DocumentsExternal = () => {
 	const { setMessage } = useContext(AppContext);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+	const [showConfirmation, setShowConfirmation] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
+	const { register, control, handleSubmit, setValue } = useForm();
 
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
@@ -229,6 +234,14 @@ const DocumentsExternal = () => {
 		}
 	};
 
+	const handleConfirmationClose = () => {
+        setShowConfirmation(false);
+    };
+
+    const handleConfirmationAccept = () => {
+		window.location.reload();
+	};
+
 	const accordionsData: IAccordionTemplate[] = [
 		{
 			id: 1,
@@ -269,6 +282,7 @@ const DocumentsExternal = () => {
 			disabled: false,
 		},
 	];
+
 	return (
 		<div className="crud-page full-height recived-documents">
 			<div className="main-page container-docs-received">
@@ -354,8 +368,23 @@ const DocumentsExternal = () => {
 							className="button-main huge hover-three buttonThird"
 							value="Cancelar"
 							type="button"
-							action={null}
+							action={() => setShowConfirmation(true)}
 						/>
+						{showConfirmation && (
+						<div className="modalMessageOk">
+							<div className="containerMessageOk">
+								<div>
+									<button className="closeMessage" onClick={handleConfirmationClose}>X</button>
+								</div>
+								<span className="titleMessage">Cancelar acción</span>
+								<p className="textMessage">No se guardará la información. Está seguro que desea cancelar?</p>
+								<div className="confirmation-buttons">
+									<button className="buttonMessageOk" onClick={handleConfirmationAccept}>Aceptar</button>
+									<button className="buttonMessClose" onClick={handleConfirmationClose}>Cerrar</button>
+								</div>
+							</div>
+						</div>
+					)}
 						<ButtonComponent
 							className="button-main huge hover-three buttonDisableDM"
 							value="Guardar y continuar"

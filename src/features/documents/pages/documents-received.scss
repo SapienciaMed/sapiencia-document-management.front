@@ -38,3 +38,81 @@
 .buttonTop{
     margin-top: 4%;
 }
+
+.modalMessageOk{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000080;
+    display: flex;
+  }
+
+  .containerMessageOk{
+    margin: auto;
+    background-color: #fff;
+    width: 96%;
+    max-width: 522px;
+    max-height: 100%;
+    overflow: hidden;
+    text-align: center;
+    padding-right: 1.5em;
+    padding-left: 1.5em;
+    padding-top: 1.5em;
+    padding-bottom: 2.5em;
+    border-radius: 16px;
+  }
+
+  span.titleMessage {
+    font-family: "RubikMedium" !important;
+    font-size: 30px;
+    color: #533893;
+  }
+
+  p.textMessage {
+    font-family: "Rubik",sans-serif !important;
+    font-size: 20px;
+    color: #000;
+  }
+
+  button.buttonMessageOk {
+    border: none;
+    width: 100%;
+    max-width: 96px;
+    height: 43px;
+    max-height: 43px;
+    border-radius: 100px;
+    background-color: #533893;
+    color: #fff;
+    font-family: "RubikMedium" !important;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button.closeMessage {
+    border: none;
+    width: 100%;
+    background-color: #fff;
+    color: #533893;
+    font-family: "RubikMedium" !important;
+    font-size: 30px;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+
+  button.buttonMessClose {
+    border: none;
+    width: 100%;
+    max-width: 96px;
+    height: 43px;
+    max-height: 43px;
+    border-radius: 100px;
+    background-color: transparent;
+    color: #000;
+    font-family: "RubikMedium" !important;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}

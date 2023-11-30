@@ -155,8 +155,13 @@ const RecipientData = ({ data, onChange }: IProps) => {
 						pais_destinatario: "",
 						departamento_destinatario: "",
 						municipio_destinatario: "",
+						
 					});
+					setGetPais("");
+					setGetDepartamento("");
+					setGetMunicipio("");
 				}
+				
 			});
 		}
 	};
@@ -240,7 +245,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		  setUserSelected(true);
 		}
 	  };
-
+		
 	return (
 		<FormComponent action={null}>
 			<div className="">
