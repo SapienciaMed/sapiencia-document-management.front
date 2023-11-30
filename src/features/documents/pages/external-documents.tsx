@@ -77,6 +77,9 @@ const DocumentsExternal = () => {
 					dra_tipo_documento_radicado:
 						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
 					created_at: data?.radicado?.created_at,
+					radicado_por_nombre: data?.radicado?.DRA_NOMBRE_RADICADOR,
+					nombre_destinatario:data?.radicado?.ENT_TIPO_DOCUMENTO == 'NIT' ? data?.radicado?.ENT_RAZON_SOCIAL : `${data?.radicado?.ENT_NOMBRES} ${data?.radicado?.ENT_APELLIDOS}`,
+					nombre_asunto: data?.radicado?.INF_NOMBRE_ASUNTO,
 				});
 
 				setHideElement(true);
@@ -341,10 +344,10 @@ const DocumentsExternal = () => {
 					data={{
 						radicado: `E ${data?.radicado}`,
 						fechaRadicado: data?.created_at,
-						tipo: "Externo",
-						destinatario: data?.dirigido_a,
-						radicadoPor: data?.radicado_por,
 						num_radicado: data?.radicado,
+						tipo: data?.nombre_asunto,
+						destinatario: data?.nombre_destinatario,
+						radicadoPor: data?.radicado_por_nombre,
 					}}
 					formatCode={"code39"}
 					title={"Sticker"}

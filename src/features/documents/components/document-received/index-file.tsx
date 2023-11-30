@@ -24,9 +24,7 @@ const MassiveFileUploader = ({
     //const classesUpload = `${styles.fileMassive} files`;
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newFiles = Array.from(event.target.files as FileList).filter(
-            (file) => file.type === "application/pdf"
-        );
+        const newFiles = Array.from(event.target.files as FileList);
         setFiles([...files, ...newFiles]);
     };
 
@@ -58,9 +56,7 @@ const MassiveFileUploader = ({
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        const newFiles = Array.from(event.dataTransfer.files).filter(
-            (file) => file.type === "application/pdf"
-        );
+        const newFiles = Array.from(event.dataTransfer.files);
         setFiles([...files, ...newFiles]);
     };
 

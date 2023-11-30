@@ -24,9 +24,7 @@ const MassiveFileUploader = ({
     //const classesUpload = `${styles.fileMassive} files`;
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newFiles = Array.from(event.target.files as FileList).filter(
-            (file) => file.type === "application/pdf"
-        );
+        const newFiles = Array.from(event.target.files as FileList);
         setFiles([...files, ...newFiles]);
     };
 
@@ -58,9 +56,7 @@ const MassiveFileUploader = ({
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        const newFiles = Array.from(event.dataTransfer.files).filter(
-            (file) => file.type === "application/pdf"
-        );
+        const newFiles = Array.from(event.dataTransfer.files);
         setFiles([...files, ...newFiles]);
     };
 
@@ -94,7 +90,7 @@ const MassiveFileUploader = ({
                 <div className="files">
                     <div className="headerMassive">
                         <span className="custom-choose-btn" onClick={handleClick}>
-                            <input className="input-field file-input" type="file" hidden accept="*" multiple ref={inputRef} onChange={handleFileSelect} onClick={() => setHideMessage(false)} />
+                            <input className="input-field file-input" type="file" hidden  multiple ref={inputRef} onChange={handleFileSelect} onClick={() => setHideMessage(false)} />
                             <span className="clip-ico">{clip}</span>
                         </span>
                         <button className="custom-upload-btn upload-button" onClick={() => handleUpload(files[0])} disabled={files.length === 0}>{uploadIcon}</button>
