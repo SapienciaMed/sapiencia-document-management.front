@@ -1,6 +1,7 @@
 import { Dialog } from "primereact/dialog";
 import Barcode, { Renderer } from "react-jsbarcode";
 import { ButtonComponent } from "../../../common/components/Form";
+import alcaldia from  '../../../public/images/icons/alcaldia.png';
 
 const RadicadoSticker = ({
 	data,
@@ -9,9 +10,7 @@ const RadicadoSticker = ({
 	visible,
 	onCloseModal,
 }) => {
-	//const [hideModal, setHideModal] = useState<boolean>(true);
 	const formattedDate = data.fechaRadicado ? new Date(data.fechaRadicado).toLocaleDateString() : '';
-	console.log("Fecha recibida:", data.fechaRadicado);
 	return (
 		<Dialog
 			header={title}
@@ -58,11 +57,14 @@ const RadicadoSticker = ({
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Radicado Por: {data.radicadoPor}</div>
 					</div>
 					<div style={{ alignSelf: "flex-end" }}>
+						<div style={{ width: '100%', display: "flex", justifyContent: 'center' }} >
+							<img src={alcaldia} width={80} />
+						</div>
 						<Barcode
-							value={data.radicado}
+							value={data.num_radicado}
 							options={{
 								format: formatCode,
-								width: 1.5,
+								width: 1.2,
 								height: 60,
 							}}
 						//renderer={"svg" as Renderer}

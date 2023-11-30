@@ -72,6 +72,7 @@ const DocumentsReceived = () => {
 					numero_cajas: data?.radicado?.DRA_NUM_CAJAS,
 					dra_tipo_documento_radicado:
 						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
+					created_at: data?.radicado?.created_at,
 				});
 
 				setHideElement(true);
@@ -329,11 +330,12 @@ const DocumentsReceived = () => {
 			<div>
 				<RadicadoSticker
 					data={{
-						radicado: data.radicado,
-						fechaRadicado: data.fecha_origen,
+						radicado: `R ${data?.radicado}`,
+						fechaRadicado: data?.created_at,
 						tipo: "Recibido",
-						destinatario: data.dirigido_a,
-						radicadoPor: data.radicado_por,
+						destinatario: data?.dirigido_a,
+						radicadoPor: data?.radicado_por,
+						num_radicado: data?.radicado,
 					}}
 					formatCode={"code39"}
 					title={"Sticker"}
