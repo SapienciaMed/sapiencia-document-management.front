@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./document-received.module.scss";
 import {
 	FormComponent,
@@ -10,9 +10,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputTextNumberComponent } from "../input-text-number";
 
+interface IOptionalFieldsForm {
+	observaciones: string;
+	numero_anexos: string;
+	numero_folios: string;
+	numero_cajas: string;
+}
+
 interface IProps {
-	onChange: (data: any) => void,
-	data: any
+	onChange: (data: IOptionalFieldsForm) => void;
+	data: IOptionalFieldsForm;
 }
 
 const OptionalFields = ({ data: allData, onChange }: IProps) => {
@@ -53,6 +60,19 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 		}
 	}, [])
 
+	useEffect(() => {
+		const storedData = localStorage.getItem("optionalFieldsData");
+		if (storedData) {
+		  const parsedData = JSON.parse(storedData);
+		  onChange(parsedData);
+		}
+	  }, [onChange]);
+	
+	  const handleFieldChange = (fieldName: string, value: string) => {
+		const updatedData = { ...allData, [fieldName]: value };
+		onChange(updatedData);
+		localStorage.setItem("optionalFieldsData", JSON.stringify(updatedData));
+	  };
 
 	return (
 		<>
