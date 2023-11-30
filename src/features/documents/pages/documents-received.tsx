@@ -40,6 +40,7 @@ const DocumentsReceived = () => {
 	const { setMessage } = useContext(AppContext);
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+	const [showConfirmation, setShowConfirmation] = useState(false);
 
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
@@ -72,6 +73,7 @@ const DocumentsReceived = () => {
 					numero_cajas: data?.radicado?.DRA_NUM_CAJAS,
 					dra_tipo_documento_radicado:
 						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
+					created_at: data?.radicado?.created_at,
 				});
 
 				setHideElement(true);
@@ -232,6 +234,15 @@ const DocumentsReceived = () => {
 			console.log(err);
 		}
 	};
+
+	const handleConfirmationClose = () => {
+        setShowConfirmation(false);
+    };
+
+    const handleConfirmationAccept = () => {
+		window.location.reload();
+	};
+	
 	console.log("datos_sticker", data);
 	const accordionsData: IAccordionTemplate[] = [
 		{
@@ -329,11 +340,12 @@ const DocumentsReceived = () => {
 			<div>
 				<RadicadoSticker
 					data={{
-						radicado: data.radicado,
-						fechaRadicado: data.fecha_origen,
+						radicado: `R ${data?.radicado}`,
+						fechaRadicado: data?.created_at,
 						tipo: "Recibido",
-						destinatario: data.dirigido_a,
-						radicadoPor: data.radicado_por,
+						destinatario: data?.dirigido_a,
+						radicadoPor: data?.radicado_por,
+						num_radicado: data?.radicado,
 					}}
 					formatCode={"code39"}
 					title={"Sticker"}
@@ -359,8 +371,23 @@ const DocumentsReceived = () => {
 							className="button-main huge hover-three buttonThird"
 							value="Cancelar"
 							type="button"
-							action={null}
+							action={() => setShowConfirmation(true)}
 						/>
+						{showConfirmation && (
+						<div className="modalMessageOk">
+							<div className="containerMessageOk">
+								<div>
+									<button className="closeMessage" onClick={handleConfirmationClose}>X</button>
+								</div>
+								<span className="titleMessage">Cancelar acción</span>
+								<p className="textMessage">No se guardará la información. Está seguro que desea cancelar?</p>
+								<div className="confirmation-buttons">
+									<button className="buttonMessageOk" onClick={handleConfirmationAccept}>Aceptar</button>
+									<button className="buttonMessClose" onClick={handleConfirmationClose}>Cerrar</button>
+								</div>
+							</div>
+						</div>
+					)}
 						<ButtonComponent
 							className="button-main huge hover-three buttonDisableDM"
 							value="Guardar y continuar"
