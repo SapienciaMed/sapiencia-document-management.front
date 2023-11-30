@@ -177,7 +177,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		if (!response?.data || Object.keys(response?.data).length === 0 || response?.data?.length <= 0) {
 			setMessage({
 				title: "Error",
-				description: "El destinatario no existe",
+				description: "El remitente no existe",
 				show: true,
 				background: true,
 				okTitle: "Cerrar",

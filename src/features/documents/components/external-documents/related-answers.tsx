@@ -153,6 +153,19 @@ const RelatedAnswers = ({
 					});
 				}
 			);
+		} else {
+			setMessage({
+				title: "Respuesta Relacionada",
+				description: relatedAnswerData.operation.message,
+				show: true,
+				background: true,
+				okTitle: "Aceptar",
+
+				style: "z-index-1300",
+				onOk: () => {
+					setMessage({});
+				},
+			});
 		}
 	};
 

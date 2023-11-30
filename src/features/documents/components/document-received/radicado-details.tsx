@@ -59,7 +59,7 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 		getValues,
 		formState: { errors },
 	} = useForm<IRadicadoDetailsForm>({
-		resolver: yupResolver(allData.tipo == 2 ? schema2 : schema),
+		resolver: yupResolver(allData.tipo_asunto == 2 ? schema2 : schema),
 		defaultValues: { ...allData },
 		mode: "all",
 	});
@@ -144,7 +144,7 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 						label="Radicado Origen"
 						className="input-basic"
 						classNameLabel={`text--black ${
-							allData.tipo == 2 ? "text-required" : ""
+							allData.tipo_asunto == 2 ? "text-required" : ""
 						}`}
 						errors={errors}
 						disabled={false}
@@ -152,7 +152,8 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 						max={12}
 						type={"number"}
 					/>
-					{allData.tipo == 2 && allData.radicado_origen == null ? (
+					{allData.tipo_asunto == 2 &&
+					allData.radicado_origen == null ? (
 						<span className="error-message not-margin-padding">
 							El campo es obligatorio
 						</span>
