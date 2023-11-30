@@ -73,6 +73,7 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 								disabled={false}
 								rows={5}
 								placeholder="Escribe aquí"
+								onChange={(e) => { onChange({ ...allData, observaciones: e.target.value}) }}
 							/>
 						)}
 					/>
@@ -95,6 +96,7 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 						errors={errors}
 						disabled={false}
 						type={"number"}
+						onBlur={(e) => { onChange({ ...allData, numero_anexos: e.target.value}) }}
 					/>
 					<InputTextNumberComponent
 						idInput="numero_folios"
@@ -107,6 +109,7 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 						max={999}
 						min={1}
 						type={"number"}
+						onBlur={(e) => { onChange({ ...allData, numero_folios: e.target.value}) }}
 					/>
 					<InputTextNumberComponent
 						idInput="numero_cajas"
@@ -119,6 +122,7 @@ const OptionalFields = ({ data: allData, onChange }: IProps) => {
 						max={999}
 						min={1}
 						type={"number"}
+						onBlur={(e) => { onChange({ ...allData, numero_cajas: e.target.value}) }}
 					/>
 				</div>
 			</FormComponent>
