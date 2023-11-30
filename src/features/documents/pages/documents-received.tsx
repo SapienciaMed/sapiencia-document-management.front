@@ -59,6 +59,7 @@ const DocumentsReceived = () => {
 					radicado_origen:
 						Number(data?.radicado?.DRA_RADICADO_ORIGEN) || null,
 					radicado_por: data?.radicado?.DRA_RADICADO_POR,
+					radicado_por_nombre: data?.radicado?.DRA_NOMBRE_RADICADOR,
 					enviado_por: data?.radicado?.DRA_ID_REMITENTE.trim() || "",
 					codigo_asunto: data?.radicado?.DRA_CODIGO_ASUNTO || "",
 					tipo: String(data?.radicado?.DRA_TIPO_ASUNTO) || "1",
@@ -74,6 +75,8 @@ const DocumentsReceived = () => {
 					dra_tipo_documento_radicado:
 						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
 					created_at: data?.radicado?.created_at,
+					nombre_asunto: data?.radicado?.INF_NOMBRE_ASUNTO,
+					nombre_destinatario:data?.radicado?.ENT_TIPO_DOCUMENTO == 'NIT' ? data?.radicado?.ENT_RAZON_SOCIAL : `${data?.radicado?.ENT_NOMBRES} ${data?.radicado?.ENT_APELLIDOS}`,
 				});
 
 				setHideElement(true);
@@ -342,9 +345,9 @@ const DocumentsReceived = () => {
 					data={{
 						radicado: `R ${data?.radicado}`,
 						fechaRadicado: data?.created_at,
-						tipo: "Recibido",
-						destinatario: data?.dirigido_a,
-						radicadoPor: data?.radicado_por,
+						tipo: data?.nombre_asunto,
+						destinatario: data?.nombre_destinatario,
+						radicadoPor: data?.radicado_por_nombre,
 						num_radicado: data?.radicado,
 					}}
 					formatCode={"code39"}
