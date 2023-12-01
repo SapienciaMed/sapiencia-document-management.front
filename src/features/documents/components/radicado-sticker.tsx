@@ -2,6 +2,7 @@ import { Dialog } from "primereact/dialog";
 import Barcode, { Renderer } from "react-jsbarcode";
 import { ButtonComponent } from "../../../common/components/Form";
 import alcaldia from  '../../../public/images/icons/alcaldia.png';
+import moment from "moment"
 
 const RadicadoSticker = ({
 	data,
@@ -10,7 +11,6 @@ const RadicadoSticker = ({
 	visible,
 	onCloseModal,
 }) => {
-	const formattedDate = data.fechaRadicado ? new Date(data.fechaRadicado).toLocaleDateString() : '';
 	return (
 		<Dialog
 			header={title}
@@ -51,7 +51,7 @@ const RadicadoSticker = ({
 						}}
 					>
 						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Radicado: {data.radicado}</div>
-						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Fecha: {formattedDate}</div>
+						<div style={{ fontFamily: "RubikMedium", fontSize: "17px", color: "#000" }}>Fecha: {moment(data.fechaRadicado).format('MM/DD/YYYY hh:mm:ss')}</div>
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Tipo: {data.tipo}</div>
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Destino: {data.destinatario? data.destinatario .toUpperCase() : ""}</div>
 						<div style={{ fontFamily: "Rubik", fontSize: "14px", color: "#000" }}>Radicado Por: {data.radicadoPor}</div>
