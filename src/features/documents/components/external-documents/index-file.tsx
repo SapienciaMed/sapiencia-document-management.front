@@ -25,7 +25,12 @@ const MassiveFileUploader = ({
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newFiles = Array.from(event.target.files as FileList);
-        setFiles([...files, ...newFiles]);
+
+        const uniqueNewFiles = newFiles.filter(newFile =>
+            !files.some(existingFile => existingFile.name === newFile.name)
+        );
+    
+        setFiles([...files, ...uniqueNewFiles]);
     };
 
     useEffect(() => {
