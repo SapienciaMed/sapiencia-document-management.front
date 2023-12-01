@@ -58,14 +58,14 @@ const RadicadoSticker = ({
 					</div>
 					<div style={{ alignSelf: "flex-end" }}>
 						<div style={{ width: '100%', display: "flex", justifyContent: 'center' }} >
-							<img src={alcaldia} width={80} />
+							<img src={alcaldia} width={170} />
 						</div>
 						<Barcode
 							value={data.num_radicado}
 							options={{
 								format: formatCode,
 								width: 1.2,
-								height: 60,
+								height: 50,
 							}}
 						//renderer={"svg" as Renderer}
 						/>
