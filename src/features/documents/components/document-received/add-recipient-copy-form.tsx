@@ -215,7 +215,7 @@ const AddRecipientCopyForm = ({
 										setData([])
 										setValue('ent_numero_identidad', '');
 										setValue('ent_nombres', '');
-										setValue('ent_tipo_entidad', '');
+										setValue('ent_tipo_entidad', 'CC');
 									}}
 									disabled={false}
 								/>
@@ -298,7 +298,7 @@ const AddRecipientCopyForm = ({
 									setSelectedCheckboxs([])
 									setValue('ent_numero_identidad', '');
 									setValue('ent_nombres', '');
-									setValue('ent_tipo_entidad', '');
+									setValue('ent_tipo_entidad', 'CC');
 									setShowTable(false)
 									onHideCreateForm(true)
 									setMessage({});
@@ -318,7 +318,7 @@ const AddRecipientCopyForm = ({
 							setSelectedCheckboxs([])	
 							setValue('ent_numero_identidad', '');
 							setValue('ent_nombres', '');
-							setValue('ent_tipo_entidad', '');
+							setValue('ent_tipo_entidad', 'CC');
 							setShowTable(false)
 							onHideCreateForm(true)
 						}}
@@ -331,7 +331,3 @@ const AddRecipientCopyForm = ({
 };
 
 export default AddRecipientCopyForm;
-function setFindSenderData(arg0: ApiResponse<unknown>) {
-	throw new Error("Function not implemented.");
-}
-

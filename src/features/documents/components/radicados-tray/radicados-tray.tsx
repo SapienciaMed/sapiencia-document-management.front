@@ -142,14 +142,15 @@ const RadicadosTray = () => {
 					style={{ width: '100%' }}
 					options={[
 						{
-							label: 'Seleccione',
+							label: 'Seleccionar',
 							value: '',
 						},
 						...selectOptions
 					]}
 					onChange={(e) => {
-						setDraTipoRadicadoFilter(e.value);
+						setDraTipoRadicadoFilter(e.value || '');
 					}}
+					value={draTipoRadicadoFilter}
 					placeholder="Seleccione un valor"
 					showClear
 				/>
