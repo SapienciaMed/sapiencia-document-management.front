@@ -259,7 +259,7 @@ const CreateEntityForm = ({
 			<Dialog
 				header="Crear Entidad"
 				visible={visible}
-				style={{ width: "50vw" }}
+				style={{ width: "81vw" }}
 				onHide={() => onHideCreateForm(true)}
 				pt={{
 					headerTitle: { className: "text-title-modal text--black" },

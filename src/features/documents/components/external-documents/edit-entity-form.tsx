@@ -239,7 +239,7 @@ const EditEntityForm = ({
 			<Dialog
 				header="Editar Destinatario"
 				visible={visible}
-				style={{ width: "60vw" }}
+				style={{ width: "81vw" }}
 				onHide={() => onHideEditForm(true)}
 				pt={{
 					headerTitle: { className: "text-title-modal text--black" },
