@@ -55,8 +55,8 @@ export default React.memo(() => {
 
 		const response = await get(
       listAuthActions.includes("ADM_ROL")
-        ? `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}&role=ADM_ROL`
-        : `${endpoint}?id-destinatario=${JSON.parse(localStorage.getItem('credentials'))?.numberDocument }&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}`
+        ? `${endpoint}?id-destinatario=${authorization.user.numberDocument}&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}&role=ADM_ROL`
+        : `${endpoint}?id-destinatario=${authorization.user.numberDocument}&dias=${getValues('days')}&desde=${getValues('start')}&hasta=${getValues('end')}`
       
       );
 
