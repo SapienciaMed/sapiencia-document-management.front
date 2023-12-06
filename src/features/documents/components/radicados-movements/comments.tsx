@@ -40,7 +40,7 @@ const CommentsById = ({
 		if (radicado) {
 			getCommentsByID(radicado);
 		}
-	}, [radicado]);
+	}, [radicado, visible]);
 
 	return (
 		<Dialog
