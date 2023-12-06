@@ -230,7 +230,7 @@ const ActivateReverseDocuments = ({
 		);
 	};
 
-	console.log(errorsActRevDocuments)
+	console.log(errorsActRevDocuments);
 
 	return (
 		<Dialog
@@ -386,8 +386,26 @@ const ActivateReverseDocuments = ({
 											name: "Francisco Gaviria",
 										},
 										{ id: 123456789, name: "EPM" },
-										{ id: 32243290, name: "Leidy Sanchez" },
-										{ id: 32243295, name: "Laura Torres" },
+										{ id: 32243291, name: "Leidy Sanchez" },
+										{ id: 32243290, name: "Leidy Muñoz" },
+										{ id: 32243290, name: "Laura Torres" },
+										{ id: 43845850, name: "Yudy Caicedo" },
+										{
+											id: 1152693103,
+											name: "Juan Machado",
+										},
+										{
+											id: 43462574,
+											name: "Sandra Cardona",
+										},
+										{
+											id: 454545684,
+											name: "Luciano Benedetty",
+										},
+										{
+											id: 454545684,
+											name: "Luciano Benedetty",
+										},
 									]}
 									onSelect={(item) => {
 										setValueActRevDocuments(
