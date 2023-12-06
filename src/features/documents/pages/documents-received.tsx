@@ -76,7 +76,10 @@ const DocumentsReceived = () => {
 						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
 					created_at: data?.radicado?.created_at,
 					nombre_asunto: data?.radicado?.INF_NOMBRE_ASUNTO,
-					nombre_destinatario:data?.radicado?.ENT_TIPO_DOCUMENTO == 'NIT' ? data?.radicado?.ENT_RAZON_SOCIAL : `${data?.radicado?.ENT_NOMBRES} ${data?.radicado?.ENT_APELLIDOS}`,
+					nombre_destinatario:
+						data?.radicado?.ENT_TIPO_DOCUMENTO == "NIT"
+							? data?.radicado?.ENT_RAZON_SOCIAL
+							: `${data?.radicado?.ENT_NOMBRES} ${data?.radicado?.ENT_APELLIDOS}`,
 				});
 
 				setHideElement(true);
@@ -239,13 +242,13 @@ const DocumentsReceived = () => {
 	};
 
 	const handleConfirmationClose = () => {
-        setShowConfirmation(false);
-    };
+		setShowConfirmation(false);
+	};
 
-    const handleConfirmationAccept = () => {
+	const handleConfirmationAccept = () => {
 		window.location.reload();
 	};
-	
+
 	console.log("datos_sticker", data);
 	const accordionsData: IAccordionTemplate[] = [
 		{
@@ -377,20 +380,40 @@ const DocumentsReceived = () => {
 							action={() => setShowConfirmation(true)}
 						/>
 						{showConfirmation && (
-						<div className="modalMessageOk">
-							<div className="containerMessageOk">
-								<div>
-									<button className="closeMessage" onClick={handleConfirmationClose}>X</button>
-								</div>
-								<span className="titleMessage">Cancelar acción</span>
-								<p className="textMessage">No se guardará la información. Está seguro que desea cancelar?</p>
-								<div className="confirmation-buttons">
-									<button className="buttonMessageOk" onClick={handleConfirmationAccept}>Aceptar</button>
-									<button className="buttonMessClose" onClick={handleConfirmationClose}>Cerrar</button>
+							<div className="modalMessageOk">
+								<div className="containerMessageOk">
+									<div>
+										<button
+											className="closeMessage"
+											onClick={handleConfirmationClose}
+										>
+											X
+										</button>
+									</div>
+									<span className="titleMessage">
+										Cancelar acción
+									</span>
+									<p className="textMessage">
+										No se guardará la información. Está
+										seguro que desea cancelar?
+									</p>
+									<div className="confirmation-buttons">
+										<button
+											className="buttonMessageOk"
+											onClick={handleConfirmationAccept}
+										>
+											Aceptar
+										</button>
+										<button
+											className="buttonMessClose"
+											onClick={handleConfirmationClose}
+										>
+											Cerrar
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-					)}
+						)}
 						<ButtonComponent
 							className="button-main huge hover-three buttonDisableDM"
 							value="Guardar y continuar"
@@ -462,6 +485,16 @@ const DocumentsReceived = () => {
 							value="Finalizar"
 							type="button"
 							action={handleEnd}
+							disabled={
+								(data.tipo_asunto == 2 &&
+									!data.radicado_origen) ||
+								!data.enviado_por ||
+								!data.dirigido_a ||
+								!data.tipo ||
+								!data.prioridad ||
+								!data.codigo_asunto ||
+								!data.referencia
+							}
 						/>
 					</div>
 				</>
