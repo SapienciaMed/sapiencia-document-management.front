@@ -299,8 +299,8 @@ const RadicadoMovements = () => {
 
 	return (
 		<>
-			{/* <div className="custom-mw"> */}
-			<div className=" full-height container-docs-received">
+			<div className="custom-mw" style={{ margin: "0 auto" }}>
+				{/* <div className=" full-height container-docs-received"> */}
 				<div className="spc-common-table expansible card-table mt-40 mx-24">
 					<div className="mb-22 text-black  font-size-28">
 						Consulta de Movimientos - Parámetros
