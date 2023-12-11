@@ -43,10 +43,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		tipo: yup.string().required("El campo es obligatorio"),
 		prioridad: yup.string().required("El campo es obligatorio"),
 		search_codigo_asunto: yup
-			.number()
-			.transform((value) => (Number.isNaN(value) ? null : value))
-			.nullable()
-			.max(999999999999999, "Solo se permiten 15 dígitos"),
+			.string()
+			.max(15, "Solo se permiten 15 dígitos")
+			.nullable(),
 		search_nombre_asunto: yup
 			.string()
 			.max(50, "Solo se permiten 50 caracteres"),
@@ -391,7 +390,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								<div className="grid-form-2-container">
 									<InputComponentOriginal
 										idInput="search_codigo_asunto"
-										typeInput="number"
+										typeInput="text"
 										className="input-basic background-textArea"
 										register={register}
 										label="Código"
