@@ -110,7 +110,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						);
 						setValue(
 							"tiempo_respuesta",
-							response[0].ras_timepo_respuesta
+							response[0].ras_tiempo_respuesta
 						);
 						setValue("unidad", response[0].ras_unidad);
 						setValue("codigo_asunto", idAsunto);
@@ -123,7 +123,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								...data,
 								nombre_asunto: response[0].ras_nombre_asunto,
 								tiempo_respuesta:
-									response[0].ras_timepo_respuesta,
+									response[0].ras_tiempo_respuesta,
 								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
 								tipo: data?.tipo,
@@ -135,7 +135,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								...data,
 								nombre_asunto: response[0].ras_nombre_asunto,
 								tiempo_respuesta:
-									response[0].ras_timepo_respuesta,
+									response[0].ras_tiempo_respuesta,
 								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
 								tipo: "",
@@ -524,7 +524,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										header: "Nombre",
 									},
 									{
-										fieldName: "inf_timepo_respuesta",
+										fieldName: "inf_tiempo_respuesta",
 										header: "Tiempo respuesta",
 									},
 									{
