@@ -505,12 +505,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											return (
 												<input
 													type="checkbox"
-													value={
-														row?.inf_codigo_asunto
-													}
+													value={row?.ras_id}
 													checked={
 														selectedCheckbox ==
-														row?.inf_codigo_asunto
+														row?.ras_id
 													}
 													onChange={
 														handleCheckboxChange
@@ -520,19 +518,19 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										},
 									},
 									{
-										fieldName: "inf_codigo_asunto",
+										fieldName: "ras_id",
 										header: "Código",
 									},
 									{
-										fieldName: "inf_nombre_asunto",
+										fieldName: "ras_nombre_asunto",
 										header: "Nombre",
 									},
 									{
-										fieldName: "inf_timepo_respuesta",
+										fieldName: "ras_tiempo_respuesta",
 										header: "Tiempo respuesta",
 									},
 									{
-										fieldName: "inf_unidad",
+										fieldName: "ras_unidad",
 										header: "Unidad",
 									},
 								]}
