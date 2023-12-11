@@ -30,6 +30,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [showSearch, setShowSearch] = useState<boolean>(false);
 	const [documentSubject, setDocumentSubject] = useState<any>([]);
+	const [documents, setDocuments] = useState<any>([]);
 
 	const schema = yup.object({
 		codigo_asunto: yup
@@ -71,10 +72,24 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		}
 	}, []);
 
-	const onBlurData = () => {
+	useEffect(() => {
+		if (Array.isArray(documents) && documents.length > 0) {
+			setDocumentSubject(documents);
+			onChange({
+				...data,
+				documents: documents,
+			});
+		}
+	}, [data?.codigo_asunto, documents]);
+
+	const onBlurData = async () => {
 		const idAsunto = getValues("codigo_asunto");
 		if (!idAsunto) {
 			reset();
+		}
+
+		if (data?.codigo_asunto || idAsunto) {
+			setDocuments(await getDocumentsSubjects(idAsunto));
 		}
 		setSelectedSubject(idAsunto, true);
 		onChange({
@@ -308,7 +323,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								classNameLabel="text--black text-required"
 								direction={EDirection.column}
 								placeholder="Seleccionar"
-								data={documentSubject}
+								data={data?.documents || documentSubject}
 							/>
 						);
 					}}
