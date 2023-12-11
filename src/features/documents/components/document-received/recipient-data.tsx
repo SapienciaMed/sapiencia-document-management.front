@@ -208,27 +208,30 @@ const RecipientData = ({ data, onChange }: IProps) => {
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
 					<div>
-						<InputTextIconComponent
-							idInput="dirigido_a"
-							control={control}
-							label="Dirigido a"
-							className="input-basic"
-							classNameLabel="text--black text-required"
-							errors={errors}
-							disabled={false}
-							onBlur={onBlurData}
-							min={15}
-							type={"number"}
-							handleOnSearch={() => {
-								setShowSearch(!showSearch);
-								onChange({
-									...data,
-									search_codigo_usuario: null,
-									search_nombre_usuario: "",
-									search_apellido_usuario: "",
-								});
-							}}
-						/>
+					<InputTextIconComponent
+						idInput="dirigido_a"
+						control={control}
+						label="Dirigido a"
+						className="input-basic"
+						classNameLabel="text--black text-required"
+						errors={{
+							...errors,
+							dirigido_a: data.dirigido_a || errors.dirigido_a ? undefined : errors.dirigido_a,
+						}}
+						disabled={false}
+						onBlur={onBlurData}
+						min={15}
+						type={"number"}
+						handleOnSearch={() => {
+							setShowSearch(!showSearch);
+							onChange({
+								...data,
+								search_codigo_usuario: null,
+								search_nombre_usuario: "",
+								search_apellido_usuario: "",
+							});
+						}}
+					/>
 					</div>
 
 					<Controller
