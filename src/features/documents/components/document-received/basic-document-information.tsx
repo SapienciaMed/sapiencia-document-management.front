@@ -56,7 +56,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		register,
 		control,
 		setValue: subjectSetValue,
-		getValues,
+		getValues: subjectGetValues,
 		watch,
 		reset,
 		formState: { errors },
@@ -83,7 +83,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	}, [data?.codigo_asunto, documents]);
 
 	const onBlurData = async () => {
-		const idAsunto = getValues("codigo_asunto");
+		const idAsunto = subjectGetValues("codigo_asunto");
 		if (!idAsunto) {
 			reset();
 		}
@@ -571,25 +571,25 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											: "cursor-pointer search-button-active"
 									}`}
 									onClick={(e) => {
-										e.preventDefault();
-										setSelectedSubject(selectedCheckbox);
-										setSubjets([]);
-										setShowSearch(false);
-										subjectSetValue(
-											"codigo_asunto",
-											selectedCheckbox
-										);
-										subjectSetValue(
-											"search_codigo_asunto",
-											null
-										);
-										subjectSetValue(
-											"search_nombre_asunto",
-											""
-										);
-										// onChange({ ...data, tipo: "" })
-										// setValue("tipo", "");
-										setSelectedCheckbox("");
+										// e.preventDefault();
+										// setSelectedSubject(selectedCheckbox);
+										// setSubjets([]);
+										// setShowSearch(false);
+										// subjectSetValue(
+										// 	"codigo_asunto",
+										// 	selectedCheckbox
+										// );
+										// subjectSetValue(
+										// 	"search_codigo_asunto",
+										// 	null
+										// );
+										// subjectSetValue(
+										// 	"search_nombre_asunto",
+										// 	""
+										// );
+										// // onChange({ ...data, tipo: "" })
+										// // setValue("tipo", "");
+										// setSelectedCheckbox("");
 									}}
 									disabled={selectedCheckbox == ""}
 								>
