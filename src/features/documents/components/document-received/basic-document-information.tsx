@@ -115,9 +115,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						subjectSetValue("codigo_asunto", idAsunto);
 
 						if (setDefaults) {
+							//onBlurData();
 							subjectSetValue("tipo", data?.tipo);
 							subjectSetValue("prioridad", data?.prioridad);
-
 							onChange({
 								...data,
 								nombre_asunto: response[0].ras_nombre_asunto,
@@ -229,7 +229,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						disabled={false}
 						onBlur={onBlurData}
 						max={12}
-						type="number"
+						type="text"
 						handleOnSearch={() => {
 							setShowSearch(!showSearch);
 							onChange({
@@ -571,25 +571,28 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											: "cursor-pointer search-button-active"
 									}`}
 									onClick={(e) => {
-										// e.preventDefault();
-										// setSelectedSubject(selectedCheckbox);
-										// setSubjets([]);
-										// setShowSearch(false);
-										// subjectSetValue(
-										// 	"codigo_asunto",
-										// 	selectedCheckbox
-										// );
-										// subjectSetValue(
-										// 	"search_codigo_asunto",
-										// 	null
-										// );
-										// subjectSetValue(
-										// 	"search_nombre_asunto",
-										// 	""
-										// );
-										// // onChange({ ...data, tipo: "" })
-										// // setValue("tipo", "");
-										// setSelectedCheckbox("");
+										e.preventDefault();
+										setSelectedSubject(
+											selectedCheckbox,
+											true
+										);
+										setSubjets([]);
+										setShowSearch(false);
+										subjectSetValue(
+											"codigo_asunto",
+											selectedCheckbox
+										);
+										subjectSetValue(
+											"search_codigo_asunto",
+											null
+										);
+										subjectSetValue(
+											"search_nombre_asunto",
+											""
+										);
+										// onChange({ ...data, tipo: "" })
+										// setValue("tipo", "");
+										setSelectedCheckbox("");
 									}}
 									disabled={selectedCheckbox == ""}
 								>

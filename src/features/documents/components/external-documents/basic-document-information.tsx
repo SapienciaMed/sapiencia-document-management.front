@@ -225,7 +225,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						disabled={false}
 						onBlur={onBlurData}
 						max={12}
-						type="number"
+						type="text"
 						handleOnSearch={() => {
 							setShowSearch(!showSearch);
 							onChange({
@@ -502,11 +502,11 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 												<input
 													type="checkbox"
 													value={
-														row?.inf_codigo_asunto
+														row?.ras_codigo_asunto
 													}
 													checked={
 														selectedCheckbox ==
-														row?.inf_codigo_asunto
+														row?.ras_codigo_asunto
 													}
 													onChange={
 														handleCheckboxChange
@@ -516,19 +516,19 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										},
 									},
 									{
-										fieldName: "inf_codigo_asunto",
+										fieldName: "ras_codigo_asunto",
 										header: "Código",
 									},
 									{
-										fieldName: "inf_nombre_asunto",
+										fieldName: "ras_nombre_asunto",
 										header: "Nombre",
 									},
 									{
-										fieldName: "inf_tiempo_respuesta",
+										fieldName: "ras_tiempo_respuesta",
 										header: "Tiempo respuesta",
 									},
 									{
-										fieldName: "inf_unidad",
+										fieldName: "ras_unidad",
 										header: "Unidad",
 									},
 								]}
@@ -564,7 +564,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 									}`}
 									onClick={(e) => {
 										e.preventDefault();
-										setSelectedSubject(selectedCheckbox);
+										setSelectedSubject(selectedCheckbox, true);
 										setSubjets([]);
 										setShowSearch(false);
 										setValue(
