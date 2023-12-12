@@ -213,7 +213,7 @@ const DocumentsExternal = () => {
 					resetForm();
 				},
 			});
-			return response;
+			window.location.reload();
 		} catch (error) {
 			setFilingComplete(true);
 			setMessage({

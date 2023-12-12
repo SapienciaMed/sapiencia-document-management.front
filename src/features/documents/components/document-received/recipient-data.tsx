@@ -60,6 +60,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		setValue,
 		getValues,
 		reset,
+		setError,
 		formState: { errors },
 	} = useForm<IRecipientDataForm>({
 		resolver: yupResolver(schema),
@@ -91,6 +92,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		});
 
 	const setSelectedAddressee = (idNumber: string) => {
+		console.log('idNumber', idNumber)
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data: payload, message }: any) => {
 
@@ -134,6 +136,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 								departamentoData?.lge_elemento_descripcion || "",
 							municipio_destinatario:
 								municipioData?.lge_elemento_descripcion || "",
+							nombre_destinatario: payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS,
 						});
 				}
 
@@ -214,10 +217,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 						label="Dirigido a"
 						className="input-basic"
 						classNameLabel="text--black text-required"
-						errors={{
-							...errors,
-							dirigido_a: data.dirigido_a || errors.dirigido_a ? undefined : errors.dirigido_a,
-						}}
+						errors={errors}
 						disabled={false}
 						onBlur={onBlurData}
 						min={15}
@@ -566,6 +566,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										setValue("search_nombre_usuario", "");
 										setValue("search_apellido_usuario", "");
 										setSelectedCheckbox("");
+										setError('dirigido_a', { });
 									}}
 									disabled={selectedCheckbox == ""}
 								>

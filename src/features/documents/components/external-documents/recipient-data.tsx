@@ -142,6 +142,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		setFocus,
 		reset,
 		watch,
+		setError,
 		formState: { errors },
 	} = useForm<IRecipientExternalDataForm>({
 		resolver: yupResolver(schema),
@@ -172,6 +173,8 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 			pais: paisData?.lge_elemento_descripcion,
 			departamento: departamentoData?.lge_elemento_descripcion,
 			municipio: municipioData?.lge_elemento_descripcion,
+			nombre_destinatario: data?.fullName,
+			
 		});
 	};
 
@@ -255,6 +258,7 @@ const SenderData = ({ data: allData, onChange }: IProps) => {
 		setGetMunicipio("");
 		onBlurData();
 		setFocus("dirigido_a");
+		setError("dirigido_a", { });
 		setIsVisibleSearchForm(!isVisibleSearchForm);
 		setIsVisibleTable(false);
 		setIsDisableSendButton(true);

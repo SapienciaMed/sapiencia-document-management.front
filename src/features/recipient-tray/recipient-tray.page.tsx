@@ -6,6 +6,7 @@ import { IoWarningOutline } from "react-icons/io5";
 import arrows from "../../public/images/icons/arrows.icon.png";
 import firm from "../../public/images/icons/firm.icon.png";
 import { AppContext } from "../../common/contexts/app.context";
+import { DateTime } from 'luxon';
 
 import moment from 'moment';
 // import { useNavigate } from "react-router-dom";
@@ -272,7 +273,7 @@ export default React.memo(() => {
                   header: "Fecha Radicación",
                   renderCell: (row) => {
                     return (
-                      <>{moment(row.DRA_FECHA_RADICADO).format('DD/MM/YYYY')}</>
+                      <>{moment((row.DRA_FECHA_RADICADO as string)).utc(false).format('DD/MM/YYYY')}</>
                     )
                   },
                   sort: true,
@@ -282,7 +283,7 @@ export default React.memo(() => {
                   header: "Fecha Entrada",
                   renderCell: (row) => {
                     return (
-                      <>{row.DRA_FECHA_EVACUACION_ENTRADA ? moment(row.DRA_FECHA_EVACUACION_ENTRADA).format('DD/MM/YYYY'): ''}</>
+                      <>{row.DRA_FECHA_EVACUACION_ENTRADA ? moment(row.DRA_FECHA_EVACUACION_ENTRADA).utc(false).format('DD/MM/YYYY'): ''}</>
                     )
                   },
                   sort: true,
@@ -292,7 +293,7 @@ export default React.memo(() => {
                   header: "Fecha Salida",
                   renderCell: (row) => {
                     return (
-                      <>{row.DRA_FECHA_EVACUACION_SALIDA ? moment(row.DRA_FECHA_EVACUACION_SALIDA).format('DD/MM/YYYY'): ''}</>
+                      <>{row.DRA_FECHA_EVACUACION_SALIDA ? moment(row.DRA_FECHA_EVACUACION_SALIDA).utc(false).format('DD/MM/YYYY'): ''}</>
                     )
                   },
                   sort: true,

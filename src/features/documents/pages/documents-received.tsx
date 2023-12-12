@@ -186,7 +186,6 @@ const DocumentsReceived = () => {
 		formData.append("DRA_PRIORIDAD", data.prioridad || "");
 		formData.append("DRA_ESTADO", "COMPLETO");
 
-		// Adjuntar datos de copias si están disponibles
 		if (data?.add_recipient_data?.length > 0) {
 			data.add_recipient_data.forEach((recipient, index) => {
 				formData.append(
@@ -213,7 +212,7 @@ const DocumentsReceived = () => {
 					resetForm();
 				},
 			});
-			return response;
+			window.location.reload();
 		} catch (error) {
 			setFilingComplete(true);
 			setMessage({
@@ -235,6 +234,7 @@ const DocumentsReceived = () => {
 
 	const onChange = async (newData: any) => {
 		try {
+			console.log('newData', newData)
 			setData(newData);
 		} catch (err) {
 			console.log(err);
