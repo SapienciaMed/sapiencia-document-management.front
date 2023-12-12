@@ -72,6 +72,12 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	}, []);
 
 	useEffect(() => {
+		if (data.tipo && documentSubject) {
+			subjectSetValue('tipo', Number(data.tipo))
+		}
+	}, [documentSubject, data]);
+
+	useEffect(() => {
 		if (Array.isArray(documents) && documents.length > 0) {
 			setDocumentSubject(documents);
 			onChange({
@@ -128,7 +134,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								prioridad: data?.prioridad,
 							});
 						} else {
-							subjectSetValue("tipo", "");
+							subjectSetValue("tipo", null);
 							onChange({
 								...data,
 								nombre_asunto: response[0].ras_nombre_asunto,
@@ -211,6 +217,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const handleCheckboxChange = (event) => {
 		setSelectedCheckbox(event.target.value);
 	};
+
+	console.log('data?.documents', data?.documents, 'documentSubject', documentSubject)
 
 	return (
 		<FormComponent action={undefined}>

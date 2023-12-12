@@ -88,7 +88,7 @@ interface IBasicDocumentInformationForm {
 	nombre_asunto: string;
 	tiempo_respuesta: number;
 	unidad: string;
-	tipo: string;
+	tipo: number;
 	prioridad: string;
 	search_codigo_asunto?: string;
 	search_nombre_asunto?: string;

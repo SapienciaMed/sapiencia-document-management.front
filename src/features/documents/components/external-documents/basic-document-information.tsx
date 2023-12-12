@@ -71,6 +71,13 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		}
 	}, []);
 
+	
+	useEffect(() => {
+		if (data.tipo && documentSubject) {
+			setValue('tipo', Number(data.tipo))
+		}
+	}, [documentSubject, data]);
+
 	useEffect(() => {
 		if (Array.isArray(documents) && documents.length > 0) {
 			setDocumentSubject(documents);
@@ -129,7 +136,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								prioridad: data?.prioridad,
 							});
 						} else {
-							setValue("tipo", "");
+							setValue("tipo", null);
 							onChange({
 								...data,
 								nombre_asunto: response[0].ras_nombre_asunto,
