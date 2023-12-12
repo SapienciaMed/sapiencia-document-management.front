@@ -418,11 +418,11 @@ const DocumentsExternal = () => {
 							value="Guardar y continuar"
 							type="button"
 							disabled={
-								isEmpty(data.enviado_por) ||
-								isEmpty(data.dirigido_a) ||
-								isEmpty(data.codigo_asunto) ||
-								isEmpty(data.tipo) ||
-								isEmpty(data.prioridad)
+								!data.enviado_por ||
+								!data.dirigido_a ||
+								!data.codigo_asunto ||
+								!data.tipo ||
+								!data.prioridad
 							}
 							action={handleSave}
 						/>
