@@ -210,9 +210,9 @@ const DocumentsReceived = () => {
 				onOk: () => {
 					setMessage({});
 					resetForm();
+					window.location.reload();
 				},
 			});
-			window.location.reload();
 		} catch (error) {
 			setFilingComplete(true);
 			setMessage({

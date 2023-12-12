@@ -218,8 +218,6 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		setSelectedCheckbox(event.target.value);
 	};
 
-	console.log('data?.documents', data?.documents, 'documentSubject', documentSubject)
-
 	return (
 		<FormComponent action={undefined}>
 			<div
