@@ -20,7 +20,7 @@ import { AppContext } from "../../../common/contexts/app.context";
 import axios from "axios";
 import { isEmpty } from "lodash";
 import { clip } from "../../../common/components/icons/clip";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 
 const DocumentsExternal = () => {
 	const accordionsComponentRef = useRef(null);
@@ -42,7 +42,7 @@ const DocumentsExternal = () => {
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [showConfirmation, setShowConfirmation] = useState(false);
-    const [confirmed, setConfirmed] = useState(false);
+	const [confirmed, setConfirmed] = useState(false);
 	const { register, control, handleSubmit, setValue } = useForm();
 
 	useEffect(() => {
@@ -78,7 +78,10 @@ const DocumentsExternal = () => {
 						data?.radicado?.DRA_TIPO_DOCUMENTO_RADICADO,
 					created_at: data?.radicado?.created_at,
 					radicado_por_nombre: data?.radicado?.DRA_NOMBRE_RADICADOR,
-					nombre_destinatario:data?.radicado?.ENT_TIPO_DOCUMENTO == 'NIT' ? data?.radicado?.ENT_RAZON_SOCIAL : `${data?.radicado?.ENT_NOMBRES} ${data?.radicado?.ENT_APELLIDOS}`,
+					nombre_destinatario:
+						data?.radicado?.ENT_TIPO_DOCUMENTO == "NIT"
+							? data?.radicado?.ENT_RAZON_SOCIAL
+							: `${data?.radicado?.ENT_NOMBRES} ${data?.radicado?.ENT_APELLIDOS}`,
 					nombre_asunto: data?.radicado?.INF_NOMBRE_ASUNTO,
 				});
 
@@ -239,10 +242,10 @@ const DocumentsExternal = () => {
 	};
 
 	const handleConfirmationClose = () => {
-        setShowConfirmation(false);
-    };
+		setShowConfirmation(false);
+	};
 
-    const handleConfirmationAccept = () => {
+	const handleConfirmationAccept = () => {
 		window.location.reload();
 	};
 
@@ -376,30 +379,50 @@ const DocumentsExternal = () => {
 							action={() => setShowConfirmation(true)}
 						/>
 						{showConfirmation && (
-						<div className="modalMessageOk">
-							<div className="containerMessageOk">
-								<div>
-									<button className="closeMessage" onClick={handleConfirmationClose}>X</button>
-								</div>
-								<span className="titleMessage">Cancelar acción</span>
-								<p className="textMessage">No se guardará la información. Está seguro que desea cancelar?</p>
-								<div className="confirmation-buttons">
-									<button className="buttonMessageOk" onClick={handleConfirmationAccept}>Aceptar</button>
-									<button className="buttonMessClose" onClick={handleConfirmationClose}>Cerrar</button>
+							<div className="modalMessageOk">
+								<div className="containerMessageOk">
+									<div>
+										<button
+											className="closeMessage"
+											onClick={handleConfirmationClose}
+										>
+											X
+										</button>
+									</div>
+									<span className="titleMessage">
+										Cancelar acción
+									</span>
+									<p className="textMessage">
+										No se guardará la información. Está
+										seguro que desea cancelar?
+									</p>
+									<div className="confirmation-buttons">
+										<button
+											className="buttonMessageOk"
+											onClick={handleConfirmationAccept}
+										>
+											Aceptar
+										</button>
+										<button
+											className="buttonMessClose"
+											onClick={handleConfirmationClose}
+										>
+											Cerrar
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-					)}
+						)}
 						<ButtonComponent
 							className="button-main huge hover-three buttonDisableDM"
 							value="Guardar y continuar"
 							type="button"
 							disabled={
-								isEmpty(data.enviado_por) ||
-								isEmpty(data.dirigido_a) ||
-								isEmpty(data.codigo_asunto) ||
-								isEmpty(data.tipo) ||
-								isEmpty(data.prioridad)
+								!data.enviado_por ||
+								!data.dirigido_a ||
+								!data.codigo_asunto ||
+								!data.tipo ||
+								!data.prioridad
 							}
 							action={handleSave}
 						/>
@@ -461,6 +484,16 @@ const DocumentsExternal = () => {
 							value="Finalizar"
 							type="button"
 							action={handleEnd}
+							disabled={
+								(data.tipo_asunto == 2 &&
+									!data.radicado_origen) ||
+								!data.enviado_por ||
+								!data.dirigido_a ||
+								!data.tipo ||
+								!data.prioridad ||
+								!data.codigo_asunto ||
+								!data.referencia
+							}
 						/>
 					</div>
 				</>

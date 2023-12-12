@@ -10,8 +10,6 @@ import { EDirection } from "../../../../common/constants/input.enum";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { InputTextComponent } from "../../../../common/components/Form/input-text.component";
-import { HiOutlineSearch } from "react-icons/hi";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
 import { IoWarningOutline } from "react-icons/io5";
 import { AppContext } from "../../../../common/contexts/app.context";
@@ -31,6 +29,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const [subjets, setSubjets] = useState<any>([]);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [showSearch, setShowSearch] = useState<boolean>(false);
+	const [documentSubject, setDocumentSubject] = useState<any>([]);
+	const [documents, setDocuments] = useState<any>([]);
 
 	const schema = yup.object({
 		codigo_asunto: yup
@@ -43,10 +43,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		tipo: yup.string().required("El campo es obligatorio"),
 		prioridad: yup.string().required("El campo es obligatorio"),
 		search_codigo_asunto: yup
-			.number()
-			.transform((value) => (Number.isNaN(value) ? null : value))
-			.nullable()
-			.max(999999999999999, "Solo se permiten 15 dígitos"),
+			.string()
+			.max(15, "Solo se permiten 15 dígitos")
+			.nullable(),
 		search_nombre_asunto: yup
 			.string()
 			.max(50, "Solo se permiten 50 caracteres"),
@@ -55,8 +54,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const {
 		register,
 		control,
-		setValue,
-		getValues,
+		setValue: subjectSetValue,
+		getValues: subjectGetValues,
 		watch,
 		reset,
 		formState: { errors },
@@ -72,10 +71,24 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		}
 	}, []);
 
-	const onBlurData = () => {
-		const idAsunto = getValues("codigo_asunto");
+	useEffect(() => {
+		if (Array.isArray(documents) && documents.length > 0) {
+			setDocumentSubject(documents);
+			onChange({
+				...data,
+				documents: documents,
+			});
+		}
+	}, [data?.codigo_asunto, documents]);
+
+	const onBlurData = async () => {
+		const idAsunto = subjectGetValues("codigo_asunto");
 		if (!idAsunto) {
 			reset();
+		}
+
+		if (data?.codigo_asunto || idAsunto) {
+			setDocuments(await getDocumentsSubjects(idAsunto));
 		}
 		setSelectedSubject(idAsunto, true);
 		onChange({
@@ -88,35 +101,40 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		if (idAsunto) {
 			checkIdInDB(idAsunto).then(
 				async ({ data: response, message }: any) => {
-					if (response) {
-						setValue("nombre_asunto", response.inf_nombre_asunto);
-						setValue(
-							"tiempo_respuesta",
-							response.inf_timepo_respuesta
+					if (Array.isArray(response) && response.length > 0) {
+						subjectSetValue(
+							"nombre_asunto",
+							response[0].ras_nombre_asunto
 						);
-						setValue("unidad", response.inf_unidad);
-						setValue("codigo_asunto", idAsunto);
+						subjectSetValue(
+							"tiempo_respuesta",
+							response[0].ras_tiempo_respuesta
+						);
+						subjectSetValue("unidad", response[0].ras_unidad);
+						subjectSetValue("codigo_asunto", idAsunto);
 
 						if (setDefaults) {
-							setValue("tipo", data?.tipo);
-							setValue("prioridad", data?.prioridad);
-
+							//onBlurData();
+							subjectSetValue("tipo", data?.tipo);
+							subjectSetValue("prioridad", data?.prioridad);
 							onChange({
 								...data,
-								nombre_asunto: response.inf_nombre_asunto,
-								tiempo_respuesta: response.inf_timepo_respuesta,
-								unidad: response.inf_unidad,
+								nombre_asunto: response[0].ras_nombre_asunto,
+								tiempo_respuesta:
+									response[0].ras_tiempo_respuesta,
+								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
 								tipo: data?.tipo,
 								prioridad: data?.prioridad,
 							});
 						} else {
-							setValue("tipo", "");
+							subjectSetValue("tipo", "");
 							onChange({
 								...data,
-								nombre_asunto: response.inf_nombre_asunto,
-								tiempo_respuesta: response.inf_timepo_respuesta,
-								unidad: response.inf_unidad,
+								nombre_asunto: response[0].ras_nombre_asunto,
+								tiempo_respuesta:
+									response[0].ras_tiempo_respuesta,
+								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
 								tipo: "",
 							});
@@ -124,7 +142,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 					} else {
 						setMessage({
 							title: "Información básica del documento",
-							description: message.error,
+							description: "Código de asunto no existe",
 							show: true,
 							background: true,
 							okTitle: "Aceptar",
@@ -138,10 +156,32 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		}
 	};
 
+	/**
+	 * Función que obtiene los datos del asunto
+	 * @param idAsunto
+	 * @returns
+	 */
 	const checkIdInDB = async (idAsunto: string) => {
-		const endpoint: string = `/basic-document/${idAsunto}`;
+		const endpoint: string = `/subject/subject/${idAsunto}`;
 		const data = await get(`${endpoint}`);
+		setDocumentSubject(await getDocumentsSubjects(idAsunto));
 		return data;
+	};
+
+	/**
+	 * Función que carga Select para tipo asunto
+	 * @param idAsunto
+	 * @returns
+	 */
+	const getDocumentsSubjects = async (idAsunto: string) => {
+		const endpoint: string = `/subject/${idAsunto}/document`;
+		const data = await get(`${endpoint}`);
+		const dataDocument: any = data.data;
+		const documents = dataDocument.map((item) => ({
+			value: item.rn_document_type.rta_id,
+			name: item.rn_document_type.rta_descripcion,
+		}));
+		return documents || [];
 	};
 
 	const search = async () => {
@@ -188,7 +228,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						disabled={false}
 						onBlur={onBlurData}
 						max={12}
-						type="number"
+						type="text"
 						handleOnSearch={() => {
 							setShowSearch(!showSearch);
 							onChange({
@@ -265,6 +305,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 					control={control}
 					render={({ field }) => {
 						if (field.value !== data.tipo) {
+							onChange({
+								...data,
+								tipo: field.value || null,
+							});
 							data.tipo = field.value;
 						}
 
@@ -278,11 +322,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								classNameLabel="text--black text-required"
 								direction={EDirection.column}
 								placeholder="Seleccionar"
-								data={[
-									{ name: "Tipo 1", value: "1" },
-									{ name: "Tipo 2", value: "2" },
-									{ name: "Tipo 3", value: "3" },
-								]}
+								data={data?.documents || documentSubject}
 							/>
 						);
 					}}
@@ -350,7 +390,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								<div className="grid-form-2-container">
 									<InputComponentOriginal
 										idInput="search_codigo_asunto"
-										typeInput="number"
+										typeInput="text"
 										className="input-basic background-textArea"
 										register={register}
 										label="Código"
@@ -406,11 +446,11 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											setSelectedSubject("");
 											setSubjets([]);
 											setShowSearch(false);
-											setValue(
+											subjectSetValue(
 												"search_codigo_asunto",
 												null
 											);
-											setValue(
+											subjectSetValue(
 												"search_nombre_asunto",
 												""
 											);
@@ -464,12 +504,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											return (
 												<input
 													type="checkbox"
-													value={
-														row?.inf_codigo_asunto
-													}
+													value={row?.ras_id}
 													checked={
 														selectedCheckbox ==
-														row?.inf_codigo_asunto
+														row?.ras_id
 													}
 													onChange={
 														handleCheckboxChange
@@ -479,19 +517,19 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										},
 									},
 									{
-										fieldName: "inf_codigo_asunto",
+										fieldName: "ras_id",
 										header: "Código",
 									},
 									{
-										fieldName: "inf_nombre_asunto",
+										fieldName: "ras_nombre_asunto",
 										header: "Nombre",
 									},
 									{
-										fieldName: "inf_timepo_respuesta",
+										fieldName: "ras_tiempo_respuesta",
 										header: "Tiempo respuesta",
 									},
 									{
-										fieldName: "inf_unidad",
+										fieldName: "ras_unidad",
 										header: "Unidad",
 									},
 								]}
@@ -512,8 +550,14 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										setSubjets([]);
 										setShowSearch(false);
 										setSelectedCheckbox("");
-										setValue("search_codigo_asunto", null);
-										setValue("search_nombre_asunto", "");
+										subjectSetValue(
+											"search_codigo_asunto",
+											null
+										);
+										subjectSetValue(
+											"search_nombre_asunto",
+											""
+										);
 									}}
 								>
 									Cancelar
@@ -527,15 +571,24 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 									}`}
 									onClick={(e) => {
 										e.preventDefault();
-										setSelectedSubject(selectedCheckbox);
+										setSelectedSubject(
+											selectedCheckbox,
+											true
+										);
 										setSubjets([]);
 										setShowSearch(false);
-										setValue(
+										subjectSetValue(
 											"codigo_asunto",
 											selectedCheckbox
 										);
-										setValue("search_codigo_asunto", null);
-										setValue("search_nombre_asunto", "");
+										subjectSetValue(
+											"search_codigo_asunto",
+											null
+										);
+										subjectSetValue(
+											"search_nombre_asunto",
+											""
+										);
 										// onChange({ ...data, tipo: "" })
 										// setValue("tipo", "");
 										setSelectedCheckbox("");

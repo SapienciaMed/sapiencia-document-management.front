@@ -34,6 +34,7 @@ const Subject = ({ data, onChange }: IProps) => {
 		register,
 		control,
 		getValues: getValuesSubjectForm,
+		watch: watchValuesSubjectForm,
 		formState: { errors },
 	} = useForm<ISubjectForm>({
 		resolver: yupResolver(schema),
@@ -73,7 +74,7 @@ const Subject = ({ data, onChange }: IProps) => {
 	return (
 		<>
 			<FormComponent action={null}>
-			<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
+				<div className={`${styles["grid"]} ${styles["mb-10"]}`}>
 					<div className={`${styles["input-wrapper"]}`}>
 						<Controller
 							name="referencia"
@@ -95,7 +96,10 @@ const Subject = ({ data, onChange }: IProps) => {
 										setTextoLength(e.target.value.length);
 										onChange({
 											...data,
-											referencia: field.value || null,
+											referencia:
+												watchValuesSubjectForm(
+													"referencia"
+												) || null,
 										});
 									}}
 								/>

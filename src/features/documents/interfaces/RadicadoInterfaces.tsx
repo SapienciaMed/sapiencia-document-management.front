@@ -90,7 +90,7 @@ interface IBasicDocumentInformationForm {
 	unidad: string;
 	tipo: string;
 	prioridad: string;
-	search_codigo_asunto?: number;
+	search_codigo_asunto?: string;
 	search_nombre_asunto?: string;
 }
 
