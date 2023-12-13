@@ -205,17 +205,13 @@ const RadicadosTray = () => {
 			style: { minWidth: "10rem" },
 		},
 		{
-			fieldName: "dra_tipo_asunto",
+			fieldName: "rn_radicado_to_subjectDocument.rta_descripcion",
 			header: "Tipo de documento",
 			sortable: true,
 			style: { minWidth: "6rem" },
-			renderCell: (row) => {
-				//TODO: cambiar al por los verdaderos tipos
-				return "Tipo 1";
-			},
 		},
 		{
-			fieldName: "rn_radicado_to_asunto.inf_nombre_asunto",
+			fieldName: "rn_radicado_to_subject.ras_nombre_asunto",
 			header: "Asunto",
 			sortable: true,
 		},
