@@ -59,6 +59,7 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 		control,
 		setValue,
 		getValues,
+		setError,
 		formState: { errors },
 	} = useForm<IRadicadoDetailsForm>({
 		resolver: yupResolver(allData.tipo_asunto == 2 ? schema2 : schema),
@@ -71,6 +72,17 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 			onBlurData();
 		}
 	}, []);
+
+	useEffect(() => {
+		if (allData.radicado_origen == null && allData.tipo_asunto == 2) {
+			setValue('radicado_origen', '');
+			setError('radicado_origen', {
+				message: 'El campo es obligatorio',
+				type: 'required',
+			})
+		}
+	}, [allData.radicado_origen, allData.tipo_asunto])
+
 
 	const onBlurData = () => {
 		const radicadoOrigen = getValues("radicado_origen");
@@ -154,12 +166,12 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 						max={12}
 						type={"number"}
 					/>
-					{allData.tipo_asunto == 2 &&
+					{/* {allData.tipo_asunto == 2 &&
 					allData.radicado_origen == null ? (
 						<span className="error-message not-margin-padding">
 							El campo es obligatorio
 						</span>
-					) : null}
+					) : null} */}
 				</div>
 
 				<Controller

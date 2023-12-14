@@ -66,7 +66,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	});
 
 	useEffect(() => {
-		if (data && data?.enviado_por) {
+		if (data && data?.enviado_por || data && data?.codigo_asunto ) {
 			onBlurData();
 		}
 	}, []);
@@ -142,7 +142,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 									response[0].ras_tiempo_respuesta,
 								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
-								tipo: "",
+								tipo: null,
 							});
 						}
 					} else {
@@ -328,7 +328,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								classNameLabel="text--black text-required"
 								direction={EDirection.column}
 								placeholder="Seleccionar"
-								data={data?.documents || documentSubject}
+								data={documentSubject}
 							/>
 						);
 					}}
@@ -596,8 +596,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 											""
 										);
 										// onChange({ ...data, tipo: "" })
-										// setValue("tipo", "");
+										subjectSetValue("tipo", null);
 										setSelectedCheckbox("");
+										onBlurData()
 									}}
 									disabled={selectedCheckbox == ""}
 								>
