@@ -227,7 +227,7 @@ const RadicadoDetails = ({ data: allData, onChange }: IProps) => {
 							register={register}
 							onChange={null}
 							errors={errors}
-							disabled={false}
+							disabled={true}
 						/>
 					)}
 				/>
