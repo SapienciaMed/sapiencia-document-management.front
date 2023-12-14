@@ -176,8 +176,8 @@ const DocumentsExternal = () => {
 		);
 		formData.append("DRA_ID_REMITENTE", data.enviado_por || "");
 		formData.append("DRA_CODIGO_ASUNTO", data.codigo_asunto || "1");
-		formData.append("DRA_TIPO_ASUNTO", "1");
-		formData.append("DRA_PRIORIDAD_ASUNTO", "1");
+		formData.append("DRA_TIPO_ASUNTO", data.tipo || "1");
+		formData.append("DRA_PRIORIDAD_ASUNTO", data.prioridad || "1");
 		formData.append("DRA_ID_DESTINATARIO", data.dirigido_a || "");
 		formData.append("DRA_OBSERVACION", data.observaciones || "");
 		formData.append("DRA_NUM_ANEXOS", data.numero_anexos || "0");
@@ -211,9 +211,9 @@ const DocumentsExternal = () => {
 				onOk: () => {
 					setMessage({});
 					resetForm();
+					window.location.reload();
 				},
 			});
-			return response;
 		} catch (error) {
 			setFilingComplete(true);
 			setMessage({
@@ -418,11 +418,11 @@ const DocumentsExternal = () => {
 							value="Guardar y continuar"
 							type="button"
 							disabled={
-								isEmpty(data.enviado_por) ||
-								isEmpty(data.dirigido_a) ||
-								isEmpty(data.codigo_asunto) ||
-								isEmpty(data.tipo) ||
-								isEmpty(data.prioridad)
+								!data.enviado_por ||
+								!data.dirigido_a ||
+								!data.codigo_asunto ||
+								!data.tipo ||
+								!data.prioridad
 							}
 							action={handleSave}
 						/>

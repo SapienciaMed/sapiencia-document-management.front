@@ -29,6 +29,8 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	const [subjets, setSubjets] = useState<any>([]);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
 	const [showSearch, setShowSearch] = useState<boolean>(false);
+	const [documentSubject, setDocumentSubject] = useState<any>([]);
+	const [documents, setDocuments] = useState<any>([]);
 
 	const schema = yup.object({
 		codigo_asunto: yup
@@ -41,10 +43,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		tipo: yup.string().required("El campo es obligatorio"),
 		prioridad: yup.string().required("El campo es obligatorio"),
 		search_codigo_asunto: yup
-			.number()
-			.transform((value) => (Number.isNaN(value) ? null : value))
-			.nullable()
-			.max(999999999999999, "Solo se permiten 15 dígitos"),
+			.string()
+			.max(15, "Solo se permiten 15 dígitos")
+			.nullable(),
 		search_nombre_asunto: yup
 			.string()
 			.max(50, "Solo se permiten 50 caracteres"),
@@ -65,16 +66,37 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	});
 
 	useEffect(() => {
-		if (data && data?.enviado_por) {
+		if (data && data?.enviado_por || data && data?.codigo_asunto ) {
 			onBlurData();
 		}
 	}, []);
+	
+	useEffect(() => {
+		if (data.tipo && documentSubject) {
+			setValue('tipo', Number(data.tipo))
+		}
+	}, [documentSubject, data]);
 
-	const onBlurData = () => {
+	useEffect(() => {
+		if (Array.isArray(documents) && documents.length > 0) {
+			setDocumentSubject(documents);
+			onChange({
+				...data,
+				documents: documents,
+			});
+		}
+	}, [data?.codigo_asunto, documents]);
+
+	const onBlurData = async () => {
 		const idAsunto = getValues("codigo_asunto");
 		if (!idAsunto) {
 			reset();
 		}
+
+		if (data?.codigo_asunto || idAsunto) {
+			setDocuments(await getDocumentsSubjects(idAsunto));
+		}
+
 		setSelectedSubject(idAsunto, true);
 		onChange({
 			...data,
@@ -86,13 +108,16 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 		if (idAsunto) {
 			checkIdInDB(idAsunto).then(
 				async ({ data: response, message }: any) => {
-					if (response) {
-						setValue("nombre_asunto", response.inf_nombre_asunto);
+					if (Array.isArray(response) && response.length > 0) {
+						setValue(
+							"nombre_asunto",
+							response[0].ras_nombre_asunto
+						);
 						setValue(
 							"tiempo_respuesta",
-							response.inf_timepo_respuesta
+							response[0].ras_tiempo_respuesta
 						);
-						setValue("unidad", response.inf_unidad);
+						setValue("unidad", response[0].ras_unidad);
 						setValue("codigo_asunto", idAsunto);
 
 						if (setDefaults) {
@@ -101,28 +126,30 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 
 							onChange({
 								...data,
-								nombre_asunto: response.inf_nombre_asunto,
-								tiempo_respuesta: response.inf_timepo_respuesta,
-								unidad: response.inf_unidad,
+								nombre_asunto: response[0].ras_nombre_asunto,
+								tiempo_respuesta:
+									response[0].ras_tiempo_respuesta,
+								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
 								tipo: data?.tipo,
 								prioridad: data?.prioridad,
 							});
 						} else {
-							setValue("tipo", "");
+							setValue("tipo", null);
 							onChange({
 								...data,
-								nombre_asunto: response.inf_nombre_asunto,
-								tiempo_respuesta: response.inf_timepo_respuesta,
-								unidad: response.inf_unidad,
+								nombre_asunto: response[0].ras_nombre_asunto,
+								tiempo_respuesta:
+									response[0].ras_tiempo_respuesta,
+								unidad: response[0].ras_unidad,
 								codigo_asunto: idAsunto,
-								tipo: "",
+								tipo: null,
 							});
 						}
 					} else {
 						setMessage({
 							title: "Información básica del documento",
-							description: message.error,
+							description: "Código de Asunto no existe",
 							show: true,
 							background: true,
 							okTitle: "Aceptar",
@@ -137,9 +164,26 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 	};
 
 	const checkIdInDB = async (idAsunto: string) => {
-		const endpoint: string = `/basic-document/${idAsunto}`;
+		const endpoint: string = `/subject/subject/${idAsunto}`;
 		const data = await get(`${endpoint}`);
+		setDocumentSubject(await getDocumentsSubjects(idAsunto));
 		return data;
+	};
+
+	/**
+	 * Función que carga Select para tipo asunto
+	 * @param idAsunto
+	 * @returns
+	 */
+	const getDocumentsSubjects = async (idAsunto: string) => {
+		const endpoint: string = `/subject/${idAsunto}/document`;
+		const data = await get(`${endpoint}`);
+		const dataDocument: any = data.data;
+		const documents = dataDocument.map((item) => ({
+			value: item.rn_document_type.rta_id,
+			name: item.rn_document_type.rta_descripcion,
+		}));
+		return documents || [];
 	};
 
 	const search = async () => {
@@ -186,7 +230,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 						disabled={false}
 						onBlur={onBlurData}
 						max={12}
-						type="number"
+						type="text"
 						handleOnSearch={() => {
 							setShowSearch(!showSearch);
 							onChange({
@@ -263,6 +307,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 					control={control}
 					render={({ field }) => {
 						if (field.value !== data.tipo) {
+							onChange({
+								...data,
+								tipo: field.value || null,
+							});
 							data.tipo = field.value;
 						}
 
@@ -276,11 +324,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								classNameLabel="text--black text-required"
 								direction={EDirection.column}
 								placeholder="Seleccionar"
-								data={[
-									{ name: "Tipo 1", value: "1" },
-									{ name: "Tipo 2", value: "2" },
-									{ name: "Tipo 3", value: "3" },
-								]}
+								data={documentSubject}
 							/>
 						);
 					}}
@@ -348,7 +392,7 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 								<div className="grid-form-2-container">
 									<InputComponentOriginal
 										idInput="search_codigo_asunto"
-										typeInput="number"
+										typeInput="text"
 										className="input-basic background-textArea"
 										register={register}
 										label="Código"
@@ -463,11 +507,11 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 												<input
 													type="checkbox"
 													value={
-														row?.inf_codigo_asunto
+														row?.ras_codigo_asunto
 													}
 													checked={
 														selectedCheckbox ==
-														row?.inf_codigo_asunto
+														row?.ras_codigo_asunto
 													}
 													onChange={
 														handleCheckboxChange
@@ -477,19 +521,19 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										},
 									},
 									{
-										fieldName: "inf_codigo_asunto",
+										fieldName: "ras_codigo_asunto",
 										header: "Código",
 									},
 									{
-										fieldName: "inf_nombre_asunto",
+										fieldName: "ras_nombre_asunto",
 										header: "Nombre",
 									},
 									{
-										fieldName: "inf_timepo_respuesta",
+										fieldName: "ras_tiempo_respuesta",
 										header: "Tiempo respuesta",
 									},
 									{
-										fieldName: "inf_unidad",
+										fieldName: "ras_unidad",
 										header: "Unidad",
 									},
 								]}
@@ -525,7 +569,10 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 									}`}
 									onClick={(e) => {
 										e.preventDefault();
-										setSelectedSubject(selectedCheckbox);
+										setSelectedSubject(
+											selectedCheckbox,
+											true
+										);
 										setSubjets([]);
 										setShowSearch(false);
 										setValue(
@@ -535,8 +582,9 @@ const BasicDocumentInformation = ({ data, onChange }: IProps) => {
 										setValue("search_codigo_asunto", null);
 										setValue("search_nombre_asunto", "");
 										// onChange({ ...data, tipo: "" })
-										// setValue("tipo", "");
+										setValue("tipo", null);
 										setSelectedCheckbox("");
+										onBlurData()
 									}}
 									disabled={selectedCheckbox == ""}
 								>

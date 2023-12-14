@@ -97,10 +97,9 @@ const RadicadoMovements = () => {
 			sortable: true,
 		},
 		{
-			fieldName: "",
+			fieldName: "dra_nombre_radicador",
 			header: "Enviado por",
 			sortable: true,
-			renderCell: (row) => "Por Definir",
 		},
 		{
 			fieldName: "dra_fecha_evacuacion_salida",
@@ -300,125 +299,130 @@ const RadicadoMovements = () => {
 
 	return (
 		<>
-			<div className="spc-common-table expansible card-table mt-40 mx-24">
-				<div className="mb-22 text-black  font-size-28">
-					Consulta de Movimientos - Parámetros
-				</div>
-				<FormComponent action={undefined}>
-					<div className="spc-common-table expansible card-table">
-						<div
-							className="flex gap-20"
-							style={{ maxWidth: "90%" }}
-						>
+			<div className="custom-mw" style={{ margin: "0 auto" }}>
+				{/* <div className=" full-height container-docs-received"> */}
+				<div className="spc-common-table expansible card-table mt-40 mx-24">
+					<div className="mb-22 text-black  font-size-28">
+						Consulta de Movimientos - Parámetros
+					</div>
+					<FormComponent action={undefined}>
+						<div className="spc-common-table expansible card-table">
 							<div
-								className="text-black font-size-24 pr-40 mt-20"
-								style={{ flexBasis: "40%" }}
+								className="flex gap-20"
+								style={{ maxWidth: "90%" }}
 							>
-								Datos documentos:
-							</div>
-							<div>
-								<InputTextComponent
-									idInput="dra_radicado"
-									label="N.° Radicado"
-									className="input-basic"
-									classNameLabel="text-black custom-label text-required"
-									control={control}
-									errors={errors}
-									disabled={false}
-								/>
-							</div>
-							<div
-								className="flex gap-20 mt-30"
-								style={{
-									maxWidth: "80%",
-									justifyContent: "flex-end",
-								}}
-							>
-								<div className={`flex gap-20`}>
-									{!watch("dra_radicado") && (
-										<Link
-											className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
-											to={
-												"/gestion-documental/radicacion/bandeja-radicado"
-											}
-										>
-											Volver a la Bandeja
-										</Link>
-									)}
-
-									<ButtonComponent
-										className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
-										value="Buscar"
-										type="button"
-										action={() =>
-											getMovementsByID(
-												getValues("dra_radicado")
-											)
-										}
-										disabled={
-											watch("dra_radicado") ? false : true
-										}
+								<div
+									className="text-black font-size-24 pr-40 mt-20"
+									style={{ flexBasis: "40%" }}
+								>
+									Datos documentos:
+								</div>
+								<div>
+									<InputTextComponent
+										idInput="dra_radicado"
+										label="N.° Radicado"
+										className="input-basic"
+										classNameLabel="text-black custom-label text-required"
+										control={control}
+										errors={errors}
+										disabled={false}
 									/>
+								</div>
+								<div
+									className="flex gap-20 mt-30"
+									style={{
+										maxWidth: "80%",
+										justifyContent: "flex-end",
+									}}
+								>
+									<div className={`flex gap-20`}>
+										{!watch("dra_radicado") && (
+											<Link
+												className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
+												to={
+													"/gestion-documental/radicacion/bandeja-radicado"
+												}
+											>
+												Volver a la Bandeja
+											</Link>
+										)}
+
+										<ButtonComponent
+											className={`button-main ${styles.btnPurpleSize} py-12 px-16 font-size-16`}
+											value="Buscar"
+											type="button"
+											action={() =>
+												getMovementsByID(
+													getValues("dra_radicado")
+												)
+											}
+											disabled={
+												watch("dra_radicado")
+													? false
+													: true
+											}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</FormComponent>
-				{movementsList.length != 0 ? (
-					<>
-						<div className="spc-common-table expansible card-table">
-							<TableExpansibleDialComponent
-								columns={columnMovementsTable}
-								data={movementsList}
-								tableTitle="Consulta de Movimientos - Resultado"
-								//filters={filters}
-								scrollable={true}
-								//style={{ maxWidth: "100%", width: "100%" }}
-							/>
-						</div>
-						<div
-							className={`flex gap-20`}
-							style={{ justifyContent: "flex-end" }}
-						>
-							<Link
-								className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
-								to={
-									"/gestion-documental/radicacion/bandeja-radicado"
-								}
+					</FormComponent>
+					{movementsList.length != 0 ? (
+						<>
+							<div className="spc-common-table expansible card-table">
+								<TableExpansibleDialComponent
+									columns={columnMovementsTable}
+									data={movementsList}
+									tableTitle="Consulta de Movimientos - Resultado"
+									//filters={filters}
+									scrollable={true}
+									//style={{ maxWidth: "100%", width: "100%" }}
+								/>
+							</div>
+							<div
+								className={`flex gap-20`}
+								style={{ justifyContent: "flex-end" }}
 							>
-								Volver a la Bandeja
-							</Link>
-						</div>
-					</>
-				) : (
-					<></>
-				)}
+								<Link
+									className={`${styles.btnPurpleBorderLink} ${styles.btnSizeBorder} hover-three py-12 px-16`}
+									to={
+										"/gestion-documental/radicacion/bandeja-radicado"
+									}
+								>
+									Volver a la Bandeja
+								</Link>
+							</div>
+						</>
+					) : (
+						<></>
+					)}
+				</div>
+				{/**
+				 * Modals
+				 * */}
+				<ActivateReverseDocuments
+					title={
+						typeModal == ACTIVATE
+							? "Datos de Activación"
+							: "Datos de Activación"
+					}
+					onCloseModal={() => {
+						setIsActivateModal(false);
+						getMovementsByID(getValues("dra_radicado")); //TODO: refactor this
+					}}
+					visible={isActivateModal}
+					typeModal={typeModal}
+					dataForModal={dataForModal}
+				/>
+				<CommentsById
+					title="Comentarios"
+					onCloseModal={() => {
+						setIsActivateModalComment(false);
+					}}
+					visible={isActivateModalComment}
+					radicado={dataForModal.dra_radicado}
+				/>
 			</div>
-			{/**
-			 * Modals
-			 * */}
-			<ActivateReverseDocuments
-				title={
-					typeModal == ACTIVATE
-						? "Datos de Activación"
-						: "Datos de Activación"
-				}
-				onCloseModal={() => {
-					setIsActivateModal(false);
-					getMovementsByID(getValues("dra_radicado")); //TODO: refactor this
-				}}
-				visible={isActivateModal}
-				typeModal={typeModal}
-				dataForModal={dataForModal}
-			/>
-			<CommentsById
-				title="Comentarios"
-				onCloseModal={() => {
-					setIsActivateModalComment(false);
-				}}
-				visible={isActivateModalComment}
-				radicado={dataForModal.dra_radicado}
-			/>
 		</>
 	);
 };

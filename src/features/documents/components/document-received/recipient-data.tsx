@@ -60,6 +60,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		setValue,
 		getValues,
 		reset,
+		setError,
 		formState: { errors },
 	} = useForm<IRecipientDataForm>({
 		resolver: yupResolver(schema),
@@ -91,6 +92,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 		});
 
 	const setSelectedAddressee = (idNumber: string) => {
+		console.log('idNumber', idNumber)
 		if (idNumber && idNumber.length <= 15) {
 			checkIdInDB(idNumber).then(async ({ data: payload, message }: any) => {
 
@@ -134,6 +136,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 								departamentoData?.lge_elemento_descripcion || "",
 							municipio_destinatario:
 								municipioData?.lge_elemento_descripcion || "",
+							nombre_destinatario: payload[0]?.USR_NOMBRES + " " + payload[0]?.USR_APELLIDOS,
 						});
 				}
 
@@ -208,27 +211,27 @@ const RecipientData = ({ data, onChange }: IProps) => {
 					className={`${styles["document-container"]} ${styles["document-container--col4"]} ${styles["mb-10"]}`}
 				>
 					<div>
-						<InputTextIconComponent
-							idInput="dirigido_a"
-							control={control}
-							label="Dirigido a"
-							className="input-basic"
-							classNameLabel="text--black text-required"
-							errors={errors}
-							disabled={false}
-							onBlur={onBlurData}
-							min={15}
-							type={"number"}
-							handleOnSearch={() => {
-								setShowSearch(!showSearch);
-								onChange({
-									...data,
-									search_codigo_usuario: null,
-									search_nombre_usuario: "",
-									search_apellido_usuario: "",
-								});
-							}}
-						/>
+					<InputTextIconComponent
+						idInput="dirigido_a"
+						control={control}
+						label="Dirigido a"
+						className="input-basic"
+						classNameLabel="text--black text-required"
+						errors={errors}
+						disabled={false}
+						onBlur={onBlurData}
+						min={15}
+						type={"number"}
+						handleOnSearch={() => {
+							setShowSearch(!showSearch);
+							onChange({
+								...data,
+								search_codigo_usuario: null,
+								search_nombre_usuario: "",
+								search_apellido_usuario: "",
+							});
+						}}
+					/>
 					</div>
 
 					<Controller
@@ -563,6 +566,7 @@ const RecipientData = ({ data, onChange }: IProps) => {
 										setValue("search_nombre_usuario", "");
 										setValue("search_apellido_usuario", "");
 										setSelectedCheckbox("");
+										setError('dirigido_a', { });
 									}}
 									disabled={selectedCheckbox == ""}
 								>
