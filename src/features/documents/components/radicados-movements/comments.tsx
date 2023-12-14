@@ -2,6 +2,7 @@ import { Dialog } from "primereact/dialog";
 import React, { useEffect, useState } from "react";
 import TableExpansibleComponent from "../../../../common/components/table-expansible.component";
 import useCrudService from "../../../../common/hooks/crud-service.hook";
+import moment from "moment";
 
 const CommentsById = ({
 	radicado,
@@ -27,6 +28,11 @@ const CommentsById = ({
 		{
 			fieldName: "inf_fecha_comentario",
 			header: "Fecha",
+			renderCell: (row) => {
+				return (
+				  <>{moment((row.inf_fecha_comentario)).format('DD/MM/YYYY HH:mm:ss')}</>
+				)
+			  },
 		},
 	];
 
