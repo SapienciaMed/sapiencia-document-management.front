@@ -94,7 +94,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
 
         <div className="grid-form-2-container">
           <div className="d-flex align-items-center">
-            <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>Indica la duracion del almuerzo en minutos</p>
+            <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>Indica la duración del almuerzo en minutos</p>
           </div>
 
           <div className="d-flex align-items-center">
