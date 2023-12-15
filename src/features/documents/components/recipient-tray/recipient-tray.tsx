@@ -526,7 +526,7 @@ const RecipientTray = () => {
 				console.error(error);
 				setMessage({
 					title: "Error",
-					description: "Hubo un error al evacuear el radicado",
+					description: "Hubo un error al evacuar el radicado",
 					show: true,
 					background: true,
 					okTitle: "Aceptar",
