@@ -319,12 +319,9 @@ export default React.memo(() => {
                   sort: true,
                 },
                 {
-                  fieldName: "",
+                  fieldName: "RTA_DESCRIPCION",
                   header: "Tipo documento",
                   sort: true,
-                  renderCell: () => {
-                    return (<>Solicitud de documentos</>)
-                  }
                 },
                 {
                   fieldName: "DRA_REFERENCIA",
