@@ -395,6 +395,7 @@ const RadicadoMovements = () => {
 		const dataList = await get(`${endpoint}`);
 
 		if (Array.isArray(dataList?.data) && dataList.data.length > 0) {
+			setIsPqrsdf(false);
 			setMovementsList(dataList?.data);
 		} else {
 			//Busca el radicado en Pqrsdf si no existe
