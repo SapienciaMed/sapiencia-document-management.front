@@ -230,8 +230,6 @@ const ActivateReverseDocuments = ({
 		);
 	};
 
-	console.log(errorsActRevDocuments);
-
 	return (
 		<Dialog
 			header={title}
