@@ -294,11 +294,13 @@ const RadicadoMovements = () => {
 		return entityData;
 	};
 
-	// console.log(searchCitizenAttention({
-	// 	page: 1,
-	// 	perPage: 20,
-	// 	identification: "2023"
-	//   }), "AQUIIIMOVE");
+	// const prueba = searchCitizenAttention({
+	// 		page: 1,
+	// 		perPage: 20,
+	// 		identification: "2023"
+	// 	  });
+
+	// 	  //console.log(prueba);
 
 	const getMovementsByID = async (radicadoId: string) => {
 		const listAuthActions = authorization.allowedActions;

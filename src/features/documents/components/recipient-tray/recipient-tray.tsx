@@ -280,7 +280,7 @@ const RecipientTray = () => {
 			style: { minWidth: "10rem" },
 		},
 		{
-			fieldName: "rn_radicado_to_subject.ras_nombre_asunto",
+			fieldName: "rn_radicado_to_subjectDocument.rta_descripcion",
 			header: "Tipo de documento",
 			sortable: true,
 			style: { minWidth: "6rem" },
