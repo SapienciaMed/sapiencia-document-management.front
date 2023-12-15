@@ -112,13 +112,12 @@ const RadicadoMovements = () => {
 			sortable: true,
 		},
 		{
-			fieldName: "rn_radicado_to_asunto.inf_nombre_asunto",
+			fieldName: "rn_radicado_to_subject.ras_nombre_asunto",
 			header: "Asunto",
 		},
 		{
-			fieldName: "dra_tipo_asunto",
+			fieldName: "rn_radicado_to_subjectDocument.rta_descripcion",
 			header: "Tipo documento",
-			renderCell: (row) => "Tipo asunto por definir",
 		},
 		{
 			fieldName: "dra_referencia",
@@ -292,7 +291,6 @@ const RadicadoMovements = () => {
 		const endpoint: string = listAuthActions.includes("ADM_ROL")
 			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
 			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
-		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setMovementsList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
