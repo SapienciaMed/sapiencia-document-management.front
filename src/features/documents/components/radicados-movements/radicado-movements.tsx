@@ -43,7 +43,9 @@ const RadicadoMovements = () => {
 	});
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+	const atencionCiudadanaBaseURL: string = process.env.urlApiAtentionCitizen;
 	const { get } = useCrudService(baseURL);
+	const { post } = useCrudService(atencionCiudadanaBaseURL);
 	useBreadCrumb({
 		isPrimaryPage: true,
 		name: "Consulta de Movimientos - Parámetros",
@@ -285,6 +287,12 @@ const RadicadoMovements = () => {
 		resolver: yupResolver(schema),
 		mode: "all",
 	});
+
+	const searchCitizenAttention = async (citizenData) => {
+		const endpoint: string = `/api/v1/pqrsdf/get-paginated`;
+		const entityData = await post(`${endpoint}`, citizenData);
+		return entityData;
+	};
 
 	const getMovementsByID = async (radicadoId: string) => {
 		const listAuthActions = authorization.allowedActions;
