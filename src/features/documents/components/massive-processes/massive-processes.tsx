@@ -116,14 +116,10 @@ const MassiveProcesses = () => {
 			style: { minWidth: "15rem" },
 		},
 		{
-			fieldName: "dra_tipo_asunto",
+			fieldName: "rn_radicado_to_subjectDocument.rta_descripcion",
 			header: "Tipo documento",
 			sortable: true,
 			style: { minWidth: "15rem" },
-			renderCell: (row) => {
-				//TODO: cambiar al por los verdaderos tipos
-				return "Por definir Tipo Doc";
-			},
 		},
 		{
 			fieldName: "rn_radicado_remitente_to_entity.fullName",

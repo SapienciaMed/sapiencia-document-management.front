@@ -43,9 +43,9 @@ const RadicadoMovements = () => {
 	});
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
-	const atencionCiudadanaBaseURL: string = process.env.urlApiAtentionCitizen;
+	const AtentionCitizenBaseURL: string = process.env.urlApiAtentionCitizen;
 	const { get } = useCrudService(baseURL);
-	const { post } = useCrudService(atencionCiudadanaBaseURL);
+	const { post } = useCrudService(AtentionCitizenBaseURL);
 	useBreadCrumb({
 		isPrimaryPage: true,
 		name: "Consulta de Movimientos - Parámetros",
@@ -293,6 +293,12 @@ const RadicadoMovements = () => {
 		const entityData = await post(`${endpoint}`, citizenData);
 		return entityData;
 	};
+
+	// console.log(searchCitizenAttention({
+	// 	page: 1,
+	// 	perPage: 20,
+	// 	identification: "2023"
+	//   }), "AQUIIIMOVE");
 
 	const getMovementsByID = async (radicadoId: string) => {
 		const listAuthActions = authorization.allowedActions;
