@@ -26,7 +26,7 @@ export default ({ onChange, data }: IProps): React.JSX.Element => {
   return (
     <FormComponent action={undefined} className="accordion-item-container">
       <div className="grid-form-2-container standar-type-container" >
-          <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>Tipo de causal estandar para la devolucion por condicion que se debe configurar en la tabla causales</p>
+          <p className="color-black" style={{  fontSize: 17,  fontWeight: 400 }}>Tipo de causal estandar para la devolución por condición que se debe configurar en la tabla causales</p>
 
           <InputComponentOriginal
             idInput="cause_of_return_x_condition"

@@ -78,7 +78,6 @@ const RecipientTray = () => {
 		const endpoint: string = listAuthActions.includes("ADM_ROL")
 			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
 			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
-		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
@@ -281,7 +280,7 @@ const RecipientTray = () => {
 			style: { minWidth: "10rem" },
 		},
 		{
-			fieldName: "rn_radicado_to_subject.ras_nombre_asunto",
+			fieldName: "rn_radicado_to_subjectDocument.rta_descripcion",
 			header: "Tipo de documento",
 			sortable: true,
 			style: { minWidth: "6rem" },
@@ -527,7 +526,7 @@ const RecipientTray = () => {
 				console.error(error);
 				setMessage({
 					title: "Error",
-					description: "Hubo un error al evacuear el radicado",
+					description: "Hubo un error al evacuar el radicado",
 					show: true,
 					background: true,
 					okTitle: "Aceptar",

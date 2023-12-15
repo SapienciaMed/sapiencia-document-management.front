@@ -43,7 +43,9 @@ const RadicadoMovements = () => {
 	});
 	const baseURL: string =
 		process.env.urlApiDocumentManagement + process.env.projectsUrlSlug;
+	const AtentionCitizenBaseURL: string = process.env.urlApiAtentionCitizen;
 	const { get } = useCrudService(baseURL);
+	const { post } = useCrudService(AtentionCitizenBaseURL);
 	useBreadCrumb({
 		isPrimaryPage: true,
 		name: "Consulta de Movimientos - Parámetros",
@@ -112,13 +114,12 @@ const RadicadoMovements = () => {
 			sortable: true,
 		},
 		{
-			fieldName: "rn_radicado_to_asunto.inf_nombre_asunto",
+			fieldName: "rn_radicado_to_subject.ras_nombre_asunto",
 			header: "Asunto",
 		},
 		{
-			fieldName: "dra_tipo_asunto",
+			fieldName: "rn_radicado_to_subjectDocument.rta_descripcion",
 			header: "Tipo documento",
-			renderCell: (row) => "Tipo asunto por definir",
 		},
 		{
 			fieldName: "dra_referencia",
@@ -287,12 +288,25 @@ const RadicadoMovements = () => {
 		mode: "all",
 	});
 
+	const searchCitizenAttention = async (citizenData) => {
+		const endpoint: string = `/api/v1/pqrsdf/get-paginated`;
+		const entityData = await post(`${endpoint}`, citizenData);
+		return entityData;
+	};
+
+	// const prueba = searchCitizenAttention({
+	// 		page: 1,
+	// 		perPage: 20,
+	// 		identification: "2023"
+	// 	  });
+
+	// 	  //console.log(prueba);
+
 	const getMovementsByID = async (radicadoId: string) => {
 		const listAuthActions = authorization.allowedActions;
 		const endpoint: string = listAuthActions.includes("ADM_ROL")
 			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
 			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
-		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setMovementsList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};

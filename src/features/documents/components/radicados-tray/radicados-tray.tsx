@@ -68,7 +68,6 @@ const RadicadosTray = () => {
 			? `/radicado-details/by-radicator/radicado/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
 			: `/radicado-details/by-radicator/radicado/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
 
-		//const endpoint: string = `/radicado-details/find-by-id/${radicadoId}`;
 		const dataList = await get(`${endpoint}`);
 		setRadicadosList(Array.isArray(dataList?.data) ? dataList?.data : []);
 	};
