@@ -68,6 +68,7 @@ const DocumentsReceived = () => {
 					dirigido_a:
 						data?.radicado?.DRA_ID_DESTINATARIO.trim() || "",
 					copias: data?.copias,
+					referencia: data?.radicado?.DRA_REFERENCIA,
 					observaciones: data?.radicado?.DRA_OBSERVACION,
 					numero_anexos: data?.radicado?.DRA_NUM_ANEXOS,
 					numero_folios: data?.radicado?.DRA_NUM_FOLIOS,
@@ -123,6 +124,7 @@ const DocumentsReceived = () => {
 			DRA_CREADO_POR: authorization.user.numberDocument || "",
 			DRA_ESTADO: "INCOMPLETO",
 			DRA_MOVIMIENTO: "Asignado",
+			DRA_REFERENCIA: data.referencia || "",
 			copies:
 				data?.add_recipient_data?.map((r) => {
 					return { RCD_ID_DESTINATARIO: r.USR_NUMERO_DOCUMENTO };
@@ -184,6 +186,7 @@ const DocumentsReceived = () => {
 		formData.append("DRA_NUM_FOLIOS", data.numero_folios || "0");
 		formData.append("DRA_NUM_CAJAS", data.numero_cajas || "0");
 		formData.append("DRA_PRIORIDAD", data.prioridad || "");
+		formData.append("DRA_REFERENCIA", data.referencia || "");
 		formData.append("DRA_ESTADO", "COMPLETO");
 
 		if (data?.add_recipient_data?.length > 0) {
