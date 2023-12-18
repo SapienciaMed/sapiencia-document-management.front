@@ -309,7 +309,7 @@ const RadicadoMovements = () => {
 			fieldName: "closedAt ",
 			header: "Fecha de Salida",
 			sortable: true,
-			renderCell: (row) => moment(row?.closedAt).format('DD/MM/YYYY HH:mm:ss')
+			renderCell: (row) => !row?.closedAt ? "" : moment(row?.closedAt).format('DD/MM/YYYY HH:mm:ss')
 		},
 		{
 			fieldName: "status.lep_estado",
@@ -327,7 +327,7 @@ const RadicadoMovements = () => {
 		{
 			fieldName: "",
 			header: "Referencia",
-			renderCell: (row) => "-",
+			renderCell: (row) => row?.description.length > 1000 ? row?.description.substring(0, 1000) + '...' : row?.description,
 		}];
 
 	/**
