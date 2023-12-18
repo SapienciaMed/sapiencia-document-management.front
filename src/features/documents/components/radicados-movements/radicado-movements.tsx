@@ -287,7 +287,7 @@ const RadicadoMovements = () => {
 			fieldName: "",
 			header: "Gestor Actual",
 			sortable: true,
-			renderCell: (row) => { return row?.responsible?.user?.names + " " + row?.responsible?.user?.lastNames},
+			renderCell: (row) => { return row?.responsible?.user?.names ? row?.responsible?.user?.names + " " + row?.responsible?.user?.lastNames : ""},
 			style: { minWidth: "11rem" },
 		},
 		{
