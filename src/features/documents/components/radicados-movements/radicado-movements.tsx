@@ -21,6 +21,7 @@ import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
 import { FilterMatchMode } from "primereact/api";
 import CommentsById from "./comments";
 import { AppContext } from "../../../../common/contexts/app.context";
+import moment from "moment";
 
 const RadicadoMovements = () => {
 	const REVERSE = "Reversar";
@@ -35,6 +36,7 @@ const RadicadoMovements = () => {
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [dataForModal, setDataForModal] = useState<any>({});
 	const { authorization } = useContext(AppContext);
+	const [isPqrsdf, setIsPqrsdf] = useState<boolean>(false);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -125,7 +127,6 @@ const RadicadoMovements = () => {
 			fieldName: "dra_referencia",
 			header: "Referencia",
 		},
-		,
 		{
 			fieldName: "check",
 			header: "Acciones",
@@ -250,6 +251,85 @@ const RadicadoMovements = () => {
 		},
 	];
 
+	const columnMovementsTablePqrsdf = [
+		{
+			fieldName: "filingNumber",
+			header: "N.° Radicado",
+			sortable: true,
+			style: { minWidth: "10rem" },
+		},
+		{
+			fieldName: "",
+			header: "Clase",
+			sortable: true,
+			renderCell: (row) => "Original",
+		},
+		{
+			fieldName: "",
+			header: "Tipo",
+			renderCell: (row) => "Recibido",
+		},
+		{
+			fieldName: "createdAt",
+			header: "Fecha de Radicado",
+			renderCell: (row) => moment(row?.createdAt).format('DD/MM/YYYY HH:mm:ss')
+		},
+		{
+			fieldName: "",
+			header: "Remitente",
+			renderCell: (row) => {
+				return row?.person?.firstName + " " + row?.person?.firstSurname},
+			style: { minWidth: "10rem" },
+		},
+		{
+			fieldName: "",
+			header: "Gestor Actual",
+			sortable: true,
+			renderCell: (row) => { return row?.responsible?.user?.names + " " + row?.responsible?.user?.lastNames},
+			style: { minWidth: "11rem" },
+		},
+		{
+			fieldName: "",
+			header: "Dependencia",
+			renderCell: (row) => row?.responsible?.workEntityType?.dependence?.dep_descripcion,
+		},
+		{
+			fieldName: "createdAt",
+			header: "Fecha de Entrada",
+			sortable: true,
+			renderCell: (row) => moment(row?.createdAt).format('DD/MM/YYYY HH:mm:ss')
+		},
+		{
+			fieldName: "",
+			header: "Enviado por",
+			sortable: true,
+			renderCell: (row) => "N/A",
+		},
+		{
+			fieldName: "closedAt ",
+			header: "Fecha de Salida",
+			sortable: true,
+			renderCell: (row) => !row?.closedAt ? "" : moment(row?.closedAt).format('DD/MM/YYYY HH:mm:ss')
+		},
+		{
+			fieldName: "status.lep_estado",
+			header: "Estado",
+			sortable: true,
+		},
+		{
+			fieldName: "requestSubject.aso_asunto",
+			header: "Asunto",
+		},
+		{
+			fieldName: "requestType.tso_description",
+			header: "Tipo documento",
+		},
+		{
+			fieldName: "",
+			header: "Referencia",
+			renderCell: (row) => row?.description.length > 1000 ? row?.description.substring(0, 1000) + '...' : row?.description,
+		}];
+
 	/**
 	 * FUNCTIONS
 	 */
@@ -288,19 +368,24 @@ const RadicadoMovements = () => {
 		mode: "all",
 	});
 
-	const searchCitizenAttention = async (citizenData) => {
+	const searchCitizenAttentionPqrsdf = (citizenData) => {
 		const endpoint: string = `/api/v1/pqrsdf/get-paginated`;
-		const entityData = await post(`${endpoint}`, citizenData);
-		return entityData;
-	};
+		return post(`${endpoint}`, citizenData);
+	  };
+	
+	  const searchPqrsdf = (pqrsdf: object) => {
+		searchCitizenAttentionPqrsdf(pqrsdf)
+		.then((dataPqrsdf: any) => {
+			if (Array.isArray(dataPqrsdf?.data?.array) && dataPqrsdf?.data?.array.length > 0) {
+		  		setIsPqrsdf(true);
+		  		setMovementsList(dataPqrsdf?.data?.array);
+			} else { console.log("El radicado no existe")}
+		})
+		.catch((error) => {
+		  console.error(error);
+		});
+	  }
 
-	// const prueba = searchCitizenAttention({
-	// 		page: 1,
-	// 		perPage: 20,
-	// 		identification: "2023"
-	// 	  });
-
-	// 	  //console.log(prueba);
 
 	const getMovementsByID = async (radicadoId: string) => {
 		const listAuthActions = authorization.allowedActions;
@@ -308,7 +393,19 @@ const RadicadoMovements = () => {
 			? `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}&role=ADM_ROL`
 			: `/radicado-details/find-by-id/${radicadoId}?numberDocument=${authorization.user.numberDocument}`;
 		const dataList = await get(`${endpoint}`);
-		setMovementsList(Array.isArray(dataList?.data) ? dataList?.data : []);
+
+		if (Array.isArray(dataList?.data) && dataList.data.length > 0) {
+			setIsPqrsdf(false);
+			setMovementsList(dataList?.data);
+		} else {
+			//Busca el radicado en Pqrsdf si no existe
+			searchPqrsdf({
+				page: 1,
+				perPage: 20,
+				filingNumber: radicadoId
+			  });
+		}
+		
 	};
 
 	return (
@@ -385,7 +482,7 @@ const RadicadoMovements = () => {
 						<>
 							<div className="spc-common-table expansible card-table">
 								<TableExpansibleDialComponent
-									columns={columnMovementsTable}
+									columns={isPqrsdf ? columnMovementsTablePqrsdf : columnMovementsTable}
 									data={movementsList}
 									tableTitle="Consulta de Movimientos - Resultado"
 									//filters={filters}
