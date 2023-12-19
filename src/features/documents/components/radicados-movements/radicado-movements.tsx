@@ -11,6 +11,7 @@ import * as IconsFi from "react-icons/fi";
 import * as IconsBs from "react-icons/bs";
 import * as IconsAi from "react-icons/ai";
 import SpeedDialCircle from "../../../../common/components/speed-dial";
+import { ProgressBar } from 'primereact/progressbar';
 import ActivateReverseDocuments from "./activate-reverse-documents";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -37,6 +38,7 @@ const RadicadoMovements = () => {
 	const [dataForModal, setDataForModal] = useState<any>({});
 	const { authorization } = useContext(AppContext);
 	const [isPqrsdf, setIsPqrsdf] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
 	const [filters, setFilters] = useState({
 		dra_radicado: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 		dra_tipo_radicado: { value: null, matchMode: FilterMatchMode.EQUALS },
@@ -285,7 +287,7 @@ const RadicadoMovements = () => {
 			fieldName: "",
 			header: "Gestor Actual",
 			sortable: true,
-			renderCell: (row) => { return row?.responsible?.user?.names + " " + row?.responsible?.user?.lastNames},
+			renderCell: (row) => { return row?.responsible?.user?.names ? row?.responsible?.user?.names + " " + row?.responsible?.user?.lastNames : ""},
 			style: { minWidth: "11rem" },
 		},
 		{
@@ -370,6 +372,7 @@ const RadicadoMovements = () => {
 
 	const searchCitizenAttentionPqrsdf = (citizenData) => {
 		const endpoint: string = `/api/v1/pqrsdf/get-paginated`;
+		setLoading(true);
 		return post(`${endpoint}`, citizenData);
 	  };
 	
@@ -377,11 +380,16 @@ const RadicadoMovements = () => {
 		searchCitizenAttentionPqrsdf(pqrsdf)
 		.then((dataPqrsdf: any) => {
 			if (Array.isArray(dataPqrsdf?.data?.array) && dataPqrsdf?.data?.array.length > 0) {
+				setLoading(false)
 		  		setIsPqrsdf(true);
 		  		setMovementsList(dataPqrsdf?.data?.array);
-			} else { console.log("El radicado no existe")}
+			} else { 
+				setLoading(false);
+				console.log("El radicado no existe")
+			}
 		})
 		.catch((error) => {
+			setLoading(false);
 		  console.error(error);
 		});
 	  }
@@ -478,6 +486,7 @@ const RadicadoMovements = () => {
 							</div>
 						</div>
 					</FormComponent>
+					{loading ? <ProgressBar mode="indeterminate" style={{ height: '6px' }}></ProgressBar> : ""}
 					{movementsList.length != 0 ? (
 						<>
 							<div className="spc-common-table expansible card-table">
