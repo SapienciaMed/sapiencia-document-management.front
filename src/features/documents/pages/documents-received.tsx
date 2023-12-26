@@ -41,12 +41,28 @@ const DocumentsReceived = () => {
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [showConfirmation, setShowConfirmation] = useState(false);
+	const [subjectDocumentName, setSubjectDocumentName] = useState<any>(null);
 
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
 			getRadicadoIncompleto();
 		}
 	}, [authorization?.user?.numberDocument]);
+
+	useEffect(() => {
+		if (data.tipo) {
+			setSubjectDocumentName(getSubjectDocumentName(data.tipo));
+		}
+	}, [data.tipo]);
+
+	const getSubjectDocumentName = async (subjectDocumentId: string) => {
+		const endpoint: string = `/subject/subject-document/${subjectDocumentId}`;
+		const documentType: any = await get(`${endpoint}`);
+		console.log(data, "TIPO");
+		return documentType.data?.rta_descripcion;
+		//setAnswerDocumentList(dataList.data);
+		//setIsVisibleTable(true);
+	};
 
 	const getRadicadoIncompleto = () => {
 		get(
@@ -351,7 +367,7 @@ const DocumentsReceived = () => {
 					data={{
 						radicado: `R ${data?.radicado}`,
 						fechaRadicado: data?.created_at,
-						tipo: data?.nombre_asunto,
+						tipo: subjectDocumentName,
 						destinatario: data?.nombre_destinatario,
 						radicadoPor: data?.radicado_por_nombre,
 						num_radicado: data?.radicado,
