@@ -17,8 +17,6 @@ import RadicadoSticker from "../components/radicado-sticker";
 import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
-import axios from "axios";
-import { isEmpty } from "lodash";
 import { clip } from "../../../common/components/icons/clip";
 
 const DocumentsReceived = () => {
@@ -49,19 +47,10 @@ const DocumentsReceived = () => {
 		}
 	}, [authorization?.user?.numberDocument]);
 
-	useEffect(() => {
-		if (data.tipo) {
-			setSubjectDocumentName(getSubjectDocumentName(data.tipo));
-		}
-	}, [data.tipo]);
-
 	const getSubjectDocumentName = async (subjectDocumentId: string) => {
 		const endpoint: string = `/subject/subject-document/${subjectDocumentId}`;
 		const documentType: any = await get(`${endpoint}`);
-		console.log(data, "TIPO");
-		return documentType.data?.rta_descripcion;
-		//setAnswerDocumentList(dataList.data);
-		//setIsVisibleTable(true);
+		setSubjectDocumentName(documentType?.data[0]?.rta_descripcion);
 	};
 
 	const getRadicadoIncompleto = () => {
@@ -253,7 +242,6 @@ const DocumentsReceived = () => {
 
 	const onChange = async (newData: any) => {
 		try {
-			console.log('newData', newData)
 			setData(newData);
 		} catch (err) {
 			console.log(err);
@@ -482,6 +470,7 @@ const DocumentsReceived = () => {
 									value="Generar sticker "
 									type="button"
 									action={() => {
+										getSubjectDocumentName(data?.tipo);
 										setVisibleModal(true);
 									}}
 								/>
