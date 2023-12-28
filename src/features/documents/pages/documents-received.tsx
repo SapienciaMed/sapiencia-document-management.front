@@ -39,7 +39,9 @@ const DocumentsReceived = () => {
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [showConfirmation, setShowConfirmation] = useState(false);
-	const [subjectDocumentName, setSubjectDocumentName] = useState<any>(null);
+	const [subjectDocumentName, setSubjectDocumentName] = useState<string>("");
+	const [recipientDataSticker, setRecipientDataSticker] =
+		useState<string>("");
 
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
@@ -51,6 +53,15 @@ const DocumentsReceived = () => {
 		const endpoint: string = `/subject/subject-document/${subjectDocumentId}`;
 		const documentType: any = await get(`${endpoint}`);
 		setSubjectDocumentName(documentType?.data[0]?.rta_descripcion);
+	};
+
+	const getRecipientData = async (idNumber: string) => {
+		const endpoint: string = `/recipient-information/${idNumber}`;
+		const data = await get(`${endpoint}`);
+		console.log(data, "DATA!");
+		setRecipientDataSticker(
+			data?.data[0].USR_NOMBRES + " " + data?.data[0].USR_APELLIDOS
+		);
 	};
 
 	const getRadicadoIncompleto = () => {
@@ -356,7 +367,7 @@ const DocumentsReceived = () => {
 						radicado: `R ${data?.radicado}`,
 						fechaRadicado: data?.created_at,
 						tipo: subjectDocumentName,
-						destinatario: data?.nombre_destinatario,
+						destinatario: recipientDataSticker,
 						radicadoPor: data?.radicado_por_nombre,
 						num_radicado: data?.radicado,
 					}}
@@ -471,6 +482,7 @@ const DocumentsReceived = () => {
 									type="button"
 									action={() => {
 										getSubjectDocumentName(data?.tipo);
+										getRecipientData(data?.dirigido_a);
 										setVisibleModal(true);
 									}}
 								/>
