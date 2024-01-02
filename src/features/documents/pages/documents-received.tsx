@@ -17,8 +17,6 @@ import RadicadoSticker from "../components/radicado-sticker";
 import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
-import axios from "axios";
-import { isEmpty } from "lodash";
 import { clip } from "../../../common/components/icons/clip";
 
 const DocumentsReceived = () => {
@@ -41,12 +39,30 @@ const DocumentsReceived = () => {
 	const [uploadedFiles, setUploadedFiles] = useState([]);
 	const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 	const [showConfirmation, setShowConfirmation] = useState(false);
+	const [subjectDocumentName, setSubjectDocumentName] = useState<string>("");
+	const [recipientDataSticker, setRecipientDataSticker] =
+		useState<string>("");
 
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
 			getRadicadoIncompleto();
 		}
 	}, [authorization?.user?.numberDocument]);
+
+	const getSubjectDocumentName = async (subjectDocumentId: string) => {
+		const endpoint: string = `/subject/subject-document/${subjectDocumentId}`;
+		const documentType: any = await get(`${endpoint}`);
+		setSubjectDocumentName(documentType?.data[0]?.rta_descripcion);
+	};
+
+	const getRecipientData = async (idNumber: string) => {
+		const endpoint: string = `/recipient-information/${idNumber}`;
+		const data = await get(`${endpoint}`);
+		console.log(data, "DATA!");
+		setRecipientDataSticker(
+			data?.data[0].USR_NOMBRES + " " + data?.data[0].USR_APELLIDOS
+		);
+	};
 
 	const getRadicadoIncompleto = () => {
 		get(
@@ -237,7 +253,6 @@ const DocumentsReceived = () => {
 
 	const onChange = async (newData: any) => {
 		try {
-			console.log('newData', newData)
 			setData(newData);
 		} catch (err) {
 			console.log(err);
@@ -351,8 +366,8 @@ const DocumentsReceived = () => {
 					data={{
 						radicado: `R ${data?.radicado}`,
 						fechaRadicado: data?.created_at,
-						tipo: data?.nombre_asunto,
-						destinatario: data?.nombre_destinatario,
+						tipo: subjectDocumentName,
+						destinatario: recipientDataSticker,
 						radicadoPor: data?.radicado_por_nombre,
 						num_radicado: data?.radicado,
 					}}
@@ -466,6 +481,8 @@ const DocumentsReceived = () => {
 									value="Generar sticker "
 									type="button"
 									action={() => {
+										getSubjectDocumentName(data?.tipo);
+										getRecipientData(data?.dirigido_a);
 										setVisibleModal(true);
 									}}
 								/>

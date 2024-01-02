@@ -17,8 +17,6 @@ import RadicadoSticker from "../components/radicado-sticker";
 import useCrudService from "../../../common/hooks/crud-service.hook";
 import moment from "moment";
 import { AppContext } from "../../../common/contexts/app.context";
-import axios from "axios";
-import { isEmpty } from "lodash";
 import { clip } from "../../../common/components/icons/clip";
 import { useForm } from "react-hook-form";
 
@@ -44,12 +42,19 @@ const DocumentsExternal = () => {
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const [confirmed, setConfirmed] = useState(false);
 	const { register, control, handleSubmit, setValue } = useForm();
+	const [subjectDocumentName, setSubjectDocumentName] = useState<string>("");
 
 	useEffect(() => {
 		if (authorization?.user?.numberDocument) {
 			getRadicadoIncompleto();
 		}
 	}, [authorization?.user?.numberDocument]);
+
+	const getSubjectDocumentName = async (subjectDocumentId: string) => {
+		const endpoint: string = `/subject/subject-document/${subjectDocumentId}`;
+		const documentType: any = await get(`${endpoint}`);
+		setSubjectDocumentName(documentType?.data[0]?.rta_descripcion);
+	};
 
 	const getRadicadoIncompleto = () => {
 		get(
@@ -348,7 +353,7 @@ const DocumentsExternal = () => {
 						radicado: `E ${data?.radicado}`,
 						fechaRadicado: data?.created_at,
 						num_radicado: data?.radicado,
-						tipo: data?.nombre_asunto,
+						tipo: subjectDocumentName,
 						destinatario: data?.nombre_destinatario,
 						radicadoPor: data?.radicado_por_nombre,
 					}}
@@ -462,6 +467,7 @@ const DocumentsExternal = () => {
 									value="Generar sticker "
 									type="button"
 									action={() => {
+										getSubjectDocumentName(data?.tipo);
 										setVisibleModal(true);
 									}}
 								/>
