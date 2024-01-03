@@ -9,7 +9,7 @@ interface IPropsAppProvider {
 
 function ApplicationProvider({ children }: IPropsAppProvider): React.JSX.Element {
     const { getAuthorization } = useAuthService();
-    const { setAuthorization } = useContext(AppContext););
+    const { setAuthorization } = useContext(AppContext);
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
