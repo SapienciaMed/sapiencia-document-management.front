@@ -21,6 +21,7 @@ import { TreeNode } from "primereact/treenode";
 import { TreeSelect, TreeSelectChangeEvent } from "primereact/treeselect";
 import ActivateReverseDocuments from "../radicados-movements/activate-reverse-documents";
 import useBreadCrumb from "../../../../common/hooks/bread-crumb.hook";
+import EvacuationComments from "./evacuation-comments";
 
 const RecipientTray = () => {
 	const REVERSE = "devolucion";
@@ -28,6 +29,8 @@ const RecipientTray = () => {
 	const { authorization, setMessage } = useContext(AppContext);
 	const [typeModal, setTypeModal] = useState<string>("");
 	const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+	const [isOpenModalComment, setIsOpenModalComment] =
+		useState<boolean>(false);
 	const [nodes, setNodes] = useState<TreeNode[] | null>(null);
 	const [selectedNodeKey, setSelectedNodeKey] = useState<any>(null);
 	const [selectedCheckbox, setSelectedCheckbox] = useState<string>("");
@@ -573,7 +576,7 @@ const RecipientTray = () => {
 										}
 
 										if (e.value == "evacuacion") {
-											onClickEvacuation();
+											setIsOpenModalComment(true);
 										}
 									}}
 									options={nodes}
@@ -636,6 +639,19 @@ const RecipientTray = () => {
 				visible={isOpenModal}
 				typeModal={typeModal}
 				dataForModal={dataForModal}
+			/>
+			<EvacuationComments
+				visible={isOpenModalComment}
+				dataForModal={dataForModal}
+				onCloseModal={() => {
+					setIsOpenModalComment(false);
+					if (searchParam) {
+						getRadicadosByID(searchParam);
+					} else {
+						getRadicadoList();
+					}
+				}}
+				onClickEvacuation={onClickEvacuation}
 			/>
 		</>
 	);

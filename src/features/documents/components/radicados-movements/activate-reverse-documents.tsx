@@ -116,7 +116,7 @@ const ActivateReverseDocuments = ({
 	}, [dataForModal, typeModal]);
 
 	const storeComment = async (data) => {
-		const endpoint: string = `/radicado/comment`;
+		const endpoint: string = `/radicado/comment-movement`;
 		const entityData = await post(`${endpoint}`, data);
 		return entityData;
 	};

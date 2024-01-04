@@ -47,6 +47,11 @@ interface IModalActivateReverse {
 	dra_usuario: string | number;
 }
 
+interface IModalEvacuationComments {
+	dra_radicado: string | number;
+	comentario: string;
+}
+
 interface ISenderSearchForm {
 	doc_identidad: string;
 	entidad: string;
