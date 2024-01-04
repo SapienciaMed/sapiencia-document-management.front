@@ -5,8 +5,9 @@ import { AppContext } from "../contexts/app.context";
 import { EResponseCodes } from "../constants/api.enum";
 
 function useCrudService<T>(baseUrl: string) {
+  
   const { authorization } = useContext(AppContext);
-  const api = instanceApi(baseUrl);
+
   let errorMessage = "Hubo un error al cominicarse con la api.";
 
   const get = async <T>(
@@ -14,6 +15,7 @@ function useCrudService<T>(baseUrl: string) {
     params: Object = {}
   ): Promise<ApiResponse<T>> => {
     try {
+      const api = instanceApi(baseUrl);
       return await api({
         method: "get",
         headers: {
@@ -40,6 +42,7 @@ function useCrudService<T>(baseUrl: string) {
     params: Object = {}
   ): Promise<ApiResponse<T>> => {
     try {
+      const api = instanceApi(baseUrl);
       return await api({
         method: "post",
         headers: {
@@ -67,6 +70,7 @@ function useCrudService<T>(baseUrl: string) {
     params: Object = {}
   ): Promise<ApiResponse<T>> => {
     try {
+      const api = instanceApi(baseUrl);
       return await api({
         method: "put",
         headers: {
@@ -93,6 +97,7 @@ function useCrudService<T>(baseUrl: string) {
     params: Object = {}
   ): Promise<ApiResponse<T>> => {
     try {
+      const api = instanceApi(baseUrl);
       return await api({
         method: "delete",
         headers: {
@@ -119,6 +124,7 @@ function useCrudService<T>(baseUrl: string) {
     params: Object = {}
   ): Promise<ApiResponse<T>> => {
     try {
+      const api = instanceApi(baseUrl);
       return await api({
         method: "post",
         headers: {
